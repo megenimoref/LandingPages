@@ -1,0 +1,1151 @@
+<!--
+  Live:  https://sagi-ba.github.io/AI/IDF/ShavuotMoments/main/
+  Local: http://127.0.0.1:8080/IDF/ShavuotMoments/main/
+  GA:    https://analytics.google.com/analytics/web/#/a351596902p494681343/reports/reportinghub
+-->
+
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shavuot Moments · מחוז חיפה 350 - גלויה מרגשת לשבועות</title>
+    <meta name="description"
+        content="מעלים תמונה, מדביקים פרומפט, ומקבלים גלויה מרגשת לשבועות תוך דקה. עובד עם ChatGPT ועם Gemini.">
+    <meta name="theme-color" content="#2F3E1F">
+    <link rel="canonical" href="https://sagi-ba.github.io/AI/IDF/ShavuotMoments/699/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="he_IL">
+    <meta property="og:site_name" content="Shavuot Moments">
+    <meta property="og:url" content="https://sagi-ba.github.io/AI/IDF/ShavuotMoments/699/">
+    <meta property="og:title" content="מחוז חיפה 350 - הופכים תמונה לגלויה לשבועות 🌾">
+    <meta property="og:description"
+        content="מעלים תמונה, מדביקים פרומפט, ומקבלים גלויה מרגשת. עובד עם ChatGPT ועם Gemini.">
+    <meta property="og:image" content="https://sagi-ba.github.io/AI/IDF/ShavuotMoments/699/images/after1.webp">
+    <meta property="og:image:width" content="1003">
+    <meta property="og:image:height" content="1568">
+    <meta property="og:image:alt" content="גלויה לשבועות שנוצרה ב-AI">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="מחוז חיפה 350 - הופכים תמונה לגלויה לשבועות 🌾">
+    <meta name="twitter:description" content="מעלים תמונה, מדביקים פרומפט, ומקבלים גלויה מרגשת.">
+    <meta name="twitter:image" content="https://sagi-ba.github.io/AI/IDF/ShavuotMoments/699/images/after1.webp">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XSH19K5LBZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-XSH19K5LBZ');
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --olive: #4B5320;
+            --olive-deep: #2F3E1F;
+            --olive-soft: rgba(75, 83, 32, 0.12);
+            --sand: #E8E1C8;
+            --sand-soft: #F4EFDD;
+            --sand-deep: #D4C9A3;
+            --gold: #C9A84C;
+            --gold-deep: #9A7F30;
+            --ink: #1F2415;
+            --ink-soft: #4D5340;
+            --line: rgba(47, 62, 31, 0.18);
+            --white: #ffffff;
+            --chatgpt: #10a37f;
+            --gemini: #1a73e8;
+            --radius: 14px;
+            --radius-lg: 22px;
+            --shadow: 0 12px 40px rgba(31, 36, 21, 0.12);
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Heebo', -apple-system, system-ui, sans-serif;
+            font-size: 17px;
+            line-height: 1.7;
+            color: var(--ink);
+            background: var(--sand-soft);
+            /* subtle grain via inline SVG */
+            background-image:
+                url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.18  0 0 0 0 0.20  0 0 0 0 0.10  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: inherit;
+        }
+
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ─── HEADER ─── */
+        header.brand {
+            background: var(--olive-deep);
+            color: var(--sand);
+            border-bottom: 3px solid var(--gold);
+            padding: 14px 0;
+        }
+
+        header.brand .container {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .brand-mark {
+            font-weight: 900;
+            letter-spacing: 0.18em;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .brand-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+
+        .header-logos {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-logo {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .header-logos {
+                gap: 10px;
+            }
+
+            .brand-logo {
+                height: 32px;
+            }
+        }
+
+        /* ─── HERO ─── */
+        .hero {
+            padding: 56px 0 32px;
+            text-align: center;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            color: var(--olive);
+            background: var(--olive-soft);
+            border: 1px solid var(--line);
+            padding: 6px 14px;
+            border-radius: 999px;
+            text-transform: uppercase;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.75rem, 5vw, 2.75rem);
+            font-weight: 900;
+            line-height: 1.2;
+            color: var(--olive-deep);
+            margin-bottom: 14px;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            color: var(--ink-soft);
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .hero-rule {
+            width: 60px;
+            height: 4px;
+            background: var(--gold);
+            margin: 26px auto 0;
+            border-radius: 2px;
+        }
+
+        /* ─── EXAMPLES GRID ─── */
+        .examples {
+            padding: 32px 0 24px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 48px rgba(31, 36, 21, 0.18);
+        }
+
+        /* ─── REVEAL ON SCROLL + WHEAT SWAY ─── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes wheat-sway {
+
+            0%,
+            100% {
+                transform: rotate(-6deg);
+            }
+
+            50% {
+                transform: rotate(8deg);
+            }
+        }
+
+        .wheat {
+            display: inline-block;
+            transform-origin: 50% 90%;
+            animation: wheat-sway 3.2s ease-in-out infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .card:hover {
+                transform: none;
+            }
+
+            .wheat {
+                animation: none;
+            }
+        }
+
+        .card-title {
+            padding: 18px 20px 12px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--olive-deep);
+            text-align: center;
+            border-bottom: 1px dashed var(--line);
+        }
+
+        /* ─── BEFORE / AFTER SLIDER ─── */
+        .ba-compare {
+            position: relative;
+            aspect-ratio: 4 / 5;
+            overflow: hidden;
+            cursor: col-resize;
+            user-select: none;
+            background: var(--sand-deep);
+            touch-action: none;
+        }
+
+        .ba-compare img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .ba-compare .ba-after {
+            clip-path: inset(0 50% 0 0);
+            z-index: 2;
+        }
+
+        .ba-slider-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 3px;
+            background: var(--gold);
+            z-index: 5;
+            pointer-events: none;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px rgba(201, 168, 76, 0.5);
+        }
+
+        .ba-slider-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--gold);
+            border: 3px solid var(--white);
+            z-index: 6;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            color: var(--olive-deep);
+            font-weight: 900;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+            pointer-events: none;
+            letter-spacing: -0.05em;
+        }
+
+        .ba-label {
+            position: absolute;
+            bottom: 12px;
+            background: rgba(47, 62, 31, 0.85);
+            color: var(--sand);
+            border-radius: 6px;
+            padding: 5px 12px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            backdrop-filter: blur(4px);
+            z-index: 4;
+        }
+
+        .ba-label.before {
+            right: 12px;
+        }
+
+        .ba-label.after {
+            left: 12px;
+            background: rgba(201, 168, 76, 0.92);
+            color: var(--olive-deep);
+        }
+
+        /* ─── ACTION BUTTONS ─── */
+        .actions {
+            padding: 18px 18px 22px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 52px;
+            padding: 0 20px;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 800;
+            transition: transform 0.15s var(--ease), box-shadow 0.15s var(--ease), filter 0.15s var(--ease);
+            border: 2px solid transparent;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.05);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-chatgpt {
+            background: var(--chatgpt);
+            color: var(--white);
+            box-shadow: 0 6px 18px rgba(16, 163, 127, 0.3);
+        }
+
+        .btn-gemini {
+            background: var(--gemini);
+            color: var(--white);
+            box-shadow: 0 6px 18px rgba(26, 115, 232, 0.3);
+        }
+
+        /* ─── INSTRUCTIONS ─── */
+        .steps {
+            padding: 48px 0 24px;
+        }
+
+        .steps h2 {
+            font-size: clamp(1.3rem, 3.5vw, 1.75rem);
+            font-weight: 900;
+            color: var(--olive-deep);
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .steps h2::before {
+            content: '';
+            display: block;
+            width: 48px;
+            height: 3px;
+            background: var(--gold);
+            margin: 0 auto 14px;
+            border-radius: 2px;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        .step {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-right: 4px solid var(--gold);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .step-num {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--olive-deep);
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.05rem;
+        }
+
+        .step-text {
+            font-weight: 600;
+            color: var(--ink);
+            line-height: 1.4;
+        }
+
+        /* ─── TIP ─── */
+        .tip-wrap {
+            padding: 8px 0 24px;
+            text-align: center;
+        }
+
+        .tip {
+            display: inline-block;
+            background: var(--olive-soft);
+            border: 1px dashed var(--olive);
+            color: var(--olive-deep);
+            padding: 12px 22px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        /* ─── SHARE ─── */
+        .share-wrap {
+            padding: 8px 0 56px;
+            text-align: center;
+        }
+
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 52px;
+            padding: 0 26px;
+            background: #25d366;
+            color: var(--white);
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 1rem;
+            box-shadow: 0 8px 22px rgba(37, 211, 102, 0.32);
+            transition: transform 0.15s var(--ease), filter 0.15s var(--ease);
+        }
+
+        .share-btn:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.05);
+        }
+
+        .share-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        /* ─── FAMILY INPUT ─── */
+        .family-field {
+            max-width: 460px;
+            margin: 26px auto 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: stretch;
+        }
+
+        .family-field label {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--olive-deep);
+            text-align: center;
+        }
+
+        .family-field label .opt {
+            color: var(--ink-soft);
+            font-weight: 500;
+            font-size: 0.82rem;
+        }
+
+        .family-input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .family-prefix {
+            position: absolute;
+            right: 16px;
+            color: var(--ink-soft);
+            font-weight: 700;
+            pointer-events: none;
+            font-size: 1rem;
+        }
+
+        .family-input {
+            width: 100%;
+            min-height: 52px;
+            padding: 0 18px 0 88px;
+            border: 2px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--white);
+            font: inherit;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--olive-deep);
+            text-align: right;
+            direction: rtl;
+            transition: border-color 0.15s var(--ease), box-shadow 0.15s var(--ease);
+        }
+
+        .family-input::placeholder {
+            color: var(--ink-soft);
+            font-weight: 500;
+            opacity: 0.7;
+        }
+
+        .family-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.18);
+        }
+
+        .family-hint {
+            font-size: 0.8rem;
+            color: var(--ink-soft);
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* ─── FOOTER ─── */
+        footer.foot {
+            background: var(--olive-deep);
+            color: var(--sand);
+            text-align: center;
+            padding: 22px 16px;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        footer.foot .gold {
+            color: var(--gold);
+            font-weight: 700;
+        }
+
+        /* ─── TOAST ─── */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--olive-deep);
+            color: var(--sand);
+            padding: 14px 22px;
+            border-radius: 999px;
+            border: 2px solid var(--gold);
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+            max-width: calc(100vw - 32px);
+            text-align: center;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 40px 0 24px;
+            }
+
+            .grid {
+                gap: 18px;
+            }
+
+            .actions {
+                padding: 14px 14px 18px;
+            }
+
+            .step {
+                padding: 14px 16px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            body {
+                font-size: 16px;
+            }
+
+            .ba-slider-handle {
+                width: 38px;
+                height: 38px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+            }
+
+            html {
+                scroll-behavior: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="brand">
+        <div class="container">
+            <span class="brand-mark">Shavuot Moments</span>
+            <div class="header-logos" aria-hidden="true">
+                <img src="images/maganim-center.webp" alt="" class="brand-logo">
+                <img src="images/og-preview.webp" alt="" class="brand-logo">
+                <img src="images/oref-haifa.webp" alt="" class="brand-logo">
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <span class="hero-tag">חג שבועות · 2026</span>
+            <h1>תוך דקה - הופכים תמונה לגלויה לשבועות <span class="wheat" aria-hidden="true">🌾</span></h1>
+            <p>מעלים תמונה, מדביקים פרומפט, ומקבלים גלויה מרגשת</p>
+            <div class="hero-rule"></div>
+
+            <div class="family-field">
+                <label for="familyName">שם המשפחה שלכם <span class="opt">(אופציונלי)</span></label>
+                <div class="family-input-wrap">
+                    <input id="familyName" class="family-input" type="text" maxlength="40" autocomplete="family-name"
+                        placeholder="בר און" aria-describedby="familyHint">
+                </div>
+                <p id="familyHint" class="family-hint">לפעמים העברית בתמונה יוצאת לא מושלמת - אפשר תמיד לנסות שוב 🙌</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="examples">
+        <div class="container">
+            <div class="grid" id="cards">
+
+                <article class="card reveal">
+                    <h3 class="card-title">כפרי 🌾</h3>
+                    <div class="ba-compare" data-ba>
+                        <img class="ba-before" src="images/before.webp" alt="לפני - תמונה מקורית" loading="eager"
+                            decoding="async">
+                        <img class="ba-after" src="images/after1.webp" alt="אחרי - סגנון כפרי" loading="eager"
+                            decoding="async">
+                        <div class="ba-slider-line"></div>
+                        <div class="ba-slider-handle">◀▶</div>
+                        <span class="ba-label before">לפני</span>
+                        <span class="ba-label after">אחרי</span>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-chatgpt" data-prompt-key="rural" data-target="chatgpt">🟢 צור עם
+                            ChatGPT</button>
+                        <button class="btn btn-gemini" data-prompt-key="rural" data-target="gemini">🔵 צור עם
+                            Gemini</button>
+                    </div>
+                </article>
+
+                <article class="card reveal">
+                    <h3 class="card-title">ריאליסטי ☀️</h3>
+                    <div class="ba-compare" data-ba>
+                        <img class="ba-before" src="images/before.webp" alt="לפני - תמונה מקורית" loading="lazy"
+                            decoding="async">
+                        <img class="ba-after" src="images/after2.webp" alt="אחרי - סגנון ריאליסטי" loading="lazy"
+                            decoding="async">
+                        <div class="ba-slider-line"></div>
+                        <div class="ba-slider-handle">◀▶</div>
+                        <span class="ba-label before">לפני</span>
+                        <span class="ba-label after">אחרי</span>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-chatgpt" data-prompt-key="realistic" data-target="chatgpt">🟢 צור עם
+                            ChatGPT</button>
+                        <button class="btn btn-gemini" data-prompt-key="realistic" data-target="gemini">🔵 צור עם
+                            Gemini</button>
+                    </div>
+                </article>
+
+                <article class="card reveal">
+                    <h3 class="card-title">משפחתי ❤️</h3>
+                    <div class="ba-compare" data-ba>
+                        <img class="ba-before" src="images/before.webp" alt="לפני - תמונה מקורית" loading="lazy"
+                            decoding="async">
+                        <img class="ba-after" src="images/after3.webp" alt="אחרי - סגנון משפחתי" loading="lazy"
+                            decoding="async">
+                        <div class="ba-slider-line"></div>
+                        <div class="ba-slider-handle">◀▶</div>
+                        <span class="ba-label before">לפני</span>
+                        <span class="ba-label after">אחרי</span>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-chatgpt" data-prompt-key="family" data-target="chatgpt">🟢 צור עם
+                            ChatGPT</button>
+                        <button class="btn btn-gemini" data-prompt-key="family" data-target="gemini">🔵 צור עם
+                            Gemini</button>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="steps">
+        <div class="container">
+            <h2>תוך דקה זה מוכן</h2>
+            <div class="steps-grid">
+                <div class="step"><span class="step-num">1</span><span class="step-text">לוחצים על כפתור</span></div>
+                <div class="step"><span class="step-num">2</span><span class="step-text">מדביקים את הפרומפט</span></div>
+                <div class="step"><span class="step-num">3</span><span class="step-text">מעלים תמונה</span></div>
+                <div class="step"><span class="step-num">4</span><span class="step-text">מקבלים גלויה מוכנה</span></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="tip-wrap">
+        <div class="container">
+            <span class="tip">לתוצאה הכי טובה - העלו תמונה באור טוב 🙌</span>
+        </div>
+    </div>
+
+    <div class="share-wrap">
+        <div class="container">
+            <a id="shareWa" class="share-btn" href="https://wa.me/?text=" target="_blank" rel="noopener"
+                aria-label="שתפו ב-WhatsApp">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path
+                        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                </svg>
+                שתפו ב־WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <footer class="foot">
+        <div class="container">
+            <span class="gold">חג שבועות שמח 🌾</span>
+        </div>
+    </footer>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+        /* ─── PROMPTS ─── */
+        const PROMPT_RURAL = `Create a high-end Shavuot greeting image using the uploaded reference image.
+
+CRITICAL:
+- The uploaded image MUST be used as the source of the people
+- STRICT identity preservation — do NOT change faces, expressions, or facial structure
+- Do NOT generate new people
+
+OUTPUT:
+- Vertical 4:5 aspect ratio
+- High resolution (minimum 2048x2560)
+- Optimized for mobile and WhatsApp
+
+TASK:
+Carefully extract the people from the reference image and remove the original background completely.
+Place them naturally into a bright Israeli countryside Shavuot scene.
+
+SCENE:
+- golden wheat fields במהלך פריחה
+- soft warm sunset light (golden hour)
+- white flowers scattered in foreground
+- gentle butterflies in the air
+- 1–2 cows far in the background (small, slightly blurred)
+- a small milk bucket ליד הדמויות (subtle, not dominant)
+- peaceful, pastoral Israeli holiday atmosphere
+
+STYLE:
+- semi-illustrated / soft painted look
+- slightly dreamy but still grounded in reality
+- warm golden tones
+- soft brush texture (not cartoon, not fully photorealistic)
+
+PEOPLE:
+- preserve exact identity and faces
+- keep natural expressions (do NOT exaggerate smiles)
+- maintain realistic proportions
+- subtly adjust clothing tones toward light festive colors (whites/creams), but keep natural look
+
+INTEGRATION:
+- seamless blending (no cut edges)
+- match lighting direction to the sun in the scene
+- add realistic shadows under the people
+- slight depth of field (background softly blurred)
+
+COMPOSITION:
+- vertical portrait layout
+- people placed slightly below center
+- leave clean space at the top for text
+
+TEXT:
+Add Hebrew text at the top, exactly as written:
+"__GREETING__"
+
+TEXT STYLE:
+- elegant handwritten or soft serif Hebrew font
+- white or cream color
+- subtle shadow or glow for readability
+- centered at the top
+
+GOAL:
+A warm, emotional, semi-illustrated Shavuot family greeting that feels personal, natural, and premium — like a memory, not a generated image.
+
+--no distorted faces, extra fingers, text errors, duplicated people`;
+
+        const PROMPT_REALISTIC = `Create a high-end, photorealistic Shavuot greeting image.
+
+IMPORTANT:
+- Vertical 4:5 aspect ratio
+- High resolution (at least 2048x2560)
+- Ultra-realistic result (should look like a real photograph, not AI-generated)
+
+REFERENCE IMAGE:
+- Use the uploaded image as the ONLY source for the people
+- Extract the people precisely and REMOVE the original background completely
+- STRICT identity preservation: do NOT change faces, expressions, proportions, or facial structure
+
+SCENE:
+- Natural Israeli countryside during Shavuot
+- Green field mixed with soft golden wheat
+- Small white flowers scattered in the foreground
+- Bright, clean Israeli daylight (slightly warm tone)
+- Soft depth of field (background slightly blurred)
+- Natural horizon and open sky
+
+LIGHTING:
+- Match the lighting direction on the people to the environment
+- Add realistic sunlight from one side (consistent shadows)
+- Soft natural shadows under the people (ground contact is critical)
+- Subtle warm highlights on skin and hair
+
+INTEGRATION (VERY IMPORTANT):
+- Seamless blending (no cutout edges)
+- Add natural color grading to match the environment
+- Adjust brightness/contrast so subjects sit naturally in the scene
+- Add slight ambient light wrap around the edges of the people
+- Ensure correct scale and perspective relative to the field
+
+PEOPLE:
+- Keep exact identity and facial details
+- Maintain natural body proportions
+- Keep original clothing (optional: very subtle brightening toward festive tones)
+- Natural relaxed posture (no exaggeration)
+
+COMPOSITION:
+- Vertical portrait layout
+- People placed slightly below center
+- Leave clean space at the top for text
+- Balanced and airy composition (not crowded)
+
+TEXT (HEBREW — MUST BE EXACT):
+"__GREETING__"
+
+TEXT STYLE:
+- Elegant, clean Hebrew font
+- White or soft cream color
+- Slight shadow or glow for readability
+- Positioned at the top, centered, not touching edges
+
+STYLE:
+- Photorealistic
+- Cinematic but natural
+- Clean, warm, premium look
+
+GOAL:
+The final image should look like a real family photo taken outdoors in Israel during Shavuot — natural, warm, and emotionally authentic.
+
+--no distorted faces, extra fingers, text errors, duplicated people`;
+
+        const PROMPT_FAMILY = `Create an emotional Shavuot family scene.
+
+IMPORTANT:
+- Output must be vertical 4:5 aspect ratio
+- High resolution
+
+Use the uploaded image as a reference.
+Remove the background and place the people into a warm countryside scene.
+
+Scene:
+- sunset lighting
+- wheat field
+- flowers and greenery
+
+Style:
+- cinematic, warm, emotional
+
+People:
+- keep identity
+- slightly enhance warmth and expressions
+
+Add Hebrew text (render exactly as written, in correct Hebrew letters, on the image):
+"__GREETING__"`;
+
+        const PROMPTS = { rural: PROMPT_RURAL, realistic: PROMPT_REALISTIC, family: PROMPT_FAMILY };
+
+        /* ─── ברכה אישית ─── */
+        const FAMILY_STORAGE_KEY = 'shavuot:familyName';
+        const familyInput = document.getElementById('familyName');
+        try {
+            const saved = localStorage.getItem(FAMILY_STORAGE_KEY);
+            if (saved) familyInput.value = saved;
+        } catch (_) { /* localStorage חסום - לא קריטי */ }
+        familyInput.addEventListener('input', () => {
+            try { localStorage.setItem(FAMILY_STORAGE_KEY, familyInput.value); } catch (_) { }
+        });
+
+        function buildGreeting() {
+            const raw = (familyInput.value || '').trim();
+            if (!raw) return 'חג שבועות שמח';
+            // ניקוי גרשיים שעלולים לשבור את הפרומפט
+            const clean = raw.replace(/["׳״`]/g, '').slice(0, 40);
+            return `חג שבועות שמח · ממשפחת ${clean}`;
+        }
+
+        function personalizePrompt(prompt) {
+            return prompt.replace(/__GREETING__/g, buildGreeting());
+        }
+
+        // ChatGPT: ?q= ממלא אוטומטית את שדה הפרומפט. Gemini לא תומך - מדביקים ידנית עם Ctrl+V.
+        function buildTargetUrl(target, prompt) {
+            if (target === 'chatgpt') {
+                return 'https://chatgpt.com/?q=' + encodeURIComponent(prompt);
+            }
+            return 'https://gemini.google.com/app';
+        }
+
+        /* ─── CLIPBOARD + OPEN TAB ─── */
+        async function copyToClipboard(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                return true;
+            } catch (_) {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                ta.setAttribute('readonly', '');
+                document.body.appendChild(ta);
+                ta.select();
+                let ok = false;
+                try { ok = document.execCommand('copy'); } catch (_) { ok = false; }
+                document.body.removeChild(ta);
+                return ok;
+            }
+        }
+
+        /* ─── TOAST ─── */
+        let toastTimer = null;
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+        }
+
+        /* ─── BUTTON HANDLER (delegated) ─── */
+        // קריטי: מעתיקים ל־clipboard לפני שפותחים את הטאב החדש,
+        // אחרת focus עובר לטאב החדש ו־navigator.clipboard.writeText נכשל בשקט.
+        document.getElementById('cards').addEventListener('click', async (e) => {
+            const btn = e.target.closest('button[data-prompt-key]');
+            if (!btn) return;
+            const key = btn.dataset.promptKey;
+            const target = btn.dataset.target;
+            const basePrompt = PROMPTS[key];
+            if (!basePrompt) return;
+            const prompt = personalizePrompt(basePrompt);
+
+            const ok = await copyToClipboard(prompt);
+            const url = buildTargetUrl(target, prompt);
+            window.open(url, '_blank', 'noopener');
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'copy_prompt', {
+                    template: key,
+                    target: target,
+                    has_family_name: (familyInput.value || '').trim().length > 0
+                });
+            }
+
+            if (target === 'chatgpt') {
+                showToast(ok
+                    ? 'הפרומפט נטען ב־ChatGPT והועתק לגיבוי - העלו תמונה 👇'
+                    : 'הפרומפט נטען ב־ChatGPT - העלו תמונה 👇');
+            } else {
+                showToast(ok
+                    ? 'הפרומפט הועתק! הדביקו ב־Gemini (Ctrl+V) והעלו תמונה 👇'
+                    : 'פתחו את Gemini והדביקו ידנית');
+            }
+        });
+
+        /* ─── WHATSAPP SHARE ─── */
+        const shareBtn = document.getElementById('shareWa');
+        if (shareBtn) {
+            const shareMsg = 'תוך דקה - הופכים תמונה לגלויה לשבועות 🌾\n' + window.location.href;
+            shareBtn.href = 'https://wa.me/?text=' + encodeURIComponent(shareMsg);
+            shareBtn.addEventListener('click', () => {
+                if (typeof gtag === 'function') {
+                    gtag('event', 'share', { method: 'whatsapp', content_type: 'page' });
+                }
+            });
+        }
+
+        /* ─── REVEAL ON SCROLL (stagger) ─── */
+        const reveals = document.querySelectorAll('.reveal');
+        const revealIO = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                const el = entry.target;
+                const peers = Array.from(el.parentElement.querySelectorAll('.reveal'));
+                const idx = peers.indexOf(el);
+                el.style.transitionDelay = (idx * 150) + 'ms';
+                el.classList.add('visible');
+                revealIO.unobserve(el);
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        reveals.forEach((el) => revealIO.observe(el));
+
+        /* ─── BEFORE/AFTER SLIDER ─── */
+        let activeSlider = null;
+        function startSlide(e, el) {
+            e.preventDefault();
+            activeSlider = el;
+            doSlide(e);
+            document.addEventListener('mousemove', handleSlide);
+            document.addEventListener('touchmove', handleSlide, { passive: false });
+            document.addEventListener('mouseup', stopSlide);
+            document.addEventListener('touchend', stopSlide);
+        }
+        function handleSlide(e) {
+            if (!activeSlider) return;
+            if (e.cancelable) e.preventDefault();
+            doSlide(e);
+        }
+        function doSlide(e) {
+            if (!activeSlider) return;
+            const rect = activeSlider.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            let pct = ((clientX - rect.left) / rect.width) * 100;
+            pct = Math.max(2, Math.min(98, pct));
+            activeSlider.querySelector('.ba-after').style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+            activeSlider.querySelector('.ba-slider-line').style.left = pct + '%';
+            activeSlider.querySelector('.ba-slider-handle').style.left = pct + '%';
+        }
+        function stopSlide() {
+            activeSlider = null;
+            document.removeEventListener('mousemove', handleSlide);
+            document.removeEventListener('touchmove', handleSlide);
+            document.removeEventListener('mouseup', stopSlide);
+            document.removeEventListener('touchend', stopSlide);
+        }
+        document.querySelectorAll('[data-ba]').forEach((el) => {
+            el.addEventListener('mousedown', (e) => startSlide(e, el));
+            el.addEventListener('touchstart', (e) => startSlide(e, el), { passive: false });
+        });
+    </script>
+
+</body>
+
+</html>
