@@ -1,41 +1,104 @@
-הנה הרשימה המעודכנת לאחר הסרת כפילויות (היו שני לינקים זהים ל-YouTube Music ולינק אחד שחזר על עצמו ב-YouTube בסוף הרשימה). השיר של מישל נשאר במקום הראשון:
+מסמך אפיון לעדכון עמוד: "פסקול שאגת הארי"
+1. המטרה וקהל היעד
+יצירת רכזת מוזיקלית (Hub) עבור חיילי מילואים. הדף צריך להיות מהיר, מורלי וקל לתפעול בתנאי שטח.
 
-### רשימת לינקים ללא כפילויות:
-1. Noam Bettan - Michelle | Israel 🇮🇱 | Official Music Video | #Eurovision2026  https://youtu.be/xWCnWSoG8nI?si=SfIUvlC3INubTFc4
-2. [https://youtu.be/Abrn8aVQ76Q?si=vuZvBa1foBQk_hhI]()
-3. [https://youtu.be/XEJj9A7PZfo?si=vkY0i26xjSWhZfaY]()
-4. [https://youtu.be/I9WynOT3aBY?si=u5Ad7T0l3YY_o32d]()
-5. [https://open.spotify.com/track/5X6D5SG8H16XcpkGat6xCm?si=tPVmC0y_TTOfelsPULok2Q]()
-6. [https://youtu.be/ax7krBKzmVI?si=rVv-lR7cDrpVBZYz]()
-7. [https://youtu.be/UwNM-nbaI_o?si=2MncF74Yjt6mJ0uw]()
-8. [https://youtu.be/CEgjmhOTUdo?si=hsb90ISXzIQAQENf]()
-9. [https://youtu.be/xPWnNFF-TAw?si=xKJSULv9cT-HaypY]()
-10. [https://youtu.be/7nVoHd4iFuw?si=MLJ_6sXcKeGSj-3N]()
-11. [https://youtu.be/rmD3lpNB8IU?si=ZOS2nYJgjqSjJy4r]()
-12. [https://m.youtube.com/watch?v=7XXVyVBEiBc&list=RD7XXVyVBEiBc&start_radio=1&pp=ygUc16nXoNeZ15nXnSDXqdec157XlCDXkNeo16bXmaAHAQ%3D%3D]()
-13. [https://youtu.be/J-q28gVKEcA?si=8OSlZ0ArCgCpsvHC]()
-14. [https://youtu.be/uD52ojMUejA?si=Yv1O3ZXvfeVzmnlv]()
-15. [https://youtu.be/6vuflEkqW20?si=A81oFwQmy5p_hN1-]()
-16. [https://youtu.be/tFEUH-tHeXE?si=KW3AgMhVezZ-YRh6]()
-17. [https://m.youtube.com/watch?v=jeU9Sbq0D0A]()
-18. [https://youtu.be/yzlyMYJoFfU?si=XsPLE3vrTf0HAasj]()
-19. [https://youtu.be/nzT5YPAIGZA?si=QIa6L6b-bGz-cvX3]()
-20. [https://music.apple.com/il/album/%D7%9C%D7%94%D7%AA%D7%98%D7%95%D7%AA-%D7%A8%D7%A6%D7%95%D7%A2%D7%AA-%D7%91%D7%95%D7%A0%D7%95%D7%A1/1877927148?i=1877927808&l=he]()
-21. [https://youtu.be/1g-mwRXWxHk?si=K_icqlbk2XVePfVU]()
-22. [https://shulirand.lnk.to/LevLavan]()
-23. [https://youtu.be/OLyy0LTLL9o]()
-24. [https://youtube.com/playlist?list=RDBkk4gTxpMck&playnext=1&si=-oQXmr_pPbrIV4_R]()
-25. [https://youtube.com/watch?v=y5vN7DvBV_M&si=AgOPvTvLc_DjM9wN]()
-26. [https://youtu.be/yKNxeF4KMsY?si=ZOVrv6RREqu-UFnK]()
-27. [https://youtu.be/aYGd4HOend4?si=EWwoZ3bCRXbcagFc]()
-28. [https://youtu.be/3o08TyqShzw]()
-29. [https://youtu.be/e6YRMd6-q78?si=bCdQOutwiBuyjslb]()
-30. [https://youtu.be/tFW2alq3FMU?si=teVQhlyZNdODnYMo]()
-31. [https://youtu.be/tPiwQkelEiE?si=z3sLU477gIAy_W-4]()
-32. [https://music.youtube.com/watch?v=eFekHmzrkAg&si=xR2mGCZgj5SkYS0A]()
-33. [https://youtu.be/M4m3p3zh7s4?si=pZDNEQO6NmLcRAJK]()
-34. [https://m.youtube.com/watch?v=k5Gw5Z8-Vjk&pp=ygUa15DXnteQINep15nXqNeZINee15nXnteV15_SBwkJ3goBhyohjO8%3D]()
-35. [https://youtu.be/FP5Q27zGYsE?si=dYhNlEPaLp6BE6DD]()
-36. [https://youtu.be/byxFUKxhT3s?si=hXueCGGYlYHbB3Ej]()
-37. [https://open.spotify.com/track/44iqKPRASGlpZOvqw0SNoD?si=VtTrTSbUTcyQwKvqRoaYsw]()
-38. [https://youtu.be/nzT5YPAIGZA?si=fjtWIXPtcjGmui84]()
+2. שיר הדגל - The Anthem (Primary Section)
+השיר הבא הוא העוגן המרכזי. יש להטמיע אותו בראש הדף בנגן וידאו רחב (Embed) עם מסגרת דגש בצבע זהב.
+
+כותרת מעל הנגן: "ההמנון שלנו: Michelle"
+
+לינק להטמעה: https://youtu.be/xWCnWSoG8nI
+
+1. החזון והמטרה
+הפיכת העמוד הקיים לרכזת מוזיקלית (Hub) עבור חיילי מילואים. הדף צריך להיות עוצמתי, מורלי וקל מאוד לתפעול בתנאי שטח (Mobile-First).
+
+2. המבנה ההיררכי (Layout)
+Sticky Header: כותרת קבועה עם שם הפרויקט: "פסקול שאגת הארי".
+
+The Hero (העוגן): בחלק העליון ביותר, יש להטמיע (Embed) את השיר המרכזי של נועם בתן - Michelle בנגן וידאו רחב ובולט. זהו השיר הקבוע של הדף והוא אינו משתנה.
+
+The Playlist Section: מתחת לשיר המרכזי, תופיע רשימת השירים המלאה (תועבר בנפרד).
+
+3. חלוקה לקטגוריות (Developer's Choice)
+אנו רוצים לסדר את עשרות השירים בתוך 4 קטגוריות שונות כדי להקל על הניווט.
+
+הנחיה למתכנת: עליך לעבור על רשימת השירים ולחלק אותם ל-4 קטגוריות לפי שיקול דעתך (למשל: לפי מוד, קצב, סגנון ישראלי מול בינלאומי, או שירים שקטים מול שירי מורל).
+
+ביצוע טכני: יש לאפשר מעבר מהיר בין הקטגוריות (באמצעות Tabs או כפתורי סינון מהירים) כדי שחייל יוכל למצוא את המוזיקה שמתאימה למצב הרוח שלו באותו רגע.
+
+4. דגשים טכניים ו-UI
+Theme: Dark Mode מלא (רקע #121212). צבע דגש לכפתורים: ירוק זית צבאי (#4B5320).
+
+Zero Latency: שימוש ב-Lazy Loading לכל הלינקים והאלמנטים שמתחת ל-Hero. האתר חייב לעלות מהר גם בקליטה חלשה בשטח.
+
+Mobile Optimized: כפתורי לחיצה גדולים (Thumb-zone), גובה מינימלי 48px.
+
+Target: כל הלינקים החיצוניים ייפתחו ב-_blank.
+
+5. מיקרו-קופי (Micro-copy) צבאי
+יש להשתמש במושגים מהעולם הצבאי בממשק:
+
+כפתור שיתוף: "שלח את הפסקול למחלקה".
+
+כפתור הוספת שיר: "הוסף שיר למחסנית".
+
+6. Footer
+כפתור שיתוף מהיר לוואטסאפ.
+
+לינק/טופס: "יש לך שיר שנותן לך כוח? שלח לנו ונוסיף לשאגה".
+
+### דגש לעבודה:
+* השתמש בשמות הקטגוריות ככותרות בולטות (H2).
+* השיר של נועם בתן בראש הדף חייב להיות בפורמט וידאו מוטמע (Iframe).
+* שאר הלינקים יכולים להופיע ככפתורים מעוצבים עם אייקון של השירות הרלוונטי (YouTube/Spotify).
+
+הנה רשימת השירים המלאה - תשתמש רק ביוטיוב !
+לינק לשיר (YouTube / Spotify / וכו')
+https://youtu.be/Abrn8aVQ76Q?si=vuZvBa1foBQk_hhI
+https://youtu.be/XEJj9A7PZfo?si=vkY0i26xjSWhZfaY
+https://youtu.be/I9WynOT3aBY?si=u5Ad7T0l3YY_o32d
+https://open.spotify.com/track/5X6D5SG8H16XcpkGat6xCm?si=tPVmC0y_TTOfelsPULok2Q
+https://youtu.be/ax7krBKzmVI?si=rVv-lR7cDrpVBZYz
+https://youtu.be/UwNM-nbaI_o?si=2MncF74Yjt6mJ0uw
+https://youtu.be/CEgjmhOTUdo?si=hsb90ISXzIQAQENf
+https://youtu.be/xPWnNFF-TAw?si=xKJSULv9cT-HaypY
+https://youtu.be/7nVoHd4iFuw?si=MLJ_6sXcKeGSj-3N
+https://youtu.be/rmD3lpNB8IU?si=ZOS2nYJgjqSjJy4r
+
+https://m.youtube.com/watch?v=7XXVyVBEiBc&list=RD7XXVyVBEiBc&start_radio=1&pp=ygUc16nXoNeZ15nXnSDXqdec157XlCDXkNeo16bXmaAHAQ%3D%3D
+https://youtu.be/J-q28gVKEcA?si=8OSlZ0ArCgCpsvHC
+https://youtu.be/uD52ojMUejA?si=Yv1O3ZXvfeVzmnlv
+https://youtu.be/6vuflEkqW20?si=A81oFwQmy5p_hN1-
+https://youtu.be/tFEUH-tHeXE?si=KW3AgMhVezZ-YRh6
+https://m.youtube.com/watch?v=jeU9Sbq0D0A
+https://youtu.be/yzlyMYJoFfU?si=XsPLE3vrTf0HAasj
+
+https://youtu.be/nzT5YPAIGZA?si=QIa6L6b-bGz-cvX3
+https://music.apple.com/il/album/%D7%9C%D7%94%D7%A9%D7%AA%D7%98%D7%95%D7%AA-%D7%A8%D7%A6%D7%95%D7%A2%D7%AA-%D7%91%D7%95%D7%A0%D7%95%D7%A1/1877927148?i=1877927808&l=he
+https://youtu.be/1g-mwRXWxHk?si=K_icqlbk2XVePfVU
+https://shulirand.lnk.to/LevLavan
+https://youtu.be/OLyy0LTLL9o
+https://youtube.com/playlist?list=RDBkk4gTxpMck&playnext=1&si=-oQXmr_pPbrIV4_R
+https://youtube.com/watch?v=y5vN7DvBV_M&si=AgOPvTvLc_DjM9wN
+https://youtu.be/yKNxeF4KMsY?si=ZOVrv6RREqu-UFnK
+https://youtu.be/aYGd4HOend4?si=EWwoZ3bCRXbcagFc
+https://youtu.be/3o08TyqShzw
+https://youtu.be/e6YRMd6-q78?si=bCdQOutwiBuyjslb
+https://youtu.be/tFW2alq3FMU?si=teVQhlyZNdODnYMo
+https://youtu.be/tPiwQkelEiE?si=z3sLU477gIAy_W-4
+https://music.youtube.com/watch?v=eFekHmzrkAg&si=xR2mGCZgj5SkYS0A
+
+https://music.youtube.com/watch?v=eFekHmzrkAg&si=xR2mGCZgj5SkYS0A
+https://youtu.be/M4m3p3zh7s4?si=pZDNEQO6NmLcRAJK
+https://m.youtube.com/watch?v=k5Gw5Z8-Vjk&pp=ygUa15DXnteQINep15nXqNeZINee15nXnteV15_SBwkJ3goBhyohjO8%3D
+https://youtu.be/FP5Q27zGYsE?si=dYhNlEPaLp6BE6DD
+https://youtu.be/byxFUKxhT3s?si=hXueCGGYlYHbB3Ej
+https://open.spotify.com/track/44iqKPRASGlpZOvqw0SNoD?si=VtTrTSbUTcyQwKvqRoaYsw
+https://youtu.be/nzT5YPAIGZA?si=fjtWIXPtcjGmui84
+
+************************************************************
+טופס לחייל:
+https://docs.google.com/forms/d/1V9k7EHw9wpRias-P0VM1vYE9ZRWTMKnMVOGZntC7OTw/edit
+
+כל השירים מהלינק - אקסל:
+https://docs.google.com/forms/d/1V9k7EHw9wpRias-P0VM1vYE9ZRWTMKnMVOGZntC7OTw/edit#responses
