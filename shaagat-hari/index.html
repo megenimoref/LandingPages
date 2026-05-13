@@ -264,9 +264,9 @@
 
     /* ===== PLAYLIST ===== */
     .playlist {
-      max-width: 960px;
+      max-width: 1600px;
       margin: 0 auto;
-      padding: 16px 16px 32px;
+      padding: 16px clamp(12px, 3vw, 40px) 32px;
     }
 
     .category {
@@ -295,16 +295,100 @@
       border-radius: 999px;
     }
 
+    /* ===== CAROUSEL (horizontal scroll, one row per category) ===== */
+    .carousel {
+      position: relative;
+    }
+
     .grid {
-      display: grid;
-      gap: 14px;
-      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      display: flex;
+      gap: 16px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline-start: 4px;
+      padding: 6px 4px 16px;
+      margin: 0 -4px;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      /* Critical for mobile swipe: tell the browser this is a horizontal scroller.
+         Without this, taps on the <button> cards can hijack the touch sequence. */
+      touch-action: pan-x pan-y;
+      overscroll-behavior-x: contain;
+      cursor: grab;
+    }
+
+    .grid:active { cursor: grabbing; }
+
+    .grid::-webkit-scrollbar { display: none; }
+
+    /* Edge fade hints */
+    .carousel::before,
+    .carousel::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 16px;
+      width: 64px;
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    .carousel::before {
+      right: 0;
+      background: linear-gradient(to left, var(--bg) 0%, transparent 100%);
+    }
+    .carousel::after {
+      left: 0;
+      background: linear-gradient(to right, var(--bg) 0%, transparent 100%);
+    }
+    .carousel.has-prev::before { opacity: 1; }
+    .carousel.has-next::after { opacity: 1; }
+
+    /* Arrow buttons — desktop only */
+    .carousel__arrow {
+      position: absolute;
+      top: 50%;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(18, 18, 18, 0.95);
+      border: 2px solid var(--olive);
+      color: var(--text);
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 4;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s ease, opacity 0.15s ease, border-color 0.15s ease;
+      box-shadow: 0 6px 22px rgba(0, 0, 0, 0.7);
+    }
+
+    .carousel__arrow:hover { background: var(--olive); border-color: var(--gold); }
+    .carousel__arrow:active { background: var(--olive-bright); }
+    .carousel__arrow:disabled { opacity: 0; pointer-events: none; }
+
+    .carousel__arrow--prev { right: -10px; transform: translateY(-50%); }
+    .carousel__arrow--next { left:  -10px; transform: translateY(-50%); }
+
+    @media (hover: hover) and (pointer: fine) {
+      .carousel__arrow { display: inline-flex; }
     }
 
     .card {
       position: relative;
       display: block;
-      width: 100%;
+      /* Mobile: ~1.5 cards visible (hint that there's more). Desktop: fixed 280px */
+      flex: 0 0 clamp(220px, 70vw, 280px);
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      /* Allow the parent's pan-x scroll to take over from a touch on the card */
+      touch-action: pan-x pan-y;
       background: var(--bg-elev);
       border: 1px solid var(--border);
       border-radius: 12px;
@@ -484,6 +568,36 @@
     .modal__open-yt:hover { background: #cc0028; }
     .modal__open-yt:active { transform: scale(0.98); }
 
+    /* Loading overlay (shown until player is ready, or fallback kicks in) */
+    .modal__loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      background: #000;
+      color: var(--text-dim);
+      font-weight: 600;
+      font-size: 0.95rem;
+      z-index: 1;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal__loading.is-hidden { opacity: 0; pointer-events: none; }
+
+    .spinner {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 3px solid rgba(212, 160, 23, 0.25);
+      border-top-color: var(--gold);
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
     .modal__nav {
       display: flex;
       gap: 8px;
@@ -557,34 +671,35 @@
     }
 
     .card__body {
-      padding: 10px 12px 12px;
+      padding: 12px 14px 14px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.88rem;
+      gap: 10px;
+      font-size: 0.95rem;
       font-weight: 600;
     }
 
     .card__num {
       flex-shrink: 0;
-      width: 26px;
-      height: 26px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       background: var(--olive);
       color: #fff;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.78rem;
+      font-size: 0.85rem;
       font-weight: 800;
     }
 
     .card__label {
       flex: 1;
-      color: var(--text-dim);
+      color: var(--text);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
+      min-width: 0;
     }
 
     .yt-icon {
@@ -683,7 +798,7 @@
       <img class="site-header__logo" src="images/shaagat-hari-logo.webp" alt="לוגו שאגת הארי">
       <div class="site-header__title">
         פסקול שאגת הארי
-        <small>רכזת מוזיקלית · מהעורף לחזית</small>
+        <small>מהעורף לחזית</small>
       </div>
     </div>
   </header>
@@ -694,7 +809,7 @@
     <h1 class="hero__title">נועם בתן · <em>Michelle</em></h1>
     <div class="hero__player">
       <iframe id="heroPlayer"
-        src="https://www.youtube-nocookie.com/embed/xWCnWSoG8nI?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&vq=hd1080&hd=1&enablejsapi=1"
+        src="https://www.youtube-nocookie.com/embed/xWCnWSoG8nI?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&vq=highres&hd=1&enablejsapi=1"
         title="נועם בתן - Michelle"
         loading="eager"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -817,29 +932,19 @@
     const modalPrev = document.getElementById('modalPrev');
     const modalNext = document.getElementById('modalNext');
     const modalOpenYt = document.getElementById('modalOpenYt');
-    const modalFallback = document.getElementById('modalFallback');
-    const modalFallbackBtn = document.getElementById('modalFallbackBtn');
 
     let modalYtPlayer = null;
     let fallbackTimer = null;
-
-    function showFallback() {
-      modalFallback.classList.add('is-shown');
-    }
-
-    function hideFallback() {
-      modalFallback.classList.remove('is-shown');
-    }
 
     function openModal(index) {
       const song = ALL_SONGS[index];
       if (!song) return;
       currentSongIndex = index;
-      modalTitleText.textContent = `מנגן עכשיו: שיר ${song.position}`;
+      modalTitleText.textContent = song.title
+        ? `מנגן: ${song.title}`
+        : `מנגן עכשיו: שיר ${song.position}`;
       const ytUrl = `https://www.youtube.com/watch?v=${song.id}`;
       modalOpenYt.href = ytUrl;
-      modalFallbackBtn.href = ytUrl;
-      hideFallback();
 
       // Tear down previous player
       if (modalYtPlayer && modalYtPlayer.destroy) {
@@ -848,16 +953,20 @@
       }
       clearTimeout(fallbackTimer);
 
-      // Rebuild iframe container
+      // Rebuild player container with loading overlay + fallback overlay + iframe mount
       modalPlayer.innerHTML = `
-        <div class="modal__fallback" id="modalFallback"></div>
+        <div class="modal__loading" id="modalLoading">
+          <div class="spinner" aria-hidden="true"></div>
+          <div>טוען שיר…</div>
+        </div>
+        <div class="modal__fallback" id="modalFallbackInner"></div>
         <div id="modalIframeMount"></div>`;
-      // Re-grab fallback (since innerHTML wiped the original)
+      const loadingEl = modalPlayer.querySelector('.modal__loading');
       const newFallback = modalPlayer.querySelector('.modal__fallback');
       newFallback.innerHTML = `
-        <div class="modal__fallback-icon">⚠️</div>
-        <div class="modal__fallback-text">השיר חסום להטמעה</div>
-        <div class="modal__fallback-sub">חברת התקליטים לא מאפשרת לנגן אותו פה. בלחיצה אחת אפשר לפתוח אותו ביוטיוב.</div>
+        <div class="modal__fallback-icon">↗️</div>
+        <div class="modal__fallback-text">השיר חסום להטמעה - פתחנו אותו ביוטיוב</div>
+        <div class="modal__fallback-sub">אם הטאב לא נפתח, לחצו על הכפתור.</div>
         <a class="modal__open-yt" href="${ytUrl}" target="_blank" rel="noopener">▶ פתח ביוטיוב</a>`;
 
       modal.setAttribute('open', '');
@@ -871,6 +980,31 @@
       song.card.classList.add('is-playing');
       if (window.gtag) gtag('event', 'song_play', { song_id: song.id, position: song.position });
 
+      // Auto-fallback: if the player reports an error, try to open YouTube in a new tab.
+      // Working videos do NOT trigger any popup.
+      let resolved = false;
+      const triggerFallback = (reason) => {
+        if (resolved) return;
+        resolved = true;
+        clearTimeout(fallbackTimer);
+        loadingEl.classList.add('is-hidden');
+        newFallback.classList.add('is-shown');
+        // Try to open YouTube automatically. If browser blocks it (popup blocker),
+        // the visible fallback overlay still has a big button the user can click.
+        const popup = window.open(ytUrl, '_blank', 'noopener');
+        if (popup) { try { popup.focus(); } catch (_) {} }
+        if (window.gtag) gtag('event', 'song_blocked', { song_id: song.id, reason });
+      };
+      const triggerSuccess = () => {
+        if (resolved) return;
+        resolved = true;
+        clearTimeout(fallbackTimer);
+        loadingEl.classList.add('is-hidden');
+      };
+
+      // Safety timer: if nothing happens in 6s (slow connection or silent failure), fall back
+      fallbackTimer = setTimeout(() => triggerFallback('timeout'), 6000);
+
       // Build the player via the IFrame API so we can detect onError
       const mount = () => {
         if (!window.YT || !window.YT.Player) return setTimeout(mount, 80);
@@ -882,11 +1016,16 @@
           events: {
             onReady: (e) => {
               try { e.target.setPlaybackQuality('hd1080'); } catch (_) {}
+              try { e.target.playVideo(); } catch (_) {}
+            },
+            onStateChange: (e) => {
+              // 1 = playing, 3 = buffering, 5 = video cued
+              if (e.data === 1 || e.data === 3 || e.data === 5) triggerSuccess();
             },
             onError: (e) => {
               // 2 = invalid id, 5 = HTML5 player error,
               // 100 = removed/private, 101/150 = embedding disabled
-              newFallback.classList.add('is-shown');
+              triggerFallback('error_' + e.data);
             }
           }
         });
@@ -942,7 +1081,7 @@
         </div>
         <div class="card__body">
           <span class="card__num">${idx}</span>
-          <span class="card__label">שיר ${idx}</span>
+          <span class="card__label" data-role="title">טוען…</span>
           ${YT_ICON_SVG}
         </div>`;
       const songIndex = ALL_SONGS.length;
@@ -952,6 +1091,67 @@
         openModal(songIndex);
       });
       return btn;
+    }
+
+    // ===== Fetch YouTube titles via oEmbed (free, no API key) + cache =====
+    const TITLE_CACHE_KEY = 'shaagatHariTitles_v1';
+    const TITLE_CACHE_TTL = 30 * 24 * 60 * 60 * 1000; // 30 days
+
+    function loadTitleCache() {
+      try {
+        const raw = localStorage.getItem(TITLE_CACHE_KEY);
+        if (!raw) return {};
+        const parsed = JSON.parse(raw);
+        if (!parsed.ts || (Date.now() - parsed.ts) > TITLE_CACHE_TTL) return {};
+        return parsed.titles || {};
+      } catch (_) { return {}; }
+    }
+
+    function saveTitleCache(titles) {
+      try {
+        localStorage.setItem(TITLE_CACHE_KEY, JSON.stringify({ ts: Date.now(), titles }));
+      } catch (_) {}
+    }
+
+    function applyTitle(song, title) {
+      const labelEl = song.card.querySelector('[data-role="title"]');
+      if (labelEl) labelEl.textContent = title;
+      song.card.setAttribute('aria-label', `נגן: ${title}`);
+      song.title = title;
+    }
+
+    async function fetchTitles() {
+      const cache = loadTitleCache();
+      const updated = { ...cache };
+      let dirty = false;
+
+      // Apply cached titles immediately
+      ALL_SONGS.forEach(song => {
+        if (cache[song.id]) applyTitle(song, cache[song.id]);
+      });
+
+      // Fetch the rest in parallel
+      const toFetch = ALL_SONGS.filter(s => !cache[s.id]);
+      await Promise.all(toFetch.map(async (song) => {
+        try {
+          const res = await fetch(
+            `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${song.id}&format=json`,
+            { mode: 'cors' }
+          );
+          if (!res.ok) throw new Error('http ' + res.status);
+          const data = await res.json();
+          const title = data.title || `שיר ${song.position}`;
+          applyTitle(song, title);
+          updated[song.id] = title;
+          dirty = true;
+        } catch (_) {
+          // oEmbed blocked / video unavailable - keep a sensible fallback
+          const fallback = `שיר ${song.position}`;
+          applyTitle(song, fallback);
+        }
+      }));
+
+      if (dirty) saveTitleCache(updated);
     }
 
     function render() {
@@ -966,14 +1166,123 @@
             ${cat.title}
             <span class="category__count">${cat.ids.length} שירים</span>
           </h2>
-          <div class="grid"></div>`;
+          <div class="carousel">
+            <button class="carousel__arrow carousel__arrow--prev" type="button" aria-label="הקודם">›</button>
+            <div class="grid"></div>
+            <button class="carousel__arrow carousel__arrow--next" type="button" aria-label="הבא">‹</button>
+          </div>`;
         const grid = section.querySelector('.grid');
         cat.ids.forEach(id => {
           counter += 1;
           grid.appendChild(buildCard(id, counter));
         });
+        wireCarousel(section.querySelector('.carousel'));
         root.appendChild(section);
       });
+    }
+
+    function wireCarousel(carousel) {
+      const grid = carousel.querySelector('.grid');
+      const prev = carousel.querySelector('.carousel__arrow--prev');
+      const next = carousel.querySelector('.carousel__arrow--next');
+      const cards = Array.from(grid.children);
+      if (!cards.length) return;
+
+      // ===== State via IntersectionObserver (immune to RTL scrollLeft mode quirks) =====
+      const visible = new Set();
+      const updateState = () => {
+        const atStart = visible.has(cards[0]);
+        const atEnd = visible.has(cards[cards.length - 1]);
+        carousel.classList.toggle('has-prev', !atStart);
+        carousel.classList.toggle('has-next', !atEnd);
+        prev.disabled = atStart;
+        next.disabled = atEnd;
+      };
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.intersectionRatio >= 0.9) visible.add(e.target);
+          else visible.delete(e.target);
+        });
+        updateState();
+      }, { root: grid, threshold: [0, 0.9, 1] });
+      cards.forEach(c => io.observe(c));
+
+      // ===== Arrow clicks: scroll one viewport's worth toward target card by INDEX =====
+      // Earlier card (lower index) = "prev" / Later card (higher index) = "next"
+      // scrollIntoView with logical inline alignment handles RTL automatically.
+      const lowestVisibleIdx = () => {
+        const gr = grid.getBoundingClientRect();
+        for (let i = 0; i < cards.length; i++) {
+          const r = cards[i].getBoundingClientRect();
+          if (r.right > gr.left + 4 && r.left < gr.right - 4) return i;
+        }
+        return 0;
+      };
+      const highestVisibleIdx = () => {
+        const gr = grid.getBoundingClientRect();
+        for (let i = cards.length - 1; i >= 0; i--) {
+          const r = cards[i].getBoundingClientRect();
+          if (r.right > gr.left + 4 && r.left < gr.right - 4) return i;
+        }
+        return cards.length - 1;
+      };
+
+      prev.addEventListener('click', () => {
+        const lo = lowestVisibleIdx();
+        if (lo > 0) cards[lo - 1].scrollIntoView({
+          behavior: 'smooth', inline: 'start', block: 'nearest'
+        });
+      });
+      next.addEventListener('click', () => {
+        const hi = highestVisibleIdx();
+        if (hi < cards.length - 1) cards[hi + 1].scrollIntoView({
+          behavior: 'smooth', inline: 'end', block: 'nearest'
+        });
+      });
+
+      window.addEventListener('resize', updateState);
+      requestAnimationFrame(updateState);
+      setTimeout(updateState, 300);
+
+      // ===== Desktop: mouse drag to "swipe" =====
+      let isDown = false;
+      let startX = 0;
+      let startScroll = 0;
+      let dragMoved = 0;
+      const DRAG_THRESHOLD = 6; // px before we consider it a drag
+
+      grid.addEventListener('mousedown', (e) => {
+        // Ignore non-primary buttons
+        if (e.button !== 0) return;
+        isDown = true;
+        dragMoved = 0;
+        startX = e.clientX;
+        startScroll = grid.scrollLeft;
+        grid.style.scrollBehavior = 'auto'; // disable smooth during drag
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > DRAG_THRESHOLD) dragMoved = Math.abs(dx);
+        // Natural drag: move grid in the direction the mouse moves (subtract dx from scrollLeft)
+        grid.scrollLeft = startScroll - dx;
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (!isDown) return;
+        isDown = false;
+        grid.style.scrollBehavior = '';
+      });
+
+      // Suppress card click if the user actually dragged
+      grid.addEventListener('click', (e) => {
+        if (dragMoved > DRAG_THRESHOLD) {
+          e.stopPropagation();
+          e.preventDefault();
+          dragMoved = 0;
+        }
+      }, true);
     }
 
     function setupTabs() {
@@ -1009,21 +1318,33 @@
     render();
     setupTabs();
     setupShare();
+    fetchTitles();
 
     // Force highest available quality on the hero player via the IFrame API
     (function () {
       const tag = document.createElement('script');
       tag.src = 'https://www.youtube.com/iframe_api';
       document.head.appendChild(tag);
+      // YouTube IFrame API quality values: 'highres' covers 1440p / 2160p / 4320p (anything > 1080)
+      const TARGET_QUALITY = 'highres';
+      const ACCEPTABLE_QUALITIES = ['highres', 'hd2160', 'hd1440'];
+
       window.onYouTubeIframeAPIReady = function () {
         new YT.Player('heroPlayer', {
           events: {
             onReady: (e) => {
-              try { e.target.setPlaybackQuality('hd1080'); } catch (_) {}
+              try { e.target.setPlaybackQuality(TARGET_QUALITY); } catch (_) {}
+            },
+            onStateChange: (e) => {
+              // Re-assert highest quality when playback actually starts (1 = playing)
+              if (e.data === 1) {
+                try { e.target.setPlaybackQuality(TARGET_QUALITY); } catch (_) {}
+              }
             },
             onPlaybackQualityChange: (e) => {
-              if (e.data !== 'hd1080' && e.data !== 'hd720') {
-                try { e.target.setPlaybackQuality('hd1080'); } catch (_) {}
+              // If YouTube downgraded below 1440p, push it back up to highest available
+              if (!ACCEPTABLE_QUALITIES.includes(e.data)) {
+                try { e.target.setPlaybackQuality(TARGET_QUALITY); } catch (_) {}
               }
             }
           }
