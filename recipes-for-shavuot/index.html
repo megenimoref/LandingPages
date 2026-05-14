@@ -633,6 +633,98 @@
       display:flex; justify-content:center; gap:10px; margin:8px 0;
       opacity:.7;
     }
+
+    /* ============ PAGE NAV (vertical rail) ============ */
+    .page-nav{
+      position:fixed;
+      top:50%;
+      left:18px;
+      transform:translateY(-50%);
+      z-index:60;
+      direction:ltr;
+      font-family:"Frank Ruhl Libre","Heebo", serif;
+    }
+    .page-nav ul{
+      list-style:none; margin:0;
+      padding:14px 14px;
+      display:flex; flex-direction:column;
+      gap:14px;
+      background:transparent;
+      border:1px solid transparent;
+      border-radius:14px;
+      transition:background .25s ease, border-color .25s ease, padding .25s ease, box-shadow .25s ease;
+      backdrop-filter:blur(0px);
+    }
+    .page-nav:hover ul,
+    .page-nav:focus-within ul{
+      background:rgba(243, 234, 214, .96);
+      border-color:var(--wheat-deep);
+      padding:18px 20px;
+      box-shadow:0 12px 28px rgba(0,0,0,.35), 0 2px 6px rgba(0,0,0,.2);
+      backdrop-filter:blur(6px);
+    }
+    .page-nav li{ margin:0; }
+    .page-nav a{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      text-decoration:none;
+      color:var(--ink-soft);
+      font-size:14px;
+      line-height:1.2;
+      white-space:nowrap;
+      direction:rtl;
+      padding:2px 0;
+    }
+    .page-nav .dash{
+      display:block;
+      width:20px;
+      height:2px;
+      background:rgba(243, 234, 214, .45);
+      border-radius:2px;
+      flex-shrink:0;
+      transition:width .25s ease, background-color .25s ease, height .25s ease;
+    }
+    .page-nav:hover .dash,
+    .page-nav:focus-within .dash{
+      background:var(--rule-soft);
+    }
+    .page-nav a.active .dash{
+      width:30px;
+      height:3px;
+      background:#f3ead6;
+    }
+    .page-nav:hover a.active .dash,
+    .page-nav:focus-within a.active .dash{
+      background:var(--wine);
+    }
+    .page-nav .label{
+      max-width:0;
+      overflow:hidden;
+      opacity:0;
+      transform:translateX(-6px);
+      transition:max-width .3s ease, opacity .25s ease, transform .25s ease;
+      pointer-events:none;
+      color:var(--ink-soft);
+    }
+    .page-nav:hover .label,
+    .page-nav:focus-within .label{
+      max-width:260px;
+      opacity:1;
+      transform:translateX(0);
+      pointer-events:auto;
+    }
+    .page-nav a.active .label{
+      color:var(--wine);
+      font-weight:500;
+    }
+    .page-nav a:hover .label{ color:var(--ink); }
+    @media (max-width: 900px){
+      .page-nav{ display:none; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      .page-nav ul, .page-nav .dash, .page-nav .label{ transition:none; }
+    }
     @media (max-width: 760px){
       .book{ margin:0; max-width:100%; }
       .page{ padding:40px 28px; aspect-ratio:auto; min-height:100vh; }
@@ -1196,6 +1288,96 @@
 </div>
 
 <script>
+(function buildPageNav(){
+  const headings = Array.from(document.querySelectorAll('h2'));
+  if(headings.length < 2) return;
+
+  // Ensure each heading has an id and a scroll-anchor
+  headings.forEach((h, i) => {
+    if(!h.id) h.id = 'sec-' + (i + 1);
+    h.style.scrollMarginTop = '20px';
+  });
+
+  // Build nav element
+  const nav = document.createElement('nav');
+  nav.className = 'page-nav';
+  nav.setAttribute('aria-label', 'ניווט בעמוד');
+  const ul = document.createElement('ul');
+
+  const linkByHeading = new Map();
+
+  headings.forEach(h => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+
+    const dash = document.createElement('span');
+    dash.className = 'dash';
+    dash.setAttribute('aria-hidden', 'true');
+
+    const label = document.createElement('span');
+    label.className = 'label';
+    // strip <br> as space, then get clean text
+    label.textContent = h.innerHTML
+      .replace(/<br\s*\/?>/gi, ' ')
+      .replace(/<[^>]+>/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    a.append(dash, label);
+    a.addEventListener('click', (e) => {
+      e.preventDefault();
+      h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      history.replaceState(null, '', '#' + h.id);
+    });
+    li.append(a);
+    ul.append(li);
+    linkByHeading.set(h, a);
+  });
+
+  nav.append(ul);
+  document.body.append(nav);
+
+  const setActive = (heading) => {
+    linkByHeading.forEach((a, h) => {
+      a.classList.toggle('active', h === heading);
+    });
+  };
+
+  // Active detection: pick the heading whose top is closest to (but above) ~25% from viewport top
+  const pickActive = () => {
+    const anchorY = window.innerHeight * 0.28;
+    let current = headings[0];
+    for(const h of headings){
+      const top = h.getBoundingClientRect().top;
+      if(top - anchorY <= 0) current = h;
+      else break;
+    }
+    setActive(current);
+  };
+
+  // Primary: IntersectionObserver — re-evaluate whenever any heading crosses the active band
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver(() => pickActive(), {
+      rootMargin: '-25% 0% -70% 0%',
+      threshold: [0, 1]
+    });
+    headings.forEach(h => io.observe(h));
+  }
+  // Fallback / supplement: scroll listener (cheap, throttled via rAF)
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      pickActive();
+      ticking = false;
+    });
+  }, { passive: true });
+
+  pickActive();
+})();
+
 (function(){
   const btn = document.querySelector('[data-share]');
   if(!btn) return;
