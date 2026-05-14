@@ -58,7 +58,6 @@
             --accent-olive: #6B7F4F;
             --accent-gold: #C9A961;
             --border-soft: #E8DFD0;
-            --spine: #C9B391;
             --shadow-page: 0 6px 24px rgba(44, 36, 22, 0.16);
             --shadow-book: 0 30px 60px rgba(44, 36, 22, 0.24), 0 10px 24px rgba(44, 36, 22, 0.14);
             --shadow-cover: 0 30px 60px rgba(44, 36, 22, 0.32), 0 10px 20px rgba(44, 36, 22, 0.22);
@@ -90,7 +89,7 @@
         button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
         a { color: inherit; }
 
-        /* ─── COVER STAGE ─── */
+        /* ─── COVER ANIMATION (intro) ─── */
         .cover-stage {
             position: fixed; inset: 0;
             background: var(--bg-primary);
@@ -99,7 +98,6 @@
             perspective: 2200px;
         }
         .cover-stage.hidden { pointer-events: none; }
-
         .cover-book {
             position: relative;
             width: min(70vw, 320px);
@@ -162,7 +160,7 @@
             50% { opacity: 1; transform: translateX(-50%) translateY(-3px); }
         }
 
-        /* ─── PAGE / BOOK ─── */
+        /* ─── PAGE WRAP / BRAND / INTRO ─── */
         .page-wrap {
             opacity: 0;
             transition: opacity 500ms var(--ease) 100ms;
@@ -173,16 +171,13 @@
         .skip-animation .cover-stage { display: none; }
         .skip-animation .page-wrap { opacity: 1; transition: none; }
 
-        /* ─── BRAND HEADER ─── */
         header.brand {
             background: var(--bg-card);
             border-bottom: 1px solid var(--border-soft);
             box-shadow: 0 2px 12px rgba(44, 36, 22, 0.06);
         }
         header.brand .container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             gap: clamp(14px, 4vw, 36px);
             max-width: 980px;
             margin: 0 auto;
@@ -191,11 +186,8 @@
         }
         header.brand .brand-logo {
             height: clamp(34px, 9vw, 46px);
-            width: auto;
-            object-fit: contain;
-            display: block;
-            user-select: none;
-            -webkit-user-drag: none;
+            width: auto; object-fit: contain;
+            display: block; user-select: none; -webkit-user-drag: none;
         }
         @media (max-width: 380px) {
             header.brand .container { gap: 12px; padding: 10px 12px; }
@@ -203,182 +195,236 @@
 
         .intro {
             text-align: center;
-            padding: 22px 24px 14px;
+            padding: 20px 24px 8px;
         }
         .intro h1 {
             font-family: 'Frank Ruhl Libre', serif; font-weight: 900;
-            font-size: clamp(1.6rem, 4.8vw, 2.2rem);
+            font-size: clamp(1.4rem, 4.4vw, 1.9rem);
             color: var(--accent-clay-deep);
         }
         .intro .holiday {
             font-family: 'Frank Ruhl Libre', serif; font-weight: 500;
-            font-size: clamp(0.95rem, 2.6vw, 1.1rem);
+            font-size: clamp(0.9rem, 2.4vw, 1rem);
             color: var(--accent-olive);
             letter-spacing: 0.1em;
             display: block;
             margin-top: 2px;
         }
-        .intro .sep {
-            display: block; width: 50px; height: 2px;
-            background: var(--accent-gold); margin: 14px auto 0; opacity: 0.7;
-        }
 
-        /* The Book */
-        .book {
+        /* ─── FLIPBOOK (turn.js) ─── */
+        .book-wrap {
             flex: 1;
-            position: relative;
-            margin: 14px auto 22px;
-            width: 100%;
-            max-width: 1080px;
-            padding: 0 16px;
-            perspective: 2400px;
+            display: flex; align-items: center; justify-content: center;
+            padding: 16px 12px 8px;
         }
-
-        .book-frame {
-            position: relative;
-            background: var(--bg-page);
-            border-radius: 10px;
+        .flipbook {
             box-shadow: var(--shadow-book);
-            overflow: hidden;
+            border-radius: 6px;
+            /* Mirror the whole book so the page-fold/peel appears on the LEFT side
+               (Hebrew convention: spine on right, free edge & corner peel on left) */
+            transform: scaleX(-1);
+            /* turn.js sets width/height inline */
+        }
+        /* Un-mirror page contents so text/images render correctly */
+        .flipbook .pg,
+        .flipbook .pg-cover {
+            transform: scaleX(-1);
+        }
+        .flipbook .page {
+            background: var(--bg-page);
             background-image:
-                radial-gradient(ellipse at center, transparent 0%, rgba(139, 94, 60, 0.04) 100%),
                 url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.55  0 0 0 0 0.37  0 0 0 0 0.23  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23p)'/></svg>");
-            min-height: 560px;
-        }
-
-        .spreads {
-            position: relative;
-            width: 100%;
-            min-height: 560px;
-            transform-style: preserve-3d;
-            perspective: 2200px;
-            perspective-origin: 50% 50%;
-        }
-
-        .spread {
-            position: absolute;
-            inset: 0;
-            display: grid;
-            grid-template-columns: 1fr;
-            opacity: 0;
-            pointer-events: none;
-            transform: rotateY(0deg);
-            transform-style: preserve-3d;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            z-index: 1;
-            /* page paper feel during flip */
-            background: var(--bg-page);
-            box-shadow: var(--shadow-page);
-        }
-        .spread.active {
-            opacity: 1;
-            pointer-events: auto;
-            z-index: 2;
-        }
-        .spread.flipping {
-            opacity: 1;
-            z-index: 3;
-            transition: transform 820ms cubic-bezier(.55, .085, .35, 1);
-            /* subtle shadow that intensifies mid-flip */
-            box-shadow:
-                0 8px 26px rgba(44, 36, 22, 0.22),
-                0 30px 48px rgba(44, 36, 22, 0.18);
-        }
-        /* RTL forward flip: spine on right, left edge lifts up and rotates right */
-        .spread.flip-out-fwd {
-            transform-origin: right center;
-            transform: rotateY(-180deg);
-        }
-        /* RTL backward flip: mirror — spine on left, right edge lifts up and rotates left */
-        .spread.flip-out-bwd {
-            transform-origin: left center;
-            transform: rotateY(180deg);
-        }
-
-        /* Page within a spread */
-        .page {
-            position: relative;
-            padding: 26px 22px 32px;
-            background: var(--bg-page);
-            min-height: 540px;
-            display: flex;
-            flex-direction: column;
-        }
-        .page.page-image {
-            padding: 0;
-            min-height: 0;
-        }
-        .page.page-image .img-wrap {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            background: var(--border-soft);
             overflow: hidden;
         }
-        .page.page-image img {
+        .flipbook .hard {
+            background: var(--accent-clay);
+            color: var(--bg-primary);
+        }
+        /* Page inner layout */
+        .pg {
+            position: relative;
+            width: 100%; height: 100%;
+            padding: 22px 20px 28px;
+            display: flex; flex-direction: column;
+            overflow: hidden;
+        }
+        /* Combined mobile page: image on top, content scrollable below */
+        .pg-combined {
+            padding: 0;
+        }
+        .pg-img-half {
+            flex: 0 0 32%;
+            min-height: 150px; max-height: 230px;
+            position: relative; overflow: hidden;
+            background: var(--border-soft);
+        }
+        .pg-img-half img {
             width: 100%; height: 100%; object-fit: cover; display: block;
         }
-
-        .page.page-content {
-            padding-top: 22px;
+        .pg-content-half {
+            flex: 1;
+            padding: 14px 18px 16px;
+            display: flex; flex-direction: column;
+            min-height: 0; overflow: hidden;
+            position: relative;
         }
-
-        .page-num {
-            position: absolute;
-            top: 14px; left: 18px;
+        .pg-content-half .page-num {
+            position: absolute; top: -22px; left: 12px;
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 0.68rem;
+            color: var(--bg-primary);
+            background: rgba(44, 36, 22, 0.55);
+            padding: 3px 10px; border-radius: 999px;
+            letter-spacing: 0.15em;
+            z-index: 2;
+        }
+        .pg-content-half .recipe-name {
+            font-family: 'Frank Ruhl Libre', serif; font-weight: 700;
+            font-size: 1.18rem; color: var(--text-primary);
+            margin-bottom: 2px; line-height: 1.2;
+        }
+        .pg-content-half .recipe-dedication {
+            font-size: 0.78rem;
+            color: var(--accent-clay);
+            font-style: italic;
+            margin-bottom: 8px; padding-bottom: 6px;
+            border-bottom: 1px solid var(--border-soft);
+        }
+        .pg-content-half .scrollable {
+            flex: 1; overflow-y: auto;
+            padding-left: 6px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border-soft) transparent;
+            -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 16px), transparent);
+                    mask-image: linear-gradient(to bottom, #000 calc(100% - 16px), transparent);
+        }
+        .pg-content-half .scrollable::-webkit-scrollbar { width: 4px; }
+        .pg-content-half .scrollable::-webkit-scrollbar-track { background: transparent; }
+        .pg-content-half .scrollable::-webkit-scrollbar-thumb {
+            background: var(--border-soft); border-radius: 999px;
+        }
+        .pg-content-half h3 {
+            font-family: 'Frank Ruhl Libre', serif; font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--accent-clay-deep);
+            margin: 8px 0 4px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .pg-content-half h3::before {
+            content: ""; width: 12px; height: 1.5px;
+            background: var(--accent-gold);
+        }
+        .pg-content-half ul, .pg-content-half ol {
+            padding-right: 1.2em;
+            color: var(--text-primary);
+            font-size: 0.82rem; line-height: 1.45;
+        }
+        .pg-content-half ul li, .pg-content-half ol li { margin-bottom: 2px; }
+        .pg-content-half ul li::marker { color: var(--accent-olive); }
+        .pg-content-half ol li::marker { color: var(--accent-clay); font-weight: 700; }
+        .pg-content-half ul li.sub-header {
+            list-style: none;
+            margin-right: -1.2em;
+            margin-top: 6px; margin-bottom: 2px;
+            font-weight: 700;
+            color: var(--accent-clay-deep);
+            font-size: 0.82rem;
+        }
+        .pg-content-half .recipe-share {
+            margin-top: 8px;
+            display: flex; justify-content: center;
+        }
+        .pg-content-half .share-btn {
+            padding: 7px 14px;
+            font-size: 0.82rem;
+        }
+        .pg-image {
+            padding: 0;
+        }
+        .pg-image .img-wrap {
+            width: 100%; height: 100%;
+            background: var(--border-soft);
+        }
+        .pg-image img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+        .pg-content {
+            padding: 26px 24px 26px;
+            font-size: 0.95rem;
+        }
+        .pg-content .page-num {
+            position: absolute; top: 12px; left: 16px;
             font-family: 'Frank Ruhl Libre', serif;
             font-size: 0.72rem;
             color: var(--accent-gold);
             letter-spacing: 0.2em;
-            opacity: 0.7;
+            opacity: 0.75;
         }
-
-        .recipe-name {
-            font-family: 'Frank Ruhl Libre', serif;
-            font-weight: 700;
-            font-size: clamp(1.35rem, 4.2vw, 1.7rem);
+        .pg-content .recipe-name {
+            font-family: 'Frank Ruhl Libre', serif; font-weight: 700;
+            font-size: clamp(1.25rem, 2.2vw, 1.55rem);
             color: var(--text-primary);
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             line-height: 1.2;
         }
-        .recipe-dedication {
-            font-size: 0.88rem;
+        .pg-content .recipe-dedication {
+            font-size: 0.84rem;
             color: var(--accent-clay);
             font-style: italic;
-            margin-bottom: 18px;
-            padding-bottom: 14px;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
             border-bottom: 1px solid var(--border-soft);
         }
-        .recipe h3 {
+        .pg-content h3 {
             font-family: 'Frank Ruhl Libre', serif; font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.02rem;
             color: var(--accent-clay-deep);
-            margin: 16px 0 8px;
-            display: flex; align-items: center; gap: 10px;
+            margin: 12px 0 6px;
+            display: flex; align-items: center; gap: 8px;
         }
-        .recipe h3::before {
-            content: ""; width: 16px; height: 1.5px;
+        .pg-content h3::before {
+            content: ""; width: 14px; height: 1.5px;
             background: var(--accent-gold);
         }
-        .recipe ul, .recipe ol {
-            padding-right: 1.3em;
+        .pg-content ul, .pg-content ol {
+            padding-right: 1.2em;
             color: var(--text-primary);
-            font-size: 0.98rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
-        .recipe ul li, .recipe ol li { margin-bottom: 6px; line-height: 1.55; }
-        .recipe ul li::marker { color: var(--accent-olive); }
-        .recipe ol li::marker { color: var(--accent-clay); font-weight: 700; }
-        .recipe ul li.sub-header {
+        .pg-content ul li, .pg-content ol li { margin-bottom: 4px; }
+        .pg-content ul li::marker { color: var(--accent-olive); }
+        .pg-content ol li::marker { color: var(--accent-clay); font-weight: 700; }
+        .pg-content ul li.sub-header {
             list-style: none;
-            margin-right: -1.3em;
-            margin-top: 12px; margin-bottom: 4px;
+            margin-right: -1.2em;
+            margin-top: 8px; margin-bottom: 2px;
             font-weight: 700;
             color: var(--accent-clay-deep);
-            font-size: 0.94rem;
+            font-size: 0.88rem;
         }
-
+        .pg-content .scrollable {
+            flex: 1;
+            overflow-y: auto;
+            padding-left: 8px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border-soft) transparent;
+        }
+        .pg-content .scrollable::-webkit-scrollbar {
+            width: 4px;
+        }
+        .pg-content .scrollable::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .pg-content .scrollable::-webkit-scrollbar-thumb {
+            background: var(--border-soft);
+            border-radius: 999px;
+        }
+        .pg-content .scrollable::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-gold);
+        }
         .recipe-share {
-            margin-top: 22px;
+            margin-top: 14px;
             display: flex;
             justify-content: center;
         }
@@ -386,106 +432,132 @@
             display: inline-flex; align-items: center; gap: 8px;
             background: var(--accent-clay);
             color: var(--bg-primary);
-            padding: 10px 22px; border-radius: 999px;
-            font-weight: 700; font-size: 0.93rem;
-            transition: transform 200ms var(--ease), background 200ms var(--ease), box-shadow 200ms var(--ease);
+            padding: 9px 18px; border-radius: 999px;
+            font-weight: 700; font-size: 0.88rem;
+            transition: background 200ms var(--ease), transform 200ms var(--ease);
             box-shadow: 0 4px 14px rgba(139, 94, 60, 0.28);
         }
         .share-btn:hover, .share-btn:focus-visible {
             background: var(--accent-clay-deep);
             transform: translateY(-1px);
         }
-        .share-btn svg { width: 16px; height: 16px; fill: currentColor; }
+        .share-btn svg { width: 14px; height: 14px; fill: currentColor; }
 
-        /* ─── DESKTOP TWO-PAGE SPREAD ─── */
-        @media (min-width: 900px) {
-            .spreads { min-height: 640px; }
-            .book-frame { min-height: 640px; }
-            .spread {
-                grid-template-columns: 1fr 1fr;
-            }
-            /* RTL reading order: right page first (image), then left page (content) */
-            .page.page-image { order: 1; min-height: 640px; }
-            .page.page-content { order: 2; min-height: 640px; padding: 36px 36px 44px; }
-            .page.page-image .img-wrap {
-                aspect-ratio: auto;
-                height: 100%;
-            }
-            /* Spine in the middle */
-            .book-frame::before {
-                content: "";
-                position: absolute;
-                top: 0; bottom: 0; left: 50%;
-                width: 22px;
-                transform: translateX(-50%);
-                background: linear-gradient(
-                    90deg,
-                    rgba(139, 94, 60, 0) 0%,
-                    rgba(139, 94, 60, 0.18) 35%,
-                    rgba(139, 94, 60, 0.32) 50%,
-                    rgba(139, 94, 60, 0.18) 65%,
-                    rgba(139, 94, 60, 0) 100%
-                );
-                pointer-events: none;
-                z-index: 3;
-            }
-        }
-
-        /* ─── NAVIGATION ─── */
-        .book-nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            max-width: 1080px;
-            margin: 14px auto 22px;
-            padding: 0 16px;
-        }
-        .nav-btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: var(--accent-clay);
+        /* Hard cover page styling */
+        .pg-cover {
+            position: relative;
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            background:
+                radial-gradient(ellipse at center, rgba(255,255,255,0.06) 0%, transparent 70%),
+                linear-gradient(135deg, var(--accent-clay) 0%, var(--accent-clay-deep) 100%);
             color: var(--bg-primary);
-            padding: 11px 18px;
-            border-radius: 999px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            transition: transform 200ms var(--ease), background 200ms var(--ease), opacity 200ms var(--ease);
-            box-shadow: 0 4px 14px rgba(139, 94, 60, 0.28);
-            min-width: 44px;
-            min-height: 44px;
+            padding: 24px;
+            text-align: center;
         }
-        .nav-btn:hover, .nav-btn:focus-visible {
-            background: var(--accent-clay-deep);
-            transform: translateY(-1px);
+        .pg-cover img {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover; opacity: 0.55;
         }
-        .nav-btn[disabled] {
-            opacity: 0.35;
-            cursor: not-allowed;
-            pointer-events: none;
+        .pg-cover .cover-title {
+            position: relative;
+            z-index: 2;
         }
-        .nav-btn svg { width: 16px; height: 16px; fill: currentColor; }
+        .pg-cover .cover-title h2 {
+            font-family: 'Frank Ruhl Libre', serif; font-weight: 900;
+            font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+            color: var(--bg-primary);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            margin-bottom: 8px;
+        }
+        .pg-cover .cover-title .sub {
+            display: block;
+            font-family: 'Heebo', sans-serif; font-weight: 500;
+            font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+            letter-spacing: 0.12em;
+            color: var(--bg-primary);
+            opacity: 0.9;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+        }
 
+        /* ─── BOOK STATUS / HINT ─── */
+        .book-status {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 4px;
+            margin: 8px auto 12px;
+            padding: 0 16px;
+            text-align: center;
+        }
         .page-indicator {
             font-family: 'Frank Ruhl Libre', serif;
             font-weight: 500;
             color: var(--accent-clay-deep);
             font-size: 0.95rem;
-            letter-spacing: 0.05em;
-            min-width: 70px;
-            text-align: center;
         }
         .page-indicator strong {
-            font-weight: 900;
-            color: var(--accent-clay);
+            font-weight: 900; color: var(--accent-clay);
             font-size: 1.15rem;
         }
+        .flip-hint {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            opacity: 0.75;
+            letter-spacing: 0.02em;
+        }
+        /* Clickable flip zones overlaying book halves */
+        .book-wrap { position: relative; }
+        .flip-zone {
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 18%;
+            min-width: 60px;
+            z-index: 5;
+            cursor: pointer;
+            background: transparent;
+            border: 0;
+            padding: 0;
+        }
+        .flip-zone.flip-right { right: 0; }
+        .flip-zone.flip-left  { left: 0; }
+        .flip-zone::after {
+            content: "";
+            position: absolute;
+            top: 50%; transform: translateY(-50%);
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: rgba(139, 94, 60, 0.12);
+            border: 1.5px solid rgba(139, 94, 60, 0.25);
+            opacity: 0;
+            transition: opacity 220ms var(--ease);
+        }
+        .flip-zone.flip-right::after { right: 8px; }
+        .flip-zone.flip-left::after  { left: 8px; }
+        .flip-zone:hover::after { opacity: 1; }
+        .flip-zone::before {
+            content: "";
+            position: absolute;
+            top: 50%; transform: translateY(-50%);
+            width: 12px; height: 12px;
+            border: 2px solid var(--accent-clay);
+            border-top: 0; border-right: 0;
+            opacity: 0;
+            transition: opacity 220ms var(--ease);
+        }
+        .flip-zone.flip-right::before {
+            right: 20px;
+            transform: translateY(-50%) rotate(45deg); /* ◀ pointing left  */
+        }
+        .flip-zone.flip-left::before {
+            left: 20px;
+            transform: translateY(-50%) rotate(-135deg); /* ▶ pointing right */
+        }
+        .flip-zone:hover::before { opacity: 1; }
+        .flip-zone[disabled] { pointer-events: none; opacity: 0.3; }
+        .flip-zone[disabled]::after, .flip-zone[disabled]::before { display: none; }
 
-        /* Dot navigation */
         .dot-nav {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 0 auto 8px;
+            display: flex; justify-content: center; gap: 10px;
+            margin: 0 auto 10px;
             padding: 0 16px;
         }
         .dot-nav button {
@@ -500,9 +572,6 @@
             background: var(--accent-clay);
             transform: scale(1.2);
         }
-        .dot-nav button:hover {
-            background: var(--accent-gold);
-        }
 
         /* ─── FOOTER ─── */
         footer.foot {
@@ -513,18 +582,15 @@
         }
         footer.foot .thanks {
             font-family: 'Frank Ruhl Libre', serif;
-            font-size: 1.05rem;
-            font-weight: 500;
+            font-size: 1.05rem; font-weight: 500;
             color: var(--footer-accent);
             margin-bottom: 12px;
         }
         footer.foot .credit {
             font-size: 12px; opacity: 0.65;
-            letter-spacing: 0.08em;
-            line-height: 1.6;
+            letter-spacing: 0.08em; line-height: 1.6;
         }
 
-        /* ─── TOAST ─── */
         .toast {
             position: fixed; bottom: 22px; left: 50%;
             transform: translateX(-50%) translateY(20px);
@@ -539,7 +605,6 @@
         }
         .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-        /* Reduced motion */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 transition-duration: 0.01ms !important;
@@ -549,13 +614,67 @@
             .cover-stage.opening .cover-book { opacity: 0; transform: none; }
         }
 
-        /* Small phones */
-        @media (max-width: 380px) {
-            body { font-size: 16px; }
-            .intro { padding: 22px 16px 14px; }
-            .book { padding: 0 10px; }
-            .page { padding: 22px 18px 28px; }
-            .book-nav { padding: 0 12px; }
+        /* ─── MOBILE: no flipbook, vertical scroll cards ─── */
+        @media (max-width: 899px) {
+            .book-wrap {
+                padding: 12px 14px 8px;
+                align-items: stretch;
+            }
+            .flipbook {
+                transform: none !important;
+                box-shadow: none !important;
+                background: transparent !important;
+                width: 100% !important;
+                height: auto !important;
+                display: flex; flex-direction: column;
+                gap: 22px;
+                border-radius: 0;
+                max-width: 460px;
+                margin: 0 auto;
+            }
+            .flipbook .pg,
+            .flipbook .pg-cover { transform: none !important; }
+            .flipbook .page {
+                position: relative !important;
+                inset: auto !important;
+                width: 100% !important;
+                height: auto !important;
+                border-radius: 16px;
+                box-shadow: var(--shadow-page);
+                scroll-margin-top: 12px;
+            }
+            .flipbook .hard { display: none; }
+            .pg { height: auto; overflow: visible; }
+            .pg-combined { display: flex; flex-direction: column; }
+            .pg-img-half {
+                flex: 0 0 auto;
+                height: 220px;
+                min-height: 0; max-height: none;
+            }
+            .pg-content-half {
+                flex: 0 0 auto;
+                overflow: visible;
+                padding: 18px 20px 18px;
+            }
+            .pg-content-half .scrollable {
+                overflow: visible;
+                flex: 0 0 auto;
+                padding-left: 0;
+                -webkit-mask-image: none;
+                        mask-image: none;
+            }
+            .pg-content-half .page-num { display: none; }
+            .flip-zone { display: none !important; }
+            .book-status .flip-hint { display: none; }
+            .pg-content-half ul, .pg-content-half ol {
+                font-size: 0.9rem;
+                line-height: 1.55;
+            }
+            .pg-content-half ul li, .pg-content-half ol li { margin-bottom: 4px; }
+            .pg-content-half h3 { font-size: 1rem; margin: 10px 0 6px; }
+            .pg-content-half .recipe-name { font-size: 1.3rem; }
+            .pg-content-half .recipe-dedication { font-size: 0.82rem; margin-bottom: 10px; padding-bottom: 8px; }
+            .pg-content-half .share-btn { padding: 9px 18px; font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -582,39 +701,31 @@
 
         <header class="brand" aria-label="חסויות הפרויקט">
             <div class="container">
-                <img src="images/maganim-center.webp" alt="מגנים על העורף - מרכז חוסן קהילתי - מחוז חיפה" class="brand-logo" width="120" height="120" loading="eager" decoding="async">
-                <img src="images/oref-haifa.webp" alt="פיקוד העורף - מחוז חיפה" class="brand-logo" width="120" height="120" loading="eager" decoding="async">
-                <img src="images/shaagat-hari-logo.webp" alt="שאגת הארי" class="brand-logo" width="120" height="120" loading="eager" decoding="async">
+                <img src="images/maganim-center.webp" alt="מרכז חוסן קהילתי - מחוז חיפה" class="brand-logo" loading="eager" decoding="async">
+                <img src="images/oref-haifa.webp" alt="פיקוד העורף - מחוז חיפה" class="brand-logo" loading="eager" decoding="async">
+                <img src="images/shaagat-hari-logo.webp" alt="שאגת הארי" class="brand-logo" loading="eager" decoding="async">
             </div>
         </header>
 
         <section class="intro">
             <h1>מהמטבחים שלנו</h1>
             <span class="holiday">שבועות תשפ״ו · מנשות מילואים</span>
-            <span class="sep" aria-hidden="true"></span>
         </section>
 
-        <section class="book" aria-label="ספר מתכונים">
-            <div class="book-frame">
-                <div class="spreads" id="spreads">
-                    <p style="padding:40px;text-align:center;color:var(--text-secondary)">טוענים את הספר…</p>
-                </div>
+        <div class="book-wrap">
+            <div class="flipbook" id="flipbook" aria-label="ספר מתכונים">
+                <!-- pages injected by JS -->
             </div>
-        </section>
+            <button type="button" class="flip-zone flip-right" id="flipRight" aria-label="העמוד הקודם" title="הקודם"></button>
+            <button type="button" class="flip-zone flip-left" id="flipLeft" aria-label="העמוד הבא" title="הבא"></button>
+        </div>
 
-        <nav class="book-nav" aria-label="ניווט בספר">
-            <button class="nav-btn" id="navPrev" aria-label="המתכון הקודם">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
-                <span>הקודם</span>
-            </button>
-            <span class="page-indicator" id="pageIndicator" aria-live="polite">
-                <strong id="curPage">–</strong> / <span id="totalPages">–</span>
+        <div class="book-status" aria-label="ניווט בספר">
+            <span class="page-indicator" aria-live="polite">
+                מתכון <strong id="curRecipe">–</strong> מתוך <span id="totalRecipes">–</span>
             </span>
-            <button class="nav-btn" id="navNext" aria-label="המתכון הבא">
-                <span>הבא</span>
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
-            </button>
-        </nav>
+            <span class="flip-hint" aria-hidden="true">הקליקי או גררי את הדף לצד השני ↔</span>
+        </div>
 
         <div class="dot-nav" id="dotNav" aria-label="קפיצה ישירה למתכון"></div>
 
@@ -626,6 +737,8 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+    <script src="vendor/jquery.min.js"></script>
+    <script src="vendor/turn.min.js"></script>
     <script>
         (function () {
             'use strict';
@@ -634,26 +747,38 @@
             const STORAGE_KEY = 'mitbachot-shavuot-cover-shown';
 
             const stage = document.getElementById('coverStage');
-            const book = document.getElementById('coverBook');
+            const coverEl = document.getElementById('coverBook');
             const pageWrap = document.getElementById('pageWrap');
-            const spreadsEl = document.getElementById('spreads');
+            const flipbook = document.getElementById('flipbook');
             const dotNav = document.getElementById('dotNav');
-            const navPrev = document.getElementById('navPrev');
-            const navNext = document.getElementById('navNext');
-            const curPageEl = document.getElementById('curPage');
-            const totalPagesEl = document.getElementById('totalPages');
+            const flipRightEl = document.getElementById('flipRight');
+            const flipLeftEl = document.getElementById('flipLeft');
+            const curRecipeEl = document.getElementById('curRecipe');
+            const totalRecipesEl = document.getElementById('totalRecipes');
             const toastEl = document.getElementById('toast');
 
             const initialHashId = parseRecipeHash();
             const seenThisSession = sessionStorage.getItem(STORAGE_KEY) === '1';
 
             let recipes = [];
-            let currentIdx = 0;
-            let isAnimating = false;
+            let totalPages = 0;
+            let isMobile = window.innerWidth < 900;
 
             function parseRecipeHash() {
                 const m = /^#recipe-(\d+)$/.exec(location.hash || '');
                 return m ? parseInt(m[1], 10) : null;
+            }
+
+            /* On mobile: 1 page per recipe (image+content combined). On desktop: 2 pages per recipe (image+content split, paired in spread). */
+            function recipeFirstPage(idx) {
+                return isMobile ? 2 + idx : 2 + idx * 2;
+            }
+            function pageToRecipeIdx(page) {
+                if (page < 2) return -1;
+                const stride = isMobile ? 1 : 2;
+                const i = Math.floor((page - 2) / stride);
+                if (i < 0 || i >= recipes.length) return -1;
+                return i;
             }
 
             /* ─── Cover animation ─── */
@@ -661,6 +786,7 @@
                 document.body.classList.add('skip-animation');
                 stage.setAttribute('aria-hidden', 'true');
                 pageWrap.classList.add('visible');
+                requestAnimationFrame(boot);
             }
             function openCover() {
                 if (stage.classList.contains('opening')) return;
@@ -670,6 +796,7 @@
                     stage.classList.add('hidden');
                     stage.style.display = 'none';
                     pageWrap.classList.add('visible');
+                    requestAnimationFrame(boot);
                 }, 820);
             }
             if (initialHashId !== null || seenThisSession) {
@@ -677,8 +804,8 @@
             } else {
                 requestAnimationFrame(() => stage.classList.add('ready'));
                 const autoTimer = setTimeout(openCover, COVER_AUTO_OPEN_MS);
-                book.addEventListener('click', () => { clearTimeout(autoTimer); openCover(); });
-                book.addEventListener('keydown', (e) => {
+                coverEl.addEventListener('click', () => { clearTimeout(autoTimer); openCover(); });
+                coverEl.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
                         clearTimeout(autoTimer);
@@ -712,168 +839,323 @@
                     return `<li${cls}>${escapeHtml(item)}</li>`;
                 }).join('');
             }
-            function renderSpread(r, index) {
-                const pageNum = String(index + 1).padStart(2, '0');
-                const ingredientsHtml = renderIngredients(r.ingredients || []);
-                const instructionsHtml = (r.instructions || []).map(s => `<li>${escapeHtml(s)}</li>`).join('');
-                return `
-                <article class="spread recipe" data-recipe-id="${r.id}" data-recipe-family="${escapeHtml(r.family)}" id="recipe-${r.id}" aria-hidden="true">
-                    <div class="page page-image">
-                        <div class="img-wrap">
-                            <img src="images/${escapeHtml(r.image)}" alt="${escapeHtml(r.name)}" loading="${index < 2 ? 'eager' : 'lazy'}" decoding="async">
+
+            function buildPages() {
+                isMobile = window.innerWidth < 900;
+                const parts = [];
+
+                /* Page 1: Hard front cover */
+                parts.push(`
+                    <div class="hard">
+                      <div class="pg-cover">
+                        <img src="images/cover.webp" alt="">
+                        <div class="cover-title">
+                          <h2>מהמטבחים שלנו</h2>
+                          <span class="sub">שבועות תשפ״ו</span>
                         </div>
+                      </div>
                     </div>
-                    <div class="page page-content">
-                        <span class="page-num">— ${pageNum} —</span>
-                        <h2 class="recipe-name">${escapeHtml(r.name)}</h2>
-                        <p class="recipe-dedication">${escapeHtml(r.dedication)}</p>
-                        <h3>רכיבים</h3>
-                        <ul>${ingredientsHtml}</ul>
-                        <h3>הכנה</h3>
-                        <ol>${instructionsHtml}</ol>
-                        <div class="recipe-share">
-                            <button class="share-btn" data-share data-name="${escapeHtml(r.name)}" data-family="${escapeHtml(r.family)}" data-id="${r.id}">
+                `);
+
+                /* MOBILE: each recipe = 1 combined page (image + content). DESKTOP: each recipe = 2-page spread (content LEFT, image RIGHT). */
+                recipes.forEach((r, i) => {
+                    const num = String(i + 1).padStart(2, '0');
+                    if (isMobile) {
+                        parts.push(`
+                            <div class="page" data-recipe-id="${r.id}" id="recipe-${r.id}">
+                              <div class="pg pg-combined">
+                                <div class="pg-img-half">
+                                  <img src="images/${escapeHtml(r.image)}" alt="${escapeHtml(r.name)}" loading="${i < 2 ? 'eager' : 'lazy'}" decoding="async">
+                                </div>
+                                <div class="pg-content-half">
+                                  <span class="page-num">— ${num} —</span>
+                                  <h2 class="recipe-name">${escapeHtml(r.name)}</h2>
+                                  <p class="recipe-dedication">${escapeHtml(r.dedication)}</p>
+                                  <div class="scrollable">
+                                    <h3>רכיבים</h3>
+                                    <ul>${renderIngredients(r.ingredients || [])}</ul>
+                                    <h3>הכנה</h3>
+                                    <ol>${(r.instructions || []).map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ol>
+                                  </div>
+                                  <div class="recipe-share">
+                                    <button class="share-btn" data-share data-name="${escapeHtml(r.name)}" data-family="${escapeHtml(r.family)}" data-id="${r.id}">
+                                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z"/></svg>
+                                      <span>שתפי את המתכון</span>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        `);
+                        return;
+                    }
+                    /* DESKTOP: CONTENT page first (even/LEFT in spread) */
+                    parts.push(`
+                        <div class="page" data-recipe-id="${r.id}" data-pg-type="content">
+                          <div class="pg pg-content">
+                            <span class="page-num">— ${num} —</span>
+                            <h2 class="recipe-name">${escapeHtml(r.name)}</h2>
+                            <p class="recipe-dedication">${escapeHtml(r.dedication)}</p>
+                            <div class="scrollable">
+                              <h3>רכיבים</h3>
+                              <ul>${renderIngredients(r.ingredients || [])}</ul>
+                              <h3>הכנה</h3>
+                              <ol>${(r.instructions || []).map(s => `<li>${escapeHtml(s)}</li>`).join('')}</ol>
+                            </div>
+                            <div class="recipe-share">
+                              <button class="share-btn" data-share data-name="${escapeHtml(r.name)}" data-family="${escapeHtml(r.family)}" data-id="${r.id}">
                                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z"/></svg>
                                 <span>שתפי את המתכון</span>
-                            </button>
+                              </button>
+                            </div>
+                          </div>
                         </div>
+                    `);
+                    /* IMAGE page second → RIGHT in RTL spread (read first) */
+                    parts.push(`
+                        <div class="page" data-recipe-id="${r.id}" data-pg-type="image" id="recipe-${r.id}">
+                          <div class="pg pg-image">
+                            <div class="img-wrap">
+                              <img src="images/${escapeHtml(r.image)}" alt="${escapeHtml(r.name)}" loading="${i < 1 ? 'eager' : 'lazy'}" decoding="async">
+                            </div>
+                          </div>
+                        </div>
+                    `);
+                });
+
+                /* Last page: Hard back cover */
+                parts.push(`
+                    <div class="hard">
+                      <div class="pg" style="display:flex;align-items:center;justify-content:center;text-align:center;font-family:'Frank Ruhl Libre',serif;color:var(--accent-clay-deep);">
+                        <p style="font-size:1rem;line-height:1.7;padding:0 18px;opacity:.85;">תודה לכל המשפחות<br>שתרמו מהמטבח שלהן ❤️<br><span style="color:var(--accent-gold);font-size:1.3rem;">✦</span></p>
+                      </div>
                     </div>
-                </article>`;
+                `);
+
+                flipbook.innerHTML = parts.join('');
+                totalPages = isMobile ? (2 + recipes.length) : (2 + recipes.length * 2);
             }
-            function renderAll() {
-                spreadsEl.innerHTML = recipes.map(renderSpread).join('');
-                renderDots();
-                totalPagesEl.textContent = recipes.length;
-            }
+
             function renderDots() {
                 dotNav.innerHTML = recipes.map((r, i) =>
                     `<button type="button" data-go="${i}" aria-label="עבור למתכון ${i + 1}: ${escapeHtml(r.name)}"></button>`
                 ).join('');
             }
 
-            /* ─── Navigation ─── */
-            function setActive(idx, direction) {
-                idx = Math.max(0, Math.min(recipes.length - 1, idx));
-                const spreads = spreadsEl.querySelectorAll('.spread');
-                const initialMount = !spreadsEl.querySelector('.spread.active');
-                if (idx === currentIdx && !initialMount) return;
-                if (isAnimating && !initialMount) return;
+            /* ─── Size computation for turn.js ─── */
+            function computeSize() {
+                const wrap = document.querySelector('.book-wrap');
+                const vw = Math.max(320, wrap.clientWidth - 24);
+                let isDouble = window.innerWidth >= 900;
+                const vh = isDouble
+                    ? Math.max(360, window.innerHeight - 320)
+                    : Math.max(440, window.innerHeight - 220);
+                let pageW, pageH;
+                if (isDouble) {
+                    pageW = Math.min(420, Math.floor(vw / 2));
+                    pageH = Math.min(580, Math.floor(pageW * 1.38));
+                    /* fit height */
+                    if (pageH > vh) { pageH = vh; pageW = Math.floor(pageH / 1.38); }
+                } else {
+                    pageW = Math.min(380, vw);
+                    /* Taller pages on mobile so image + full recipe fit together */
+                    pageH = Math.min(720, Math.floor(pageW * 1.75));
+                    if (pageH > vh) pageH = vh;
+                }
+                return {
+                    width: isDouble ? pageW * 2 : pageW,
+                    height: pageH,
+                    display: isDouble ? 'double' : 'single'
+                };
+            }
 
-                const prevSpread = spreads[currentIdx];
-                const nextSpread = spreads[idx];
-                if (!nextSpread) return;
+            /* ─── Turn.js init (desktop) / scroll nav (mobile) ─── */
+            let turnReady = false;
+            let mobileObserver = null;
+            let currentMobileIdx = 0;
 
-                /* First mount: just show, no animation */
-                if (initialMount || !direction) {
-                    spreads.forEach(s => {
-                        s.classList.remove('active', 'flipping', 'flip-out-fwd', 'flip-out-bwd');
-                        s.setAttribute('aria-hidden', 'true');
+            function initMobileNav() {
+                if (flipRightEl) flipRightEl.style.display = 'none';
+                if (flipLeftEl) flipLeftEl.style.display = 'none';
+
+                if (mobileObserver) { mobileObserver.disconnect(); mobileObserver = null; }
+                const cards = flipbook.querySelectorAll('.page[data-recipe-id]');
+                mobileObserver = new IntersectionObserver((entries) => {
+                    /* Pick the most-visible entry */
+                    let best = null;
+                    entries.forEach(e => {
+                        if (!best || e.intersectionRatio > best.intersectionRatio) best = e;
                     });
-                    nextSpread.classList.add('active');
-                    nextSpread.setAttribute('aria-hidden', 'false');
-                    currentIdx = idx;
-                    updateChrome();
+                    if (!best || best.intersectionRatio <= 0) return;
+                    const id = parseInt(best.target.dataset.recipeId, 10);
+                    const idx = recipes.findIndex(r => r.id === id);
+                    if (idx < 0) return;
+                    currentMobileIdx = idx;
+                    curRecipeEl.textContent = idx + 1;
+                    dotNav.querySelectorAll('button').forEach((b, i) => {
+                        b.classList.toggle('active', i === idx);
+                    });
+                    if (location.hash !== `#recipe-${id}`) {
+                        history.replaceState(null, '', `#recipe-${id}`);
+                    }
+                }, { threshold: [0.35, 0.6] });
+                cards.forEach(c => mobileObserver.observe(c));
+            }
+
+            function initTurn() {
+                if (isMobile) {
+                    initMobileNav();
                     return;
                 }
-
-                isAnimating = true;
-
-                /* Clear stale flip classes from spreads that aren't involved */
-                spreads.forEach(s => {
-                    if (s !== prevSpread && s !== nextSpread) {
-                        s.classList.remove('active', 'flipping', 'flip-out-fwd', 'flip-out-bwd');
-                        s.setAttribute('aria-hidden', 'true');
+                if (typeof $ !== 'function' || !$.fn || !$.fn.turn) {
+                    console.warn('turn.js not available');
+                    return;
+                }
+                const size = computeSize();
+                const $fb = $(flipbook);
+                $fb.turn({
+                    width: size.width,
+                    height: size.height,
+                    autoCenter: true,
+                    direction: 'ltr',
+                    display: size.display,
+                    acceleration: true,
+                    gradients: true,
+                    elevation: 50,
+                    duration: 900,
+                    when: {
+                        turning: function (e, page) {
+                            updateChrome(page);
+                        },
+                        turned: function (e, page) {
+                            updateChrome(page);
+                            syncHash(page);
+                        }
                     }
                 });
-
-                /* Reveal the NEXT spread under the flipping page (z-index 2) */
-                nextSpread.classList.add('active');
-                nextSpread.setAttribute('aria-hidden', 'false');
-
-                /* Keep .active on prev so it stays visible at z-index 2 too — then .flipping bumps it to z-index 3 and the rotateY transition animates over 820ms */
-                if (prevSpread) {
-                    prevSpread.classList.add('flipping');
-                    void prevSpread.offsetWidth; /* commit the starting rotateY(0) state */
-                    requestAnimationFrame(() => {
-                        prevSpread.classList.add(direction === 'next' ? 'flip-out-fwd' : 'flip-out-bwd');
-                    });
-                }
-
-                currentIdx = idx;
-                updateChrome();
-
-                setTimeout(() => {
-                    if (prevSpread) {
-                        prevSpread.classList.remove('active', 'flipping', 'flip-out-fwd', 'flip-out-bwd');
-                        prevSpread.setAttribute('aria-hidden', 'true');
-                    }
-                    isAnimating = false;
-                }, 840);
+                turnReady = true;
+                if (flipRightEl) flipRightEl.style.display = 'block';
+                if (flipLeftEl) flipLeftEl.style.display = 'block';
+                updateChrome($fb.turn('page'));
             }
 
-            function updateChrome() {
-                curPageEl.textContent = currentIdx + 1;
-                navPrev.toggleAttribute('disabled', currentIdx === 0);
-                navNext.toggleAttribute('disabled', currentIdx === recipes.length - 1);
+            /* Resize handler — rebuild when crossing the mobile/desktop breakpoint */
+            let rTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(rTimer);
+                rTimer = setTimeout(() => {
+                    const newIsMobile = window.innerWidth < 900;
+                    if (newIsMobile !== isMobile) {
+                        let curIdx;
+                        if (turnReady) {
+                            try { curIdx = pageToRecipeIdx($(flipbook).turn('page')); } catch (e) {}
+                            try { $(flipbook).turn('destroy'); } catch (e) {}
+                            turnReady = false;
+                        } else {
+                            curIdx = currentMobileIdx;
+                        }
+                        if (mobileObserver) { mobileObserver.disconnect(); mobileObserver = null; }
+                        isMobile = newIsMobile;
+                        buildPages();
+                        initTurn();
+                        if (curIdx >= 0 && curIdx < recipes.length) {
+                            setTimeout(() => {
+                                if (isMobile) goRecipeMobile(curIdx, false);
+                                else { try { $(flipbook).turn('page', recipeFirstPage(curIdx)); } catch (e) {} }
+                            }, 100);
+                        }
+                        return;
+                    }
+                    if (turnReady) {
+                        const s = computeSize();
+                        try {
+                            $(flipbook).turn('size', s.width, s.height);
+                            $(flipbook).turn('display', s.display);
+                        } catch (e) { console.warn(e); }
+                    }
+                }, 200);
+            });
+
+            function goRecipeMobile(idx, smooth = true) {
+                if (idx < 0 || idx >= recipes.length) return;
+                const id = recipes[idx].id;
+                const el = document.getElementById(`recipe-${id}`);
+                if (el) el.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+            }
+
+            function updateChrome(page) {
+                const idx = pageToRecipeIdx(page);
+                if (idx >= 0) {
+                    curRecipeEl.textContent = idx + 1;
+                } else {
+                    curRecipeEl.textContent = '–';
+                }
+                /* LTR: flipRight = next (disabled at last page), flipLeft = prev (disabled at first) */
+                if (flipRightEl) flipRightEl.toggleAttribute('disabled', page >= totalPages);
+                if (flipLeftEl) flipLeftEl.toggleAttribute('disabled', page <= 1);
                 dotNav.querySelectorAll('button').forEach((b, i) => {
-                    b.classList.toggle('active', i === currentIdx);
+                    b.classList.toggle('active', i === idx);
                 });
-                const id = recipes[currentIdx]?.id;
-                if (id !== undefined && location.hash !== `#recipe-${id}`) {
-                    history.replaceState(null, '', `#recipe-${id}`);
-                }
-            }
-            function go(delta) {
-                const newIdx = currentIdx + delta;
-                if (newIdx < 0 || newIdx >= recipes.length) return;
-                setActive(newIdx, delta > 0 ? 'next' : 'prev');
             }
 
-            /* ─── Wire up controls ─── */
+            function syncHash(page) {
+                const idx = pageToRecipeIdx(page);
+                if (idx >= 0) {
+                    const id = recipes[idx]?.id;
+                    if (id !== undefined && location.hash !== `#recipe-${id}`) {
+                        history.replaceState(null, '', `#recipe-${id}`);
+                    }
+                } else if (location.hash) {
+                    history.replaceState(null, '', location.pathname);
+                }
+            }
+
+            /* ─── Controls ─── */
+            function goPrev() {
+                if (isMobile) { goRecipeMobile(currentMobileIdx - 1); return; }
+                if (!turnReady) return;
+                const $fb = $(flipbook);
+                const cur = $fb.turn('page');
+                const idx = pageToRecipeIdx(cur);
+                if (idx > 0) $fb.turn('page', recipeFirstPage(idx - 1));
+                else $fb.turn('previous');
+            }
+            function goNext() {
+                if (isMobile) { goRecipeMobile(currentMobileIdx + 1); return; }
+                if (!turnReady) return;
+                const $fb = $(flipbook);
+                const cur = $fb.turn('page');
+                const idx = pageToRecipeIdx(cur);
+                if (idx >= 0 && idx < recipes.length - 1) $fb.turn('page', recipeFirstPage(idx + 1));
+                else $fb.turn('next');
+            }
+
             function wireControls() {
-                navPrev.addEventListener('click', () => go(-1));
-                navNext.addEventListener('click', () => go(1));
+                /* With CSS mirror on the flipbook, visual-right of book = next, visual-left = prev */
+                if (flipRightEl) flipRightEl.addEventListener('click', goNext);
+                if (flipLeftEl) flipLeftEl.addEventListener('click', goPrev);
+
                 dotNav.addEventListener('click', (e) => {
                     const b = e.target.closest('button[data-go]');
                     if (!b) return;
-                    const target = parseInt(b.dataset.go, 10);
-                    setActive(target, target > currentIdx ? 'next' : 'prev');
+                    const idx = parseInt(b.dataset.go, 10);
+                    if (isMobile) goRecipeMobile(idx);
+                    else if (turnReady) $(flipbook).turn('page', recipeFirstPage(idx));
                 });
 
-                /* Keyboard navigation (RTL: ArrowRight = prev, ArrowLeft = next) */
+                /* Keyboard - LTR book: Right=next, Left=prev */
                 document.addEventListener('keydown', (e) => {
-                    if (stage && !stage.classList.contains('hidden') && stage.style.display !== 'none') return;
+                    if (stage && stage.style.display !== 'none' && !stage.classList.contains('hidden')) return;
                     if (e.target.closest('input, textarea, [contenteditable]')) return;
-                    if (e.key === 'ArrowRight') { e.preventDefault(); go(-1); }
-                    else if (e.key === 'ArrowLeft') { e.preventDefault(); go(1); }
+                    if (e.key === 'ArrowLeft') { e.preventDefault(); goPrev(); }
+                    else if (e.key === 'ArrowRight') { e.preventDefault(); goNext(); }
                 });
 
-                /* Touch swipe */
-                let startX = null, startY = null;
-                const swipeArea = document.querySelector('.book');
-                if (swipeArea) {
-                    swipeArea.addEventListener('touchstart', (e) => {
-                        if (e.touches.length !== 1) return;
-                        startX = e.touches[0].clientX;
-                        startY = e.touches[0].clientY;
-                    }, { passive: true });
-                    swipeArea.addEventListener('touchend', (e) => {
-                        if (startX === null) return;
-                        const t = e.changedTouches[0];
-                        const dx = t.clientX - startX;
-                        const dy = t.clientY - startY;
-                        startX = null;
-                        if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return;
-                        /* RTL: swipe-right = prev (previous is to the right), swipe-left = next */
-                        if (dx > 0) go(-1);
-                        else go(1);
-                    }, { passive: true });
-                }
-
-                /* Share buttons */
-                spreadsEl.addEventListener('click', async (e) => {
+                /* Share */
+                flipbook.addEventListener('click', async (e) => {
                     const btn = e.target.closest('[data-share]');
                     if (!btn) return;
+                    e.stopPropagation();
                     const id = btn.dataset.id;
                     const family = btn.dataset.family;
                     const url = `${location.origin}${location.pathname}#recipe-${id}`;
@@ -899,30 +1181,35 @@
             }
 
             /* ─── Boot ─── */
-            fetch('recipes.json', { cache: 'no-cache' })
-                .then(r => {
-                    if (!r.ok) throw new Error('failed to load recipes.json');
-                    return r.json();
-                })
-                .then(data => {
-                    if (!data || !Array.isArray(data.recipes) || data.recipes.length === 0) {
-                        throw new Error('invalid recipes.json');
-                    }
-                    recipes = data.recipes;
-                    renderAll();
-                    wireControls();
-
-                    let startIdx = 0;
-                    if (initialHashId !== null) {
-                        const idx = recipes.findIndex(r => r.id === initialHashId);
-                        if (idx >= 0) startIdx = idx;
-                    }
-                    setActive(startIdx, null);
-                })
-                .catch(err => {
-                    console.error(err);
-                    spreadsEl.innerHTML = '<p style="padding:40px;text-align:center;color:var(--text-secondary)">לא הצלחנו לטעון את המתכונים. רעננו את הדף ונסו שוב.</p>';
-                });
+            function boot() {
+                fetch('recipes.json', { cache: 'no-cache' })
+                    .then(r => { if (!r.ok) throw new Error('failed'); return r.json(); })
+                    .then(data => {
+                        if (!data || !Array.isArray(data.recipes) || data.recipes.length === 0) {
+                            throw new Error('invalid');
+                        }
+                        recipes = data.recipes;
+                        totalRecipesEl.textContent = recipes.length;
+                        buildPages();
+                        renderDots();
+                        wireControls();
+                        initTurn();
+                        /* Jump to anchored recipe if any */
+                        if (initialHashId !== null) {
+                            const idx = recipes.findIndex(r => r.id === initialHashId);
+                            if (idx >= 0) {
+                                setTimeout(() => {
+                                    if (isMobile) goRecipeMobile(idx, false);
+                                    else { try { $(flipbook).turn('page', recipeFirstPage(idx)); } catch (e) {} }
+                                }, 100);
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        console.error(err);
+                        flipbook.innerHTML = '<div class="page"><div class="pg" style="display:flex;align-items:center;justify-content:center;text-align:center;color:var(--text-secondary);padding:40px;">לא הצלחנו לטעון את המתכונים. רעננו את הדף ונסו שוב.</div></div>';
+                    });
+            }
         })();
     </script>
 </body>
