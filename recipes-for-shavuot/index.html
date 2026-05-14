@@ -1,0 +1,930 @@
+<!--
+  Live:  https://megenimoref.github.io/LandingPages/recipes-for-shavuot/
+  Local: http://127.0.0.1:8080/recipes-for-shavuot/
+  GA:    https://analytics.google.com/analytics/web/#/a351596902p494681343/reports/reportinghub
+-->
+
+<!doctype html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#8B5E3C">
+
+    <title>מהמטבחים שלנו · שבועות תשפ"ו</title>
+    <meta name="description" content="ספר מתכונים דיגיטלי לשבועות תשפ&quot;ו, ממשפחות גדודי המילואים בישראל. אוסף מתכונים מהבית, מוקדש לנשות מילואים.">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="he_IL">
+    <meta property="og:site_name" content="מהמטבחים שלנו">
+    <meta property="og:title" content="מהמטבחים שלנו · מתכוני שבועות מנשות מילואים">
+    <meta property="og:description" content="אוסף מתכונים מהבית, ממשפחות גדודי המילואים בישראל">
+    <meta property="og:image" content="images/og-cover.webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="ספר מתכונים לשבועות - מהמטבחים שלנו">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="מהמטבחים שלנו · מתכוני שבועות מנשות מילואים">
+    <meta name="twitter:description" content="אוסף מתכונים מהבית, ממשפחות גדודי המילואים בישראל">
+    <meta name="twitter:image" content="images/og-cover.webp">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XSH19K5LBZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-XSH19K5LBZ');
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="image" href="images/cover.webp">
+    <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-primary: #F5EFE6;
+            --bg-card: #FBF7F0;
+            --bg-page: #FAF4E7;
+            --text-primary: #2C2416;
+            --text-secondary: #5C4E3D;
+            --accent-clay: #8B5E3C;
+            --accent-clay-deep: #6B4327;
+            --accent-olive: #6B7F4F;
+            --accent-gold: #C9A961;
+            --border-soft: #E8DFD0;
+            --spine: #C9B391;
+            --shadow-page: 0 6px 24px rgba(44, 36, 22, 0.16);
+            --shadow-book: 0 30px 60px rgba(44, 36, 22, 0.24), 0 10px 24px rgba(44, 36, 22, 0.14);
+            --shadow-cover: 0 30px 60px rgba(44, 36, 22, 0.32), 0 10px 20px rgba(44, 36, 22, 0.22);
+            --footer-bg: #1A1410;
+            --footer-text: #F5EFE6;
+            --footer-accent: #FFC107;
+            --radius: 14px;
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Heebo', -apple-system, system-ui, sans-serif;
+            font-size: 17px;
+            line-height: 1.7;
+            color: var(--text-primary);
+            background: var(--bg-primary);
+            background-image:
+                url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.55  0 0 0 0 0.37  0 0 0 0 0.23  0 0 0 0.04 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+            overflow-x: hidden;
+            min-height: 100vh;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        img { max-width: 100%; display: block; }
+        h1, h2, h3 { font-family: 'Frank Ruhl Libre', 'Heebo', serif; color: var(--text-primary); line-height: 1.2; }
+        button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+        a { color: inherit; }
+
+        /* ─── COVER STAGE ─── */
+        .cover-stage {
+            position: fixed; inset: 0;
+            background: var(--bg-primary);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1000;
+            perspective: 2200px;
+        }
+        .cover-stage.hidden { pointer-events: none; }
+
+        .cover-book {
+            position: relative;
+            width: min(70vw, 320px);
+            aspect-ratio: 3 / 4;
+            cursor: pointer;
+            transform-origin: right center;
+            transform-style: preserve-3d;
+            opacity: 0;
+            transform: scale(0.96);
+            transition: opacity 400ms var(--ease), transform 400ms var(--ease);
+            box-shadow: var(--shadow-cover);
+            border-radius: 6px 12px 12px 6px;
+            overflow: hidden;
+        }
+        .cover-stage.ready .cover-book { opacity: 1; transform: scale(1); }
+        .cover-stage.opening .cover-book {
+            transition: transform 800ms var(--ease), opacity 600ms ease 300ms;
+            transform: rotateY(-150deg);
+            opacity: 0;
+        }
+        .cover-book img { width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
+        .cover-book::after {
+            content: ""; position: absolute; top: 0; bottom: 0; right: 0; width: 8px;
+            background: linear-gradient(to left, rgba(44, 36, 22, 0.28), transparent);
+            pointer-events: none;
+        }
+        .cover-title-overlay {
+            position: absolute; top: 9%; left: 0; right: 0;
+            text-align: center; padding: 0 14%;
+        }
+        .cover-title-overlay h1 {
+            font-family: 'Frank Ruhl Libre', serif; font-weight: 900;
+            font-size: clamp(1.4rem, 5.2vw, 1.9rem);
+            line-height: 1.1;
+            color: var(--accent-clay-deep);
+            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+        .cover-title-overlay .sub {
+            display: block; margin-top: 6px;
+            font-family: 'Heebo', sans-serif; font-weight: 400;
+            font-size: clamp(0.75rem, 2.4vw, 0.9rem);
+            letter-spacing: 0.12em;
+            color: var(--accent-clay);
+        }
+        .cover-hint {
+            position: absolute; bottom: 8%; left: 50%;
+            transform: translateX(-50%);
+            color: var(--bg-primary);
+            font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+            text-shadow: 0 1px 4px rgba(44, 36, 22, 0.5);
+            background: rgba(44, 36, 22, 0.5);
+            padding: 8px 16px; border-radius: 999px;
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+            display: flex; gap: 6px; align-items: center;
+            animation: pulse 1.8s ease-in-out infinite;
+            white-space: nowrap;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.9; transform: translateX(-50%) translateY(0); }
+            50% { opacity: 1; transform: translateX(-50%) translateY(-3px); }
+        }
+
+        /* ─── PAGE / BOOK ─── */
+        .page-wrap {
+            opacity: 0;
+            transition: opacity 500ms var(--ease) 100ms;
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+        }
+        .page-wrap.visible { opacity: 1; }
+        .skip-animation .cover-stage { display: none; }
+        .skip-animation .page-wrap { opacity: 1; transition: none; }
+
+        /* ─── BRAND HEADER ─── */
+        header.brand {
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-soft);
+            box-shadow: 0 2px 12px rgba(44, 36, 22, 0.06);
+        }
+        header.brand .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(14px, 4vw, 36px);
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 12px 16px;
+            flex-wrap: wrap;
+        }
+        header.brand .brand-logo {
+            height: clamp(34px, 9vw, 46px);
+            width: auto;
+            object-fit: contain;
+            display: block;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        @media (max-width: 380px) {
+            header.brand .container { gap: 12px; padding: 10px 12px; }
+        }
+
+        .intro {
+            text-align: center;
+            padding: 22px 24px 14px;
+        }
+        .intro h1 {
+            font-family: 'Frank Ruhl Libre', serif; font-weight: 900;
+            font-size: clamp(1.6rem, 4.8vw, 2.2rem);
+            color: var(--accent-clay-deep);
+        }
+        .intro .holiday {
+            font-family: 'Frank Ruhl Libre', serif; font-weight: 500;
+            font-size: clamp(0.95rem, 2.6vw, 1.1rem);
+            color: var(--accent-olive);
+            letter-spacing: 0.1em;
+            display: block;
+            margin-top: 2px;
+        }
+        .intro .sep {
+            display: block; width: 50px; height: 2px;
+            background: var(--accent-gold); margin: 14px auto 0; opacity: 0.7;
+        }
+
+        /* The Book */
+        .book {
+            flex: 1;
+            position: relative;
+            margin: 14px auto 22px;
+            width: 100%;
+            max-width: 1080px;
+            padding: 0 16px;
+            perspective: 2400px;
+        }
+
+        .book-frame {
+            position: relative;
+            background: var(--bg-page);
+            border-radius: 10px;
+            box-shadow: var(--shadow-book);
+            overflow: hidden;
+            background-image:
+                radial-gradient(ellipse at center, transparent 0%, rgba(139, 94, 60, 0.04) 100%),
+                url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.55  0 0 0 0 0.37  0 0 0 0 0.23  0 0 0 0.05 0'/></filter><rect width='100%' height='100%' filter='url(%23p)'/></svg>");
+            min-height: 560px;
+        }
+
+        .spreads {
+            position: relative;
+            width: 100%;
+            min-height: 560px;
+            transform-style: preserve-3d;
+            perspective: 2200px;
+            perspective-origin: 50% 50%;
+        }
+
+        .spread {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            opacity: 0;
+            pointer-events: none;
+            transform: rotateY(0deg);
+            transform-style: preserve-3d;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            z-index: 1;
+            /* page paper feel during flip */
+            background: var(--bg-page);
+            box-shadow: var(--shadow-page);
+        }
+        .spread.active {
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 2;
+        }
+        .spread.flipping {
+            opacity: 1;
+            z-index: 3;
+            transition: transform 820ms cubic-bezier(.55, .085, .35, 1);
+            /* subtle shadow that intensifies mid-flip */
+            box-shadow:
+                0 8px 26px rgba(44, 36, 22, 0.22),
+                0 30px 48px rgba(44, 36, 22, 0.18);
+        }
+        /* RTL forward flip: spine on right, left edge lifts up and rotates right */
+        .spread.flip-out-fwd {
+            transform-origin: right center;
+            transform: rotateY(-180deg);
+        }
+        /* RTL backward flip: mirror — spine on left, right edge lifts up and rotates left */
+        .spread.flip-out-bwd {
+            transform-origin: left center;
+            transform: rotateY(180deg);
+        }
+
+        /* Page within a spread */
+        .page {
+            position: relative;
+            padding: 26px 22px 32px;
+            background: var(--bg-page);
+            min-height: 540px;
+            display: flex;
+            flex-direction: column;
+        }
+        .page.page-image {
+            padding: 0;
+            min-height: 0;
+        }
+        .page.page-image .img-wrap {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            background: var(--border-soft);
+            overflow: hidden;
+        }
+        .page.page-image img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+
+        .page.page-content {
+            padding-top: 22px;
+        }
+
+        .page-num {
+            position: absolute;
+            top: 14px; left: 18px;
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 0.72rem;
+            color: var(--accent-gold);
+            letter-spacing: 0.2em;
+            opacity: 0.7;
+        }
+
+        .recipe-name {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-weight: 700;
+            font-size: clamp(1.35rem, 4.2vw, 1.7rem);
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            line-height: 1.2;
+        }
+        .recipe-dedication {
+            font-size: 0.88rem;
+            color: var(--accent-clay);
+            font-style: italic;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border-soft);
+        }
+        .recipe h3 {
+            font-family: 'Frank Ruhl Libre', serif; font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--accent-clay-deep);
+            margin: 16px 0 8px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .recipe h3::before {
+            content: ""; width: 16px; height: 1.5px;
+            background: var(--accent-gold);
+        }
+        .recipe ul, .recipe ol {
+            padding-right: 1.3em;
+            color: var(--text-primary);
+            font-size: 0.98rem;
+        }
+        .recipe ul li, .recipe ol li { margin-bottom: 6px; line-height: 1.55; }
+        .recipe ul li::marker { color: var(--accent-olive); }
+        .recipe ol li::marker { color: var(--accent-clay); font-weight: 700; }
+        .recipe ul li.sub-header {
+            list-style: none;
+            margin-right: -1.3em;
+            margin-top: 12px; margin-bottom: 4px;
+            font-weight: 700;
+            color: var(--accent-clay-deep);
+            font-size: 0.94rem;
+        }
+
+        .recipe-share {
+            margin-top: 22px;
+            display: flex;
+            justify-content: center;
+        }
+        .share-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--accent-clay);
+            color: var(--bg-primary);
+            padding: 10px 22px; border-radius: 999px;
+            font-weight: 700; font-size: 0.93rem;
+            transition: transform 200ms var(--ease), background 200ms var(--ease), box-shadow 200ms var(--ease);
+            box-shadow: 0 4px 14px rgba(139, 94, 60, 0.28);
+        }
+        .share-btn:hover, .share-btn:focus-visible {
+            background: var(--accent-clay-deep);
+            transform: translateY(-1px);
+        }
+        .share-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+        /* ─── DESKTOP TWO-PAGE SPREAD ─── */
+        @media (min-width: 900px) {
+            .spreads { min-height: 640px; }
+            .book-frame { min-height: 640px; }
+            .spread {
+                grid-template-columns: 1fr 1fr;
+            }
+            /* RTL reading order: right page first (image), then left page (content) */
+            .page.page-image { order: 1; min-height: 640px; }
+            .page.page-content { order: 2; min-height: 640px; padding: 36px 36px 44px; }
+            .page.page-image .img-wrap {
+                aspect-ratio: auto;
+                height: 100%;
+            }
+            /* Spine in the middle */
+            .book-frame::before {
+                content: "";
+                position: absolute;
+                top: 0; bottom: 0; left: 50%;
+                width: 22px;
+                transform: translateX(-50%);
+                background: linear-gradient(
+                    90deg,
+                    rgba(139, 94, 60, 0) 0%,
+                    rgba(139, 94, 60, 0.18) 35%,
+                    rgba(139, 94, 60, 0.32) 50%,
+                    rgba(139, 94, 60, 0.18) 65%,
+                    rgba(139, 94, 60, 0) 100%
+                );
+                pointer-events: none;
+                z-index: 3;
+            }
+        }
+
+        /* ─── NAVIGATION ─── */
+        .book-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            max-width: 1080px;
+            margin: 14px auto 22px;
+            padding: 0 16px;
+        }
+        .nav-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--accent-clay);
+            color: var(--bg-primary);
+            padding: 11px 18px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: transform 200ms var(--ease), background 200ms var(--ease), opacity 200ms var(--ease);
+            box-shadow: 0 4px 14px rgba(139, 94, 60, 0.28);
+            min-width: 44px;
+            min-height: 44px;
+        }
+        .nav-btn:hover, .nav-btn:focus-visible {
+            background: var(--accent-clay-deep);
+            transform: translateY(-1px);
+        }
+        .nav-btn[disabled] {
+            opacity: 0.35;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .nav-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+        .page-indicator {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-weight: 500;
+            color: var(--accent-clay-deep);
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+            min-width: 70px;
+            text-align: center;
+        }
+        .page-indicator strong {
+            font-weight: 900;
+            color: var(--accent-clay);
+            font-size: 1.15rem;
+        }
+
+        /* Dot navigation */
+        .dot-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 0 auto 8px;
+            padding: 0 16px;
+        }
+        .dot-nav button {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: var(--border-soft);
+            border: 2px solid var(--bg-primary);
+            transition: background 200ms var(--ease), transform 200ms var(--ease);
+            padding: 0;
+        }
+        .dot-nav button.active {
+            background: var(--accent-clay);
+            transform: scale(1.2);
+        }
+        .dot-nav button:hover {
+            background: var(--accent-gold);
+        }
+
+        /* ─── FOOTER ─── */
+        footer.foot {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            text-align: center;
+            padding: 32px 20px 28px;
+        }
+        footer.foot .thanks {
+            font-family: 'Frank Ruhl Libre', serif;
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--footer-accent);
+            margin-bottom: 12px;
+        }
+        footer.foot .credit {
+            font-size: 12px; opacity: 0.65;
+            letter-spacing: 0.08em;
+            line-height: 1.6;
+        }
+
+        /* ─── TOAST ─── */
+        .toast {
+            position: fixed; bottom: 22px; left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--text-primary); color: var(--bg-primary);
+            padding: 12px 22px; border-radius: 999px;
+            font-weight: 600; font-size: 0.95rem;
+            box-shadow: 0 12px 32px rgba(44, 36, 22, 0.3);
+            z-index: 9999;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+            max-width: calc(100vw - 32px);
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+            }
+            html { scroll-behavior: auto; }
+            .cover-stage.opening .cover-book { opacity: 0; transform: none; }
+        }
+
+        /* Small phones */
+        @media (max-width: 380px) {
+            body { font-size: 16px; }
+            .intro { padding: 22px 16px 14px; }
+            .book { padding: 0 10px; }
+            .page { padding: 22px 18px 28px; }
+            .book-nav { padding: 0 12px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Cover animation stage -->
+    <div class="cover-stage" id="coverStage" aria-hidden="true">
+        <div class="cover-book" id="coverBook" role="button" tabindex="0" aria-label="הקליקי כדי לפתוח את הספר">
+            <img src="images/cover.webp" alt="" width="900" height="1200" fetchpriority="high">
+            <div class="cover-title-overlay">
+                <h1>מהמטבחים שלנו</h1>
+                <span class="sub">שבועות תשפ״ו</span>
+            </div>
+            <span class="cover-hint" aria-hidden="true">
+                <span>✦</span>
+                <span>הקליקי לפתיחה</span>
+            </span>
+        </div>
+    </div>
+
+    <!-- Main page content -->
+    <div class="page-wrap" id="pageWrap">
+
+        <header class="brand" aria-label="חסויות הפרויקט">
+            <div class="container">
+                <img src="images/maganim-center.webp" alt="מגנים על העורף - מרכז חוסן קהילתי - מחוז חיפה" class="brand-logo" width="120" height="120" loading="eager" decoding="async">
+                <img src="images/oref-haifa.webp" alt="פיקוד העורף - מחוז חיפה" class="brand-logo" width="120" height="120" loading="eager" decoding="async">
+                <img src="images/shaagat-hari-logo.webp" alt="שאגת הארי" class="brand-logo" width="120" height="120" loading="eager" decoding="async">
+            </div>
+        </header>
+
+        <section class="intro">
+            <h1>מהמטבחים שלנו</h1>
+            <span class="holiday">שבועות תשפ״ו · מנשות מילואים</span>
+            <span class="sep" aria-hidden="true"></span>
+        </section>
+
+        <section class="book" aria-label="ספר מתכונים">
+            <div class="book-frame">
+                <div class="spreads" id="spreads">
+                    <p style="padding:40px;text-align:center;color:var(--text-secondary)">טוענים את הספר…</p>
+                </div>
+            </div>
+        </section>
+
+        <nav class="book-nav" aria-label="ניווט בספר">
+            <button class="nav-btn" id="navPrev" aria-label="המתכון הקודם">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.59 16.59 13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+                <span>הקודם</span>
+            </button>
+            <span class="page-indicator" id="pageIndicator" aria-live="polite">
+                <strong id="curPage">–</strong> / <span id="totalPages">–</span>
+            </span>
+            <button class="nav-btn" id="navNext" aria-label="המתכון הבא">
+                <span>הבא</span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 16.59 10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
+            </button>
+        </nav>
+
+        <div class="dot-nav" id="dotNav" aria-label="קפיצה ישירה למתכון"></div>
+
+        <footer class="foot">
+            <p class="thanks">תודה לכל המשפחות שתרמו מהמטבח שלהן ❤️</p>
+            <p class="credit">מהמטבחים שלנו · שבועות תשפ״ו</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+        (function () {
+            'use strict';
+
+            const COVER_AUTO_OPEN_MS = 2000;
+            const STORAGE_KEY = 'mitbachot-shavuot-cover-shown';
+
+            const stage = document.getElementById('coverStage');
+            const book = document.getElementById('coverBook');
+            const pageWrap = document.getElementById('pageWrap');
+            const spreadsEl = document.getElementById('spreads');
+            const dotNav = document.getElementById('dotNav');
+            const navPrev = document.getElementById('navPrev');
+            const navNext = document.getElementById('navNext');
+            const curPageEl = document.getElementById('curPage');
+            const totalPagesEl = document.getElementById('totalPages');
+            const toastEl = document.getElementById('toast');
+
+            const initialHashId = parseRecipeHash();
+            const seenThisSession = sessionStorage.getItem(STORAGE_KEY) === '1';
+
+            let recipes = [];
+            let currentIdx = 0;
+            let isAnimating = false;
+
+            function parseRecipeHash() {
+                const m = /^#recipe-(\d+)$/.exec(location.hash || '');
+                return m ? parseInt(m[1], 10) : null;
+            }
+
+            /* ─── Cover animation ─── */
+            function skipCover() {
+                document.body.classList.add('skip-animation');
+                stage.setAttribute('aria-hidden', 'true');
+                pageWrap.classList.add('visible');
+            }
+            function openCover() {
+                if (stage.classList.contains('opening')) return;
+                stage.classList.add('opening');
+                sessionStorage.setItem(STORAGE_KEY, '1');
+                setTimeout(() => {
+                    stage.classList.add('hidden');
+                    stage.style.display = 'none';
+                    pageWrap.classList.add('visible');
+                }, 820);
+            }
+            if (initialHashId !== null || seenThisSession) {
+                skipCover();
+            } else {
+                requestAnimationFrame(() => stage.classList.add('ready'));
+                const autoTimer = setTimeout(openCover, COVER_AUTO_OPEN_MS);
+                book.addEventListener('click', () => { clearTimeout(autoTimer); openCover(); });
+                book.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        clearTimeout(autoTimer);
+                        openCover();
+                    }
+                });
+            }
+
+            /* ─── Toast ─── */
+            let toastTimer;
+            function showToast(msg) {
+                toastEl.textContent = msg;
+                toastEl.classList.add('show');
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2400);
+            }
+
+            /* ─── Rendering ─── */
+            function escapeHtml(s) {
+                return String(s).replace(/[&<>"']/g, c => ({
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+                }[c]));
+            }
+            function isSubHeader(line) {
+                const t = String(line).trim();
+                return t.length > 0 && t.length < 22 && t.endsWith(':');
+            }
+            function renderIngredients(items) {
+                return items.map(item => {
+                    const cls = isSubHeader(item) ? ' class="sub-header"' : '';
+                    return `<li${cls}>${escapeHtml(item)}</li>`;
+                }).join('');
+            }
+            function renderSpread(r, index) {
+                const pageNum = String(index + 1).padStart(2, '0');
+                const ingredientsHtml = renderIngredients(r.ingredients || []);
+                const instructionsHtml = (r.instructions || []).map(s => `<li>${escapeHtml(s)}</li>`).join('');
+                return `
+                <article class="spread recipe" data-recipe-id="${r.id}" data-recipe-family="${escapeHtml(r.family)}" id="recipe-${r.id}" aria-hidden="true">
+                    <div class="page page-image">
+                        <div class="img-wrap">
+                            <img src="images/${escapeHtml(r.image)}" alt="${escapeHtml(r.name)}" loading="${index < 2 ? 'eager' : 'lazy'}" decoding="async">
+                        </div>
+                    </div>
+                    <div class="page page-content">
+                        <span class="page-num">— ${pageNum} —</span>
+                        <h2 class="recipe-name">${escapeHtml(r.name)}</h2>
+                        <p class="recipe-dedication">${escapeHtml(r.dedication)}</p>
+                        <h3>רכיבים</h3>
+                        <ul>${ingredientsHtml}</ul>
+                        <h3>הכנה</h3>
+                        <ol>${instructionsHtml}</ol>
+                        <div class="recipe-share">
+                            <button class="share-btn" data-share data-name="${escapeHtml(r.name)}" data-family="${escapeHtml(r.family)}" data-id="${r.id}">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z"/></svg>
+                                <span>שתפי את המתכון</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>`;
+            }
+            function renderAll() {
+                spreadsEl.innerHTML = recipes.map(renderSpread).join('');
+                renderDots();
+                totalPagesEl.textContent = recipes.length;
+            }
+            function renderDots() {
+                dotNav.innerHTML = recipes.map((r, i) =>
+                    `<button type="button" data-go="${i}" aria-label="עבור למתכון ${i + 1}: ${escapeHtml(r.name)}"></button>`
+                ).join('');
+            }
+
+            /* ─── Navigation ─── */
+            function setActive(idx, direction) {
+                idx = Math.max(0, Math.min(recipes.length - 1, idx));
+                const spreads = spreadsEl.querySelectorAll('.spread');
+                const initialMount = !spreadsEl.querySelector('.spread.active');
+                if (idx === currentIdx && !initialMount) return;
+                if (isAnimating && !initialMount) return;
+
+                const prevSpread = spreads[currentIdx];
+                const nextSpread = spreads[idx];
+                if (!nextSpread) return;
+
+                /* First mount: just show, no animation */
+                if (initialMount || !direction) {
+                    spreads.forEach(s => {
+                        s.classList.remove('active', 'flipping', 'flip-out-fwd', 'flip-out-bwd');
+                        s.setAttribute('aria-hidden', 'true');
+                    });
+                    nextSpread.classList.add('active');
+                    nextSpread.setAttribute('aria-hidden', 'false');
+                    currentIdx = idx;
+                    updateChrome();
+                    return;
+                }
+
+                isAnimating = true;
+
+                /* Clear stale flip classes from spreads that aren't involved */
+                spreads.forEach(s => {
+                    if (s !== prevSpread && s !== nextSpread) {
+                        s.classList.remove('active', 'flipping', 'flip-out-fwd', 'flip-out-bwd');
+                        s.setAttribute('aria-hidden', 'true');
+                    }
+                });
+
+                /* Reveal the NEXT spread under the flipping page (z-index 2) */
+                nextSpread.classList.add('active');
+                nextSpread.setAttribute('aria-hidden', 'false');
+
+                /* Keep .active on prev so it stays visible at z-index 2 too — then .flipping bumps it to z-index 3 and the rotateY transition animates over 820ms */
+                if (prevSpread) {
+                    prevSpread.classList.add('flipping');
+                    void prevSpread.offsetWidth; /* commit the starting rotateY(0) state */
+                    requestAnimationFrame(() => {
+                        prevSpread.classList.add(direction === 'next' ? 'flip-out-fwd' : 'flip-out-bwd');
+                    });
+                }
+
+                currentIdx = idx;
+                updateChrome();
+
+                setTimeout(() => {
+                    if (prevSpread) {
+                        prevSpread.classList.remove('active', 'flipping', 'flip-out-fwd', 'flip-out-bwd');
+                        prevSpread.setAttribute('aria-hidden', 'true');
+                    }
+                    isAnimating = false;
+                }, 840);
+            }
+
+            function updateChrome() {
+                curPageEl.textContent = currentIdx + 1;
+                navPrev.toggleAttribute('disabled', currentIdx === 0);
+                navNext.toggleAttribute('disabled', currentIdx === recipes.length - 1);
+                dotNav.querySelectorAll('button').forEach((b, i) => {
+                    b.classList.toggle('active', i === currentIdx);
+                });
+                const id = recipes[currentIdx]?.id;
+                if (id !== undefined && location.hash !== `#recipe-${id}`) {
+                    history.replaceState(null, '', `#recipe-${id}`);
+                }
+            }
+            function go(delta) {
+                const newIdx = currentIdx + delta;
+                if (newIdx < 0 || newIdx >= recipes.length) return;
+                setActive(newIdx, delta > 0 ? 'next' : 'prev');
+            }
+
+            /* ─── Wire up controls ─── */
+            function wireControls() {
+                navPrev.addEventListener('click', () => go(-1));
+                navNext.addEventListener('click', () => go(1));
+                dotNav.addEventListener('click', (e) => {
+                    const b = e.target.closest('button[data-go]');
+                    if (!b) return;
+                    const target = parseInt(b.dataset.go, 10);
+                    setActive(target, target > currentIdx ? 'next' : 'prev');
+                });
+
+                /* Keyboard navigation (RTL: ArrowRight = prev, ArrowLeft = next) */
+                document.addEventListener('keydown', (e) => {
+                    if (stage && !stage.classList.contains('hidden') && stage.style.display !== 'none') return;
+                    if (e.target.closest('input, textarea, [contenteditable]')) return;
+                    if (e.key === 'ArrowRight') { e.preventDefault(); go(-1); }
+                    else if (e.key === 'ArrowLeft') { e.preventDefault(); go(1); }
+                });
+
+                /* Touch swipe */
+                let startX = null, startY = null;
+                const swipeArea = document.querySelector('.book');
+                if (swipeArea) {
+                    swipeArea.addEventListener('touchstart', (e) => {
+                        if (e.touches.length !== 1) return;
+                        startX = e.touches[0].clientX;
+                        startY = e.touches[0].clientY;
+                    }, { passive: true });
+                    swipeArea.addEventListener('touchend', (e) => {
+                        if (startX === null) return;
+                        const t = e.changedTouches[0];
+                        const dx = t.clientX - startX;
+                        const dy = t.clientY - startY;
+                        startX = null;
+                        if (Math.abs(dx) < 50 || Math.abs(dy) > Math.abs(dx)) return;
+                        /* RTL: swipe-right = prev (previous is to the right), swipe-left = next */
+                        if (dx > 0) go(-1);
+                        else go(1);
+                    }, { passive: true });
+                }
+
+                /* Share buttons */
+                spreadsEl.addEventListener('click', async (e) => {
+                    const btn = e.target.closest('[data-share]');
+                    if (!btn) return;
+                    const id = btn.dataset.id;
+                    const family = btn.dataset.family;
+                    const url = `${location.origin}${location.pathname}#recipe-${id}`;
+                    const text = `תראי את המתכון של משפחת ${family} 🍰`;
+                    const shareData = { title: 'מהמטבחים שלנו', text: `${text}\n${url}`, url };
+                    if (navigator.share) {
+                        try { await navigator.share(shareData); } catch (_) {}
+                        return;
+                    }
+                    try {
+                        await navigator.clipboard.writeText(`${text} ${url}`);
+                        showToast('הלינק הועתק 🙌');
+                    } catch (_) {
+                        const ta = document.createElement('textarea');
+                        ta.value = `${text} ${url}`;
+                        document.body.appendChild(ta);
+                        ta.select();
+                        try { document.execCommand('copy'); showToast('הלינק הועתק 🙌'); }
+                        catch (_) { showToast('לא הצלחתי להעתיק'); }
+                        document.body.removeChild(ta);
+                    }
+                });
+            }
+
+            /* ─── Boot ─── */
+            fetch('recipes.json', { cache: 'no-cache' })
+                .then(r => {
+                    if (!r.ok) throw new Error('failed to load recipes.json');
+                    return r.json();
+                })
+                .then(data => {
+                    if (!data || !Array.isArray(data.recipes) || data.recipes.length === 0) {
+                        throw new Error('invalid recipes.json');
+                    }
+                    recipes = data.recipes;
+                    renderAll();
+                    wireControls();
+
+                    let startIdx = 0;
+                    if (initialHashId !== null) {
+                        const idx = recipes.findIndex(r => r.id === initialHashId);
+                        if (idx >= 0) startIdx = idx;
+                    }
+                    setActive(startIdx, null);
+                })
+                .catch(err => {
+                    console.error(err);
+                    spreadsEl.innerHTML = '<p style="padding:40px;text-align:center;color:var(--text-secondary)">לא הצלחנו לטעון את המתכונים. רעננו את הדף ונסו שוב.</p>';
+                });
+        })();
+    </script>
+</body>
+
+</html>

@@ -3,10 +3,6 @@
 		{
 			"name": "LandingPages",
 			"path": "."
-		},
-		{
-			"name": "lagbaOmer-shaagat-hari",
-			"path": "../../AI/IDF/lagbaOmer-shaagat-hari"
 		}
 	],
 	"settings": {}
