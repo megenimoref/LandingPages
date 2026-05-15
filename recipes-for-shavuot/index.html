@@ -91,6 +91,60 @@
       overflow:visible;
       min-height:0;
       padding-bottom:88px; /* room for pgnum */
+      scroll-margin-top:20px;
+    }
+    .recipe-share-btn{
+      appearance:none;
+      background:transparent;
+      border:1px solid var(--wheat-deep);
+      color:var(--wine);
+      width:32px; height:32px;
+      border-radius:999px;
+      display:inline-flex; align-items:center; justify-content:center;
+      cursor:pointer;
+      padding:0;
+      position:relative;
+      transition:background .2s ease, color .2s ease, border-color .2s ease, transform .15s ease;
+    }
+    .recipe-share-btn:hover{
+      background:rgba(255,250,235,.65);
+    }
+    .recipe-share-btn:active{ transform:scale(.94); }
+    .recipe-share-btn:focus-visible{
+      outline:2px solid var(--wine);
+      outline-offset:2px;
+    }
+    .recipe-share-btn svg{
+      width:14px; height:14px; fill:currentColor;
+    }
+    .recipe-share-btn.copied{
+      background:var(--olive);
+      border-color:var(--olive);
+      color:#f3ead6;
+    }
+    .recipe-share-btn.copied::after{
+      content:"הקישור הועתק ✓";
+      position:absolute;
+      bottom:calc(100% + 8px);
+      left:50%;
+      transform:translateX(-50%);
+      background:var(--olive);
+      color:#f3ead6;
+      padding:5px 11px;
+      border-radius:8px;
+      font-family:"Frank Ruhl Libre", serif;
+      font-size:12px;
+      font-weight:500;
+      letter-spacing:.04em;
+      white-space:nowrap;
+      pointer-events:none;
+      box-shadow:0 4px 10px rgba(0,0,0,.18);
+      animation:fadeInOut 2s ease forwards;
+    }
+    @keyframes fadeInOut{
+      0%{ opacity:0; transform:translate(-50%, 4px); }
+      15%, 85%{ opacity:1; transform:translate(-50%, 0); }
+      100%{ opacity:0; transform:translate(-50%, -2px); }
     }
     .page::before{
       /* inner book gutter shadow on right edge (since RTL, gutter is right) */
@@ -987,10 +1041,13 @@
 </section>
 
 <!-- ============ RECIPE 01 - Quiche ============ -->
-<section class="page recipe" data-screen-label="04 מתכון 01 - קיש גבינות">
+<section class="page recipe" id="recipe-01" data-screen-label="04 מתכון 01 - קיש גבינות">
   <div class="top-band">
     <span class="num-badge">מתכון · 01 / 05</span>
     <span class="chip">מנה עיקרית · אפייה</span>
+    <button class="recipe-share-btn" type="button" data-share data-share-type="recipe" data-share-name="קיש גבינות חגיגי" aria-label="שתפי מתכון: קיש גבינות חגיגי">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z"/></svg>
+    </button>
   </div>
 
   <h2 class="title">קיש גבינות<br>חגיגי</h2>
@@ -1045,10 +1102,13 @@
 </section>
 
 <!-- ============ RECIPE 02 - Lasagna ============ -->
-<section class="page recipe" data-screen-label="05 מתכון 02 - לזניה גבינות">
+<section class="page recipe" id="recipe-02" data-screen-label="05 מתכון 02 - לזניה גבינות">
   <div class="top-band">
     <span class="num-badge">מתכון · 02 / 05</span>
     <span class="chip">מנה עיקרית · תבנית</span>
+    <button class="recipe-share-btn" type="button" data-share data-share-type="recipe" data-share-name="לזניה גבינות חגיגית" aria-label="שתפי מתכון: לזניה גבינות חגיגית">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z"/></svg>
+    </button>
   </div>
 
   <h2 class="title">לזניה גבינות<br>חגיגית</h2>
@@ -1100,10 +1160,13 @@
 </section>
 
 <!-- ============ RECIPE 03 - Blintzes ============ -->
-<section class="page recipe" data-screen-label="06 מתכון 03 - בלינצ׳ס">
+<section class="page recipe" id="recipe-03" data-screen-label="06 מתכון 03 - בלינצ׳ס">
   <div class="top-band">
     <span class="num-badge">מתכון · 03 / 05</span>
     <span class="chip">מנה ראשונה · מטוגן</span>
+    <button class="recipe-share-btn" type="button" data-share data-share-type="recipe" data-share-name="בלינצ'ס גבינה מתוקים" aria-label="שתפי מתכון: בלינצ'ס גבינה מתוקים">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z"/></svg>
+    </button>
   </div>
 
   <h2 class="title">בלינצ׳ס גבינה<br>מתוקים</h2>
@@ -1156,10 +1219,13 @@
 </section>
 
 <!-- ============ RECIPE 04 - Cheesecake ============ -->
-<section class="page recipe" data-screen-label="07 מתכון 04 - עוגת גבינה אפויה">
+<section class="page recipe" id="recipe-04" data-screen-label="07 מתכון 04 - עוגת גבינה אפויה">
   <div class="top-band">
     <span class="num-badge">מתכון · 04 / 05</span>
     <span class="chip">קינוח · אפייה</span>
+    <button class="recipe-share-btn" type="button" data-share data-share-type="recipe" data-share-name="עוגת גבינה אפויה קלאסית" aria-label="שתפי מתכון: עוגת גבינה אפויה קלאסית">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z"/></svg>
+    </button>
   </div>
 
   <h2 class="title">עוגת גבינה אפויה<br>קלאסית</h2>
@@ -1208,10 +1274,13 @@
 </section>
 
 <!-- ============ RECIPE 05 - Cheesecake cups ============ -->
-<section class="page recipe" data-screen-label="08 מתכון 05 - עוגת גבינה קרה בכוסות">
+<section class="page recipe" id="recipe-05" data-screen-label="08 מתכון 05 - עוגת גבינה קרה בכוסות">
   <div class="top-band">
     <span class="num-badge">מתכון · 05 / 05</span>
     <span class="chip">קינוח · ללא אפייה</span>
+    <button class="recipe-share-btn" type="button" data-share data-share-type="recipe" data-share-name="עוגת גבינה קרה בכוסות" aria-label="שתפי מתכון: עוגת גבינה קרה בכוסות">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z"/></svg>
+    </button>
   </div>
 
   <h2 class="title">עוגת גבינה קרה<br>בכוסות</h2>
@@ -1378,30 +1447,53 @@
 })();
 
 (function(){
-  const btn = document.querySelector('[data-share]');
-  if(!btn) return;
-  const label = btn.querySelector('.label');
-  const originalText = label ? label.textContent : '';
-  const shareData = {
-    title: 'מהמטבחים שלנו · שבועות תשפ״ו',
-    text: 'ספר מתכונים דיגיטלי לשבועות תשפ״ו, ממשפחות גדודי המילואים',
-    url: location.href
-  };
-  btn.addEventListener('click', async () => {
-    if(window.gtag) gtag('event','share_cover',{method:'cover_button'});
-    if(navigator.share){
-      try { await navigator.share(shareData); return; }
-      catch(err){ if(err && err.name === 'AbortError') return; }
+  const buttons = document.querySelectorAll('[data-share]');
+  if(!buttons.length) return;
+
+  const baseUrl = location.origin + location.pathname;
+
+  const buildShareData = (btn) => {
+    const isRecipe = btn.dataset.shareType === 'recipe';
+    if(isRecipe){
+      const section = btn.closest('section[id]');
+      const id = section ? section.id : '';
+      const name = btn.dataset.shareName || 'מתכון';
+      return {
+        title: name + ' · מהמטבחים שלנו',
+        text: 'מתכון ' + name + ' מתוך ספר השבועות של נשות המילואים',
+        url: baseUrl + (id ? '#' + id : '')
+      };
     }
-    try {
-      await navigator.clipboard.writeText(shareData.url);
-      btn.classList.add('copied');
-      if(label) label.textContent = 'הקישור הועתק ✓';
-      setTimeout(() => {
-        btn.classList.remove('copied');
-        if(label) label.textContent = originalText;
-      }, 2000);
-    } catch(e) {}
+    return {
+      title: 'מהמטבחים שלנו · שבועות תשפ״ו',
+      text: 'ספר מתכונים דיגיטלי לשבועות תשפ״ו, ממשפחות גדודי המילואים',
+      url: baseUrl
+    };
+  };
+
+  buttons.forEach(btn => {
+    const label = btn.querySelector('.label');
+    const originalText = label ? label.textContent : '';
+
+    btn.addEventListener('click', async () => {
+      const shareData = buildShareData(btn);
+      const eventName = btn.dataset.shareType === 'recipe' ? 'share_recipe' : 'share_cover';
+      if(window.gtag) gtag('event', eventName, { recipe: btn.dataset.shareName || '', url: shareData.url });
+
+      if(navigator.share){
+        try { await navigator.share(shareData); return; }
+        catch(err){ if(err && err.name === 'AbortError') return; }
+      }
+      try {
+        await navigator.clipboard.writeText(shareData.url);
+        btn.classList.add('copied');
+        if(label) label.textContent = 'הקישור הועתק ✓';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          if(label) label.textContent = originalText;
+        }, 2000);
+      } catch(e) {}
+    });
   });
 })();
 </script>
