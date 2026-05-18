@@ -3,9 +3,10 @@
   Local: http://127.0.0.1:8080/recipes-for-shavuot/
   GA:    https://analytics.google.com/analytics/web/#/a351596902p494681343/reports/reportinghub
 -->
-  
+
 <!doctype html>
 <html lang="he" dir="rtl">
+
 <head>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
@@ -14,7 +15,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>מהמטבחים שלנו · שבועות תשפ״ו</title>
-  <meta name="description" content="ספר מתכונים דיגיטלי לשבועות תשפ&quot;ו, ממשפחות גדודי המילואים בישראל. אוסף מתכונים מהבית, מוקדש לנשות מילואים.">
+  <meta name="description"
+    content="ספר מתכונים דיגיטלי לשבועות תשפ&quot;ו, ממשפחות גדודי המילואים בישראל. אוסף מתכונים מהבית, מוקדש לנשות מילואים.">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
@@ -36,1468 +38,1678 @@
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XSH19K5LBZ"></script>
   <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', 'G-XSH19K5LBZ');
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XSH19K5LBZ');
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@300;400;500;700&family=Suez+One&family=Cardo:ital@0;1&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@300;400;500;700;900&family=Heebo:wght@300;400;500;700&family=Suez+One&family=Cardo:ital@0;1&display=swap"
+    rel="stylesheet">
   <style>
-    :root{
+    :root {
       --paper: #f3ead6;
-      --paper-2:#ece0c4;
+      --paper-2: #ece0c4;
       --ink: #2a1f12;
-      --ink-soft:#5b4a33;
+      --ink-soft: #5b4a33;
       --olive: oklch(0.44 0.06 130);
       --olive-soft: oklch(0.62 0.05 130);
       --wheat: oklch(0.66 0.13 78);
       --wheat-deep: oklch(0.52 0.13 70);
       --wine: oklch(0.42 0.14 18);
       --rule: #9c8862;
-      --rule-soft:#bfae87;
+      --rule-soft: #bfae87;
     }
-    *{box-sizing:border-box;}
-    html,body{margin:0;padding:0;}
-    body{
-      background:#2a1f12;
-      font-family:"Heebo", "Frank Ruhl Libre", system-ui, sans-serif;
-      color:var(--ink);
-      direction:rtl;
-      -webkit-font-smoothing:antialiased;
+
+    * {
+      box-sizing: border-box;
     }
-    .book{
-      max-width:820px;
-      margin:32px auto;
-      box-shadow:0 30px 80px rgba(0,0,0,.55), 0 6px 18px rgba(0,0,0,.35);
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
     }
-    .page{
-      position:relative;
-      background:var(--paper);
-      width:100%;
-      aspect-ratio: 1 / 1.414; /* A-series */
-      overflow:hidden;
-      padding:64px 72px;
-      border-bottom:1px solid rgba(0,0,0,.05);
+
+    body {
+      background: #2a1f12;
+      font-family: "Heebo", "Frank Ruhl Libre", system-ui, sans-serif;
+      color: var(--ink);
+      direction: rtl;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .book {
+      max-width: 820px;
+      margin: 32px auto;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, .55), 0 6px 18px rgba(0, 0, 0, .35);
+    }
+
+    .page {
+      position: relative;
+      background: var(--paper);
+      width: 100%;
+      aspect-ratio: 1 / 1.414;
+      /* A-series */
+      overflow: hidden;
+      padding: 64px 72px;
+      border-bottom: 1px solid rgba(0, 0, 0, .05);
       background-image:
-        radial-gradient(ellipse at 20% 0%, rgba(156,136,98,.10), transparent 55%),
-        radial-gradient(ellipse at 100% 100%, rgba(156,136,98,.12), transparent 60%),
+        radial-gradient(ellipse at 20% 0%, rgba(156, 136, 98, .10), transparent 55%),
+        radial-gradient(ellipse at 100% 100%, rgba(156, 136, 98, .12), transparent 60%),
         url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.18  0 0 0 0 0.13  0 0 0 0 0.07  0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
     }
+
     /* Recipe pages must grow to fit ingredients + instructions in full */
-    .page.recipe{
-      aspect-ratio:auto;
-      overflow:visible;
-      min-height:0;
-      padding-bottom:88px; /* room for pgnum */
-      scroll-margin-top:20px;
+    .page.recipe {
+      aspect-ratio: auto;
+      overflow: visible;
+      min-height: 0;
+      padding-bottom: 88px;
+      /* room for pgnum */
+      scroll-margin-top: 20px;
     }
-    .recipe-share-btn{
-      appearance:none;
-      background:transparent;
-      border:1px solid var(--wheat-deep);
-      color:var(--wine);
-      width:32px; height:32px;
-      border-radius:999px;
-      display:inline-flex; align-items:center; justify-content:center;
-      cursor:pointer;
-      padding:0;
-      position:relative;
-      transition:background .2s ease, color .2s ease, border-color .2s ease, transform .15s ease;
+
+    .recipe-share-btn {
+      appearance: none;
+      background: transparent;
+      border: 1px solid var(--wheat-deep);
+      color: var(--wine);
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      position: relative;
+      transition: background .2s ease, color .2s ease, border-color .2s ease, transform .15s ease;
     }
-    .recipe-share-btn:hover{
-      background:rgba(255,250,235,.65);
+
+    .recipe-share-btn:hover {
+      background: rgba(255, 250, 235, .65);
     }
-    .recipe-share-btn:active{ transform:scale(.94); }
-    .recipe-share-btn:focus-visible{
-      outline:2px solid var(--wine);
-      outline-offset:2px;
+
+    .recipe-share-btn:active {
+      transform: scale(.94);
     }
-    .recipe-share-btn svg{
-      width:14px; height:14px; fill:currentColor;
+
+    .recipe-share-btn:focus-visible {
+      outline: 2px solid var(--wine);
+      outline-offset: 2px;
     }
-    .recipe-share-btn.copied{
-      background:var(--olive);
-      border-color:var(--olive);
-      color:#f3ead6;
+
+    .recipe-share-btn svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
     }
-    .recipe-share-btn.copied::after{
-      content:"הקישור הועתק ✓";
-      position:absolute;
-      bottom:calc(100% + 8px);
-      left:50%;
-      transform:translateX(-50%);
-      background:var(--olive);
-      color:#f3ead6;
-      padding:5px 11px;
-      border-radius:8px;
-      font-family:"Frank Ruhl Libre", serif;
-      font-size:12px;
-      font-weight:500;
-      letter-spacing:.04em;
-      white-space:nowrap;
-      pointer-events:none;
-      box-shadow:0 4px 10px rgba(0,0,0,.18);
-      animation:fadeInOut 2s ease forwards;
+
+    .recipe-share-btn.copied {
+      background: var(--olive);
+      border-color: var(--olive);
+      color: #f3ead6;
     }
-    @keyframes fadeInOut{
-      0%{ opacity:0; transform:translate(-50%, 4px); }
-      15%, 85%{ opacity:1; transform:translate(-50%, 0); }
-      100%{ opacity:0; transform:translate(-50%, -2px); }
+
+    .recipe-share-btn.copied::after {
+      content: "הקישור הועתק ✓";
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--olive);
+      color: #f3ead6;
+      padding: 5px 11px;
+      border-radius: 8px;
+      font-family: "Frank Ruhl Libre", serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: .04em;
+      white-space: nowrap;
+      pointer-events: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, .18);
+      animation: fadeInOut 2s ease forwards;
     }
-    .page::before{
+
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 4px);
+      }
+
+      15%,
+      85% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -2px);
+      }
+    }
+
+    .page::before {
       /* inner book gutter shadow on right edge (since RTL, gutter is right) */
-      content:"";
-      position:absolute; inset:0 0 0 auto; right:0; width:38px;
-      background:linear-gradient(to left, rgba(0,0,0,.10), transparent);
-      pointer-events:none;
+      content: "";
+      position: absolute;
+      inset: 0 0 0 auto;
+      right: 0;
+      width: 38px;
+      background: linear-gradient(to left, rgba(0, 0, 0, .10), transparent);
+      pointer-events: none;
     }
-    .pgnum{
-      position:absolute; bottom:28px; left:0; right:0;
-      text-align:center;
-      font-family:"Cardo", "Frank Ruhl Libre", serif;
-      color:var(--ink-soft);
-      font-size:13px;
-      letter-spacing:.18em;
+
+    .pgnum {
+      position: absolute;
+      bottom: 28px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: "Cardo", "Frank Ruhl Libre", serif;
+      color: var(--ink-soft);
+      font-size: 13px;
+      letter-spacing: .18em;
     }
-    .pgnum span{
-      display:inline-block; padding:0 14px;
-      border-top:1px solid var(--rule-soft);
-      padding-top:8px;
+
+    .pgnum span {
+      display: inline-block;
+      padding: 0 14px;
+      border-top: 1px solid var(--rule-soft);
+      padding-top: 8px;
     }
-    .header-mark{
-      position:absolute; top:28px; left:0; right:0;
-      text-align:center;
-      font-family:"Cardo", serif;
-      font-size:11px;
-      letter-spacing:.5em;
-      color:var(--ink-soft);
-      text-transform:uppercase;
+
+    .header-mark {
+      position: absolute;
+      top: 28px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: "Cardo", serif;
+      font-size: 11px;
+      letter-spacing: .5em;
+      color: var(--ink-soft);
+      text-transform: uppercase;
     }
 
     /* ============ COVER ============ */
-    .cover{
-      padding:0;
+    .cover {
+      padding: 0;
       background:
         radial-gradient(ellipse at 50% 38%, #f9efd2 0%, #ead7a8 55%, #c9b07a 100%);
-      color:var(--ink);
-      overflow:hidden;
+      color: var(--ink);
+      overflow: hidden;
     }
-    .cover .frame{
-      position:absolute; inset:38px;
-      border:1px solid var(--wheat-deep);
-      pointer-events:none;
+
+    .cover .frame {
+      position: absolute;
+      inset: 38px;
+      border: 1px solid var(--wheat-deep);
+      pointer-events: none;
     }
-    .cover .frame::before, .cover .frame::after{
-      content:""; position:absolute; left:50%; transform:translateX(-50%);
-      width:120px; height:1px; background:var(--wheat-deep);
+
+    .cover .frame::before,
+    .cover .frame::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 1px;
+      background: var(--wheat-deep);
     }
-    .cover .frame::before{top:-1px;}
-    .cover .frame::after{bottom:-1px;}
-    .cover .inner-frame{
-      position:absolute; inset:54px;
-      border:1px solid var(--wheat-deep);
-      opacity:.4;
-      pointer-events:none;
+
+    .cover .frame::before {
+      top: -1px;
     }
-    .cover-top{
-      position:absolute; top:78px; left:0; right:0;
-      text-align:center;
-      font-family:"Cardo", serif;
-      letter-spacing:.55em;
-      color:var(--wine);
-      font-size:13px;
+
+    .cover .frame::after {
+      bottom: -1px;
     }
-    .cover-top .dot{display:inline-block; margin:0 10px; opacity:.7;}
-    .cover-title{
-      position:absolute; top:42%; left:0; right:0;
-      transform:translateY(-50%);
-      text-align:center;
-      padding:0 60px;
+
+    .cover .inner-frame {
+      position: absolute;
+      inset: 54px;
+      border: 1px solid var(--wheat-deep);
+      opacity: .4;
+      pointer-events: none;
     }
-    .cover-title h1{
-      font-family:"Suez One","Frank Ruhl Libre", serif;
-      font-weight:400;
-      font-size:78px;
-      line-height:1.02;
-      margin:0;
-      color:#3a2410;
-      text-shadow:0 1px 0 rgba(255,255,255,.4);
+
+    .cover-top {
+      position: absolute;
+      top: 78px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: "Cardo", serif;
+      letter-spacing: .55em;
+      color: var(--wine);
+      font-size: 13px;
     }
-    .cover-title .amp{
-      display:block;
-      font-family:"Cardo", serif;
-      font-style:italic;
-      font-size:22px;
-      color:var(--olive);
-      margin:18px 0 14px;
-      letter-spacing:.06em;
+
+    .cover-top .dot {
+      display: inline-block;
+      margin: 0 10px;
+      opacity: .7;
     }
-    .cover-title h2{
-      font-family:"Frank Ruhl Libre", serif;
-      font-weight:400;
-      font-size:26px;
-      margin:0;
-      color:var(--wine);
-      letter-spacing:.04em;
+
+    .cover-title {
+      position: absolute;
+      top: 42%;
+      left: 0;
+      right: 0;
+      transform: translateY(-50%);
+      text-align: center;
+      padding: 0 60px;
     }
-    .cover-wheat{
-      position:absolute; bottom:280px; left:0; right:0;
-      display:flex; justify-content:center; gap:14px; align-items:flex-end;
-      opacity:.85;
+
+    .cover-title h1 {
+      font-family: "Suez One", "Frank Ruhl Libre", serif;
+      font-weight: 400;
+      font-size: 78px;
+      line-height: 1.02;
+      margin: 0;
+      color: #3a2410;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, .4);
     }
-    .cover-bottom{
-      position:absolute; bottom:215px; left:0; right:0;
-      text-align:center;
-      color:var(--ink-soft);
-      font-family:"Cardo", serif;
-      font-size:14px;
-      letter-spacing:.32em;
+
+    .cover-title .amp {
+      display: block;
+      font-family: "Cardo", serif;
+      font-style: italic;
+      font-size: 22px;
+      color: var(--olive);
+      margin: 18px 0 14px;
+      letter-spacing: .06em;
     }
-    .cover-bottom .yr{
-      display:block;
-      font-family:"Suez One", serif;
-      font-size:22px;
-      letter-spacing:.4em;
-      color:var(--wine);
-      margin-bottom:8px;
+
+    .cover-title h2 {
+      font-family: "Frank Ruhl Libre", serif;
+      font-weight: 400;
+      font-size: 26px;
+      margin: 0;
+      color: var(--wine);
+      letter-spacing: .04em;
     }
-    .cover-share{
-      position:absolute; bottom:160px; left:0; right:0;
-      display:flex; justify-content:center;
+
+    .cover-wheat {
+      position: absolute;
+      bottom: 280px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      align-items: flex-end;
+      opacity: .85;
     }
-    .cover-share .share-btn{
-      appearance:none;
-      background:rgba(255,250,235,.55);
-      border:1px solid var(--wheat-deep);
-      color:var(--wine);
-      font-family:"Cardo", serif;
-      font-style:italic;
-      font-size:14px;
-      letter-spacing:.28em;
-      padding:9px 22px 9px 18px;
-      border-radius:999px;
-      display:inline-flex; align-items:center; gap:10px;
-      cursor:pointer;
-      transition:background .2s ease, transform .15s ease, box-shadow .2s ease;
-      box-shadow:0 1px 0 rgba(255,255,255,.5) inset, 0 2px 6px rgba(91,74,51,.10);
+
+    .cover-bottom {
+      position: absolute;
+      bottom: 215px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: var(--ink-soft);
+      font-family: "Cardo", serif;
+      font-size: 14px;
+      letter-spacing: .32em;
     }
-    .cover-share .share-btn:hover{
-      background:rgba(255,250,235,.85);
-      box-shadow:0 1px 0 rgba(255,255,255,.6) inset, 0 4px 10px rgba(91,74,51,.18);
+
+    .cover-bottom .yr {
+      display: block;
+      font-family: "Suez One", serif;
+      font-size: 22px;
+      letter-spacing: .4em;
+      color: var(--wine);
+      margin-bottom: 8px;
     }
-    .cover-share .share-btn:active{ transform:translateY(1px); }
-    .cover-share .share-btn svg{
-      width:16px; height:16px; fill:currentColor;
-      flex-shrink:0;
+
+    .cover-share {
+      position: absolute;
+      bottom: 160px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
     }
-    .cover-share .share-btn.copied{
-      background:rgba(204,232,200,.55);
-      border-color:var(--olive);
-      color:var(--olive);
+
+    .cover-share .share-btn {
+      appearance: none;
+      background: rgba(255, 250, 235, .55);
+      border: 1px solid var(--wheat-deep);
+      color: var(--wine);
+      font-family: "Cardo", serif;
+      font-style: italic;
+      font-size: 14px;
+      letter-spacing: .28em;
+      padding: 9px 22px 9px 18px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: background .2s ease, transform .15s ease, box-shadow .2s ease;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, .5) inset, 0 2px 6px rgba(91, 74, 51, .10);
     }
-    .cover-partners{
-      position:absolute; bottom:55px; left:54px; right:54px;
-      display:flex; flex-direction:column; align-items:center; gap:14px;
+
+    .cover-share .share-btn:hover {
+      background: rgba(255, 250, 235, .85);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, .6) inset, 0 4px 10px rgba(91, 74, 51, .18);
     }
-    .cover-partners .pcaption{
-      font-family:"Cardo", serif;
-      font-style:italic;
-      font-size:11px;
-      letter-spacing:.45em;
-      color:var(--wine);
-      text-transform:uppercase;
-      display:flex; align-items:center; gap:14px;
-      width:100%;
-      justify-content:center;
+
+    .cover-share .share-btn:active {
+      transform: translateY(1px);
     }
+
+    .cover-share .share-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
+
+    .cover-share .share-btn.copied {
+      background: rgba(204, 232, 200, .55);
+      border-color: var(--olive);
+      color: var(--olive);
+    }
+
+    .cover-partners {
+      position: absolute;
+      bottom: 55px;
+      left: 54px;
+      right: 54px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .cover-partners .pcaption {
+      font-family: "Cardo", serif;
+      font-style: italic;
+      font-size: 11px;
+      letter-spacing: .45em;
+      color: var(--wine);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      justify-content: center;
+    }
+
     .cover-partners .pcaption::before,
-    .cover-partners .pcaption::after{
-      content:""; flex:0 1 80px; height:1px;
-      background:linear-gradient(to left, transparent, var(--wheat-deep), transparent);
+    .cover-partners .pcaption::after {
+      content: "";
+      flex: 0 1 80px;
+      height: 1px;
+      background: linear-gradient(to left, transparent, var(--wheat-deep), transparent);
     }
-    .cover-partners .plogos{
-      display:flex; align-items:center; justify-content:center;
-      gap:0;
+
+    .cover-partners .plogos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
     }
-    .cover-partners .plogos img{
-      height:54px;
-      width:auto;
-      max-width:140px;
-      object-fit:contain;
-      mix-blend-mode:multiply;
-      filter:saturate(.92) contrast(1.04);
+
+    .cover-partners .plogos img {
+      height: 54px;
+      width: auto;
+      max-width: 140px;
+      object-fit: contain;
+      mix-blend-mode: multiply;
+      filter: saturate(.92) contrast(1.04);
     }
-    .cover-partners .plogos .psep{
-      width:1px; height:38px;
-      background:var(--wheat-deep);
-      opacity:.45;
-      margin:0 22px;
+
+    .cover-partners .plogos .psep {
+      width: 1px;
+      height: 38px;
+      background: var(--wheat-deep);
+      opacity: .45;
+      margin: 0 22px;
     }
-    .cover-corner{
-      position:absolute; width:78px; height:78px; opacity:.55;
+
+    .cover-corner {
+      position: absolute;
+      width: 78px;
+      height: 78px;
+      opacity: .55;
     }
-    .cover-corner.tl{ top:54px; right:54px; transform:scaleX(-1); }
-    .cover-corner.tr{ top:54px; left:54px; }
-    .cover-corner.bl{ bottom:54px; right:54px; transform:rotate(180deg); }
-    .cover-corner.br{ bottom:54px; left:54px; transform:rotate(180deg) scaleX(-1); }
+
+    .cover-corner.tl {
+      top: 54px;
+      right: 54px;
+      transform: scaleX(-1);
+    }
+
+    .cover-corner.tr {
+      top: 54px;
+      left: 54px;
+    }
+
+    .cover-corner.bl {
+      bottom: 54px;
+      right: 54px;
+      transform: rotate(180deg);
+    }
+
+    .cover-corner.br {
+      bottom: 54px;
+      left: 54px;
+      transform: rotate(180deg) scaleX(-1);
+    }
 
     /* ============ DEDICATION ============ */
-    .ded .ded-wrap{
-      position:absolute; inset:140px 90px;
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      text-align:center;
+    .ded .ded-wrap {
+      position: absolute;
+      inset: 140px 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
-    .ded .ornament{
-      width:120px; height:30px; margin-bottom:24px; opacity:.6;
+
+    .ded .ornament {
+      width: 120px;
+      height: 30px;
+      margin-bottom: 24px;
+      opacity: .6;
     }
-    .ded h3{
-      font-family:"Cardo", serif;
-      font-style:italic;
-      font-size:18px;
-      letter-spacing:.4em;
-      color:var(--wine);
-      margin:0 0 26px;
-      text-transform:uppercase;
+
+    .ded h3 {
+      font-family: "Cardo", serif;
+      font-style: italic;
+      font-size: 18px;
+      letter-spacing: .4em;
+      color: var(--wine);
+      margin: 0 0 26px;
+      text-transform: uppercase;
     }
-    .ded p.lead{
-      font-family:"Frank Ruhl Libre", serif;
-      font-weight:300;
-      font-size:24px;
-      line-height:1.7;
-      color:var(--ink);
-      max-width:520px;
-      margin:0 0 30px;
+
+    .ded p.lead {
+      font-family: "Frank Ruhl Libre", serif;
+      font-weight: 300;
+      font-size: 24px;
+      line-height: 1.7;
+      color: var(--ink);
+      max-width: 520px;
+      margin: 0 0 30px;
     }
-    .ded p.lead em{ font-style:italic; color:var(--wine); }
-    .ded .sig{
-      font-family:"Cardo", serif;
-      font-style:italic;
-      color:var(--olive);
-      font-size:18px;
-      margin-top:30px;
-      letter-spacing:.06em;
+
+    .ded p.lead em {
+      font-style: italic;
+      color: var(--wine);
     }
-    .ded .verse{
-      font-family:"Frank Ruhl Libre", serif;
-      font-size:17px;
-      line-height:1.8;
-      color:var(--ink-soft);
-      max-width:480px;
-      padding:22px 30px;
-      border-top:1px solid var(--rule-soft);
-      border-bottom:1px solid var(--rule-soft);
+
+    .ded .sig {
+      font-family: "Cardo", serif;
+      font-style: italic;
+      color: var(--olive);
+      font-size: 18px;
+      margin-top: 30px;
+      letter-spacing: .06em;
     }
-    .ded .verse .src{
-      display:block;
-      margin-top:8px;
-      font-family:"Cardo", serif;
-      font-style:italic;
-      font-size:13px;
-      letter-spacing:.2em;
-      color:var(--wheat-deep);
+
+    .ded .verse {
+      font-family: "Frank Ruhl Libre", serif;
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--ink-soft);
+      max-width: 480px;
+      padding: 22px 30px;
+      border-top: 1px solid var(--rule-soft);
+      border-bottom: 1px solid var(--rule-soft);
+    }
+
+    .ded .verse .src {
+      display: block;
+      margin-top: 8px;
+      font-family: "Cardo", serif;
+      font-style: italic;
+      font-size: 13px;
+      letter-spacing: .2em;
+      color: var(--wheat-deep);
     }
 
     /* ============ TOC ============ */
-    .toc h2.section-title{
-      font-family:"Suez One", serif;
-      font-weight:400;
-      font-size:54px;
-      text-align:center;
-      margin:30px 0 6px;
-      color:#3a2410;
+    .toc h2.section-title {
+      font-family: "Suez One", serif;
+      font-weight: 400;
+      font-size: 54px;
+      text-align: center;
+      margin: 30px 0 6px;
+      color: #3a2410;
     }
-    .toc .sub{
-      text-align:center;
-      font-family:"Cardo", serif;
-      font-style:italic;
-      color:var(--olive);
-      font-size:18px;
-      letter-spacing:.18em;
-      margin-bottom:40px;
+
+    .toc .sub {
+      text-align: center;
+      font-family: "Cardo", serif;
+      font-style: italic;
+      color: var(--olive);
+      font-size: 18px;
+      letter-spacing: .18em;
+      margin-bottom: 40px;
     }
-    .toc-list{
-      list-style:none; padding:0; margin:30px 30px 0;
-      counter-reset:rcp;
+
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 30px 30px 0;
+      counter-reset: rcp;
     }
-    .toc-list li{
-      counter-increment:rcp;
-      display:grid;
-      grid-template-columns:64px 1fr auto;
-      align-items:center;
-      gap:16px;
-      padding:22px 4px;
-      border-bottom:1px dashed var(--rule-soft);
+
+    .toc-list li {
+      counter-increment: rcp;
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 22px 4px;
+      border-bottom: 1px dashed var(--rule-soft);
     }
-    .toc-list li:last-child{border-bottom:none;}
-    .toc-list .num{
-      font-family:"Suez One", serif;
-      font-size:36px;
-      color:var(--wheat-deep);
-      line-height:1.15;
-      text-align:center;
+
+    .toc-list li:last-child {
+      border-bottom: none;
     }
-    .toc-list .ttl{
-      font-family:"Frank Ruhl Libre", serif;
-      font-size:24px;
-      font-weight:500;
-      color:var(--ink);
+
+    .toc-list .num {
+      font-family: "Suez One", serif;
+      font-size: 36px;
+      color: var(--wheat-deep);
+      line-height: 1.15;
+      text-align: center;
     }
-    .toc-list .ttl small{
-      display:block;
-      font-family:"Cardo", serif;
-      font-style:italic;
-      font-size:14px;
-      color:var(--ink-soft);
-      letter-spacing:.08em;
-      margin-top:4px;
-      font-weight:400;
+
+    .toc-list .ttl {
+      font-family: "Frank Ruhl Libre", serif;
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--ink);
     }
-    .toc-list .pg{
-      font-family:"Cardo", serif;
-      font-size:18px;
-      color:var(--olive);
-      letter-spacing:.1em;
+
+    .toc-list .ttl small {
+      display: block;
+      font-family: "Cardo", serif;
+      font-style: italic;
+      font-size: 14px;
+      color: var(--ink-soft);
+      letter-spacing: .08em;
+      margin-top: 4px;
+      font-weight: 400;
     }
-    .toc-foot{
-      position:absolute; bottom:88px; left:72px; right:72px;
-      display:flex; justify-content:space-between; align-items:center;
-      color:var(--ink-soft); font-family:"Cardo", serif; font-style:italic; font-size:14px;
+
+    .toc-list .pg {
+      font-family: "Cardo", serif;
+      font-size: 18px;
+      color: var(--olive);
+      letter-spacing: .1em;
     }
-    .toc-foot .l{display:flex; gap:8px; align-items:center;}
+
+    .toc-foot {
+      position: absolute;
+      bottom: 88px;
+      left: 72px;
+      right: 72px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--ink-soft);
+      font-family: "Cardo", serif;
+      font-style: italic;
+      font-size: 14px;
+    }
+
+    .toc-foot .l {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
 
     /* ============ RECIPE PAGES ============ */
-    .recipe .top-band{
-      display:flex; justify-content:space-between; align-items:center;
-      border-bottom:1px solid var(--rule-soft);
-      padding-bottom:12px;
-      margin-bottom:26px;
-      font-family:"Cardo", serif;
-      font-size:13px;
-      letter-spacing:.35em;
-      color:var(--ink-soft);
-      text-transform:uppercase;
+    .recipe .top-band {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--rule-soft);
+      padding-bottom: 12px;
+      margin-bottom: 26px;
+      font-family: "Cardo", serif;
+      font-size: 13px;
+      letter-spacing: .35em;
+      color: var(--ink-soft);
+      text-transform: uppercase;
     }
-    .recipe .top-band .chip{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:5px 14px;
-      border:1px solid var(--wheat-deep);
-      color:var(--wine);
-      border-radius:999px;
-      font-size:11px;
-      letter-spacing:.3em;
+
+    .recipe .top-band .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 14px;
+      border: 1px solid var(--wheat-deep);
+      color: var(--wine);
+      border-radius: 999px;
+      font-size: 11px;
+      letter-spacing: .3em;
     }
-    .recipe .num-badge{
-      font-family:"Suez One", serif;
-      font-size:15px;
-      color:var(--wheat-deep);
-      letter-spacing:.2em;
+
+    .recipe .num-badge {
+      font-family: "Suez One", serif;
+      font-size: 15px;
+      color: var(--wheat-deep);
+      letter-spacing: .2em;
     }
-    .recipe h2.title{
-      font-family:"Suez One","Frank Ruhl Libre", serif;
-      font-weight:400;
-      font-size:56px;
-      line-height:1.02;
-      color:#3a2410;
-      margin:0 0 12px;
-      letter-spacing:-0.01em;
+
+    .recipe h2.title {
+      font-family: "Suez One", "Frank Ruhl Libre", serif;
+      font-weight: 400;
+      font-size: 56px;
+      line-height: 1.02;
+      color: #3a2410;
+      margin: 0 0 12px;
+      letter-spacing: -0.01em;
     }
-    .recipe .dedication{
-      font-family:"Cardo", serif;
-      font-style:italic;
-      color:var(--olive);
-      font-size:18px;
-      margin-bottom:24px;
-      display:flex; align-items:center; gap:14px;
+
+    .recipe .dedication {
+      font-family: "Cardo", serif;
+      font-style: italic;
+      color: var(--olive);
+      font-size: 18px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
-    .recipe .dedication::before, .recipe .dedication::after{
-      content:""; flex:1; height:1px; background:var(--rule-soft);
+
+    .recipe .dedication::before,
+    .recipe .dedication::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--rule-soft);
     }
-    .recipe .hero{
-      width:100%;
+
+    .recipe .hero {
+      width: 100%;
       aspect-ratio: 16/9;
-      border-radius:2px;
-      overflow:hidden;
-      margin-bottom:22px;
-      box-shadow:0 8px 24px rgba(0,0,0,.18);
-      background:#ddd;
-    }
-    .recipe .hero img{ width:100%; height:100%; object-fit:cover; display:block; }
-
-    .recipe .meta{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:0;
-      margin-bottom:24px;
-      border:1px solid var(--rule-soft);
-      background:rgba(255,250,235,.45);
-    }
-    .recipe .meta .m{
-      text-align:center;
-      padding:12px 6px;
-      border-left:1px solid var(--rule-soft);
-    }
-    .recipe .meta .m:last-child{ border-left:none; }
-    .recipe .meta .k{
-      font-family:"Cardo", serif;
-      font-style:italic;
-      font-size:11px;
-      letter-spacing:.32em;
-      color:var(--olive);
-      text-transform:uppercase;
-      display:block;
-      margin-bottom:4px;
-    }
-    .recipe .meta .v{
-      font-family:"Frank Ruhl Libre", serif;
-      font-weight:500;
-      font-size:18px;
-      color:var(--ink);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 22px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+      background: #ddd;
     }
 
-    .recipe .columns{
-      display:grid;
+    .recipe .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .recipe .meta {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-bottom: 24px;
+      border: 1px solid var(--rule-soft);
+      background: rgba(255, 250, 235, .45);
+    }
+
+    .recipe .meta .m {
+      text-align: center;
+      padding: 12px 6px;
+      border-left: 1px solid var(--rule-soft);
+    }
+
+    .recipe .meta .m:last-child {
+      border-left: none;
+    }
+
+    .recipe .meta .k {
+      font-family: "Cardo", serif;
+      font-style: italic;
+      font-size: 11px;
+      letter-spacing: .32em;
+      color: var(--olive);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .recipe .meta .v {
+      font-family: "Frank Ruhl Libre", serif;
+      font-weight: 500;
+      font-size: 18px;
+      color: var(--ink);
+    }
+
+    .recipe .columns {
+      display: grid;
       grid-template-columns: 1fr 1.55fr;
-      gap:34px;
+      gap: 34px;
     }
-    .col h4{
-      font-family:"Cardo", serif;
-      font-style:italic;
-      font-weight:400;
-      font-size:13px;
-      letter-spacing:.4em;
-      color:var(--wine);
-      text-transform:uppercase;
-      margin:0 0 14px;
-      padding-bottom:6px;
-      border-bottom:1px solid var(--rule-soft);
-    }
-    .ingredients ul{
-      list-style:none; padding:0; margin:0;
-      font-family:"Frank Ruhl Libre", serif;
-      font-size:15.5px;
-      line-height:1.55;
-      color:var(--ink);
-    }
-    .ingredients li{
-      padding:8px 0;
-      border-bottom:1px dotted rgba(156,136,98,.45);
-      display:flex; align-items:baseline; gap:10px;
-    }
-    .ingredients li:last-child{ border-bottom:none; }
-    .ingredients li::before{
-      content:"";
-      width:5px; height:5px; flex-shrink:0;
-      background:var(--olive);
-      transform:rotate(45deg);
-      margin-top:9px;
-    }
-    .ingredients li.section{
-      font-family:"Cardo", serif;
-      font-style:italic;
-      color:var(--wine);
-      font-size:14px;
-      letter-spacing:.2em;
-      border-bottom:none;
-      padding-top:12px;
-      padding-bottom:4px;
-      text-transform:uppercase;
-    }
-    .ingredients li.section::before{ display:none; }
-    .ingredients li.section:first-child{ padding-top:0; }
 
-    .instructions ol{
-      list-style:none; counter-reset:step; padding:0; margin:0;
-      font-family:"Frank Ruhl Libre", serif;
-      font-size:15.5px;
-      line-height:1.65;
-      color:var(--ink);
+    .col h4 {
+      font-family: "Cardo", serif;
+      font-style: italic;
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: .4em;
+      color: var(--wine);
+      text-transform: uppercase;
+      margin: 0 0 14px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--rule-soft);
     }
-    .instructions li{
-      counter-increment:step;
-      padding:14px 0 14px;
-      display:grid;
-      grid-template-columns:36px 1fr;
-      gap:12px;
-      border-bottom:1px dotted rgba(156,136,98,.4);
-      align-items:start;
+
+    .ingredients ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-family: "Frank Ruhl Libre", serif;
+      font-size: 15.5px;
+      line-height: 1.55;
+      color: var(--ink);
     }
-    .instructions li:first-child{ padding-top:6px; }
-    .instructions li:last-child{ border-bottom:none; padding-bottom:6px; }
-    .instructions li::before{
+
+    .ingredients li {
+      padding: 8px 0;
+      border-bottom: 1px dotted rgba(156, 136, 98, .45);
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+
+    .ingredients li:last-child {
+      border-bottom: none;
+    }
+
+    .ingredients li::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      flex-shrink: 0;
+      background: var(--olive);
+      transform: rotate(45deg);
+      margin-top: 9px;
+    }
+
+    .ingredients li.section {
+      font-family: "Cardo", serif;
+      font-style: italic;
+      color: var(--wine);
+      font-size: 14px;
+      letter-spacing: .2em;
+      border-bottom: none;
+      padding-top: 12px;
+      padding-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .ingredients li.section::before {
+      display: none;
+    }
+
+    .ingredients li.section:first-child {
+      padding-top: 0;
+    }
+
+    .instructions ol {
+      list-style: none;
+      counter-reset: step;
+      padding: 0;
+      margin: 0;
+      font-family: "Frank Ruhl Libre", serif;
+      font-size: 15.5px;
+      line-height: 1.65;
+      color: var(--ink);
+    }
+
+    .instructions li {
+      counter-increment: step;
+      padding: 14px 0 14px;
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 12px;
+      border-bottom: 1px dotted rgba(156, 136, 98, .4);
+      align-items: start;
+    }
+
+    .instructions li:first-child {
+      padding-top: 6px;
+    }
+
+    .instructions li:last-child {
+      border-bottom: none;
+      padding-bottom: 6px;
+    }
+
+    .instructions li::before {
       content: counter(step, decimal-leading-zero);
-      font-family:"Suez One", serif;
-      font-size:17px;
-      color:var(--wheat-deep);
-      line-height:1.2;
-      padding-top:3px;
-      align-self:start;
+      font-family: "Suez One", serif;
+      font-size: 17px;
+      color: var(--wheat-deep);
+      line-height: 1.2;
+      padding-top: 3px;
+      align-self: start;
     }
 
     /* CLOSING */
-    .closing .wrap{
-      position:absolute; inset:120px 90px;
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      text-align:center;
+    .closing .wrap {
+      position: absolute;
+      inset: 120px 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
     }
-    .closing h2{
-      font-family:"Suez One", serif;
-      font-weight:400;
-      font-size:48px;
-      color:#3a2410;
-      margin:18px 0 6px;
+
+    .closing h2 {
+      font-family: "Suez One", serif;
+      font-weight: 400;
+      font-size: 48px;
+      color: #3a2410;
+      margin: 18px 0 6px;
     }
-    .closing p{
-      font-family:"Frank Ruhl Libre", serif;
-      font-size:20px;
-      line-height:1.7;
-      color:var(--ink-soft);
-      max-width:520px;
+
+    .closing p {
+      font-family: "Frank Ruhl Libre", serif;
+      font-size: 20px;
+      line-height: 1.7;
+      color: var(--ink-soft);
+      max-width: 520px;
     }
-    .closing .families{
-      margin-top:28px;
-      display:flex; flex-wrap:wrap; justify-content:center; gap:8px 22px;
-      font-family:"Cardo", serif;
-      font-style:italic;
-      color:var(--olive);
-      font-size:16px;
+
+    .closing .families {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 22px;
+      font-family: "Cardo", serif;
+      font-style: italic;
+      color: var(--olive);
+      font-size: 16px;
     }
-    .closing .families span{
-      display:inline-flex; align-items:center; gap:8px;
+
+    .closing .families span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
-    .closing .families span::before{
-      content:"❦"; color:var(--wheat-deep); font-style:normal;
+
+    .closing .families span::before {
+      content: "❦";
+      color: var(--wheat-deep);
+      font-style: normal;
     }
-    .closing .footer-stamp{
-      margin-top:40px;
-      font-family:"Cardo", serif;
-      color:var(--wine);
-      letter-spacing:.5em;
-      font-size:12px;
-      text-transform:uppercase;
-      padding:10px 22px;
-      border:1px solid var(--wheat-deep);
-      border-radius:999px;
+
+    .closing .footer-stamp {
+      margin-top: 40px;
+      font-family: "Cardo", serif;
+      color: var(--wine);
+      letter-spacing: .5em;
+      font-size: 12px;
+      text-transform: uppercase;
+      padding: 10px 22px;
+      border: 1px solid var(--wheat-deep);
+      border-radius: 999px;
     }
 
     /* small decorative SVGs */
-    .leaf-row{
-      display:flex; justify-content:center; gap:10px; margin:8px 0;
-      opacity:.7;
+    .leaf-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 8px 0;
+      opacity: .7;
     }
 
     /* ============ PAGE NAV (vertical rail) ============ */
-    .page-nav{
-      position:fixed;
-      top:50%;
-      left:18px;
-      transform:translateY(-50%);
-      z-index:60;
-      direction:ltr;
-      font-family:"Frank Ruhl Libre","Heebo", serif;
+    .page-nav {
+      position: fixed;
+      top: 50%;
+      left: 18px;
+      transform: translateY(-50%);
+      z-index: 60;
+      direction: ltr;
+      font-family: "Frank Ruhl Libre", "Heebo", serif;
     }
-    .page-nav ul{
-      list-style:none; margin:0;
-      padding:14px 14px;
-      display:flex; flex-direction:column;
-      gap:14px;
-      background:transparent;
-      border:1px solid transparent;
-      border-radius:14px;
-      transition:background .25s ease, border-color .25s ease, padding .25s ease, box-shadow .25s ease;
-      backdrop-filter:blur(0px);
+
+    .page-nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 14px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 14px;
+      transition: background .25s ease, border-color .25s ease, padding .25s ease, box-shadow .25s ease;
+      backdrop-filter: blur(0px);
     }
+
     .page-nav:hover ul,
-    .page-nav:focus-within ul{
-      background:rgba(243, 234, 214, .96);
-      border-color:var(--wheat-deep);
-      padding:18px 20px;
-      box-shadow:0 12px 28px rgba(0,0,0,.35), 0 2px 6px rgba(0,0,0,.2);
-      backdrop-filter:blur(6px);
+    .page-nav:focus-within ul {
+      background: rgba(243, 234, 214, .96);
+      border-color: var(--wheat-deep);
+      padding: 18px 20px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, .35), 0 2px 6px rgba(0, 0, 0, .2);
+      backdrop-filter: blur(6px);
     }
-    .page-nav li{ margin:0; }
-    .page-nav a{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      text-decoration:none;
-      color:var(--ink-soft);
-      font-size:14px;
-      line-height:1.2;
-      white-space:nowrap;
-      direction:rtl;
-      padding:2px 0;
+
+    .page-nav li {
+      margin: 0;
     }
-    .page-nav .dash{
-      display:block;
-      width:20px;
-      height:2px;
-      background:rgba(243, 234, 214, .45);
-      border-radius:2px;
-      flex-shrink:0;
-      transition:width .25s ease, background-color .25s ease, height .25s ease;
+
+    .page-nav a {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: var(--ink-soft);
+      font-size: 14px;
+      line-height: 1.2;
+      white-space: nowrap;
+      direction: rtl;
+      padding: 2px 0;
     }
+
+    .page-nav .dash {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: rgba(243, 234, 214, .45);
+      border-radius: 2px;
+      flex-shrink: 0;
+      transition: width .25s ease, background-color .25s ease, height .25s ease;
+    }
+
     .page-nav:hover .dash,
-    .page-nav:focus-within .dash{
-      background:var(--rule-soft);
+    .page-nav:focus-within .dash {
+      background: var(--rule-soft);
     }
-    .page-nav a.active .dash{
-      width:30px;
-      height:3px;
-      background:#f3ead6;
+
+    .page-nav a.active .dash {
+      width: 30px;
+      height: 3px;
+      background: #f3ead6;
     }
+
     .page-nav:hover a.active .dash,
-    .page-nav:focus-within a.active .dash{
-      background:var(--wine);
+    .page-nav:focus-within a.active .dash {
+      background: var(--wine);
     }
-    .page-nav .label{
-      max-width:0;
-      overflow:hidden;
-      opacity:0;
-      transform:translateX(-6px);
-      transition:max-width .3s ease, opacity .25s ease, transform .25s ease;
-      pointer-events:none;
-      color:var(--ink-soft);
+
+    .page-nav .label {
+      max-width: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: max-width .3s ease, opacity .25s ease, transform .25s ease;
+      pointer-events: none;
+      color: var(--ink-soft);
     }
+
     .page-nav:hover .label,
-    .page-nav:focus-within .label{
-      max-width:260px;
-      opacity:1;
-      transform:translateX(0);
-      pointer-events:auto;
+    .page-nav:focus-within .label {
+      max-width: 260px;
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
     }
-    .page-nav a.active .label{
-      color:var(--wine);
-      font-weight:500;
+
+    .page-nav a.active .label {
+      color: var(--wine);
+      font-weight: 500;
     }
-    .page-nav a:hover .label{ color:var(--ink); }
-    @media (max-width: 900px){
-      .page-nav{ display:none; }
+
+    .page-nav a:hover .label {
+      color: var(--ink);
     }
-    @media (prefers-reduced-motion: reduce){
-      .page-nav ul, .page-nav .dash, .page-nav .label{ transition:none; }
+
+    @media (max-width: 900px) {
+      .page-nav {
+        display: none;
+      }
     }
-    @media (max-width: 760px){
-      .book{ margin:0; max-width:100%; }
-      .page{ padding:40px 28px; aspect-ratio:auto; min-height:100vh; }
-      .cover-title h1{ font-size:56px;}
-      .recipe h2.title{ font-size:42px; }
-      .recipe .columns{ grid-template-columns:1fr; gap:22px; }
-      .recipe .meta{ grid-template-columns:repeat(2,1fr); }
-      .recipe .meta .m{ border-bottom:1px solid var(--rule-soft);}
-      .recipe .meta .m:nth-child(odd){ border-left:1px solid var(--rule-soft);}
-      .recipe .meta .m:nth-child(2n){ border-left:none;}
-      .ded .ded-wrap, .closing .wrap{ inset:60px 24px; }
-      .cover-title h1{ font-size:46px;}
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .page-nav ul,
+      .page-nav .dash,
+      .page-nav .label {
+        transition: none;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .book {
+        margin: 0;
+        max-width: 100%;
+      }
+
+      .page {
+        padding: 40px 28px;
+        aspect-ratio: auto;
+        min-height: 100vh;
+      }
+
+      .cover-title h1 {
+        font-size: 56px;
+      }
+
+      .recipe h2.title {
+        font-size: 42px;
+      }
+
+      .recipe .columns {
+        grid-template-columns: 1fr;
+        gap: 22px;
+      }
+
+      .recipe .meta {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .recipe .meta .m {
+        border-bottom: 1px solid var(--rule-soft);
+      }
+
+      .recipe .meta .m:nth-child(odd) {
+        border-left: 1px solid var(--rule-soft);
+      }
+
+      .recipe .meta .m:nth-child(2n) {
+        border-left: none;
+      }
+
+      .ded .ded-wrap,
+      .closing .wrap {
+        inset: 60px 24px;
+      }
+
+      .cover-title h1 {
+        font-size: 46px;
+      }
 
       /* Cover partners mobile */
-      .cover-wheat{ bottom:250px; }
-      .cover-bottom{ bottom:190px; font-size:12px; letter-spacing:.25em; }
-      .cover-bottom .yr{ font-size:18px; letter-spacing:.3em; }
-      .cover-share{ bottom:140px; }
-      .cover-share .share-btn{ font-size:12px; letter-spacing:.2em; padding:7px 16px; }
-      .cover-share .share-btn svg{ width:14px; height:14px; }
-      .cover-partners{ bottom:40px; left:24px; right:24px; gap:10px; }
-      .cover-partners .pcaption{ font-size:10px; letter-spacing:.35em; }
+      .cover-wheat {
+        bottom: 250px;
+      }
+
+      .cover-bottom {
+        bottom: 190px;
+        font-size: 12px;
+        letter-spacing: .25em;
+      }
+
+      .cover-bottom .yr {
+        font-size: 18px;
+        letter-spacing: .3em;
+      }
+
+      .cover-share {
+        bottom: 140px;
+      }
+
+      .cover-share .share-btn {
+        font-size: 12px;
+        letter-spacing: .2em;
+        padding: 7px 16px;
+      }
+
+      .cover-share .share-btn svg {
+        width: 14px;
+        height: 14px;
+      }
+
+      .cover-partners {
+        bottom: 40px;
+        left: 24px;
+        right: 24px;
+        gap: 10px;
+      }
+
+      .cover-partners .pcaption {
+        font-size: 10px;
+        letter-spacing: .35em;
+      }
+
       .cover-partners .pcaption::before,
-      .cover-partners .pcaption::after{ flex-basis:40px; }
-      .cover-partners .plogos img{ height:38px; max-width:90px; }
-      .cover-partners .plogos .psep{ height:28px; margin:0 12px; }
+      .cover-partners .pcaption::after {
+        flex-basis: 40px;
+      }
+
+      .cover-partners .plogos img {
+        height: 38px;
+        max-width: 90px;
+      }
+
+      .cover-partners .plogos .psep {
+        height: 28px;
+        margin: 0 12px;
+      }
 
       /* TOC mobile fixes - prevent toc-foot from overlapping recipe items */
-      .toc{ padding-bottom:120px; }
-      .toc h2.section-title{ font-size:42px; margin-top:10px; }
-      .toc .sub{ font-size:15px; margin-bottom:24px; }
-      .toc-list{ margin:18px 0 0; }
-      .toc-list li{
-        grid-template-columns:48px 1fr auto;
-        gap:12px;
-        padding:14px 2px;
+      .toc {
+        padding-bottom: 120px;
       }
-      .toc-list .num{ font-size:28px; }
-      .toc-list .ttl{ font-size:18px; }
-      .toc-list .ttl small{ font-size:12px; margin-top:3px; }
-      .toc-list .pg{ font-size:14px; }
-      .toc-foot{
-        position:static;
-        margin-top:32px;
-        flex-direction:column;
-        gap:10px;
-        text-align:center;
-        font-size:12px;
+
+      .toc h2.section-title {
+        font-size: 42px;
+        margin-top: 10px;
       }
-      .toc-foot .l{ justify-content:center; }
+
+      .toc .sub {
+        font-size: 15px;
+        margin-bottom: 24px;
+      }
+
+      .toc-list {
+        margin: 18px 0 0;
+      }
+
+      .toc-list li {
+        grid-template-columns: 48px 1fr auto;
+        gap: 12px;
+        padding: 14px 2px;
+      }
+
+      .toc-list .num {
+        font-size: 28px;
+      }
+
+      .toc-list .ttl {
+        font-size: 18px;
+      }
+
+      .toc-list .ttl small {
+        font-size: 12px;
+        margin-top: 3px;
+      }
+
+      .toc-list .pg {
+        font-size: 14px;
+      }
+
+      .toc-foot {
+        position: static;
+        margin-top: 32px;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        font-size: 12px;
+      }
+
+      .toc-foot .l {
+        justify-content: center;
+      }
 
       /* Recipe top-band wraps on mobile */
-      .recipe .top-band{
-        flex-wrap:wrap;
-        gap:8px;
-        font-size:11px;
-        letter-spacing:.2em;
+      .recipe .top-band {
+        flex-wrap: wrap;
+        gap: 8px;
+        font-size: 11px;
+        letter-spacing: .2em;
       }
-      .recipe .top-band .chip{ font-size:10px; letter-spacing:.2em; }
+
+      .recipe .top-band .chip {
+        font-size: 10px;
+        letter-spacing: .2em;
+      }
 
       /* Dedication mobile sizing */
-      .ded h3{ font-size:15px; letter-spacing:.3em; }
-      .ded p.lead{ font-size:18px; line-height:1.6; }
-      .ded .verse{ font-size:15px; padding:18px 20px; }
+      .ded h3 {
+        font-size: 15px;
+        letter-spacing: .3em;
+      }
+
+      .ded p.lead {
+        font-size: 18px;
+        line-height: 1.6;
+      }
+
+      .ded .verse {
+        font-size: 15px;
+        padding: 18px 20px;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<!-- reusable SVG defs -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <symbol id="wheat" viewBox="0 0 40 100">
-      <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
-        <line x1="20" y1="20" x2="20" y2="98"/>
-        <g>
-          <path d="M20 30 Q12 28 10 22 Q16 22 20 28"/>
-          <path d="M20 30 Q28 28 30 22 Q24 22 20 28"/>
-          <path d="M20 42 Q12 40 10 34 Q16 34 20 40"/>
-          <path d="M20 42 Q28 40 30 34 Q24 34 20 40"/>
-          <path d="M20 54 Q12 52 10 46 Q16 46 20 52"/>
-          <path d="M20 54 Q28 52 30 46 Q24 46 20 52"/>
-          <path d="M20 66 Q12 64 10 58 Q16 58 20 64"/>
-          <path d="M20 66 Q28 64 30 58 Q24 58 20 64"/>
-          <path d="M20 78 Q14 76 12 70 Q17 70 20 75"/>
-          <path d="M20 78 Q26 76 28 70 Q23 70 20 75"/>
-          <path d="M20 18 Q17 12 20 4 Q23 12 20 18"/>
+  <!-- reusable SVG defs -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="wheat" viewBox="0 0 40 100">
+        <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+          <line x1="20" y1="20" x2="20" y2="98" />
+          <g>
+            <path d="M20 30 Q12 28 10 22 Q16 22 20 28" />
+            <path d="M20 30 Q28 28 30 22 Q24 22 20 28" />
+            <path d="M20 42 Q12 40 10 34 Q16 34 20 40" />
+            <path d="M20 42 Q28 40 30 34 Q24 34 20 40" />
+            <path d="M20 54 Q12 52 10 46 Q16 46 20 52" />
+            <path d="M20 54 Q28 52 30 46 Q24 46 20 52" />
+            <path d="M20 66 Q12 64 10 58 Q16 58 20 64" />
+            <path d="M20 66 Q28 64 30 58 Q24 58 20 64" />
+            <path d="M20 78 Q14 76 12 70 Q17 70 20 75" />
+            <path d="M20 78 Q26 76 28 70 Q23 70 20 75" />
+            <path d="M20 18 Q17 12 20 4 Q23 12 20 18" />
+          </g>
         </g>
-      </g>
-    </symbol>
-    <symbol id="olive" viewBox="0 0 80 30">
-      <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
-        <path d="M2 15 Q40 8 78 15"/>
-        <ellipse cx="14" cy="12" rx="5" ry="2.5" transform="rotate(-15 14 12)" fill="currentColor" opacity=".7"/>
-        <ellipse cx="28" cy="10" rx="5" ry="2.5" transform="rotate(-12 28 10)" fill="currentColor" opacity=".7"/>
-        <ellipse cx="44" cy="9" rx="5" ry="2.5" transform="rotate(-5 44 9)" fill="currentColor" opacity=".7"/>
-        <ellipse cx="60" cy="11" rx="5" ry="2.5" transform="rotate(8 60 11)" fill="currentColor" opacity=".7"/>
-        <ellipse cx="72" cy="14" rx="4" ry="2" transform="rotate(15 72 14)" fill="currentColor" opacity=".7"/>
-        <circle cx="36" cy="18" r="2" fill="currentColor"/>
-        <circle cx="54" cy="19" r="2" fill="currentColor"/>
-      </g>
-    </symbol>
-    <symbol id="ornament" viewBox="0 0 120 30">
-      <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
-        <line x1="0" y1="15" x2="40" y2="15"/>
-        <line x1="80" y1="15" x2="120" y2="15"/>
-        <circle cx="60" cy="15" r="4"/>
-        <circle cx="48" cy="15" r="1.6" fill="currentColor"/>
-        <circle cx="72" cy="15" r="1.6" fill="currentColor"/>
-        <path d="M54 9 Q60 4 66 9" />
-        <path d="M54 21 Q60 26 66 21" />
-      </g>
-    </symbol>
-    <symbol id="corner" viewBox="0 0 80 80">
-      <g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
-        <path d="M2 78 Q2 30 30 30 Q42 30 42 42"/>
-        <path d="M2 78 Q40 78 40 42"/>
-        <circle cx="42" cy="42" r="3"/>
-        <path d="M14 78 Q14 50 30 50"/>
-        <path d="M2 66 Q24 66 30 50"/>
-      </g>
-    </symbol>
-    <symbol id="wave" viewBox="0 0 120 12">
-      <path d="M0 6 Q15 0 30 6 T60 6 T90 6 T120 6" fill="none" stroke="currentColor" stroke-width="1"/>
-    </symbol>
-  </defs>
-</svg>
+      </symbol>
+      <symbol id="olive" viewBox="0 0 80 30">
+        <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+          <path d="M2 15 Q40 8 78 15" />
+          <ellipse cx="14" cy="12" rx="5" ry="2.5" transform="rotate(-15 14 12)" fill="currentColor" opacity=".7" />
+          <ellipse cx="28" cy="10" rx="5" ry="2.5" transform="rotate(-12 28 10)" fill="currentColor" opacity=".7" />
+          <ellipse cx="44" cy="9" rx="5" ry="2.5" transform="rotate(-5 44 9)" fill="currentColor" opacity=".7" />
+          <ellipse cx="60" cy="11" rx="5" ry="2.5" transform="rotate(8 60 11)" fill="currentColor" opacity=".7" />
+          <ellipse cx="72" cy="14" rx="4" ry="2" transform="rotate(15 72 14)" fill="currentColor" opacity=".7" />
+          <circle cx="36" cy="18" r="2" fill="currentColor" />
+          <circle cx="54" cy="19" r="2" fill="currentColor" />
+        </g>
+      </symbol>
+      <symbol id="ornament" viewBox="0 0 120 30">
+        <g fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round">
+          <line x1="0" y1="15" x2="40" y2="15" />
+          <line x1="80" y1="15" x2="120" y2="15" />
+          <circle cx="60" cy="15" r="4" />
+          <circle cx="48" cy="15" r="1.6" fill="currentColor" />
+          <circle cx="72" cy="15" r="1.6" fill="currentColor" />
+          <path d="M54 9 Q60 4 66 9" />
+          <path d="M54 21 Q60 26 66 21" />
+        </g>
+      </symbol>
+      <symbol id="corner" viewBox="0 0 80 80">
+        <g fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round">
+          <path d="M2 78 Q2 30 30 30 Q42 30 42 42" />
+          <path d="M2 78 Q40 78 40 42" />
+          <circle cx="42" cy="42" r="3" />
+          <path d="M14 78 Q14 50 30 50" />
+          <path d="M2 66 Q24 66 30 50" />
+        </g>
+      </symbol>
+      <symbol id="wave" viewBox="0 0 120 12">
+        <path d="M0 6 Q15 0 30 6 T60 6 T90 6 T120 6" fill="none" stroke="currentColor" stroke-width="1" />
+      </symbol>
+    </defs>
+  </svg>
 
-<div class="book" data-screen-label="ספר מתכונים">
+  <div class="book" data-screen-label="ספר מתכונים">
 
-<!-- ============ COVER ============ -->
-<section class="page cover" data-screen-label="01 שער">
-  <div class="frame"></div>
-  <div class="inner-frame"></div>
+    <!-- ============ COVER ============ -->
+    <section class="page cover" data-screen-label="01 שער">
+      <div class="frame"></div>
+      <div class="inner-frame"></div>
 
-  <svg class="cover-corner tl" style="color:var(--wheat-deep)"><use href="#corner"/></svg>
-  <svg class="cover-corner tr" style="color:var(--wheat-deep)"><use href="#corner"/></svg>
-  <svg class="cover-corner bl" style="color:var(--wheat-deep)"><use href="#corner"/></svg>
-  <svg class="cover-corner br" style="color:var(--wheat-deep)"><use href="#corner"/></svg>
-
-  <div class="cover-top">
-    חג שבועות <span class="dot">✦</span> תשפ״ו
-  </div>
-
-  <div class="cover-title">
-    <h1>מהמטבחים<br>שלנו</h1>
-    <span class="amp">~ אוסף מתכונים מהבית ~</span>
-    <h2>חג חלב ודבש</h2>
-  </div>
-
-  <div class="cover-wheat">
-    <svg width="32" height="80" style="color:var(--wheat-deep)"><use href="#wheat"/></svg>
-    <svg width="40" height="100" style="color:var(--wheat-deep)"><use href="#wheat"/></svg>
-    <svg width="32" height="80" style="color:var(--wheat-deep)"><use href="#wheat"/></svg>
-  </div>
-
-  <div class="cover-bottom">
-    <span class="yr">חמישה מתכונים · חמש משפחות</span>
-    מוקדש באהבה לנשות המילואים
-  </div>
-
-  <div class="cover-share">
-    <button class="share-btn" type="button" data-share aria-label="שתפי את הספר">
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z"/>
+      <svg class="cover-corner tl" style="color:var(--wheat-deep)">
+        <use href="#corner" />
       </svg>
-      <span class="label">שתפי את הספר</span>
-    </button>
-  </div>
+      <svg class="cover-corner tr" style="color:var(--wheat-deep)">
+        <use href="#corner" />
+      </svg>
+      <svg class="cover-corner bl" style="color:var(--wheat-deep)">
+        <use href="#corner" />
+      </svg>
+      <svg class="cover-corner br" style="color:var(--wheat-deep)">
+        <use href="#corner" />
+      </svg>
 
-  <div class="cover-partners">
-    <div class="pcaption">בשיתוף</div>
-    <div class="plogos">
-      <img src="images/maganim-center.webp" alt="מרכז מגנים">
-      <span class="psep" aria-hidden="true"></span>
-      <img src="images/oref-haifa.webp" alt="פיקוד העורף - חיפה">
-      <span class="psep" aria-hidden="true"></span>
-      <img src="images/shaagat-hari-logo.webp" alt="שאגת הארי">
-    </div>
-  </div>
-</section>
+      <div class="cover-top">
+        חג שבועות <span class="dot">✦</span> תשפ״ו
+      </div>
 
-<!-- ============ DEDICATION ============ -->
-<section class="page ded" data-screen-label="02 הקדשה">
-  <div class="header-mark">הקדשה</div>
-  <div class="ded-wrap">
-    <svg class="ornament" style="color:var(--wheat-deep)"><use href="#ornament"/></svg>
+      <div class="cover-title">
+        <h1>מהמטבחים<br>שלנו</h1>
+        <span class="amp">~ אוסף מתכונים מהבית ~</span>
+        <h2>חג חלב ודבש</h2>
+      </div>
 
-    <h3>לנשות המילואים</h3>
+      <div class="cover-wheat">
+        <svg width="32" height="80" style="color:var(--wheat-deep)">
+          <use href="#wheat" />
+        </svg>
+        <svg width="40" height="100" style="color:var(--wheat-deep)">
+          <use href="#wheat" />
+        </svg>
+        <svg width="32" height="80" style="color:var(--wheat-deep)">
+          <use href="#wheat" />
+        </svg>
+      </div>
 
-    <p class="lead">
-      בשעה שהבעלים בשירות, אתן מחזיקות את הבית, את הילדים,
-      ואת השולחן החגיגי.<br>
-      <em>החוברת הזו היא חיבוק קטן מאיתנו אליכן -</em>
-      אוסף מתכונים מהמטבחים של החברות בגדוד,
-      כדי שגם חג שבועות הזה יהיה לבן, מתוק, ומלא טעם של בית.
-    </p>
+      <div class="cover-bottom">
+        <span class="yr">מתכון משפחתי · משפחת קופר</span>
+        מוקדש באהבה לנשות המילואים
+      </div>
 
-    <div class="verse">
-      ״וְשָׂמַחְתָּ בְּחַגֶּךָ, אַתָּה וּבִנְךָ וּבִתֶּךָ…״
-      <span class="src">דברים ט״ז, י״ד</span>
-    </div>
+      <div class="cover-share">
+        <button class="share-btn" type="button" data-share aria-label="שתפי את הספר">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z" />
+          </svg>
+          <span class="label">שתפי את הספר</span>
+        </button>
+      </div>
 
-    <div class="sig">חג שמח, בריאות ובשורות טובות.</div>
-  </div>
-  <div class="pgnum"><span>2</span></div>
-</section>
+      <div class="cover-partners">
+        <div class="pcaption">בשיתוף</div>
+        <div class="plogos">
+          <img src="images/maganim-center.webp" alt="מרכז מגנים">
+          <span class="psep" aria-hidden="true"></span>
+          <img src="images/oref-haifa.webp" alt="פיקוד העורף - חיפה">
+          <span class="psep" aria-hidden="true"></span>
+          <img src="images/shaagat-hari-logo.webp" alt="שאגת הארי">
+        </div>
+      </div>
+    </section>
 
-<!-- ============ TABLE OF CONTENTS ============ -->
-<section class="page toc" data-screen-label="03 תוכן">
-  <div class="header-mark">תוכן עניינים</div>
-  <h2 class="section-title">מה בפנים</h2>
-  <div class="sub">~ חמישה מתכונים לשולחן החג ~</div>
+    <!-- ============ DEDICATION ============ -->
+    <section class="page ded" data-screen-label="02 הקדשה">
+      <div class="header-mark">הקדשה</div>
+      <div class="ded-wrap">
+        <svg class="ornament" style="color:var(--wheat-deep)">
+          <use href="#ornament" />
+        </svg>
 
-  <ol class="toc-list">
-    <li>
-      <span class="num">01</span>
-      <span class="ttl">קיש גבינות חגיגי
-        <small>משפחת מזרחי · גדוד 240</small>
-      </span>
-      <span class="pg">עמ׳ 06</span>
-    </li>
-    <li>
-      <span class="num">02</span>
-      <span class="ttl">לזניה גבינות חגיגית
-        <small>משפחת אברהם · גדוד 945</small>
-      </span>
-      <span class="pg">עמ׳ 08</span>
-    </li>
-    <li>
-      <span class="num">03</span>
-      <span class="ttl">בלינצ׳ס גבינה מתוקים
-        <small>משפחת לוי · גדוד 350</small>
-      </span>
-      <span class="pg">עמ׳ 10</span>
-    </li>
-    <li>
-      <span class="num">04</span>
-      <span class="ttl">עוגת גבינה אפויה קלאסית
-        <small>משפחת כהן · גדוד 6080</small>
-      </span>
-      <span class="pg">עמ׳ 12</span>
-    </li>
-    <li>
-      <span class="num">05</span>
-      <span class="ttl">עוגת גבינה קרה בכוסות
-        <small>משפחת ביטון · גדוד 7717</small>
-      </span>
-      <span class="pg">עמ׳ 14</span>
-    </li>
-  </ol>
+        <h3>לנשות המילואים</h3>
 
-  <div class="toc-foot">
-    <span class="l">
-      <svg width="60" height="15" style="color:var(--olive)"><use href="#olive"/></svg>
-      חלב · דבש · חיטה
-    </span>
-    <span>שבועות תשפ״ו · 2026</span>
-  </div>
-  <div class="pgnum"><span>3</span></div>
-</section>
+        <p class="lead">
+          בשעה שהבעלים בשירות, אתן מחזיקות את הבית, את הילדים,
+          ואת השולחן החגיגי.<br>
+          <em>החוברת הזו היא חיבוק קטן מאיתנו אליכן -</em>
+          אוסף מתכונים מהמטבחים של החברות בגדוד,
+          כדי שגם חג שבועות הזה יהיה לבן, מתוק, ומלא טעם של בית.
+        </p>
 
-<!-- ============ RECIPE 01 - Quiche ============ -->
-<section class="page recipe" id="recipe-01" data-screen-label="04 מתכון 01 - קיש גבינות">
-  <div class="top-band">
-    <span class="num-badge">מתכון · 01 / 05</span>
-    <span class="chip">מנה עיקרית · אפייה</span>
-    <button class="recipe-share-btn" type="button" data-share data-share-type="recipe" data-share-name="קיש גבינות חגיגי" aria-label="שתפי מתכון: קיש גבינות חגיגי">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z"/></svg>
-    </button>
-  </div>
+        <div class="verse">
+          ״וְשָׂמַחְתָּ בְּחַגֶּךָ, אַתָּה וּבִנְךָ וּבִתֶּךָ…״
+          <span class="src">דברים ט״ז, י״ד</span>
+        </div>
 
-  <h2 class="title">קיש גבינות<br>חגיגי</h2>
-  <div class="dedication">באדיבות משפחת מזרחי · גדוד 240</div>
+        <div class="sig">חג שמח, בריאות ובשורות טובות.</div>
+      </div>
+      <div class="pgnum"><span>2</span></div>
+    </section>
 
-  <div class="hero"><img src="images/recipe-03.webp" alt="קיש גבינות עם בצל סגול ועשבי תיבול"></div>
+    <!-- ============ TABLE OF CONTENTS ============ -->
+    <section class="page toc" data-screen-label="03 תוכן">
+      <div class="header-mark">תוכן עניינים</div>
+      <h2 class="section-title">מה בפנים</h2>
+      <div class="sub">~ מתכון משפחתי לשולחן החג ~</div>
 
-  <div class="meta">
-    <div class="m"><span class="k">הכנה</span><span class="v">45 דק׳</span></div>
-    <div class="m"><span class="k">אפייה</span><span class="v">50 דק׳</span></div>
-    <div class="m"><span class="k">תבנית</span><span class="v">קיש 26</span></div>
-    <div class="m"><span class="k">מנות</span><span class="v">8</span></div>
-  </div>
-
-  <div class="columns">
-    <div class="col ingredients">
-      <h4>~ מצרכים ~</h4>
-      <ul>
-        <li class="section">לבצק</li>
-        <li>250 גרם קמח</li>
-        <li>125 גרם חמאה קרה, חתוכה לקוביות</li>
-        <li>ביצה אחת</li>
-        <li>3 כפות מים קרים</li>
-        <li>קורט מלח</li>
-        <li class="section">למילוי</li>
-        <li>4 ביצים</li>
-        <li>200 מ״ל שמנת מתוקה 38%</li>
-        <li>100 מ״ל חלב</li>
-        <li>150 גרם גבינה צהובה מגוררת</li>
-        <li>100 גרם גבינת פטה מפוררת</li>
-        <li>100 גרם מוצרלה מגוררת</li>
-        <li>1 בצל סגול, פרוס דק ומאודה</li>
-        <li>מלח, פלפל שחור, אגוז מוסקט</li>
-      </ul>
-    </div>
-    <div class="col instructions">
-      <h4>~ אופן ההכנה ~</h4>
-      <ol>
-        <li>להכנת הבצק: מערבבים קמח, חמאה ומלח עד לקבלת תערובת פירורית. מוסיפים ביצה ומים קרים, ולשים רק עד לקבלת בצק אחיד. עוטפים בניילון נצמד ומקררים במשך 30 דקות.</li>
-        <li>מרדדים את הבצק לעובי של כ־3–4 מ"מ ומעבירים לתבנית קיש בקוטר 26 ס"מ. מחוררים את התחתית בעזרת מזלג ומקררים במשך 15 דקות נוספות.</li>
-        <li>מחממים תנור ל־180 מעלות. מכסים את הבצק בנייר אפייה ומניחים משקולות אפייה או אורז. אופים אפייה עיוורת במשך 12 דקות, מסירים את המשקולות ואופים 5 דקות נוספות.</li>
-        <li>מצננים את בסיס הקיש במשך מספר דקות עד להתייצבות קלה.</li>
-        <li>מטגנים את הבצל במחבת עם מעט שמן עד להזהבה ומניחים בצד.</li>
-        <li>בקערה גדולה טורפים ביצים, שמנת, חלב, מלח, פלפל ואגוז מוסקט.</li>
-        <li>מוסיפים את הגבינות ואת הבצל המאודה לתערובת ומערבבים היטב.</li>
-        <li>יוצקים את המלית על בסיס הבצק ואופים במשך 30–35 דקות, עד שהמלית מתייצבת והקיש מזהיב.</li>
-        <li>מניחים לקיש לנוח כ־10 דקות לפני ההגשה. מגישים חם או בטמפרטורת החדר.</li>
+      <ol class="toc-list">
+        <li>
+          <span class="num">01</span>
+          <span class="ttl">פשטידת פצפוצי אורז
+            <small>משפחת קופר · נתנאל, פתח תקווה</small>
+          </span>
+          <span class="pg">עמ׳ 04</span>
+        </li>
       </ol>
-    </div>
+
+      <div class="toc-foot">
+        <span class="l">
+          <svg width="60" height="15" style="color:var(--olive)">
+            <use href="#olive" />
+          </svg>
+          חלב · דבש · חיטה
+        </span>
+        <span>שבועות תשפ״ו · 2026</span>
+      </div>
+      <div class="pgnum"><span>3</span></div>
+    </section>
+
+    <!-- ============ RECIPE 01 - Rice Crispies Pashtida ============ -->
+    <section class="page recipe" id="recipe-01" data-screen-label="04 מתכון 01 - פשטידת פצפוצי אורז">
+      <div class="top-band">
+        <span class="num-badge">מתכון · 01 / 01</span>
+        <span class="chip">מנה עיקרית · אפייה</span>
+        <button class="recipe-share-btn" type="button" data-share data-share-type="recipe"
+          data-share-name="פשטידת פצפוצי אורז" aria-label="שתפי מתכון: פשטידת פצפוצי אורז">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z" />
+          </svg>
+        </button>
+      </div>
+
+      <h2 class="title">פשטידת<br>פצפוצי אורז</h2>
+      <div class="dedication">באדיבות משפחת קופר · נתנאל, פתח תקווה</div>
+
+      <div class="hero"><img src="images/pashtida-rice.webp" alt="פשטידת פצפוצי אורז זהובה עם בצל מטוגן מעל"></div>
+
+      <div class="meta">
+        <div class="m"><span class="k">הכנה</span><span class="v">15 דק׳</span></div>
+        <div class="m"><span class="k">אפייה</span><span class="v">40 דק׳</span></div>
+        <div class="m"><span class="k">תבנית</span><span class="v">בינונית</span></div>
+        <div class="m"><span class="k">מנות</span><span class="v">8</span></div>
+      </div>
+
+      <div class="columns">
+        <div class="col ingredients">
+          <h4>~ מצרכים ~</h4>
+          <ul>
+            <li>4 גביעי קוטג'</li>
+            <li>6 ביצים</li>
+            <li>6 כוסות פצפוצי אורז</li>
+            <li>3 כפות גדושות אבקת מרק</li>
+            <li>3 בצלים מטוגנים, קצוצים</li>
+            <li>שמן לטיגון</li>
+          </ul>
+          <p class="tip"
+            style="margin-top:18px; font-family:'Frank Ruhl Libre', serif; font-style:italic; color:var(--ink-soft); line-height:1.55;">
+            <strong style="color:var(--wine);">טיפ למשפחות:</strong><br>
+            כדי לתת לילדים להכין את הפשטידות בעצמם - טגנו מראש 20 בצלים קצוצים וחלקו לכוסות חד־פעמיות להקפאה. בכל פעם
+            שמתחשק, הילדים בוחרים, מערבבים, ונהנים מכל שנייה. 😘
+          </p>
+        </div>
+        <div class="col instructions">
+          <h4>~ אופן ההכנה ~</h4>
+          <ol>
+            <li>מחממים תנור ל־180 מעלות.</li>
+            <li>בקערה גדולה שמים את כל המצרכים: קוטג', ביצים, פצפוצי אורז, אבקת מרק ובצל מטוגן קצוץ.</li>
+            <li>מערבבים היטב עד לקבלת בלילה אחידה.</li>
+            <li>משמנים תבנית בינונית או מרפדים אותה בנייר אפייה.</li>
+            <li>יוצקים את הבלילה לתבנית ומיישרים את פני הפשטידה.</li>
+            <li>אופים בתנור שחומם מראש ל־180 מעלות עד להזהבה יפה (כ־40 דקות).</li>
+            <li>מוציאים מהתנור, מצננים מעט - ומגישים בתיאבון.</li>
+          </ol>
+          <p
+            style="margin-top:18px; font-family:'Cardo', serif; font-style:italic; color:var(--wine); text-align:center; font-size:15px;">
+            ⚠ זהירות - זו פשטידה ממכרת! 😘
+          </p>
+        </div>
+      </div>
+
+      <div class="pgnum"><span>4</span></div>
+    </section>
+
+
+    <!-- ============ CLOSING ============ -->
+    <section class="page closing" data-screen-label="09 סיום">
+      <div class="header-mark">סיום</div>
+      <div class="wrap">
+        <svg width="120" height="30" style="color:var(--wheat-deep)">
+          <use href="#ornament" />
+        </svg>
+        <h2>בתאבון</h2>
+        <p>
+          תודה למשפחת קופר שפתחה את המטבח, ולכל הנשים שמחזיקות את הבית באהבה.
+        </p>
+
+        <div class="families">
+          <span>משפחת קופר · נתנאל, פתח תקווה</span>
+        </div>
+
+        <div class="leaf-row" style="margin-top:36px;">
+          <svg width="90" height="20" style="color:var(--olive)">
+            <use href="#olive" />
+          </svg>
+        </div>
+
+        <div class="footer-stamp">שבועות · תשפ״ו</div>
+      </div>
+      <div class="pgnum"><span>6</span></div>
+    </section>
+
   </div>
 
-  <div class="pgnum"><span>6</span></div>
-</section>
+  <script>
+    (function buildPageNav() {
+      const headings = Array.from(document.querySelectorAll('h2'));
+      if (headings.length < 2) return;
 
-<!-- ============ RECIPE 02 - Lasagna ============ -->
-<section class="page recipe" id="recipe-02" data-screen-label="05 מתכון 02 - לזניה גבינות">
-  <div class="top-band">
-    <span class="num-badge">מתכון · 02 / 05</span>
-    <span class="chip">מנה עיקרית · תבנית</span>
-    <button class="recipe-share-btn" type="button" data-share data-share-type="recipe" data-share-name="לזניה גבינות חגיגית" aria-label="שתפי מתכון: לזניה גבינות חגיגית">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z"/></svg>
-    </button>
-  </div>
+      // Ensure each heading has an id and a scroll-anchor
+      headings.forEach((h, i) => {
+        if (!h.id) h.id = 'sec-' + (i + 1);
+        h.style.scrollMarginTop = '20px';
+      });
 
-  <h2 class="title">לזניה גבינות<br>חגיגית</h2>
-  <div class="dedication">באדיבות משפחת אברהם · גדוד 945</div>
+      // Build nav element
+      const nav = document.createElement('nav');
+      nav.className = 'page-nav';
+      nav.setAttribute('aria-label', 'ניווט בעמוד');
+      const ul = document.createElement('ul');
 
-  <div class="hero"><img src="images/recipe-05.webp" alt="לזניה גבינות אפויה בתבנית קרמית"></div>
+      const linkByHeading = new Map();
 
-  <div class="meta">
-    <div class="m"><span class="k">הכנה</span><span class="v">30 דק׳</span></div>
-    <div class="m"><span class="k">אפייה</span><span class="v">50 דק׳</span></div>
-    <div class="m"><span class="k">תבנית</span><span class="v">22×33</span></div>
-    <div class="m"><span class="k">מנות</span><span class="v">8–10</span></div>
-  </div>
+      headings.forEach(h => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = '#' + h.id;
 
-  <div class="columns">
-    <div class="col ingredients">
-      <h4>~ מצרכים ~</h4>
-      <ul>
-        <li>1 חבילת דפי לזניה (250 גרם)</li>
-        <li>500 גרם רוטב עגבניות איכותי</li>
-        <li>500 גרם גבינת ריקוטה או קוטג' 5%</li>
-        <li>300 גרם גבינת מוצרלה מגוררת</li>
-        <li>100 גרם גבינה צהובה מגוררת</li>
-        <li>50 גרם פרמזן מגורר</li>
-        <li>2 ביצים</li>
-        <li>1/4 כוס פטרוזיליה קצוצה</li>
-        <li>2 כפות בזיליקום טרי קצוץ</li>
-        <li>3 שיני שום כתושות</li>
-        <li>מלח ופלפל שחור</li>
-      </ul>
-    </div>
-    <div class="col instructions">
-      <h4>~ אופן ההכנה ~</h4>
-      <ol>
-        <li>מחממים תנור ל־180 מעלות.</li>
-        <li>בקערה גדולה מערבבים: ריקוטה (או קוטג'), ביצים, חצי מכמות המוצרלה, פטרוזיליה, בזיליקום, שום, מלח ופלפל.</li>
-        <li>בתבנית פיירקס בגודל 22×33 ס"מ יוצקים שכבה דקה של רוטב עגבניות בתחתית.</li>
-        <li>מסדרים שכבת דפי לזניה. אם משתמשים בדפים יבשים, ניתן להשרות אותם במים חמימים במשך כ־5 דקות. מעל מורחים שכבה מתערובת הגבינות ולאחר מכן שכבה נוספת של רוטב.</li>
-        <li>חוזרים על הפעולה במשך 3–4 שכבות, ומסיימים בשכבת דפי לזניה ורוטב עגבניות מעל.</li>
-        <li>מפזרים מעל את שאר המוצרלה, הגבינה הצהובה והפרמזן.</li>
-        <li>מכסים בנייר אלומיניום, מבלי שייגע בגבינה, ואופים במשך 30 דקות.</li>
-        <li>מסירים את נייר האלומיניום ואופים 15–20 דקות נוספות, עד שהחלק העליון מזהיב ומבעבע.</li>
-        <li>מניחים ללזניה להתייצב במשך 10 דקות לפני ההגשה. מגישים חם.</li>
-      </ol>
-    </div>
-  </div>
+        const dash = document.createElement('span');
+        dash.className = 'dash';
+        dash.setAttribute('aria-hidden', 'true');
 
-  <div class="pgnum"><span>8</span></div>
-</section>
+        const label = document.createElement('span');
+        label.className = 'label';
+        // strip <br> as space, then get clean text
+        label.textContent = h.innerHTML
+          .replace(/<br\s*\/?>/gi, ' ')
+          .replace(/<[^>]+>/g, '')
+          .replace(/\s+/g, ' ')
+          .trim();
 
-<!-- ============ RECIPE 03 - Blintzes ============ -->
-<section class="page recipe" id="recipe-03" data-screen-label="06 מתכון 03 - בלינצ׳ס">
-  <div class="top-band">
-    <span class="num-badge">מתכון · 03 / 05</span>
-    <span class="chip">מנה ראשונה · מטוגן</span>
-    <button class="recipe-share-btn" type="button" data-share data-share-type="recipe" data-share-name="בלינצ'ס גבינה מתוקים" aria-label="שתפי מתכון: בלינצ'ס גבינה מתוקים">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z"/></svg>
-    </button>
-  </div>
+        a.append(dash, label);
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          h.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.replaceState(null, '', '#' + h.id);
+        });
+        li.append(a);
+        ul.append(li);
+        linkByHeading.set(h, a);
+      });
 
-  <h2 class="title">בלינצ׳ס גבינה<br>מתוקים</h2>
-  <div class="dedication">באדיבות משפחת לוי · גדוד 350</div>
+      nav.append(ul);
+      document.body.append(nav);
 
-  <div class="hero"><img src="images/recipe-02.webp" alt="בלינצ׳ס גבינה עם רוטב פירות יער"></div>
-
-  <div class="meta">
-    <div class="m"><span class="k">הכנה</span><span class="v">40 דק׳</span></div>
-    <div class="m"><span class="k">טיגון</span><span class="v">25 דק׳</span></div>
-    <div class="m"><span class="k">מחבת</span><span class="v">20 ס״מ</span></div>
-    <div class="m"><span class="k">יחידות</span><span class="v">12–14</span></div>
-  </div>
-
-  <div class="columns">
-    <div class="col ingredients">
-      <h4>~ מצרכים ~</h4>
-      <ul>
-        <li class="section">לבלינצ'ס</li>
-        <li>1 כוס קמח (150 גרם)</li>
-        <li>2 ביצים</li>
-        <li>1 כוס חלב</li>
-        <li>1/2 כוס מים</li>
-        <li>2 כפות חמאה מומסת</li>
-        <li>1 כף סוכר</li>
-        <li>קורט מלח</li>
-        <li class="section">למלית</li>
-        <li>500 גרם גבינה לבנה 9%</li>
-        <li>1 ביצה</li>
-        <li>3 כפות סוכר</li>
-        <li>1 כפית תמצית וניל</li>
-        <li>גרידת לימון (אופציונלי)</li>
-      </ul>
-    </div>
-    <div class="col instructions">
-      <h4>~ אופן ההכנה ~</h4>
-      <ol>
-        <li>מערבבים את כל חומרי הבלילה במיקסר או בקערה עד לקבלת תערובת חלקה וללא גושים. מניחים לבלילה לנוח במשך 30 דקות.</li>
-        <li>מחממים מחבת נון־סטיק בקוטר 20 ס"מ ומשמנים קלות. יוצקים מעט מהבלילה ומטים את המחבת לפיזור אחיד בשכבה דקה.</li>
-        <li>מטגנים כדקה מכל צד, עד שהבלינצ'ס מזהיבים קלות. מעבירים לצלחת וממשיכים עד לסיום כל הבלילה.</li>
-        <li>להכנת המילוי: מערבבים בקערה גבינה, ביצה, סוכר וגרידת לימון, אם משתמשים.</li>
-        <li>מניחים כף נדיבה מהמילוי במרכז כל בלינצ'ס. מקפלים את שני הצדדים פנימה ומגלגלים לסיגר.</li>
-        <li>מטגנים את הבלינצ'ס הממולאים במחבת עם מעט חמאה במשך 2–3 דקות מכל צד, עד להזהבה.</li>
-        <li>מגישים חם, עם רוטב פירות יער, סילאן או אבקת סוכר.</li>
-      </ol>
-    </div>
-  </div>
-
-  <div class="pgnum"><span>10</span></div>
-</section>
-
-<!-- ============ RECIPE 04 - Cheesecake ============ -->
-<section class="page recipe" id="recipe-04" data-screen-label="07 מתכון 04 - עוגת גבינה אפויה">
-  <div class="top-band">
-    <span class="num-badge">מתכון · 04 / 05</span>
-    <span class="chip">קינוח · אפייה</span>
-    <button class="recipe-share-btn" type="button" data-share data-share-type="recipe" data-share-name="עוגת גבינה אפויה קלאסית" aria-label="שתפי מתכון: עוגת גבינה אפויה קלאסית">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z"/></svg>
-    </button>
-  </div>
-
-  <h2 class="title">עוגת גבינה אפויה<br>קלאסית</h2>
-  <div class="dedication">באדיבות משפחת כהן · גדוד 350</div>
-
-  <div class="hero"><img src="images/recipe-01.webp" alt="עוגת גבינה אפויה עם פירות יער"></div>
-
-  <div class="meta">
-    <div class="m"><span class="k">הכנה</span><span class="v">25 דק׳</span></div>
-    <div class="m"><span class="k">אפייה</span><span class="v">70 דק׳</span></div>
-    <div class="m"><span class="k">תבנית</span><span class="v">קפיצית 24</span></div>
-    <div class="m"><span class="k">מנות</span><span class="v">10–12</span></div>
-  </div>
-
-  <div class="columns">
-    <div class="col ingredients">
-      <h4>~ מצרכים ~</h4>
-      <ul>
-        <li>200 גרם ביסקוויטים פתי בר</li>
-        <li>100 גרם חמאה מומסת</li>
-        <li>750 גרם גבינה לבנה 5% (3 גביעים)</li>
-        <li>200 מ"ל שמנת חמוצה</li>
-        <li>1 כוס סוכר (200 גרם)</li>
-        <li>4 ביצים גדולות, מופרדות</li>
-        <li>3 כפות קורנפלור</li>
-        <li>1 כפית תמצית וניל</li>
-        <li>גרידת לימון אחד</li>
-      </ul>
-    </div>
-    <div class="col instructions">
-      <h4>~ אופן ההכנה ~</h4>
-      <ol>
-        <li>מחממים תנור ל־160 מעלות. מרפדים תבנית קפיצית בקוטר 24 ס"מ בנייר אפייה.</li>
-        <li>כותשים את הביסקוויטים ומערבבים עם החמאה המומסת עד לקבלת תערובת אחידה. מהדקים לתחתית התבנית ומקררים במשך 15 דקות.</li>
-        <li>בקערה גדולה מערבבים גבינה לבנה, שמנת חמוצה, 3/4 כוס סוכר, קורנפלור, וניל וגרידת לימון עד לקבלת תערובת חלקה.</li>
-        <li>בקערה נפרדת מקציפים את החלבונים עם 1/4 כוס הסוכר הנותר עד לקבלת קצף יציב.</li>
-        <li>מקפלים בעדינות את החלבונים לתערובת הגבינה, תוך שמירה על אווריריות המסה.</li>
-        <li>יוצקים את הבלילה על בסיס הביסקוויטים ומחליקים את פני העוגה.</li>
-        <li>אופים במשך 60–70 דקות, עד שמרכז העוגה מתייצב אך עדיין מעט רוטט. מכבים את התנור ומשאירים את העוגה בפנים למשך 30 דקות נוספות, כאשר דלת התנור פתוחה מעט.</li>
-        <li>מקררים במשך 4 שעות לפחות, רצוי למשך לילה שלם. מגישים עם פירות יער טריים.</li>
-      </ol>
-    </div>
-  </div>
-
-  <div class="pgnum"><span>12</span></div>
-</section>
-
-<!-- ============ RECIPE 05 - Cheesecake cups ============ -->
-<section class="page recipe" id="recipe-05" data-screen-label="08 מתכון 05 - עוגת גבינה קרה בכוסות">
-  <div class="top-band">
-    <span class="num-badge">מתכון · 05 / 05</span>
-    <span class="chip">קינוח · ללא אפייה</span>
-    <button class="recipe-share-btn" type="button" data-share data-share-type="recipe" data-share-name="עוגת גבינה קרה בכוסות" aria-label="שתפי מתכון: עוגת גבינה קרה בכוסות">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a3 3 0 1 0-2.83-4H15.1a3 3 0 0 0 .11 1.94L8.82 8.69A3 3 0 1 0 8.82 15.31l6.39 3.75A3 3 0 1 0 16.18 17.3l-6.39-3.75a3 3 0 0 0 0-2.7l6.4-3.76A3 3 0 0 0 18 8Z"/></svg>
-    </button>
-  </div>
-
-  <h2 class="title">עוגת גבינה קרה<br>בכוסות</h2>
-  <div class="dedication">באדיבות משפחת ביטון · גדוד 7717</div>
-
-  <div class="hero"><img src="images/recipe-04.webp" alt="עוגת גבינה בכוסות עם פירות יער"></div>
-
-  <div class="meta">
-    <div class="m"><span class="k">הכנה</span><span class="v">20 דק׳</span></div>
-    <div class="m"><span class="k">קירור</span><span class="v">4 שעות</span></div>
-    <div class="m"><span class="k">הגשה</span><span class="v">קר</span></div>
-    <div class="m"><span class="k">כוסות</span><span class="v">8</span></div>
-  </div>
-
-  <div class="columns">
-    <div class="col ingredients">
-      <h4>~ מצרכים ~</h4>
-      <ul>
-        <li>500 מ"ל שמנת להקצפה 38%</li>
-        <li>500 גרם גבינה לבנה או שמנת 9%</li>
-        <li>1 כוס סוכר (200 גרם)</li>
-        <li>1 שקית אינסטנט פודינג בטעם וניל</li>
-        <li>200 גרם ביסקוויטים פתי בר</li>
-        <li>50 גרם חמאה מומסת</li>
-        <li>1 כפית תמצית וניל</li>
-        <li>ריבת פירות יער או רוטב פירות לקישוט (אופציונלי)</li>
-      </ul>
-    </div>
-    <div class="col instructions">
-      <h4>~ אופן ההכנה ~</h4>
-      <ol>
-        <li>כותשים את הביסקוויטים לפירורים דקים ומערבבים עם החמאה המומסת עד לקבלת תערובת אחידה.</li>
-        <li>בקערת מיקסר עם וו הקצפה מקציפים את השמנת עם הסוכר ואבקת הפודינג במשך 3–4 דקות, עד לקבלת קצפת יציבה.</li>
-        <li>מוסיפים את הגבינה ותמצית הווניל וממשיכים לערבב במהירות נמוכה עד לקבלת תערובת אחידה וחלקה.</li>
-        <li>מרכיבים את הקינוח בכוסות הגשה: מניחים שכבת פירורי ביסקוויטים בתחתית.</li>
-        <li>מעל הביסקוויטים מוסיפים שכבת קרם גבינה. חוזרים על הפעולה פעם נוספת.</li>
-        <li>מסיימים בשכבת קרם גבינה ומקשטים בריבת פירות יער או בפירות טריים לפי הטעם.</li>
-        <li>מקררים במשך 4 שעות לפחות, רצוי למשך לילה שלם. מגישים קר.</li>
-      </ol>
-    </div>
-  </div>
-
-  <div class="pgnum"><span>14</span></div>
-</section>
-
-<!-- ============ CLOSING ============ -->
-<section class="page closing" data-screen-label="09 סיום">
-  <div class="header-mark">סיום</div>
-  <div class="wrap">
-    <svg width="120" height="30" style="color:var(--wheat-deep)"><use href="#ornament"/></svg>
-    <h2>בתאבון</h2>
-    <p>      
-      תודה לכל המשפחות שפתחו את המטבח, ולכל הנשים שמחזיקות את הבית באהבה.
-    </p>
-
-    <div class="families">
-      <span>משפחת כהן</span>
-      <span>משפחת לוי</span>
-      <span>משפחת מזרחי</span>
-      <span>משפחת ביטון</span>
-      <span>משפחת אברהם</span>
-    </div>
-
-    <div class="leaf-row" style="margin-top:36px;">
-      <svg width="90" height="20" style="color:var(--olive)"><use href="#olive"/></svg>
-    </div>
-
-    <div class="footer-stamp">שבועות · תשפ״ו</div>
-  </div>
-  <div class="pgnum"><span>16</span></div>
-</section>
-
-</div>
-
-<script>
-(function buildPageNav(){
-  const headings = Array.from(document.querySelectorAll('h2'));
-  if(headings.length < 2) return;
-
-  // Ensure each heading has an id and a scroll-anchor
-  headings.forEach((h, i) => {
-    if(!h.id) h.id = 'sec-' + (i + 1);
-    h.style.scrollMarginTop = '20px';
-  });
-
-  // Build nav element
-  const nav = document.createElement('nav');
-  nav.className = 'page-nav';
-  nav.setAttribute('aria-label', 'ניווט בעמוד');
-  const ul = document.createElement('ul');
-
-  const linkByHeading = new Map();
-
-  headings.forEach(h => {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    a.href = '#' + h.id;
-
-    const dash = document.createElement('span');
-    dash.className = 'dash';
-    dash.setAttribute('aria-hidden', 'true');
-
-    const label = document.createElement('span');
-    label.className = 'label';
-    // strip <br> as space, then get clean text
-    label.textContent = h.innerHTML
-      .replace(/<br\s*\/?>/gi, ' ')
-      .replace(/<[^>]+>/g, '')
-      .replace(/\s+/g, ' ')
-      .trim();
-
-    a.append(dash, label);
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      h.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      history.replaceState(null, '', '#' + h.id);
-    });
-    li.append(a);
-    ul.append(li);
-    linkByHeading.set(h, a);
-  });
-
-  nav.append(ul);
-  document.body.append(nav);
-
-  const setActive = (heading) => {
-    linkByHeading.forEach((a, h) => {
-      a.classList.toggle('active', h === heading);
-    });
-  };
-
-  // Active detection: pick the heading whose top is closest to (but above) ~25% from viewport top
-  const pickActive = () => {
-    const anchorY = window.innerHeight * 0.28;
-    let current = headings[0];
-    for(const h of headings){
-      const top = h.getBoundingClientRect().top;
-      if(top - anchorY <= 0) current = h;
-      else break;
-    }
-    setActive(current);
-  };
-
-  // Primary: IntersectionObserver — re-evaluate whenever any heading crosses the active band
-  if('IntersectionObserver' in window){
-    const io = new IntersectionObserver(() => pickActive(), {
-      rootMargin: '-25% 0% -70% 0%',
-      threshold: [0, 1]
-    });
-    headings.forEach(h => io.observe(h));
-  }
-  // Fallback / supplement: scroll listener (cheap, throttled via rAF)
-  let ticking = false;
-  window.addEventListener('scroll', () => {
-    if(ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      pickActive();
-      ticking = false;
-    });
-  }, { passive: true });
-
-  pickActive();
-})();
-
-(function(){
-  const buttons = document.querySelectorAll('[data-share]');
-  if(!buttons.length) return;
-
-  const baseUrl = location.origin + location.pathname;
-
-  const buildShareData = (btn) => {
-    const isRecipe = btn.dataset.shareType === 'recipe';
-    if(isRecipe){
-      const section = btn.closest('section[id]');
-      const id = section ? section.id : '';
-      const name = btn.dataset.shareName || 'מתכון';
-      return {
-        title: name + ' · מהמטבחים שלנו',
-        text: 'מתכון ' + name + ' מתוך ספר השבועות של נשות המילואים',
-        url: baseUrl + (id ? '#' + id : '')
+      const setActive = (heading) => {
+        linkByHeading.forEach((a, h) => {
+          a.classList.toggle('active', h === heading);
+        });
       };
-    }
-    return {
-      title: 'מהמטבחים שלנו · שבועות תשפ״ו',
-      text: 'ספר מתכונים דיגיטלי לשבועות תשפ״ו, ממשפחות גדודי המילואים',
-      url: baseUrl
-    };
-  };
 
-  buttons.forEach(btn => {
-    const label = btn.querySelector('.label');
-    const originalText = label ? label.textContent : '';
+      // Active detection: pick the heading whose top is closest to (but above) ~25% from viewport top
+      const pickActive = () => {
+        const anchorY = window.innerHeight * 0.28;
+        let current = headings[0];
+        for (const h of headings) {
+          const top = h.getBoundingClientRect().top;
+          if (top - anchorY <= 0) current = h;
+          else break;
+        }
+        setActive(current);
+      };
 
-    btn.addEventListener('click', async () => {
-      const shareData = buildShareData(btn);
-      const eventName = btn.dataset.shareType === 'recipe' ? 'share_recipe' : 'share_cover';
-      if(window.gtag) gtag('event', eventName, { recipe: btn.dataset.shareName || '', url: shareData.url });
-
-      if(navigator.share){
-        try { await navigator.share(shareData); return; }
-        catch(err){ if(err && err.name === 'AbortError') return; }
+      // Primary: IntersectionObserver - re-evaluate whenever any heading crosses the active band
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver(() => pickActive(), {
+          rootMargin: '-25% 0% -70% 0%',
+          threshold: [0, 1]
+        });
+        headings.forEach(h => io.observe(h));
       }
-      try {
-        await navigator.clipboard.writeText(shareData.url);
-        btn.classList.add('copied');
-        if(label) label.textContent = 'הקישור הועתק ✓';
-        setTimeout(() => {
-          btn.classList.remove('copied');
-          if(label) label.textContent = originalText;
-        }, 2000);
-      } catch(e) {}
-    });
-  });
-})();
-</script>
+      // Fallback / supplement: scroll listener (cheap, throttled via rAF)
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          pickActive();
+          ticking = false;
+        });
+      }, { passive: true });
+
+      pickActive();
+    })();
+
+    (function () {
+      const buttons = document.querySelectorAll('[data-share]');
+      if (!buttons.length) return;
+
+      const baseUrl = location.origin + location.pathname;
+
+      const buildShareData = (btn) => {
+        const isRecipe = btn.dataset.shareType === 'recipe';
+        if (isRecipe) {
+          const section = btn.closest('section[id]');
+          const id = section ? section.id : '';
+          const name = btn.dataset.shareName || 'מתכון';
+          return {
+            title: name + ' · מהמטבחים שלנו',
+            text: 'מתכון ' + name + ' מתוך ספר השבועות של נשות המילואים',
+            url: baseUrl + (id ? '#' + id : '')
+          };
+        }
+        return {
+          title: 'מהמטבחים שלנו · שבועות תשפ״ו',
+          text: 'ספר מתכונים דיגיטלי לשבועות תשפ״ו, ממשפחות גדודי המילואים',
+          url: baseUrl
+        };
+      };
+
+      buttons.forEach(btn => {
+        const label = btn.querySelector('.label');
+        const originalText = label ? label.textContent : '';
+
+        btn.addEventListener('click', async () => {
+          const shareData = buildShareData(btn);
+          const eventName = btn.dataset.shareType === 'recipe' ? 'share_recipe' : 'share_cover';
+          if (window.gtag) gtag('event', eventName, { recipe: btn.dataset.shareName || '', url: shareData.url });
+
+          if (navigator.share) {
+            try { await navigator.share(shareData); return; }
+            catch (err) { if (err && err.name === 'AbortError') return; }
+          }
+          try {
+            await navigator.clipboard.writeText(shareData.url);
+            btn.classList.add('copied');
+            if (label) label.textContent = 'הקישור הועתק ✓';
+            setTimeout(() => {
+              btn.classList.remove('copied');
+              if (label) label.textContent = originalText;
+            }, 2000);
+          } catch (e) { }
+        });
+      });
+    })();
+  </script>
 
 </body>
+
 </html>
