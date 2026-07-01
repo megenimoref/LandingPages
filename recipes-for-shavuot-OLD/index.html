@@ -868,7 +868,7 @@
                                   <img src="images/${escapeHtml(r.image)}" alt="${escapeHtml(r.name)}" loading="${i < 2 ? 'eager' : 'lazy'}" decoding="async">
                                 </div>
                                 <div class="pg-content-half">
-                                  <span class="page-num">— ${num} —</span>
+                                  <span class="page-num">- ${num} -</span>
                                   <h2 class="recipe-name">${escapeHtml(r.name)}</h2>
                                   <p class="recipe-dedication">${escapeHtml(r.dedication)}</p>
                                   <div class="scrollable">
@@ -893,7 +893,7 @@
                     parts.push(`
                         <div class="page" data-recipe-id="${r.id}" data-pg-type="content">
                           <div class="pg pg-content">
-                            <span class="page-num">— ${num} —</span>
+                            <span class="page-num">- ${num} -</span>
                             <h2 class="recipe-name">${escapeHtml(r.name)}</h2>
                             <p class="recipe-dedication">${escapeHtml(r.dedication)}</p>
                             <div class="scrollable">
@@ -1039,7 +1039,7 @@
                 updateChrome($fb.turn('page'));
             }
 
-            /* Resize handler — rebuild when crossing the mobile/desktop breakpoint */
+            /* Resize handler - rebuild when crossing the mobile/desktop breakpoint */
             let rTimer;
             window.addEventListener('resize', () => {
                 clearTimeout(rTimer);

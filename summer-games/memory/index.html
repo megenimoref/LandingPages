@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>זיכרון קיץ ישראלי</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* ===== SETUP ===== */
+    .setup-box {
+      max-width:460px; margin:0 auto;
+      background:white; border-radius:22px;
+      padding:30px; box-shadow:var(--shadow);
+      direction:rtl; text-align:right;
+    }
+    .setup-box h3 { font-size:15px; font-weight:800; color:var(--sea); margin-bottom:14px; }
+    .diff-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px; }
+    .diff-btn {
+      padding:14px 8px; border-radius:14px;
+      border:2px solid #dde8f5; background:white;
+      cursor:pointer; text-align:center; font-family:inherit;
+      transition:all 0.2s cubic-bezier(.34,1.56,.64,1);
+    }
+    .diff-btn:hover { transform:translateY(-3px); box-shadow:0 6px 18px rgba(0,119,182,0.15); }
+    .diff-btn .d-icon { font-size:30px; display:block; margin-bottom:4px; }
+    .diff-btn .d-label { font-size:13px; font-weight:700; color:var(--text); display:block; }
+    .diff-btn .d-sub { font-size:11px; color:var(--text-muted); }
+    .diff-btn.selected { border-color:var(--sea); background:var(--sea-light); }
+
+    .players-setup { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+    .player-chip {
+      padding:10px 14px; border-radius:12px; border:2px solid #dde8f5;
+      background:white; cursor:pointer; font-size:14px; font-weight:600;
+      transition:all 0.2s; font-family:inherit; text-align:center;
+    }
+    .player-chip:hover { transform:translateY(-2px); }
+    .player-chip.selected { border-color:var(--sea); background:var(--sea-light); color:var(--sea); }
+
+    #names-section { margin-bottom:20px; }
+    #names-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .name-input-wrap label { font-size:12px; color:var(--text-muted); font-weight:600; margin-bottom:4px; display:block; }
+    .name-input-wrap input {
+      width:100%; border:2px solid #dde8f5; border-radius:10px;
+      padding:8px 12px; font-size:14px; font-family:inherit;
+      outline:none; text-align:center; direction:rtl;
+      transition:border-color 0.2s;
+    }
+    .name-input-wrap input:focus { border-color:var(--sea); }
+    .load-status {
+      text-align:center; font-size:13px; color:var(--text-muted);
+      margin-bottom:14px; font-weight:600;
+    }
+    .load-status.error { color:#8b1a1a; }
+
+    /* ===== GAME INFO ===== */
+    .game-info {
+      display:flex; gap:10px; justify-content:center;
+      flex-wrap:wrap; margin-bottom:18px;
+    }
+    .info-pill {
+      background:white; border-radius:22px; padding:8px 18px;
+      box-shadow:0 2px 10px rgba(0,0,0,0.09);
+      display:flex; flex-direction:column; align-items:center; min-width:68px;
+      transition:transform 0.2s;
+    }
+    .info-pill.pop { animation:pop 0.35s ease; }
+    .pill-val { font-size:22px; font-weight:900; color:var(--sea); line-height:1.2; }
+    .pill-lbl { font-size:11px; color:var(--text-muted); font-weight:600; }
+
+    /* ===== PLAYER TABS ===== */
+    .player-tabs { display:flex; gap:8px; justify-content:center; margin-bottom:14px; flex-wrap:wrap; }
+    .player-tab {
+      padding:8px 16px; border-radius:22px; background:white;
+      box-shadow:0 2px 8px rgba(0,0,0,0.09); font-size:14px; font-weight:700;
+      border:2px solid transparent; transition:all 0.25s cubic-bezier(.34,1.56,.64,1);
+    }
+    .player-tab.active {
+      border-color:var(--sun); background:var(--sun-light); color:#7a5700;
+      transform:translateY(-3px); box-shadow:0 6px 18px rgba(255,184,0,0.25);
+    }
+
+    .turn-banner {
+      text-align:center; padding:10px 20px;
+      background:var(--sun-light); border-radius:14px;
+      margin-bottom:18px; font-size:15px; font-weight:700; color:#7a5700;
+      animation:slideDown 0.3s ease; display:none;
+    }
+
+    /* ===== MEMORY GRID ===== */
+    .mem-grid {
+      display:grid; gap:10px;
+      justify-content:center; margin:0 auto;
+      max-width:720px;
+    }
+
+    /* ===== CARD STYLES ===== */
+    .mem-card {
+      aspect-ratio:1; perspective:900px; cursor:pointer;
+    }
+    .card-inner {
+      width:100%; height:100%; position:relative;
+      transform-style:preserve-3d;
+      transition:transform 0.45s cubic-bezier(.4,.2,.2,1);
+      border-radius:14px;
+    }
+    .mem-card.flipped .card-inner,
+    .mem-card.matched .card-inner { transform:rotateY(180deg); }
+
+    .card-back, .card-front {
+      position:absolute; inset:0; border-radius:14px;
+      backface-visibility:hidden;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .card-back {
+      background:linear-gradient(135deg,#0054a6,#00B4D8);
+      box-shadow:0 4px 14px rgba(0,119,182,0.25);
+      font-size:24px;
+      border:2px solid rgba(255,255,255,0.25);
+      overflow:hidden; position:relative;
+    }
+    .card-back .wave {
+      position:absolute; bottom:-4px; left:0; right:0;
+      font-size:18px; opacity:0.3; animation:float 3s ease-in-out infinite;
+    }
+    .card-front {
+      transform:rotateY(180deg);
+      background:#F8FAFF;
+      border:2px solid #BCD0E5;
+      flex-direction:column; gap:5px; padding:6px;
+      box-shadow:0 4px 14px rgba(0,0,0,0.1);
+    }
+    .card-front .c-emoji { font-size:clamp(22px,5vw,44px); }
+    .card-front .c-label {
+      font-size:clamp(9px,2vw,12px); font-weight:700;
+      color:var(--sea); text-align:center; line-height:1.2;
+    }
+
+    .mem-card:hover:not(.flipped):not(.matched) .card-inner {
+      transform:translateY(-4px) rotateY(5deg);
+    }
+    .mem-card.matched .card-front {
+      border-color:var(--grass);
+      background:linear-gradient(135deg,#e8faf0,#f0fff4);
+    }
+    .mem-card.matched { animation:pop 0.45s ease; }
+
+    /* ===== WIN ===== */
+    .win-screen {
+      display:none; text-align:center;
+      animation:bounceIn 0.5s ease; direction:rtl;
+    }
+    .win-big { font-size:80px; display:block; animation:float 2.5s ease-in-out infinite; margin-bottom:14px; }
+    .win-title { font-size:2.2rem; font-weight:900; color:var(--sea); margin-bottom:8px; }
+    .win-sub { font-size:15px; color:var(--text-muted); margin-bottom:28px; line-height:1.6; }
+    .score-table {
+      background:white; border-radius:18px; padding:20px;
+      box-shadow:var(--shadow); max-width:360px; margin:0 auto 24px;
+      direction:rtl; text-align:right;
+    }
+    .score-row {
+      display:flex; justify-content:space-between; padding:9px 0;
+      border-bottom:1px solid #f0f0f5; align-items:center;
+    }
+    .score-row:last-child { border:none; }
+
+    /* Match particle burst */
+    @keyframes matchBurst {
+      0%   { transform:translate(-50%,-50%) scale(0); opacity:1; }
+      100% { transform:translate(-50%,-50%) scale(3); opacity:0; }
+    }
+    .match-ring {
+      position:fixed; pointer-events:none; z-index:999;
+      width:60px; height:60px;
+      border:3px solid var(--grass);
+      border-radius:50%;
+      animation:matchBurst 0.5s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-logos" aria-label="לוגואים">
+        <img src="../../images/oref-haifa.webp" alt="מחוז חיפה פיקוד העורף">
+        <img src="../../images/maganim-center.webp" alt="מרכז מגנים">
+        <img src="../../images/shaagat-hari-logo.webp" alt="שאגת הארי">
+      </div>
+      <a href="../index.html" class="brand-text" onclick="sound.button()">
+        <strong>קיץ ישראלי</strong>
+        <span>משחקים לכל המשפחה</span>
+      </a>
+      <nav class="header-nav">
+        <a href="../crossword-puzzle/index.html" class="nav-link" onclick="sound.button()">✏️ תשבץ</a>
+        <a href="../quiz/index.html"   class="nav-link" onclick="sound.button()">🏆 חידון</a>
+        <a href="index.html"  class="nav-link active" onclick="sound.button()">🃏 זיכרון</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <a href="../index.html" class="back-btn" onclick="sound.button()">→ חזרה לתפריט</a>
+
+    <div class="game-title">
+      <h1>🃏 זיכרון קיץ ישראלי</h1>
+      <p id="game-subtitle">מצאו את הזוגות! קלפים ישראליים צבעוניים</p>
+    </div>
+
+    <!-- SETUP -->
+    <div id="setup-screen">
+      <div class="setup-box animate-in">
+        <div class="load-status" id="load-status">טוען קלפים...</div>
+
+        <h3>🎯 רמת קושי</h3>
+        <div class="diff-grid">
+          <button class="diff-btn selected" data-pairs="6" onclick="selectDiff(this)">
+            <span class="d-icon">😊</span>
+            <span class="d-label">קל</span>
+            <span class="d-sub">12 קלפים</span>
+          </button>
+          <button class="diff-btn" data-pairs="10" onclick="selectDiff(this)">
+            <span class="d-icon">😎</span>
+            <span class="d-label">בינוני</span>
+            <span class="d-sub">20 קלפים</span>
+          </button>
+          <button class="diff-btn" data-pairs="15" onclick="selectDiff(this)">
+            <span class="d-icon">🔥</span>
+            <span class="d-label">קשה</span>
+            <span class="d-sub">30 קלפים</span>
+          </button>
+        </div>
+
+        <h3>👥 שחקנים</h3>
+        <div class="players-setup">
+          <button class="player-chip selected" data-n="1" onclick="selectPlayers(this)">🙋 שחקן אחד</button>
+          <button class="player-chip" data-n="2" onclick="selectPlayers(this)">👫 2 שחקנים</button>
+          <button class="player-chip" data-n="3" onclick="selectPlayers(this)">👨‍👩‍👦 3 שחקנים</button>
+          <button class="player-chip" data-n="4" onclick="selectPlayers(this)">👨‍👩‍👧‍👦 4 שחקנים</button>
+        </div>
+
+        <div id="names-section" style="display:none;">
+          <h3>✏️ שמות השחקנים</h3>
+          <div id="names-grid"></div>
+        </div>
+
+        <button class="btn btn-primary" id="start-btn" onclick="startGame()" style="width:100%;font-size:16px;padding:14px;margin-top:6px;" disabled>
+          🎮 התחל משחק!
+        </button>
+      </div>
+    </div>
+
+    <!-- GAME -->
+    <div id="game-screen" style="display:none;">
+      <div class="game-info">
+        <div class="info-pill" id="pill-moves">
+          <span class="pill-val" id="moves-count">0</span>
+          <span class="pill-lbl">מהלכים</span>
+        </div>
+        <div class="info-pill" id="pill-pairs">
+          <span class="pill-val" id="pairs-found">0</span>
+          <span class="pill-lbl">זוגות</span>
+        </div>
+        <div class="info-pill" id="pill-left">
+          <span class="pill-val" id="pairs-left">0</span>
+          <span class="pill-lbl">נותרו</span>
+        </div>
+        <div class="info-pill">
+          <span class="pill-val" id="timer-display">0:00</span>
+          <span class="pill-lbl">זמן</span>
+        </div>
+      </div>
+
+      <div class="player-tabs" id="player-tabs"></div>
+      <div class="turn-banner" id="turn-banner"></div>
+
+      <div class="mem-grid" id="mem-grid"></div>
+
+      <div style="text-align:center;margin-top:20px;">
+        <button class="btn btn-secondary" onclick="backToSetup()">🔄 התחל מחדש</button>
+      </div>
+    </div>
+
+    <!-- WIN -->
+    <div class="win-screen" id="win-screen">
+      <span class="win-big">🎊</span>
+      <div class="win-title" id="win-title">כל הכבוד!</div>
+      <div class="win-sub" id="win-sub"></div>
+      <div class="score-table" id="win-scores"></div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="backToSetup()">🎮 שחק שוב</button>
+        <a href="../index.html" class="btn btn-secondary">🏠 תפריט</a>
+      </div>
+    </div>
+
+  </main>
+
+  <button class="sound-toggle" id="sound-btn" title="סאונד" onclick="toggleSound()">🔊</button>
+
+  <footer class="site-footer">
+    <div class="footer-nav">
+      <a href="../crossword-puzzle/index.html">✏️ תשבץ</a>
+      <a href="../quiz/index.html">🏆 חידון</a>
+      <a href="index.html">🃏 זיכרון</a>
+    </div>
+    <div>קיץ ישראלי 2025 ☀️</div>
+  </footer>
+
+  <script src="../sounds.js"></script>
+  <script>
+  const DEFAULT_CONTENT = {
+    title: "זיכרון קיץ ישראלי",
+    subtitle: "מצאו את הזוגות! קלפים ישראליים צבעוניים",
+    cards: [
+      {emoji:'☀️',label:'שמש'},{emoji:'🌊',label:'גל'},{emoji:'🏖️',label:'חוף'},
+      {emoji:'🌴',label:'דקל'},{emoji:'🧆',label:'פלאפל'},{emoji:'🍉',label:'אבטיח'},
+      {emoji:'🍋',label:'לימון'},{emoji:'🦋',label:'פרפר'},{emoji:'🌺',label:'פרח'},
+      {emoji:'🐬',label:'דולפין'},{emoji:'🦀',label:'סרטן'},{emoji:'🐠',label:'דג'},
+      {emoji:'🍦',label:'גלידה'},{emoji:'🌿',label:'עשב'},{emoji:'⛵',label:'סירה'}
+    ]
+  };
+
+  const COLORS = ['#0077B6','#52B788','#E07A5F','#9B59B6'];
+  const EMOJIS = ['🦁','🐬','🦋','🦊'];
+  const NAMES_DEFAULT = ['דנה','יוסי','מיכל','אבי'];
+
+  let content = DEFAULT_CONTENT;
+  let allCards = content.cards;
+  let numPairs=6, numPlayers=1, playerNames=['שחקן'];
+  let cards=[], flipped=[], matched=0, moves=0;
+  let currentPlayer=0, playerScores=[], playerMoves=[];
+  let lockBoard=false, timerInt=null, seconds=0;
+
+  async function loadContent() {
+    const status = document.getElementById('load-status');
+    try {
+      const res = await fetch('memory-cards.json', { cache: 'no-store' });
+      if (res.ok) {
+        const json = await res.json();
+        if (Array.isArray(json.cards) && json.cards.length >= 2) content = json;
+      } else {
+        throw new Error('HTTP ' + res.status);
+      }
+      allCards = content.cards;
+      status.textContent = `✓ נטענו ${allCards.length} קלפים`;
+      setTimeout(() => { status.style.transition = 'opacity 0.4s'; status.style.opacity = '0'; }, 2200);
+    } catch (err) {
+      console.warn('memory-cards.json לא נטען. משתמשים בברירת המחדל.', err);
+      allCards = content.cards;
+      status.textContent = 'משתמשים במאגר גיבוי';
+      status.classList.add('error');
+    }
+    document.getElementById('game-subtitle').textContent = content.subtitle || 'מצאו את הזוגות!';
+    document.getElementById('start-btn').disabled = false;
+  }
+
+  function selectDiff(btn) {
+    document.querySelectorAll('.diff-btn').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    numPairs=parseInt(btn.dataset.pairs);
+    sound.button();
+  }
+
+  function selectPlayers(btn) {
+    document.querySelectorAll('.player-chip').forEach(b=>b.classList.remove('selected'));
+    btn.classList.add('selected');
+    numPlayers=parseInt(btn.dataset.n);
+    sound.button();
+    const ns=document.getElementById('names-section');
+    const ng=document.getElementById('names-grid');
+    if (numPlayers>1) {
+      ns.style.display='block';
+      ng.innerHTML='';
+      for (let i=0;i<numPlayers;i++) {
+        const div=document.createElement('div');
+        div.className='name-input-wrap';
+        div.innerHTML=`<label>שחקן ${i+1}</label>
+          <input type="text" value="${NAMES_DEFAULT[i]||'שחקן'}" maxlength="10"
+            onfocus="this.style.borderColor='var(--sea)'" onblur="this.style.borderColor='#dde8f5'">`;
+        ng.appendChild(div);
+      }
+    } else { ns.style.display='none'; }
+  }
+
+  function startGame() {
+    sound.reveal();
+    if (numPlayers>1) {
+      playerNames=[];
+      document.querySelectorAll('#names-grid input').forEach(inp=>{
+        playerNames.push(inp.value.trim()||`שחקן ${playerNames.length+1}`);
+      });
+    } else { playerNames=['שחקן']; }
+
+    // Guard: don't try to build more pairs than the pool allows
+    const availablePairs = allCards.length;
+    const effectivePairs = Math.min(numPairs, availablePairs);
+    if (effectivePairs < 2) {
+      alert('אין מספיק קלפים במאגר להתחיל משחק');
+      return;
+    }
+    if (effectivePairs < numPairs) {
+      alert(`במאגר יש רק ${availablePairs} קלפים - המשחק ירוץ עם ${effectivePairs} זוגות במקום ${numPairs}`);
+    }
+
+    playerScores=Array(numPlayers).fill(0);
+    playerMoves=Array(numPlayers).fill(0);
+    currentPlayer=0; matched=0; moves=0; seconds=0; flipped=[]; lockBoard=false;
+
+    const pool=[...allCards].sort(()=>Math.random()-0.5).slice(0,effectivePairs);
+    cards=[...pool,...pool].sort(()=>Math.random()-0.5).map((c,i)=>({
+      ...c, id:i, pairId:c.emoji,
+      isFlipped:false, isMatched:false,
+    }));
+    numPairs = effectivePairs;
+
+    document.getElementById('setup-screen').style.display='none';
+    document.getElementById('game-screen').style.display='block';
+    document.getElementById('moves-count').textContent='0';
+    document.getElementById('pairs-found').textContent='0';
+    document.getElementById('pairs-left').textContent=numPairs;
+    document.getElementById('timer-display').textContent='0:00';
+    renderPlayerTabs();
+    updateTurnBanner();
+    renderGrid();
+    startTimer();
+  }
+
+  function renderPlayerTabs() {
+    const tabs=document.getElementById('player-tabs');
+    tabs.style.display=numPlayers>1?'flex':'none';
+    tabs.innerHTML='';
+    playerNames.forEach((name,i)=>{
+      const tab=document.createElement('div');
+      tab.className='player-tab'+(i===currentPlayer?' active':'');
+      tab.id='ptab-'+i;
+      tab.innerHTML=`${EMOJIS[i]||'⭐'} ${name} <span style="color:${COLORS[i]||'var(--sea)'};font-weight:900"> ${playerScores[i]}</span>`;
+      tabs.appendChild(tab);
+    });
+  }
+
+  function updateTurnBanner() {
+    const b=document.getElementById('turn-banner');
+    if (numPlayers>1) {
+      b.style.display='block';
+      b.innerHTML=`${EMOJIS[currentPlayer]||'⭐'} תור של <strong>${playerNames[currentPlayer]}</strong>`;
+      b.style.animation='none';
+      requestAnimationFrame(()=>{ b.style.animation='slideDown 0.3s ease'; });
+    } else { b.style.display='none'; }
+  }
+
+  function computeGridLayout() {
+    const cols=numPairs<=6?4:numPairs<=10?5:6;
+    const cardSize=Math.min(112,Math.floor((Math.min(window.innerWidth-48,720))/cols)-10);
+    return { cols, cardSize };
+  }
+
+  function renderGrid() {
+    const g=document.getElementById('mem-grid');
+    const { cols, cardSize } = computeGridLayout();
+    g.style.gridTemplateColumns=`repeat(${cols},${cardSize}px)`;
+    g.innerHTML='';
+    cards.forEach((card,i)=>{
+      const div=document.createElement('div');
+      div.className='mem-card' + (card.isFlipped ? ' flipped' : '') + (card.isMatched ? ' matched' : '');
+      div.style.cssText=`width:${cardSize}px;height:${cardSize}px;animation:scaleIn 0.4s ease ${i*0.03}s both;`;
+      div.dataset.index=i;
+      div.innerHTML=`<div class="card-inner">
+        <div class="card-back">🌊<div class="wave">🌊🌊🌊</div></div>
+        <div class="card-front">
+          <span class="c-emoji">${card.emoji}</span>
+          <span class="c-label">${card.label}</span>
+        </div>
+      </div>`;
+      div.addEventListener('click',()=>flipCard(i,div));
+      g.appendChild(div);
+    });
+  }
+
+  function flipCard(i, el) {
+    if (lockBoard||cards[i].isMatched||el.classList.contains('flipped')) return;
+    if (flipped.length===1&&flipped[0].i===i) return;
+    sound.flip();
+    el.classList.add('flipped');
+    cards[i].isFlipped=true;
+    flipped.push({i,el});
+    if (flipped.length===2) {
+      lockBoard=true;
+      moves++;
+      playerMoves[currentPlayer]++;
+      popPill('pill-moves');
+      document.getElementById('moves-count').textContent=moves;
+      const [a,b]=flipped;
+      if (cards[a.i].pairId===cards[b.i].pairId) {
+        // Match!
+        setTimeout(()=>{
+          [a,b].forEach(x=>{
+            cards[x.i].isMatched=true;
+            x.el.classList.add('matched');
+            x.el.style.cursor='default';
+            burstAt(x.el);
+          });
+          matched++;
+          playerScores[currentPlayer]++;
+          popPill('pill-pairs');
+          popPill('pill-left');
+          document.getElementById('pairs-found').textContent=matched;
+          document.getElementById('pairs-left').textContent=numPairs-matched;
+          renderPlayerTabs();
+          sound.match();
+          flipped=[]; lockBoard=false;
+          if (matched===numPairs) { clearInterval(timerInt); setTimeout(showWin,600); }
+        },350);
+      } else {
+        setTimeout(()=>{
+          [a,b].forEach(x=>{ x.el.classList.remove('flipped'); cards[x.i].isFlipped=false; });
+          sound.wrong();
+          flipped=[]; lockBoard=false;
+          if (numPlayers>1) {
+            currentPlayer=(currentPlayer+1)%numPlayers;
+            renderPlayerTabs(); updateTurnBanner();
+          }
+        },950);
+      }
+    }
+  }
+
+  function burstAt(el) {
+    const rect=el.getBoundingClientRect();
+    const ring=document.createElement('div');
+    ring.className='match-ring';
+    ring.style.cssText=`left:${rect.left+rect.width/2}px;top:${rect.top+rect.height/2}px;`;
+    document.body.appendChild(ring);
+    setTimeout(()=>ring.remove(),600);
+    sparkleAt(el,12);
+  }
+
+  function popPill(id) {
+    const pill=document.getElementById(id);
+    pill.classList.remove('pop');
+    void pill.offsetWidth;
+    pill.classList.add('pop');
+  }
+
+  function startTimer() {
+    clearInterval(timerInt);
+    timerInt=setInterval(()=>{
+      seconds++;
+      const m=Math.floor(seconds/60), s=seconds%60;
+      document.getElementById('timer-display').textContent=`${m}:${s.toString().padStart(2,'0')}`;
+    },1000);
+  }
+
+  function showWin() {
+    document.getElementById('game-screen').style.display='none';
+    const ws=document.getElementById('win-screen');
+    ws.style.display='block';
+    const m=Math.floor(seconds/60), s=seconds%60;
+    const tStr=`${m}:${s.toString().padStart(2,'0')}`;
+    if (numPlayers===1) {
+      document.getElementById('win-title').textContent='🎉 כל הכבוד!';
+      document.getElementById('win-sub').innerHTML=`השלמת ${numPairs} זוגות ב-${moves} מהלכים!<br>זמן: ${tStr} ⏱️`;
+    } else {
+      const maxScore=Math.max(...playerScores);
+      const winners=playerNames.filter((_,i)=>playerScores[i]===maxScore);
+      document.getElementById('win-title').textContent=`🥇 ${winners.join(' ו-')} מנצח/ת!`;
+      document.getElementById('win-sub').innerHTML=`${moves} מהלכים סה"כ | ${tStr}`;
+    }
+    const st=document.getElementById('win-scores');
+    st.innerHTML='<div style="font-weight:800;margin-bottom:12px;font-size:15px;text-align:center">תוצאות</div>';
+    if (numPlayers>1) {
+      const ranked=playerNames.map((n,i)=>({n,s:playerScores[i],m:playerMoves[i],i}))
+        .sort((a,b)=>b.s-a.s);
+      ranked.forEach((p,pos)=>{
+        const row=document.createElement('div');
+        row.className='score-row';
+        row.innerHTML=`<div style="display:flex;align-items:center;gap:8px">
+            <span>${pos===0?'🥇':pos===1?'🥈':'🥉'}</span>
+            <span>${EMOJIS[p.i]||'⭐'} ${p.n}</span>
+          </div>
+          <span style="font-weight:900;color:${COLORS[p.i]||'var(--sea)'}">${p.s} זוגות</span>`;
+        st.appendChild(row);
+      });
+    } else {
+      const row=document.createElement('div');
+      row.className='score-row';
+      row.style.justifyContent='center';
+      row.style.gap='16px';
+      row.innerHTML=`<span>⏱️ ${tStr}</span><span>🎯 ${moves} מהלכים</span><span>🃏 ${numPairs} זוגות</span>`;
+      st.appendChild(row);
+    }
+    sound.win();
+    launchConfetti(180);
+  }
+
+  function backToSetup() {
+    sound.button();
+    clearInterval(timerInt);
+    document.getElementById('win-screen').style.display='none';
+    document.getElementById('game-screen').style.display='none';
+    document.getElementById('setup-screen').style.display='block';
+  }
+
+  function toggleSound() {
+    sound.enabled=!sound.enabled;
+    document.getElementById('sound-btn').textContent=sound.enabled?'🔊':'🔇';
+    document.getElementById('sound-btn').classList.toggle('muted',!sound.enabled);
+    if (sound.enabled) sound.button();
+  }
+
+  // Re-render grid on resize so cards fit the new width
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      if (document.getElementById('game-screen').style.display !== 'none' && cards.length) {
+        renderGrid();
+      }
+    }, 200);
+  });
+
+  loadContent();
+  </script>
+</body>
+</html>

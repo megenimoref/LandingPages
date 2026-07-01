@@ -1,0 +1,1257 @@
+<!--
+  Live:  https://megenimoref.github.io/LandingPages/ai-content-playbook/
+  Local: http://127.0.0.1:8080/ai-content-playbook/
+
+  Inspired by:
+  https://sifuyik.substack.com/p/stop-asking-which-image-or-video
+  This page is an adapted Hebrew playbook, not a translation or copy of the article.
+-->
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#102a36">
+  <title>מפרומפט לפרסום · סטאק AI מעשי לתוכן בעברית</title>
+  <meta name="description"
+    content="דף עבודה בעברית ליוצרי תוכן, מפקדים, צוותי חינוך וקהילות: איך לבחור כלי AI לתמונה, וידאו, מחקר ופרסום - לפי המשימה ולא לפי ההייפ.">
+  <link rel="canonical" href="https://megenimoref.github.io/LandingPages/ai-content-playbook/">
+  <link rel="icon" type="image/webp" href="../images/maganim-center.webp">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  <meta property="og:site_name" content="מפרומפט לפרסום">
+  <meta property="og:title" content="מפרומפט לפרסום · סטאק AI מעשי לתוכן בעברית">
+  <meta property="og:description"
+    content="מפת עבודה פרקטית ליצירת תמונות, סרטונים ודפי נחיתה עם AI - מותאם לעשייה קהילתית, חינוכית ומבצעית בעורף.">
+  <meta property="og:url" content="https://megenimoref.github.io/LandingPages/ai-content-playbook/">
+  <meta property="og:image" content="https://megenimoref.github.io/LandingPages/images/maganim-center.webp">
+  <meta property="og:image:alt" content="סטאק AI מעשי לתוכן בעברית">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XSH19K5LBZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XSH19K5LBZ');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #f7f3eb;
+      --surface: #ffffff;
+      --surface-soft: #eef2ee;
+      --ink: #14232d;
+      --ink-soft: #50606a;
+      --muted: #70808a;
+      --line: rgba(20, 35, 45, 0.16);
+      --navy: #102a36;
+      --blue: #17617c;
+      --teal: #277c72;
+      --gold: #d89b37;
+      --red: #c85e42;
+      --green: #587f4a;
+      --shadow: 0 18px 48px rgba(16, 42, 54, 0.12);
+      --shadow-sm: 0 10px 26px rgba(16, 42, 54, 0.08);
+      --radius: 8px;
+      --tap: 48px;
+      --maxw: 1180px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Heebo', system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; }
+
+    .container {
+      width: min(var(--maxw), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .brand-strip {
+      background: var(--navy);
+      color: #fff;
+      border-bottom: 3px solid var(--gold);
+    }
+
+    .brand-strip .container {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding-block: 10px;
+    }
+
+    .logos {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logos img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      border-radius: 8px;
+      background: #fff;
+      padding: 5px;
+      border: 1px solid rgba(216, 155, 55, 0.65);
+    }
+
+    .brand-text strong {
+      display: block;
+      color: var(--gold);
+      font-weight: 900;
+      font-size: 1rem;
+    }
+
+    .brand-text span {
+      display: block;
+      color: rgba(255, 255, 255, 0.76);
+      font-size: 0.86rem;
+      margin-top: 2px;
+    }
+
+    .top-link {
+      min-height: var(--tap);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius);
+      color: #fff;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .hero {
+      position: relative;
+      padding: 66px 0 54px;
+      background:
+        linear-gradient(130deg, rgba(16, 42, 54, 0.06), rgba(216, 155, 55, 0.08)),
+        var(--bg);
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(340px, 0.98fr);
+      align-items: center;
+      gap: 44px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 18px;
+      padding: 7px 13px;
+      border: 1px solid rgba(216, 155, 55, 0.35);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.62);
+      color: #80581d;
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      background: var(--gold);
+      border-radius: 50%;
+    }
+
+    h1 {
+      max-width: 760px;
+      font-size: clamp(2.2rem, 6vw, 4.8rem);
+      line-height: 1.03;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 18px;
+      letter-spacing: 0;
+    }
+
+    .hero-lead {
+      max-width: 700px;
+      font-size: clamp(1.06rem, 2.2vw, 1.28rem);
+      color: var(--ink-soft);
+      margin-bottom: 26px;
+    }
+
+    .hero-actions,
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      min-height: var(--tap);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 20px;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--navy); color: #fff; box-shadow: var(--shadow-sm); }
+    .btn-primary:hover { background: var(--blue); box-shadow: var(--shadow); }
+    .btn-secondary { background: #fff; color: var(--navy); border-color: var(--line); }
+    .btn-secondary:hover { border-color: rgba(23, 97, 124, 0.45); }
+    .btn-gold { background: var(--gold); color: var(--navy); box-shadow: 0 10px 24px rgba(216, 155, 55, 0.28); }
+
+    .hero-note {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .workflow-board {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .board-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .board-title {
+      font-weight: 900;
+      color: var(--navy);
+      font-size: 1.05rem;
+    }
+
+    .board-date {
+      color: var(--muted);
+      font-size: 0.86rem;
+      white-space: nowrap;
+    }
+
+    .pipeline {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .pipe-item {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      align-items: center;
+      gap: 12px;
+      min-height: 64px;
+      padding: 11px 12px;
+      background: #f7f9f7;
+      border: 1px solid rgba(20, 35, 45, 0.1);
+      border-radius: var(--radius);
+    }
+
+    .pipe-num {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: var(--navy);
+      color: #fff;
+      font-weight: 900;
+    }
+
+    .pipe-item:nth-child(2) .pipe-num { background: var(--teal); }
+    .pipe-item:nth-child(3) .pipe-num { background: var(--gold); color: var(--navy); }
+    .pipe-item:nth-child(4) .pipe-num { background: var(--red); }
+
+    .pipe-copy strong {
+      display: block;
+      color: var(--navy);
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .pipe-copy span {
+      display: block;
+      color: var(--ink-soft);
+      font-size: 0.9rem;
+      margin-top: 2px;
+      line-height: 1.35;
+    }
+
+    .pipe-tag {
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--blue);
+      background: rgba(23, 97, 124, 0.1);
+      padding: 5px 9px;
+      border-radius: var(--radius);
+      white-space: nowrap;
+    }
+
+    section { padding: 72px 0; }
+    .soft { background: var(--surface-soft); }
+    .dark {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    .section-head {
+      max-width: 760px;
+      margin-bottom: 34px;
+    }
+
+    .section-head.center {
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .section-kicker {
+      display: block;
+      color: var(--red);
+      font-size: 0.86rem;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .dark .section-kicker { color: var(--gold); }
+
+    h2 {
+      color: var(--navy);
+      font-size: clamp(1.65rem, 4vw, 2.6rem);
+      line-height: 1.18;
+      font-weight: 900;
+      margin-bottom: 12px;
+      letter-spacing: 0;
+    }
+
+    .dark h2 { color: #fff; }
+
+    .section-lead {
+      color: var(--ink-soft);
+      font-size: 1.06rem;
+    }
+
+    .dark .section-lead { color: rgba(255, 255, 255, 0.76); }
+
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .principle {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .principle-mark {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: rgba(39, 124, 114, 0.13);
+      color: var(--teal);
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    .principle:nth-child(2) .principle-mark { background: rgba(216, 155, 55, 0.16); color: #80581d; }
+    .principle:nth-child(3) .principle-mark { background: rgba(200, 94, 66, 0.12); color: var(--red); }
+
+    .principle h3,
+    .track h3,
+    .tool h3,
+    .prompt-card h3,
+    .guard h3 {
+      color: var(--navy);
+      font-size: 1.16rem;
+      line-height: 1.28;
+      margin-bottom: 8px;
+      font-weight: 900;
+    }
+
+    .principle p,
+    .track p,
+    .tool p,
+    .prompt-card p,
+    .guard p {
+      color: var(--ink-soft);
+      font-size: 0.98rem;
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .tool {
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 18px;
+      align-items: start;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: var(--radius);
+      padding: 18px;
+    }
+
+    .tool h3,
+    .tool p { color: #fff; }
+
+    .tool p { color: rgba(255, 255, 255, 0.72); }
+
+    .tool-badge {
+      min-height: 70px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: rgba(216, 155, 55, 0.16);
+      color: var(--gold);
+      text-align: center;
+      font-weight: 900;
+      line-height: 1.1;
+      padding: 10px;
+      font-size: 0.9rem;
+    }
+
+    .tool-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 12px;
+    }
+
+    .tool-tags span {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 0 9px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.09);
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .tracks {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .track {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      min-height: 254px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .track-top {
+      min-height: 46px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .track-icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius);
+      background: rgba(23, 97, 124, 0.12);
+      color: var(--blue);
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .track:nth-child(2) .track-icon { background: rgba(88, 127, 74, 0.14); color: var(--green); }
+    .track:nth-child(3) .track-icon { background: rgba(216, 155, 55, 0.18); color: #80581d; }
+    .track:nth-child(4) .track-icon { background: rgba(200, 94, 66, 0.12); color: var(--red); }
+
+    .track small {
+      margin-top: auto;
+      display: block;
+      color: var(--muted);
+      font-weight: 800;
+      padding-top: 18px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      counter-reset: step;
+    }
+
+    .step {
+      position: relative;
+      min-height: 168px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 50px 18px 18px;
+    }
+
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      top: 16px;
+      right: 18px;
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--navy);
+      color: #fff;
+      font-weight: 900;
+      font-size: 0.9rem;
+    }
+
+    .step h3 {
+      color: var(--navy);
+      font-size: 1rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .step p {
+      color: var(--ink-soft);
+      font-size: 0.92rem;
+      line-height: 1.52;
+    }
+
+    .prompts {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .prompt-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      min-height: 310px;
+    }
+
+    .prompt-card p { margin-bottom: 14px; }
+
+    .prompt-preview {
+      direction: rtl;
+      margin-top: auto;
+      background: #f5f7f5;
+      border: 1px dashed rgba(20, 35, 45, 0.18);
+      border-radius: var(--radius);
+      padding: 13px;
+      color: var(--ink-soft);
+      font-size: 0.88rem;
+      line-height: 1.5;
+      min-height: 92px;
+    }
+
+    .copy-btn {
+      margin-top: 14px;
+      width: 100%;
+      min-height: var(--tap);
+      border: 0;
+      border-radius: var(--radius);
+      background: var(--navy);
+      color: #fff;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .copy-btn:hover { background: var(--blue); }
+
+    .guards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .guard {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+
+    .guard h3 { color: #fff; }
+    .guard p { color: rgba(255, 255, 255, 0.74); }
+
+    .source-box {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-right: 5px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .source-box p {
+      color: var(--ink-soft);
+      margin-top: 4px;
+    }
+
+    .final-cta {
+      padding: 58px 0;
+      background:
+        linear-gradient(110deg, rgba(16, 42, 54, 0.95), rgba(23, 97, 124, 0.92)),
+        var(--navy);
+      color: #fff;
+    }
+
+    .final-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .final-cta h2 {
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .final-cta p {
+      color: rgba(255, 255, 255, 0.76);
+      max-width: 720px;
+    }
+
+    footer {
+      padding: 28px 0;
+      background: #0b1c24;
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.9rem;
+    }
+
+    footer .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    footer a {
+      color: var(--gold);
+      font-weight: 800;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%) translateY(18px);
+      z-index: 999;
+      max-width: calc(100vw - 32px);
+      background: var(--navy);
+      color: #fff;
+      border: 2px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 12px 18px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .final-inner,
+      .source-box { grid-template-columns: 1fr; }
+
+      .workflow-board { max-width: 620px; }
+      .principles,
+      .guards,
+      .prompts { grid-template-columns: 1fr; }
+      .tracks,
+      .steps,
+      .tool-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 680px) {
+      .container { width: min(100% - 28px, var(--maxw)); }
+      .brand-strip .container { justify-content: center; text-align: center; }
+      .top-link { display: none; }
+      .hero { padding: 44px 0 38px; }
+      section { padding: 52px 0; }
+      .hero-grid,
+      .tracks,
+      .steps,
+      .tool-grid { grid-template-columns: 1fr; }
+      .pipe-item { grid-template-columns: 40px 1fr; }
+      .pipe-tag { grid-column: 2; justify-self: start; }
+      .brand-text span { font-size: 0.8rem; }
+      .logos img { width: 42px; height: 42px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="brand-strip">
+    <div class="container">
+      <div class="logos" aria-label="לוגואים">
+        <img src="../images/oref-haifa.webp" alt="מחוז חיפה פיקוד העורף">
+        <img src="../images/maganim-center.webp" alt="מרכז מגנים">
+        <img src="../images/shaagat-hari-logo.webp" alt="שאגת הארי">
+      </div>
+      <div class="brand-text">
+        <strong>מפרומפט לפרסום</strong>
+        <span>סטאק AI מעשי לתוכן בעברית, לקהילה, עורף ומילואים</span>
+      </div>
+      <a class="top-link" href="#prompts">קח פרומפטים</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">בהשראת רשימת הכלים של Sifu Yik · מאי 2026</span>
+          <h1>לא שואלים איזה מודל. שואלים מה המשימה.</h1>
+          <p class="hero-lead">
+            דף עבודה קצר שמתרגם את עולם כלי ה־AI לתהליך ייצור תוכן בעברית:
+            תמונה, סרטון, דף נחיתה, מסר קהילתי או פעילות חינוכית. המטרה היא
+            פחות להתלהב מכלי חדש, ויותר להוציא תוצר ברור, מכבד ושימושי.
+          </p>
+          <div class="hero-actions">
+            <a href="#stack" class="btn btn-primary">בחר כלי לפי תוצר</a>
+            <a href="#workflow" class="btn btn-secondary">ראה תהליך עבודה</a>
+          </div>
+          <p class="hero-note">
+            מותאם לעשייה שלך: דפי נחיתה בעברית, סדנאות חוסן, תוכן למשרתים ומשפחות, ופרויקטים שמחברים AI לשטח.
+          </p>
+        </div>
+
+        <aside class="workflow-board" aria-label="תהליך עבודה">
+          <div class="board-head">
+            <div class="board-title">לוח עבודה יומי</div>
+            <div class="board-date">עודכן: 30.05.2026</div>
+          </div>
+          <div class="pipeline">
+            <div class="pipe-item">
+              <div class="pipe-num">1</div>
+              <div class="pipe-copy">
+                <strong>בריף קצר</strong>
+                <span>למי זה מיועד, מה צריך להרגיש, ומה הפעולה הבאה.</span>
+              </div>
+              <span class="pipe-tag">מסר</span>
+            </div>
+            <div class="pipe-item">
+              <div class="pipe-num">2</div>
+              <div class="pipe-copy">
+                <strong>יצירת נכס</strong>
+                <span>תמונה, וידאו קצר, קרוסלה או דף נחיתה.</span>
+              </div>
+              <span class="pipe-tag">AI</span>
+            </div>
+            <div class="pipe-item">
+              <div class="pipe-num">3</div>
+              <div class="pipe-copy">
+                <strong>עריכה ובקרה</strong>
+                <span>עברית, רגישות, זכויות, ביטחון מידע ודיוק.</span>
+              </div>
+              <span class="pipe-tag">QA</span>
+            </div>
+            <div class="pipe-item">
+              <div class="pipe-num">4</div>
+              <div class="pipe-copy">
+                <strong>פרסום ומדידה</strong>
+                <span>וואטסאפ, אינסטגרם, פייסבוק, יוטיוב או דף ייעודי.</span>
+              </div>
+              <span class="pipe-tag">הפצה</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="principles">
+      <div class="container">
+        <div class="section-head center">
+          <span class="section-kicker">העיקרון</span>
+          <h2>הכלי הוא לא האסטרטגיה</h2>
+          <p class="section-lead">
+            המאמר המקורי משתף רשימת כלים. ההתאמה כאן הופכת אותה למפת החלטה:
+            איזה כלי מתאים לאיזה סוג תוצר, ומה צריך לבדוק לפני שמפרסמים לקהל ישראלי.
+          </p>
+        </div>
+
+        <div class="principles">
+          <article class="principle reveal">
+            <div class="principle-mark">01</div>
+            <h3>מתחילים מהקהל</h3>
+            <p>מפקד, הורה, נער, מתנדב או רכז קהילה צריכים ניסוח אחר, קצב אחר ורמת פירוט אחרת.</p>
+          </article>
+          <article class="principle reveal">
+            <div class="principle-mark">02</div>
+            <h3>בוחרים תוצר אחד</h3>
+            <p>תמונה לוואטסאפ, סרטון רילס, דף נחיתה או מצגת. כשהתוצר ברור, בחירת הכלי נעשית פשוטה.</p>
+          </article>
+          <article class="principle reveal">
+            <div class="principle-mark">03</div>
+            <h3>בודקים לפני הפצה</h3>
+            <p>במיוחד בתוכן צבאי, חינוכי או רגשי: אין לפרסם בלי בדיקת אמת, רגישות, זכויות וביטחון מידע.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark" id="stack">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">מפת כלים</span>
+          <h2>איזה כלי מתאים לאיזה רגע בתהליך</h2>
+          <p class="section-lead">
+            הכלים משתנים מהר, אבל החלוקה נשארת יציבה: מחקר, תמונה, וידאו, עריכה והפצה.
+            השמות כאן נשענים על המאמר ועל שימושים נפוצים נכון למאי 2026.
+          </p>
+        </div>
+
+        <div class="tool-grid">
+          <article class="tool reveal">
+            <div class="tool-badge">מחקר<br>ותכנון</div>
+            <div>
+              <h3>לנסח רעיון לפני שמייצרים</h3>
+              <p>להבין קהל יעד, לאסוף עובדות, לבנות זווית, לזקק כותרת ולכתוב בריף יצירתי.</p>
+              <div class="tool-tags">
+                <span>ChatGPT</span><span>Claude</span><span>Perplexity</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="tool reveal">
+            <div class="tool-badge">תמונה<br>וגרפיקה</div>
+            <div>
+              <h3>כשצריך נכס חזותי ברור</h3>
+              <p>גלויה, פוסטר, תמונת אווירה, דימוי לסדנה או וריאציה מהירה לקמפיין.</p>
+              <div class="tool-tags">
+                <span>ChatGPT Image</span><span>Nano Banana Pro</span><span>Canva</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="tool reveal">
+            <div class="tool-badge">וידאו<br>קצר</div>
+            <div>
+              <h3>כשצריך לעצור גלילה</h3>
+              <p>סרטון רילס, פתיח לסדנה, המחשה קצרה או קליפ עם שוט אחד חזק.</p>
+              <div class="tool-tags">
+                <span>Kling</span><span>Grok</span><span>Runway</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="tool reveal">
+            <div class="tool-badge">סיפור<br>מרובה סצנות</div>
+            <div>
+              <h3>כשצריך רצף ולא רק שוט</h3>
+              <p>תסריט קצר עם כמה רגעים, מעבר בין מצבים או הסבר שמרגיש כמו סיפור.</p>
+              <div class="tool-tags">
+                <span>Seedance</span><span>CapCut</span><span>YouTube Shorts</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="soft" id="tracks">
+      <div class="container">
+        <div class="section-head center">
+          <span class="section-kicker">מותאם לעשייה שלך</span>
+          <h2>ארבעה מסלולים שאפשר להפעיל כבר עכשיו</h2>
+          <p class="section-lead">
+            במקום רשימת כלים כללית, אלה תרחישים שמתאימים לדפי נחיתה, סדנאות, חגים, מילואים וקהילה.
+          </p>
+        </div>
+
+        <div class="tracks">
+          <article class="track reveal">
+            <div class="track-top">
+              <div class="track-icon">ת</div>
+              <h3>תמונת וואטסאפ</h3>
+            </div>
+            <p>גלויה לחג, תודה למתנדבים, הזמנה לסדנה או תמונה משפחתית מעובדת בסגנון מכבד.</p>
+            <small>תוצר: תמונה 4:5 או 1:1</small>
+          </article>
+
+          <article class="track reveal">
+            <div class="track-top">
+              <div class="track-icon">ו</div>
+              <h3>וידאו קצר</h3>
+            </div>
+            <p>פתיח של 8-15 שניות שמסביר למה להגיע, למה לשתף או למה לעצור רגע ולהקשיב.</p>
+            <small>תוצר: רילס / סטורי / שורט</small>
+          </article>
+
+          <article class="track reveal">
+            <div class="track-top">
+              <div class="track-icon">ד</div>
+              <h3>דף נחיתה</h3>
+            </div>
+            <p>דף בעברית שמחזיק את כל ההקשר: למי זה, מה מקבלים, איך מצטרפים ומה חשוב לדעת.</p>
+            <small>תוצר: HTML / GitHub Pages</small>
+          </article>
+
+          <article class="track reveal">
+            <div class="track-top">
+              <div class="track-icon">ס</div>
+              <h3>סדרת תוכן</h3>
+            </div>
+            <p>רצף פוסטים או סרטונים סביב נושא אחד: חוסן, מורל, הכרת תודה, הדרכה או פעילות קהילתית.</p>
+            <small>תוצר: 5-10 פרסומים</small>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="workflow">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">תהליך עבודה</span>
+          <h2>מה עושים, צעד אחרי צעד</h2>
+          <p class="section-lead">
+            זה החלק החשוב: אם עובדים כך, אפשר להחליף כלים בלי לאבד את השיטה.
+          </p>
+        </div>
+
+        <div class="steps">
+          <article class="step reveal">
+            <h3>מגדירים משפט משימה</h3>
+            <p>מי הקהל, מה הכאב או הצורך, ומה הפעולה האחת שרוצים ממנו בסוף.</p>
+          </article>
+          <article class="step reveal">
+            <h3>כותבים בריף ל־AI</h3>
+            <p>טון, קהל, פורמט, מגבלות, דוגמאות, ומה אסור שיקרה בתוצר.</p>
+          </article>
+          <article class="step reveal">
+            <h3>מייצרים 3 גרסאות</h3>
+            <p>לא מתאהבים בניסיון הראשון. מבקשים וריאציות שונות ומחברים ביניהן.</p>
+          </article>
+          <article class="step reveal">
+            <h3>עושים בקרת עברית</h3>
+            <p>בודקים כתיב, טון, שמות, סמלים, לוגואים, פרצופים, ידיים וטעויות עובדתיות.</p>
+          </article>
+          <article class="step reveal">
+            <h3>מתאימים לפלטפורמה</h3>
+            <p>וואטסאפ צריך ישירות. אינסטגרם צריך פתיחה חזקה. דף נחיתה צריך אמון והקשר.</p>
+          </article>
+          <article class="step reveal">
+            <h3>מפרסמים עם מדידה</h3>
+            <p>קישור ברור, אירוע אנליטיקס כשצריך, ולמידה מהירה למה עבד ומה לא.</p>
+          </article>
+          <article class="step reveal">
+            <h3>שומרים נכסים</h3>
+            <p>פרומפטים, תמונות, קבצי מקור וטקסטים חוזרים נשמרים לשימוש חוזר.</p>
+          </article>
+          <article class="step reveal">
+            <h3>בונים תבנית</h3>
+            <p>אחרי פעמיים אותו תהליך הופך לתבנית: מהר יותר, עקבי יותר ופחות תלוי בהשראה.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="soft" id="prompts">
+      <div class="container">
+        <div class="section-head center">
+          <span class="section-kicker">פרומפטים שימושיים</span>
+          <h2>שלושה פרומפטים להתחלה מהירה</h2>
+          <p class="section-lead">
+            כל כפתור מעתיק פרומפט בסיסי שאפשר להדביק בכלי המועדף. כדאי להחליף את הסוגריים המרובעים בפרטים האמיתיים.
+          </p>
+        </div>
+
+        <div class="prompts">
+          <article class="prompt-card reveal">
+            <h3>בריף לתמונה</h3>
+            <p>לתמונה רגשית, הזמנה, גלויה או פוסטר לקהילה.</p>
+            <div class="prompt-preview">
+              צור תמונה בעברית עבור [קהל יעד]. המטרה: [פעולה]. הסגנון: ישראלי, מכבד, חם, לא צעקני...
+            </div>
+            <button class="copy-btn" data-copy="image">העתק פרומפט תמונה</button>
+          </article>
+
+          <article class="prompt-card reveal">
+            <h3>תסריט לווידאו קצר</h3>
+            <p>לרילס או שורט שמסביר רעיון במהירות בלי להעמיס.</p>
+            <div class="prompt-preview">
+              כתוב תסריט וידאו של 12 שניות בנושא [נושא]. פתיחה חזקה, 3 שוטים, טקסט מסך בעברית...
+            </div>
+            <button class="copy-btn" data-copy="video">העתק פרומפט וידאו</button>
+          </article>
+
+          <article class="prompt-card reveal">
+            <h3>מבנה לדף נחיתה</h3>
+            <p>כדי להפוך רעיון לדף עם היררכיה, CTA ותוכן ברור.</p>
+            <div class="prompt-preview">
+              בנה מבנה לדף נחיתה בעברית עבור [יוזמה]. הקהל הוא [קהל]. כלול הירו, יתרונות, תוכנית, שאלות...
+            </div>
+            <button class="copy-btn" data-copy="landing">העתק פרומפט דף</button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="dark" id="guardrails">
+      <div class="container">
+        <div class="section-head">
+          <span class="section-kicker">גבולות עבודה</span>
+          <h2>לפני שמעלים תוכן, עושים עצירה קצרה</h2>
+          <p class="section-lead">
+            דווקא כי AI מקצר דרך, צריך כמה כללי עבודה קשיחים. אלה חשובים במיוחד בעולמות צבאיים, חינוכיים וקהילתיים.
+          </p>
+        </div>
+
+        <div class="guards">
+          <article class="guard reveal">
+            <h3>אין חומר רגיש</h3>
+            <p>לא מעלים לכלים חיצוניים מידע מבצעי, פרטים אישיים, תמונות פנים ללא אישור או מידע שאינו לפרסום.</p>
+          </article>
+          <article class="guard reveal">
+            <h3>לא מזייפים מציאות</h3>
+            <p>כשמדובר באנשים אמיתיים, אירועים אמיתיים או מסרים רשמיים - מסמנים, בודקים ומונעים הטעיה.</p>
+          </article>
+          <article class="guard reveal">
+            <h3>עברית היא בקרת איכות</h3>
+            <p>טקסטים בתוך תמונות, לוגואים ושמות נוטים להשתבש. לא מפרסמים לפני בדיקה אנושית.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="source">
+      <div class="container">
+        <div class="source-box">
+          <div>
+            <strong>מקור ההשראה</strong>
+            <p>
+              הדף נבנה בהשראת פוסט של Sifu Yik Chan על סטאק הכלים שלו ליצירת תמונות וסרטוני AI.
+              כאן התוכן עבר התאמה לעברית, לקהלי עורף/מילואים/קהילה, ולשיטת עבודה אחראית.
+            </p>
+          </div>
+          <a class="btn btn-secondary" href="https://sifuyik.substack.com/p/stop-asking-which-image-or-video" target="_blank" rel="noopener">
+            לפתיחת המקור
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="container final-inner">
+        <div>
+          <h2>השלב הבא: להפוך את זה לתבנית עבודה שלך</h2>
+          <p>
+            אפשר להשתמש בדף הזה כבסיס לסדנה, כעמוד פנימי לצוות, או כדף ציבורי שמסביר איך אתה עובד עם AI בצורה אחראית ומעשית.
+          </p>
+        </div>
+        <div class="cta-row">
+          <a class="btn btn-gold" href="#prompts">התחל מהפרומפטים</a>
+          <a class="btn btn-secondary" href="#stack">חזור למפת הכלים</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <span>מפרומפט לפרסום · דף עבודה עברי ליצירת תוכן AI</span>
+      <a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">חזרה למעלה</a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const prompts = {
+      image: `צור בריף מפורט לתמונה בעברית עבור [קהל יעד].
+
+מטרה: [מה הפעולה או התחושה הרצויה]
+פורמט: [1:1 / 4:5 / 16:9 / סטורי]
+סגנון: ישראלי, מכבד, חם, אמין, לא צעקני.
+מסר מרכזי: [משפט אחד]
+אלמנטים חזותיים: [מקום / אנשים / סמלים / צבעים]
+טקסט על התמונה: [אם צריך, קצר מאוד]
+מגבלות: בלי מידע מבצעי, בלי פנים אמיתיות ללא אישור, בלי לוגואים לא מאושרים.
+
+תן לי 3 כיווני קונספט שונים, ואז פרומפט תמונה סופי לכל כיוון.`,
+
+      video: `כתוב תסריט לווידאו קצר בעברית בנושא [נושא].
+
+קהל יעד: [קהל]
+משך: 12-15 שניות
+מטרה: [הרשמה / שיתוף / מודעות / הנעה לפעולה]
+טון: ישיר, אנושי, ישראלי, לא שיווקי מדי.
+
+מבנה:
+1. הוק בשנייה הראשונה
+2. שלושה שוטים ברורים
+3. טקסט מסך קצר לכל שוט
+4. קריינות אם צריך
+5. CTA בסוף
+
+הוסף גם פרומפט וידאו מתאים לכל שוט, כולל תיאור מצלמה, תאורה ותנועה.`,
+
+      landing: `בנה מבנה לדף נחיתה בעברית עבור [שם היוזמה].
+
+קהל יעד: [מי אמור לקרוא]
+מטרה: [מה הפעולה בסוף]
+הקשר: [למה היוזמה חשובה עכשיו]
+טון: אמין, אנושי, מעשי, מתאים לעורף/קהילה/חינוך.
+
+כלול:
+- כותרת הירו קצרה
+- פסקת פתיחה
+- 3-5 יתרונות
+- למי זה מתאים
+- איך זה עובד בפועל
+- שאלות נפוצות
+- קריאה לפעולה
+- הערות רגישות/בטיחות אם רלוונטי
+
+אל תכתוב טקסט שיווקי מוגזם. תכתוב ברור, ישראלי ומכבד.`
+    };
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        return true;
+      } catch (_) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.select();
+        let ok = false;
+        try { ok = document.execCommand('copy'); } catch (_) { ok = false; }
+        document.body.removeChild(textarea);
+        return ok;
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    document.querySelectorAll('[data-copy]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const key = button.dataset.copy;
+        const text = prompts[key];
+        if (!text) return;
+        const ok = await copyText(text);
+        showToast(ok ? 'הפרומפט הועתק' : 'לא הצלחתי להעתיק אוטומטית');
+        if (typeof gtag === 'function') {
+          gtag('event', 'copy_prompt', { prompt_type: key });
+        }
+      });
+    });
+
+    const revealIO = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        revealIO.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal').forEach((el) => revealIO.observe(el));
+  </script>
+</body>
+
+</html>

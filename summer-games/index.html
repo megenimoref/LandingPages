@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>קיץ ישראלי - משחקים לכל המשפחה</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .hero {
+      text-align: center;
+      padding: 48px 0 32px;
+      animation: fadeInUp 0.7s ease both;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-emoji {
+      font-size: 72px;
+      display: block;
+      margin-bottom: 14px;
+      animation: float 3s ease-in-out infinite, bounceIn 0.8s ease both;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--sea);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .hero p {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0 auto 10px;
+      line-height: 1.7;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--sun-light);
+      color: #7a5700;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 5px 18px;
+      border-radius: 20px;
+      margin-top: 6px;
+      animation: heartbeat 2.5s ease infinite;
+    }
+
+    /* ===== GAME CARDS ===== */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+      position: relative; z-index: 1;
+    }
+    .game-card {
+      background: white;
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s;
+      animation: fadeInUp 0.6s ease both;
+      position: relative;
+    }
+    .game-card:nth-child(1) { animation-delay: 0.1s; }
+    .game-card:nth-child(2) { animation-delay: 0.22s; }
+    .game-card:nth-child(3) { animation-delay: 0.34s; }
+    .game-card:hover { transform: translateY(-8px) scale(1.02); box-shadow: var(--shadow-hover); }
+
+    .card-banner {
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 68px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-banner .bg-dots {
+      position: absolute; inset: 0;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 4px; padding: 8px;
+      pointer-events: none;
+    }
+    .card-banner .bg-dots span {
+      font-size: 20px; opacity: 0.1;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .card-banner .main-icon {
+      position: relative; z-index: 1;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.2));
+      transition: transform 0.35s cubic-bezier(.34,1.56,.64,1);
+    }
+    .game-card:hover .main-icon { transform: scale(1.18) rotate(-6deg); }
+
+    .banner-cross { background: linear-gradient(135deg, #0054a6, #0099cc); }
+    .banner-quiz  { background: linear-gradient(135deg, #2d8c5c, #52B788); }
+    .banner-mem   { background: linear-gradient(135deg, #c0563e, #E07A5F); }
+
+    .card-body {
+      padding: 20px 22px 24px;
+      flex: 1; display: flex; flex-direction: column;
+      direction: rtl; text-align: right;
+    }
+    .card-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.06em; margin-bottom: 6px;
+    }
+    .label-cross { color: var(--sea); }
+    .label-quiz  { color: var(--grass); }
+    .label-mem   { color: #E07A5F; }
+    .card-body h2 { font-size: 1.25rem; font-weight: 800; margin-bottom: 8px; color: var(--text); }
+    .card-body p  { font-size: 14px; color: var(--text-muted); line-height: 1.6; flex: 1; }
+    .card-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+    .chip {
+      font-size: 11px; padding: 3px 10px;
+      border-radius: 20px; background: #f0f5fb;
+      color: #446; font-weight: 500;
+    }
+    .card-cta {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 16px; padding-top: 14px; border-top: 1px solid #f0f0f0;
+    }
+    .cta-text { font-size: 14px; font-weight: 700; color: var(--sea); }
+    .cta-arrow {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--sea-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .game-card:hover .cta-arrow { background: var(--sea); color: white; transform: translateX(3px); }
+
+    /* ===== INFO STRIP ===== */
+    .divider {
+      text-align: center; margin: 44px 0 16px;
+      position: relative;
+    }
+    .divider::before {
+      content:''; position:absolute; top:50%; right:0; left:0;
+      height:1px; background:rgba(0,0,0,0.07);
+    }
+    .divider span {
+      position:relative; background:linear-gradient(180deg,#E0F7FA 0%,#F4E4C1 100%);
+      padding: 0 16px; color:var(--text-muted); font-size:13px; font-weight:500;
+    }
+    .info-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px; margin-top: 16px;
+    }
+    .info-item {
+      background: white; border-radius: 14px;
+      padding: 16px 18px;
+      display: flex; align-items: center; gap: 12px; flex-direction: row-reverse;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      transition: transform 0.2s;
+      text-align: right;
+    }
+    .info-item:hover { transform: translateY(-2px); }
+    .info-icon { font-size: 30px; }
+    .info-text strong { font-size: 14px; font-weight: 700; display: block; color: var(--text); }
+    .info-text span { font-size: 12px; color: var(--text-muted); }
+
+    /* ===== FLOATING PARTICLES ===== */
+    #particles-layer {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0;
+      overflow: hidden;
+    }
+    .fp {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0;
+      animation: floatParticle linear infinite;
+    }
+    @keyframes floatParticle {
+      0%   { opacity: 0; transform: translateY(0) rotate(0deg) scale(0.8); }
+      10%  { opacity: 0.15; }
+      90%  { opacity: 0.15; }
+      100% { opacity: 0; transform: translateY(-100vh) rotate(720deg) scale(1.2); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating background particles -->
+  <div id="particles-layer"></div>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="header-logos" aria-label="לוגואים">
+        <img src="../images/oref-haifa.webp" alt="מחוז חיפה פיקוד העורף">
+        <img src="../images/maganim-center.webp" alt="מרכז מגנים">
+        <img src="../images/shaagat-hari-logo.webp" alt="שאגת הארי">
+      </div>
+      <a href="index.html" class="brand-text" onclick="sound.button()">
+        <strong>קיץ ישראלי</strong>
+        <span>משחקים לכל המשפחה</span>
+      </a>
+      <nav class="header-nav">
+        <a href="crossword-puzzle/index.html" class="nav-link" onclick="sound.button()">✏️ תשבץ</a>
+        <a href="quiz/index.html"   class="nav-link" onclick="sound.button()">🏆 חידון</a>
+        <a href="memory/index.html"  class="nav-link" onclick="sound.button()">🃏 זיכרון</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-main">
+
+    <section class="hero">
+      <span class="hero-emoji">🏖️</span>
+      <h1>משחקי קיץ ישראלי</h1>
+      <p>תשבצים, חידונים ומשחקי זיכרון - לכל המשפחה יחד!<br>שחקו, למדו ותהנו כל הקיץ.</p>
+      <span class="hero-tag">☀️ יולי–אוגוסט 2026 ☀️</span>
+    </section>
+
+    <section class="games-grid">
+
+      <a href="crossword-puzzle/index.html" class="game-card" onclick="sound.button()">
+        <div class="card-banner banner-cross">
+          <div class="bg-dots">
+            <span>✏️</span><span>📝</span><span>🔤</span><span>✏️</span><span>📝</span><span>🔤</span>
+            <span>📝</span><span>🔤</span><span>✏️</span><span>📝</span><span>🔤</span><span>✏️</span>
+          </div>
+          <span class="main-icon">✏️</span>
+        </div>
+        <div class="card-body">
+          <div class="card-label label-cross">תשבץ</div>
+          <h2>תשבץ קיץ ישראלי</h2>
+          <p>מלאו מילים על ישראל, ים, אוכל וטבע. עם רמזים, סאונד ואנימציות!</p>
+          <div class="card-chips">
+            <span class="chip">כל הגילאים</span>
+            <span class="chip">1–10 שחקנים</span>
+            <span class="chip">רמז זמין</span>
+          </div>
+          <div class="card-cta">
+            <span class="cta-text">בואו לשחק</span>
+            <span class="cta-arrow">→</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="quiz/index.html" class="game-card" onclick="sound.button()">
+        <div class="card-banner banner-quiz">
+          <div class="bg-dots">
+            <span>❓</span><span>🏆</span><span>🎯</span><span>❓</span><span>🏆</span><span>🎯</span>
+            <span>🏆</span><span>🎯</span><span>❓</span><span>🏆</span><span>🎯</span><span>❓</span>
+          </div>
+          <span class="main-icon">🏆</span>
+        </div>
+        <div class="card-body">
+          <div class="card-label label-quiz">חידון</div>
+          <h2>חידון משפחתי</h2>
+          <p>חידון משפחתי תחרותי - 5 קטגוריות, טיימר, ניקוד חי ואנימציות ניצחון!</p>
+          <div class="card-chips">
+            <span class="chip">2–6 שחקנים</span>
+            <span class="chip">5 קטגוריות</span>
+            <span class="chip">40+ שאלות</span>
+          </div>
+          <div class="card-cta">
+            <span class="cta-text">בואו לשחק</span>
+            <span class="cta-arrow">→</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="memory/index.html" class="game-card" onclick="sound.button()">
+        <div class="card-banner banner-mem">
+          <div class="bg-dots">
+            <span>🃏</span><span>🎴</span><span>🃏</span><span>🎴</span><span>🃏</span><span>🎴</span>
+            <span>🎴</span><span>🃏</span><span>🎴</span><span>🃏</span><span>🎴</span><span>🃏</span>
+          </div>
+          <span class="main-icon">🃏</span>
+        </div>
+        <div class="card-body">
+          <div class="card-label label-mem">זיכרון</div>
+          <h2>זיכרון קיץ ישראלי</h2>
+          <p>מצאו זוגות! קלפים ישראליים עם היפוך אנימציה, סאונד וקונפטי!</p>
+          <div class="card-chips">
+            <span class="chip">1–4 שחקנים</span>
+            <span class="chip">3 רמות קושי</span>
+            <span class="chip">30 קלפים</span>
+          </div>
+          <div class="card-cta">
+            <span class="cta-text">בואו לשחק</span>
+            <span class="cta-arrow">→</span>
+          </div>
+        </div>
+      </a>
+
+    </section>
+
+    <div class="divider"><span>✨ כולל בחבילה ✨</span></div>
+
+    <div class="info-strip">
+      <div class="info-item animate-in">
+        <span class="info-icon">🇮🇱</span>
+        <div class="info-text"><strong>נושא ישראלי</strong><span>מותאם לתרבות ישראלית</span></div>
+      </div>
+      <div class="info-item animate-in">
+        <span class="info-icon">👨‍👩‍👧‍👦</span>
+        <div class="info-text"><strong>לכל המשפחה</strong><span>גיל 4 עד 99</span></div>
+      </div>
+      <div class="info-item animate-in">
+        <span class="info-icon">🔊</span>
+        <div class="info-text"><strong>סאונד ואנימציה</strong><span>חוויה אינטראקטיבית</span></div>
+      </div>
+      <div class="info-item animate-in">
+        <span class="info-icon">🎁</span>
+        <div class="info-text"><strong>חינם לגמרי</strong><span>ניתן לשיתוף</span></div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-nav">
+      <a href="crossword-puzzle/index.html">✏️ תשבץ</a>
+      <a href="quiz/index.html">🏆 חידון</a>
+      <a href="memory/index.html">🃏 זיכרון</a>
+    </div>
+    <div>קיץ ישראלי 2026 ☀️</div>
+  </footer>
+
+  <!-- Sound toggle -->
+  <button class="sound-toggle" id="sound-btn" title="סאונד" onclick="toggleSound()">🔊</button>
+
+  <script src="sounds.js"></script>
+  <script>
+    // Floating particles
+    const EMOJIS = ['🌊','☀️','🌴','🐚','⭐','🌺','🐠','🦋','🌿','🏄'];
+    const layer = document.getElementById('particles-layer');
+    for (let i = 0; i < 14; i++) {
+      const p = document.createElement('div');
+      p.className = 'fp';
+      p.textContent = EMOJIS[i % EMOJIS.length];
+      p.style.cssText = `
+        left:${Math.random()*95}%;
+        bottom:${-10 + Math.random()*-30}%;
+        font-size:${16+Math.random()*20}px;
+        animation-duration:${10+Math.random()*12}s;
+        animation-delay:${Math.random()*8}s;
+      `;
+      layer.appendChild(p);
+    }
+
+    function toggleSound() {
+      sound.enabled = !sound.enabled;
+      document.getElementById('sound-btn').textContent = sound.enabled ? '🔊' : '🔇';
+      document.getElementById('sound-btn').classList.toggle('muted', !sound.enabled);
+      if (sound.enabled) sound.button();
+    }
+  </script>
+</body>
+</html>

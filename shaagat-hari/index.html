@@ -347,7 +347,7 @@
     .carousel.has-prev::before { opacity: 1; }
     .carousel.has-next::after { opacity: 1; }
 
-    /* Arrow buttons — desktop only */
+    /* Arrow buttons - desktop only */
     .carousel__arrow {
       position: absolute;
       top: 50%;
@@ -1011,7 +1011,7 @@
             rel: 0,
             modestbranding: 1,
             origin: window.location.origin,
-            // Deprecated but harmless quality hints — some clients still honor them
+            // Deprecated but harmless quality hints - some clients still honor them
             vq: 'highres',
             hd: 1
           },
@@ -1026,7 +1026,7 @@
                 // Re-assert highest quality once playback actually begins
                 try { e.target.setPlaybackQuality('highres'); } catch (_) {}
               }
-              // 1 = playing, 3 = buffering, 5 = video cued — any of these means embed is working
+              // 1 = playing, 3 = buffering, 5 = video cued - any of these means embed is working
               if (e.data === 1 || e.data === 3 || e.data === 5) triggerSuccess();
             },
             onPlaybackQualityChange: (e) => {
