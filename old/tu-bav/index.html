@@ -1,0 +1,803 @@
+<!--
+  Live:  https://megenimoref.github.io/LandingPages/old/tu-bav/
+  Local: http://127.0.0.1:8080/old/tu-bav/
+  GA:    https://analytics.google.com/analytics/web/#/a351596902p494681343/reports/reportinghub
+-->
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#191021">
+  <title>פסקול האהבה · ט״ו באב</title>
+  <meta name="description"
+    content="פסקול האהבה לט״ו באב - חג האהבה. קלאסיקות אהבה ישראליות, שירים שמחים ובלדות רומנטיות. שירי אהבה ישראליים במקום אחד.">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://megenimoref.github.io/LandingPages/tu-bav/">
+
+  <!-- ========== Open Graph (Facebook, WhatsApp, LinkedIn, Telegram) ========== -->
+  <meta property="og:site_name" content="פסקול האהבה">
+  <meta property="og:title" content="פסקול האהבה · ט״ו באב - חג האהבה">
+  <meta property="og:description" content="קלאסיקות אהבה ישראליות, שירים שמחים ובלדות רומנטיות - פסקול האהבה לט״ו באב.">
+  <meta property="og:url" content="https://megenimoref.github.io/LandingPages/tu-bav/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+
+  <!-- Hero image: Arik Einstein - Atur Mitzchech thumbnail -->
+  <meta property="og:image" content="https://i.ytimg.com/vi/WZM4iXT3-ic/hqdefault.jpg">
+  <meta property="og:image:secure_url" content="https://i.ytimg.com/vi/WZM4iXT3-ic/hqdefault.jpg">
+  <meta property="og:image:type" content="image/jpeg">
+  <meta property="og:image:width" content="480">
+  <meta property="og:image:height" content="360">
+  <meta property="og:image:alt" content="אריק איינשטיין · עטור מצחך - פסקול האהבה לט״ו באב">
+
+  <!-- ========== Twitter / X ========== -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="פסקול האהבה · ט״ו באב - חג האהבה">
+  <meta name="twitter:description" content="קלאסיקות אהבה ישראליות, שירים שמחים ובלדות רומנטיות - פסקול האהבה לט״ו באב.">
+  <meta name="twitter:image" content="https://i.ytimg.com/vi/WZM4iXT3-ic/hqdefault.jpg">
+  <meta name="twitter:image:alt" content="אריק איינשטיין · עטור מצחך - פסקול האהבה לט״ו באב">
+
+  <!-- ========== Schema.org ========== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MusicPlaylist",
+    "name": "פסקול האהבה - ט״ו באב",
+    "description": "קלאסיקות אהבה ישראליות, שירים שמחים ובלדות רומנטיות לחג האהבה",
+    "url": "https://megenimoref.github.io/LandingPages/tu-bav/",
+    "image": "https://i.ytimg.com/vi/WZM4iXT3-ic/hqdefault.jpg",
+    "inLanguage": "he",
+    "track": {
+      "@type": "MusicRecording",
+      "name": "עטור מצחך",
+      "byArtist": { "@type": "MusicGroup", "name": "אריק איינשטיין" },
+      "url": "https://www.youtube.com/watch?v=WZM4iXT3-ic"
+    }
+  }
+  </script>
+
+  <!-- Favicon: full moon (Tu B'Av) -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%95%3C/text%3E%3C/svg%3E">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XSH19K5LBZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XSH19K5LBZ');
+  </script>
+
+  <!-- Heebo font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Preconnect to YouTube for fast thumbnail/iframe loads -->
+  <link rel="preconnect" href="https://www.youtube.com">
+  <link rel="preconnect" href="https://i.ytimg.com">
+
+  <style>
+    :root {
+      --bg: #191021;
+      --bg-top: #1e1226;
+      --bg-bottom: #160e1d;
+      --card: #241731;
+      --card-deep: #150d1b;
+      --border: #3a2b46;
+      --border-bright: #4a3657;
+      --gold: #e9c87e;
+      --gold-bright: #f3dca3;
+      --gold-ink: #2a1c14;
+      --text: #f2e9df;
+      --muted: #b8a3c4;
+      --rose: #d98b8b;
+      --wa-bg: #2b4a3a;
+      --wa-bg-hover: #356049;
+      --wa-text: #c9f0d6;
+      --tap: 48px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Heebo', system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg) 34%, var(--bg-bottom) 100%);
+      color: var(--text);
+      font-size: 17px;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { color: var(--gold-bright); }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 24px rgba(233, 200, 126, .25); }
+      50%      { box-shadow: 0 0 44px rgba(233, 200, 126, .5); }
+    }
+
+    /* ===== HEADER ===== */
+    .site-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 22px 0 8px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-logos {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .header-logos img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+      border-radius: 10px;
+      background: #fff;
+      padding: 4px;
+      border: 1px solid rgba(233, 200, 126, .55);
+    }
+
+    .brand__title {
+      font-family: 'Heebo', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      color: var(--text);
+      line-height: 1.1;
+    }
+
+    .brand__sub {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: var(--tap);
+      background: var(--wa-bg);
+      color: var(--wa-text);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 15px;
+      transition: background-color .15s ease, color .15s ease;
+    }
+
+    .share-btn:hover { background: var(--wa-bg-hover); color: #e2fbe9; }
+
+    /* ===== COUNTDOWN ===== */
+    .countdown {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin: 18px 0 6px;
+      padding: 14px 18px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .03);
+    }
+
+    .countdown[hidden] { display: none; }
+
+    .countdown__title {
+      font-family: 'Heebo', sans-serif;
+      font-size: 18px;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .countdown__boxes {
+      display: flex;
+      gap: 10px;
+      direction: ltr;
+    }
+
+    .countdown__box {
+      text-align: center;
+      min-width: 52px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 6px 8px;
+    }
+
+    .countdown__val {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .countdown__lbl {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .countdown__note {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      text-align: center;
+      padding: 26px 0 10px;
+    }
+
+    .hero__kicker {
+      display: inline-block;
+      font-size: 13px;
+      letter-spacing: .14em;
+      color: var(--rose);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .hero__title {
+      font-family: 'Heebo', sans-serif;
+      font-weight: 900;
+      font-size: clamp(30px, 5vw, 52px);
+      margin: 0 0 6px;
+      color: var(--text);
+      line-height: 1.15;
+    }
+
+    .hero__title em {
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    .hero__lead {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .hero__player {
+      position: relative;
+      max-width: 820px;
+      margin: 0 auto;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--border-bright);
+      animation: pulseGlow 4s ease-in-out infinite;
+      background: #000;
+    }
+
+    .hero__player-inner {
+      position: relative;
+      padding-top: 56.25%;
+    }
+
+    .hero__player iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .hero__hint {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .hero__controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .ctrl-btn {
+      min-height: var(--tap);
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Heebo', sans-serif;
+      transition: border-color .15s ease, color .15s ease;
+    }
+
+    .ctrl-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+    .yt-btn {
+      display: inline-flex;
+      align-items: center;
+      min-height: var(--tap);
+      background: var(--gold);
+      color: var(--gold-ink);
+      border-radius: 999px;
+      padding: 10px 22px;
+      font-size: 15px;
+      font-weight: 700;
+      transition: background-color .15s ease;
+    }
+
+    .yt-btn:hover { background: var(--gold-bright); color: var(--gold-ink); }
+
+    /* ===== FILTER PILLS ===== */
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 34px 0 22px;
+    }
+
+    .pill {
+      min-height: var(--tap);
+      background: var(--card);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 9px 20px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Heebo', sans-serif;
+      transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+    }
+
+    .pill:hover { border-color: var(--gold); }
+
+    .pill.is-active {
+      background: var(--gold);
+      color: var(--gold-ink);
+      border-color: var(--gold);
+    }
+
+    /* ===== SONGS GRID ===== */
+    .songs {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 18px;
+    }
+
+    .song-card {
+      cursor: pointer;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform .15s ease, border-color .15s ease;
+      text-align: right;
+      font: inherit;
+      color: inherit;
+      padding: 0;
+      display: block;
+      width: 100%;
+    }
+
+    .song-card:hover { transform: translateY(-3px); }
+
+    .song-card.is-playing { border-color: var(--gold); }
+
+    .song-card__thumb {
+      position: relative;
+      padding-top: 56.25%;
+      background: var(--card-deep);
+    }
+
+    .song-card__thumb img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .song-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 55%, rgba(20, 11, 26, .85));
+      display: flex;
+      align-items: flex-end;
+      padding: 10px;
+    }
+
+    .song-card__tag {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      background: rgba(25, 16, 33, .75);
+      border: 1px solid var(--border-bright);
+      border-radius: 999px;
+      padding: 3px 10px;
+    }
+
+    .song-card__body {
+      padding: 12px 14px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .song-card__name {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--text);
+    }
+
+    .song-card__artist {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .song-card__mark {
+      font-size: 18px;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* ===== FOOTER ===== */
+    .site-footer {
+      text-align: center;
+      margin-top: 48px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* ===== A11Y ===== */
+    :focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+      html { scroll-behavior: auto; }
+    }
+
+    @media (max-width: 560px) {
+      .site-header { justify-content: center; text-align: center; }
+      .countdown__title { font-size: 16px; }
+      .hero__title { font-size: clamp(26px, 8vw, 34px); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- ===== HEADER ===== -->
+    <header class="site-header">
+      <div class="brand">
+        <div class="header-logos" aria-label="לוגואים">
+          <img src="images/oref-haifa.webp" alt="מחוז חיפה פיקוד העורף">
+          <img src="images/maganim-center.webp" alt="מרכז מגנים">
+        </div>
+        <div>
+          <div class="brand__title">פסקול האהבה</div>
+          <div class="brand__sub">ט״ו באב · חג האהבה</div>
+        </div>
+      </div>
+      <a class="share-btn" id="shareBtn"
+         href="https://wa.me/?text=%D7%A4%D7%A1%D7%A7%D7%95%D7%9C%20%D7%94%D7%90%D7%94%D7%91%D7%94%20%D7%9C%D7%98%22%D7%95%20%D7%91%D7%90%D7%91%20%F0%9F%92%9B%20%D7%A9%D7%99%D7%A8%D7%99%20%D7%90%D7%94%D7%91%D7%94%20%D7%99%D7%A9%D7%A8%D7%90%D7%9C%D7%99%D7%99%D7%9D%3A%20https%3A%2F%2Fmegenimoref.github.io%2FLandingPages%2Ftu-bav%2F"
+         target="_blank" rel="noopener" aria-label="שתפו את הפסקול בוואטסאפ">
+        שתפו בוואטסאפ ↗
+      </a>
+    </header>
+
+    <!-- ===== COUNTDOWN ===== -->
+    <div class="countdown" id="countdown">
+      <div class="countdown__title">🌕 ט״ו באב תשפ״ו · יום רביעי, 29 ביולי 2026</div>
+      <div class="countdown__boxes" id="countdownBoxes">
+        <div class="countdown__box"><div class="countdown__val" id="cdDays">00</div><div class="countdown__lbl">ימים</div></div>
+        <div class="countdown__box"><div class="countdown__val" id="cdHours">00</div><div class="countdown__lbl">שעות</div></div>
+        <div class="countdown__box"><div class="countdown__val" id="cdMins">00</div><div class="countdown__lbl">דקות</div></div>
+        <div class="countdown__box"><div class="countdown__val" id="cdSecs">00</div><div class="countdown__lbl">שניות</div></div>
+      </div>
+      <div class="countdown__note">עד הכנסת החג</div>
+    </div>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" aria-label="נגן הפסקול">
+      <span class="hero__kicker" id="heroKicker">ההמנון שלנו לט״ו באב</span>
+      <h1 class="hero__title" id="heroTitle"></h1>
+      <p class="hero__lead">שירי אהבה ישראליים במקום אחד - בוחרים שיר, מגבירים, ואוהבים</p>
+      <div class="hero__player">
+        <div class="hero__player-inner" id="heroPlayerMount"></div>
+      </div>
+      <div class="hero__hint" id="heroHint">🔇 ההמנון מתחיל מושתק - לחצו על סמל הרמקול לנגן בקול</div>
+      <div class="hero__controls">
+        <button class="ctrl-btn" id="prevBtn" type="button">→ הקודם</button>
+        <a class="yt-btn" id="openYtBtn" href="#" target="_blank" rel="noopener">▶ פתח ביוטיוב</a>
+        <button class="ctrl-btn" id="nextBtn" type="button">הבא ←</button>
+      </div>
+    </section>
+
+    <!-- ===== FILTERS ===== -->
+    <nav class="filters" id="filters" aria-label="סינון לפי קטגוריה"></nav>
+
+    <!-- ===== SONGS GRID ===== -->
+    <main class="songs" id="songs"></main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+      «לֹא הָיוּ יָמִים טוֹבִים לְיִשְׂרָאֵל כַּחֲמִשָּׁה עָשָׂר בְּאָב» (משנה, תענית) · פסקול האהבה · נבנה באהבה 💛
+    </footer>
+
+  </div>
+
+  <script>
+    // ===== Songs =====
+    // Source of truth: songs.txt (loaded at runtime, editable without touching this file).
+    // The list below is a built-in fallback for when the fetch fails (e.g. file://).
+    const DEFAULT_SONGS = [
+      { id: 'WZM4iXT3-ic', title: 'עטור מצחך',                artist: 'אריק איינשטיין',          tag: 'classic', anthem: true },
+      { id: 'WHDQ-JHI6Z8', title: 'היא לא יודעת מה עובר עלי', artist: 'שלמה ארצי',               tag: 'classic' },
+      { id: '5zd_U6X0oEI', title: 'אהבת נעורי',               artist: 'שלום חנוך',               tag: 'classic' },
+      { id: 'WLMmX17D2uw', title: 'שני משוגעים',              artist: 'עומר אדם',                tag: 'happy' },
+      { id: 'V8exR6rCx7E', title: 'תני לי לאהוב אותך',        artist: 'אייל גולן',               tag: 'happy' },
+      { id: 'kmW2yAYhMmM', title: 'ממעמקים',                  artist: 'הפרויקט של עידן רייכל',   tag: 'happy' },
+      { id: '3kJiCtRlVTo', title: 'מישהו פעם',                artist: 'עברי לידר',               tag: 'quiet' },
+      { id: '_uJLsc05ZE4', title: 'בואי',                     artist: 'הפרויקט של עידן רייכל',   tag: 'quiet' }
+    ];
+
+    let SONGS = DEFAULT_SONGS;
+
+    const TAGS = {
+      classic: '💛 קלאסיקות אהבה',
+      happy:   '😊 שמח ורוקד',
+      quiet:   '🌙 שקט ורומנטי'
+    };
+
+    const CATS = [
+      ['all',     'הכל'],
+      ['classic', TAGS.classic],
+      ['happy',   TAGS.happy],
+      ['quiet',   TAGS.quiet]
+    ];
+
+    const state = { filter: 'all', current: 0, autoStarted: false };
+
+    const $ = (id) => document.getElementById(id);
+
+    // ===== songs.txt loader =====
+    function extractYouTubeId(url) {
+      const m = String(url).match(/(?:youtu\.be\/|[?&]v=|\/embed\/|\/shorts\/)([A-Za-z0-9_-]{11})/);
+      return m ? m[1] : null;
+    }
+
+    function parseSongsTxt(text) {
+      const songs = [];
+      for (const raw of text.split(/\r?\n/)) {
+        const line = raw.trim();
+        if (!line || line.startsWith('#')) continue;
+        const parts = line.split('|').map(p => p.trim());
+        if (parts.length < 4) continue;
+        let [tag, artist, title, url] = parts;
+        const anthem = tag.endsWith('!');
+        tag = tag.replace('!', '').trim();
+        const id = extractYouTubeId(url);
+        if (!id || !TAGS[tag] || !title || !artist) continue;
+        songs.push({ id, title, artist, tag, anthem: anthem || undefined });
+      }
+      return songs;
+    }
+
+    async function loadSongs() {
+      try {
+        const res = await fetch('songs.txt', { cache: 'no-store' });
+        if (res.ok) {
+          const parsed = parseSongsTxt(await res.text());
+          if (parsed.length) {
+            SONGS = parsed;
+            const anthemIdx = SONGS.findIndex(s => s.anthem);
+            state.current = anthemIdx >= 0 ? anthemIdx : 0;
+          }
+        }
+      } catch (err) {
+        console.warn('songs.txt לא נטען - משתמשים ברשימה המובנית.', err);
+      }
+      renderHero();
+      renderPills();
+      renderGrid();
+    }
+
+    function visible() {
+      return SONGS.filter(s => state.filter === 'all' || s.tag === state.filter);
+    }
+
+    // ===== Hero player =====
+    function renderHero() {
+      const cur = SONGS[state.current];
+      const started = state.autoStarted;
+
+      $('heroKicker').textContent = (cur.anthem && !started)
+        ? 'ההמנון שלנו לט״ו באב'
+        : 'מנגן עכשיו';
+
+      $('heroTitle').innerHTML = '';
+      const artistNode = document.createTextNode(cur.artist + ' · ');
+      const em = document.createElement('em');
+      em.textContent = cur.title;
+      $('heroTitle').append(artistNode, em);
+
+      $('heroHint').textContent = started
+        ? 'לא נשמע? סמנו רמקול בנגן - או לחצו על "פתח ביוטיוב"'
+        : '🔇 ההמנון מתחיל מושתק - לחצו על סמל הרמקול לנגן בקול';
+
+      $('openYtBtn').href = 'https://www.youtube.com/watch?v=' + cur.id;
+
+      // www.youtube.com (not nocookie): label-licensed music videos are often
+      // blocked from embedding on the nocookie domain.
+      const src = 'https://www.youtube.com/embed/' + cur.id +
+        '?playsinline=1&rel=0&modestbranding=1' +
+        (started ? '&autoplay=1' : '&autoplay=1&mute=1');
+
+      const mount = $('heroPlayerMount');
+      mount.innerHTML = '';
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.title = cur.artist + ' - ' + cur.title;
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      iframe.setAttribute('allowfullscreen', '');
+      mount.appendChild(iframe);
+    }
+
+    function playIndex(absIdx) {
+      state.current = absIdx;
+      state.autoStarted = true;
+      renderHero();
+      renderGrid();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      const song = SONGS[absIdx];
+      if (window.gtag) gtag('event', 'song_play', { song_id: song.id, title: song.title });
+    }
+
+    function go(dir) {
+      const list = visible();
+      if (!list.length) return;
+      const curId = SONGS[state.current].id;
+      let i = list.findIndex(s => s.id === curId);
+      i = (i < 0) ? 0 : (i + dir + list.length) % list.length;
+      playIndex(SONGS.findIndex(s => s.id === list[i].id));
+    }
+
+    // ===== Filter pills =====
+    function renderPills() {
+      const nav = $('filters');
+      nav.innerHTML = '';
+      CATS.forEach(([key, label]) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'pill' + (state.filter === key ? ' is-active' : '');
+        btn.textContent = label;
+        btn.addEventListener('click', () => {
+          state.filter = key;
+          renderPills();
+          renderGrid();
+          if (window.gtag) gtag('event', 'category_filter', { category: key });
+        });
+        nav.appendChild(btn);
+      });
+    }
+
+    // ===== Songs grid =====
+    function renderGrid() {
+      const root = $('songs');
+      root.innerHTML = '';
+      const curId = SONGS[state.current].id;
+      visible().forEach(song => {
+        const playing = song.id === curId;
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'song-card' + (playing ? ' is-playing' : '');
+        card.setAttribute('aria-label', 'נגן: ' + song.title + ' של ' + song.artist);
+        card.innerHTML = `
+          <div class="song-card__thumb">
+            <img src="https://i.ytimg.com/vi/${song.id}/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+            <div class="song-card__overlay">
+              <span class="song-card__tag">${TAGS[song.tag]}</span>
+            </div>
+          </div>
+          <div class="song-card__body">
+            <div>
+              <div class="song-card__name">${song.title}</div>
+              <div class="song-card__artist">${song.artist}</div>
+            </div>
+            <div class="song-card__mark">${playing ? '♪' : '▶'}</div>
+          </div>`;
+        card.addEventListener('click', () => {
+          playIndex(SONGS.findIndex(s => s.id === song.id));
+        });
+        root.appendChild(card);
+      });
+    }
+
+    // ===== Countdown to Tu B'Av eve =====
+    const TARGET = new Date('2026-07-28T19:30:00+03:00').getTime();
+
+    function tickCountdown() {
+      const diffRaw = TARGET - Date.now();
+      if (diffRaw <= 0) {
+        $('countdown').hidden = true;
+        clearInterval(cdTimer);
+        return;
+      }
+      let diff = diffRaw;
+      const d = Math.floor(diff / 864e5); diff -= d * 864e5;
+      const h = Math.floor(diff / 36e5);  diff -= h * 36e5;
+      const m = Math.floor(diff / 6e4);
+      const s = Math.floor((diff - m * 6e4) / 1000);
+      const pad = n => String(n).padStart(2, '0');
+      $('cdDays').textContent  = pad(d);
+      $('cdHours').textContent = pad(h);
+      $('cdMins').textContent  = pad(m);
+      $('cdSecs').textContent  = pad(s);
+    }
+
+    const cdTimer = setInterval(tickCountdown, 1000);
+    tickCountdown();
+
+    // ===== Native share fallback =====
+    (function setupShare() {
+      const btn = $('shareBtn');
+      if (!navigator.share) return;
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigator.share({
+          title: 'פסקול האהבה · ט״ו באב',
+          text: 'פסקול האהבה לט״ו באב 💛 שירי אהבה ישראליים',
+          url: 'https://megenimoref.github.io/LandingPages/tu-bav/'
+        }).catch(() => window.open(btn.href, '_blank', 'noopener'));
+      });
+    })();
+
+    // ===== Controls =====
+    $('prevBtn').addEventListener('click', () => go(-1));
+    $('nextBtn').addEventListener('click', () => go(+1));
+
+    // ===== Boot =====
+    loadSongs();
+  </script>
+
+</body>
+</html>
