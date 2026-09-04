@@ -75,6 +75,50 @@ async function notifySms(env, rec) {
   }
 }
 
+/* ============================================================
+   Mirror each dedication into the campaign's Google Form.
+
+   Google then emails the team on every response and keeps the
+   linked spreadsheet current — which is the view the campaign
+   actually works from. Posting from here rather than the page
+   avoids the opaque no-cors submit a browser would be stuck with.
+
+   Failures are logged, never thrown: KV is the record of truth
+   and a dedication is never lost because Google had a bad minute.
+   ============================================================ */
+const FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLSfGojvk2uEBQ_6-KiNBiZTqaf_-WG_Y6ubS9eSTRkXdh9L2oA/formResponse';
+
+const FORM_FIELDS = {
+  soldier:     'entry.710929045',
+  phone:       'entry.229869811',
+  unit:        'entry.1832516583',
+  song:        'entry.1320295493',
+  link:        'entry.308836262',
+  msg:         'entry.685126252',
+  sender:      'entry.345303597',
+  senderPhone: 'entry.445560601',
+};
+
+async function mirrorToForm(rec) {
+  const body = new URLSearchParams();
+  for (const [key, entry] of Object.entries(FORM_FIELDS)) {
+    body.set(entry, rec[key] || '');
+  }
+
+  try {
+    const res = await fetch(FORM_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      body: body.toString(),
+    });
+    if (res.ok) console.log('[form] mirrored');
+    else console.log('[form] HTTP', res.status);
+  } catch (err) {
+    console.log('[form] mirror failed:', err && err.message);
+  }
+}
+
 export default {
   async fetch(request, env, ctx) {
     const origin = request.headers.get('Origin') || '';
@@ -148,8 +192,9 @@ export default {
     const id = `ded:${rec.receivedAt}:${crypto.randomUUID().slice(0, 8)}`;
     await env.DEDICATIONS.put(id, JSON.stringify({ id, ...rec }));
 
-    // The sender should not wait on the SMS gateway to see "נשלח".
+    // The sender should not wait on either of these to see "נשלח".
     ctx.waitUntil(notifySms(env, rec));
+    ctx.waitUntil(mirrorToForm(rec));
 
     return json({ ok: true, id }, 200, origin);
   },
