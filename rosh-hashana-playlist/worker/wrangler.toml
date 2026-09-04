@@ -17,3 +17,11 @@ id = "59609f2f9d9f4d058ef36e8ba99b27b3"
 
 # ADMIN_TOKEN is a secret, never a var:
 #   npx wrangler secret put ADMIN_TOKEN
+
+# Plain vars belong here, not in the dashboard: `wrangler deploy` replaces the
+# whole binding set, so a Text variable added in the UI is wiped by the next
+# deploy. Secrets are preserved across deploys, so ADMIN_TOKEN and
+# NOTIFY_HUB_TOKEN are set with `wrangler secret put` (or Type: Secret in the
+# dashboard) and deliberately do NOT appear here.
+[vars]
+NOTIFY_HUB_URL = "https://notify.oref-main.com/notify/paskol-dedication"
