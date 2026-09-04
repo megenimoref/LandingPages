@@ -271,6 +271,33 @@ h2.title{
 .topbar .org{ font-size:.8rem; font-weight:700; letter-spacing:.05em; }
 .topbar .org small{ display:block; font-weight:400; color:var(--muted); letter-spacing:.16em; font-size:.66rem; }
 @media (max-width:640px){ .topbar .org{ display:none; } .topbar .marks img{ height:30px; } }
+.topbar .actions{ display:flex; align-items:center; gap:12px; }
+
+/* The soundtrack toggle — an equaliser that actually moves while it plays. */
+.sound{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:9px 16px; border-radius:999px; cursor:pointer;
+  border:1px solid var(--glass-line); background:var(--glass);
+  color:var(--cream); font-family:var(--font-body); font-size:.82rem; font-weight:600;
+  backdrop-filter:blur(8px);
+  transition:background .3s var(--ease), border-color .3s var(--ease);
+}
+.sound:hover{ background:rgba(255,255,255,.09); border-color:rgba(242,177,52,.45); }
+.sound:focus-visible{ outline:2px solid var(--honey); outline-offset:3px; }
+.sound .bars{ display:flex; align-items:flex-end; gap:2.5px; height:15px; }
+.sound .bars i{
+  display:block; width:2.5px; height:4px; border-radius:2px; opacity:.5;
+  background:linear-gradient(180deg,var(--honey-lt),var(--honey));
+}
+.sound[aria-pressed="true"] .bars i{ opacity:1; animation:eqbar .9s var(--ease) infinite alternate; }
+.sound[aria-pressed="true"] .bars i:nth-child(2){ animation-delay:.18s; }
+.sound[aria-pressed="true"] .bars i:nth-child(3){ animation-delay:.36s; }
+.sound[aria-pressed="true"] .bars i:nth-child(4){ animation-delay:.10s; }
+@keyframes eqbar{ from{ height:4px; } to{ height:15px; } }
+@media (prefers-reduced-motion:reduce){ .sound .bars i{ animation:none !important; } }
+html.no-anim .sound .bars i{ animation:none !important; }
+@media (max-width:640px){ .sound .lbl{ display:none; } .sound{ padding:9px 12px; } }
+.credit{ display:inline-block; margin-top:6px; font-size:.72rem; color:var(--muted); opacity:.8; }
 
 /* ============================================================
    7. HERO
@@ -541,8 +568,16 @@ footer{
     <img src="images/maganim-center.webp" alt="פיקוד העורף" width="120" height="38" loading="eager">
     <div class="org">מגנים על העורף<small>מחוז חיפה</small></div>
   </div>
-  <a class="cta" href="#form" style="padding:11px 24px;font-size:.92rem" data-goto>שליחת הקדשה</a>
+  <div class="actions">
+    <button class="sound" id="sndBtn" type="button" aria-pressed="false" aria-label="הפעלת מוזיקת רקע">
+      <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="lbl">מוזיקה</span>
+    </button>
+    <a class="cta" href="#form" style="padding:11px 24px;font-size:.92rem" data-goto>שליחת הקדשה</a>
+  </div>
 </header>
+
+<audio id="bgm" src="public/tapuchim-utmarim.mp3" loop preload="none"></audio>
 
 <main id="main">
 
@@ -733,7 +768,8 @@ footer{
     </div>
     <small>
       מרכז "מגנים על העורף" · מחוז חיפה — פיקוד העורף<br>
-      פסקול תשפ״ז · מהעורף לחזית · <span id="yr">2026</span>
+      פסקול תשפ״ז · מהעורף לחזית · <span id="yr">2026</span><br>
+      <span class="credit">מוזיקת רקע: רמי קלינשטיין — "תפוחים ותמרים" · מקור: YouTube · כל הזכויות שמורות ליוצרים</span>
     </small>
   </div>
 </footer>
@@ -764,7 +800,7 @@ footer{
    silently losing their dedication.
    ============================================================ */
 const CONFIG = {
-  endpoint: '',                                   // e.g. 'https://paskol.oref-main.com/api/dedication'
+  endpoint: 'https://paskol-form.megenim-oref.workers.dev/api/dedication',                                   // e.g. 'https://paskol.oref-main.com/api/dedication'
   eveOfHoliday: '2026-09-11T18:45:00+03:00'       // ערב ראש השנה תשפ"ז
 };
 
@@ -1091,6 +1127,75 @@ const CONFIG = {
   $('#tAnim').addEventListener('click', () => { prefs.anim = !prefs.anim; apply(); });
   $('#tHc').addEventListener('click',   () => { prefs.hc = !prefs.hc; apply(); });
   $('#aReset').addEventListener('click',() => { prefs.fs = 1; prefs.anim = false; prefs.hc = false; apply(); });
+})();
+
+/* ============================================================
+   BACKGROUND SOUNDTRACK
+   Browsers refuse to autoplay audio until the visitor interacts
+   with the page, so the track starts on the first gesture and the
+   toggle stays available either way. The choice is remembered.
+   ============================================================ */
+(function () {
+  'use strict';
+  const audio = document.getElementById('bgm');
+  const btn   = document.getElementById('sndBtn');
+  if (!audio || !btn) return;
+
+  const KEY    = 'paskol-bgm';
+  const LEVEL  = 0.32;            // background, never over the reading
+  const EVENTS = ['pointerdown', 'keydown', 'touchstart'];
+  let fade = null;
+
+  const setState = (on) => {
+    btn.setAttribute('aria-pressed', String(on));
+    btn.setAttribute('aria-label', on ? 'השתקת מוזיקת רקע' : 'הפעלת מוזיקת רקע');
+  };
+  const remember = (v) => { try { localStorage.setItem(KEY, v); } catch (e) { /* private mode */ } };
+
+  /* Ease the volume instead of cutting it — matches the rest of the page. */
+  function fadeTo(target, done) {
+    clearInterval(fade);
+    fade = setInterval(() => {
+      const gap = target - audio.volume;
+      if (Math.abs(gap) < 0.02) {
+        audio.volume = target; clearInterval(fade); if (done) done(); return;
+      }
+      audio.volume = Math.max(0, Math.min(1, audio.volume + gap * 0.15));
+    }, 40);
+  }
+
+  function play() {
+    audio.volume = 0;
+    audio.play()
+      .then(() => { setState(true); fadeTo(LEVEL); remember('on'); })
+      .catch(() => setState(false));      // still blocked — leave the toggle off
+  }
+  function stop() {
+    fadeTo(0, () => audio.pause());
+    setState(false);
+    remember('off');
+  }
+
+  btn.addEventListener('click', () => {
+    btn.getAttribute('aria-pressed') === 'true' ? stop() : play();
+  });
+
+  /* Start on the first gesture, unless it was switched off before. */
+  let optedOut = false;
+  try { optedOut = localStorage.getItem(KEY) === 'off'; } catch (e) { /* private mode */ }
+  if (!optedOut) {
+    const kick = () => { EVENTS.forEach((e) => window.removeEventListener(e, kick)); play(); };
+    EVENTS.forEach((e) => window.addEventListener(e, kick, { passive: true }));
+  }
+
+  /* Don't keep playing into a tab nobody is looking at. */
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (!audio.paused) audio.pause();
+    } else if (btn.getAttribute('aria-pressed') === 'true' && audio.paused) {
+      audio.play().catch(() => {});
+    }
+  });
 })();
 </script>
 

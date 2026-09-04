@@ -7,7 +7,7 @@ compatibility_date = "2026-09-01"
 #   npx wrangler kv namespace create DEDICATIONS
 [[kv_namespaces]]
 binding = "DEDICATIONS"
-id = "REPLACE_WITH_KV_NAMESPACE_ID"
+id = "59609f2f9d9f4d058ef36e8ba99b27b3"
 
 # Custom hostname on the oref-main.com zone (optional — the workers.dev
 # URL works too). Uncomment after the route is wanted:
