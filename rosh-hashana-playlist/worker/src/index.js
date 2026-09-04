@@ -41,8 +41,58 @@ function clean(value, max) {
 
 const phoneOk = (v) => /^0\d{1,2}-?\d{7}$/.test(v.replace(/\s/g, ''));
 
+/* ============================================================
+   SMS notification — Inforu v2, the same provider and payload
+   shape the district CRMs use (see central-pikud smsService.ts).
+   Credentials and recipients come from secrets only; when either
+   is missing we stay quiet rather than failing a submission.
+   ============================================================ */
+const INFORU_URL = 'https://capi.inforu.co.il/api/v2/SMS/SendSms';
+
+/** Israeli numbers: strip separators, 0XXXXXXXXX -> 972XXXXXXXXX. */
+function normalizePhone(raw) {
+  const digits = String(raw || '').replace(/\D/g, '');
+  if (digits.startsWith('972')) return digits;
+  if (digits.startsWith('0')) return '972' + digits.slice(1);
+  return digits;
+}
+
+async function notifySms(env, rec) {
+  const cred = env.INFORU_BASE_CREDENTIALS;   // "Basic base64(user:token)"
+  if (!cred || !env.NOTIFY_PHONE) return;     // not configured — nothing to do
+
+  const recipients = String(env.NOTIFY_PHONE)
+    .split(',')
+    .map((p) => normalizePhone(p))
+    .filter((p) => p.length >= 11)
+    .map((p) => ({ PhoneNumber: p }));
+  if (recipients.length === 0) return;
+
+  const payload = {
+    Data: {
+      Message: `הקדשה חדשה · פסקול תשפ"ז\nמאת: ${rec.sender}\nשיר: ${rec.song}`,
+      Recipients: recipients,
+      Settings: { Sender: env.INFORU_SENDER || 'Megenim' },
+    },
+  };
+
+  try {
+    const res = await fetch(INFORU_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8', Authorization: cred },
+      body: JSON.stringify(payload),
+    });
+    const body = await res.text();
+    if (!res.ok) console.log('[sms] Inforu HTTP', res.status, body.slice(0, 200));
+    else console.log('[sms] sent to', recipients.length, 'recipient(s)', body.slice(0, 120));
+  } catch (err) {
+    // A dedication is never lost because the SMS gateway had a bad minute.
+    console.log('[sms] failed:', err && err.message);
+  }
+}
+
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const origin = request.headers.get('Origin') || '';
     const url = new URL(request.url);
 
@@ -113,6 +163,9 @@ export default {
 
     const id = `ded:${rec.receivedAt}:${crypto.randomUUID().slice(0, 8)}`;
     await env.DEDICATIONS.put(id, JSON.stringify({ id, ...rec }));
+
+    // The sender should not wait on the SMS gateway to see "נשלח".
+    ctx.waitUntil(notifySms(env, rec));
 
     return json({ ok: true, id }, 200, origin);
   },
