@@ -21,8 +21,8 @@ function cors(origin) {
   const allow = ALLOWED_ORIGINS.includes(origin) ? origin : ALLOWED_ORIGINS[0];
   return {
     'Access-Control-Allow-Origin': allow,
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Max-Age': '86400',
     'Vary': 'Origin',
   };
@@ -48,24 +48,27 @@ export default {
 
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) });
 
-    // ---- admin export: GET /api/export?token=... -> NDJSON of every dedication
+    // ---- admin export: GET /api/export -> every dedication, as JSON
+    // Auth goes in the Authorization header, never the query string, so the
+    // token never lands in browser history or an edge access log.
     if (request.method === 'GET' && url.pathname === '/api/export') {
-      if (!env.ADMIN_TOKEN || url.searchParams.get('token') !== env.ADMIN_TOKEN) {
+      const auth = request.headers.get('Authorization') || '';
+      const given = auth.startsWith('Bearer ') ? auth.slice(7).trim() : '';
+      if (!env.ADMIN_TOKEN || given !== env.ADMIN_TOKEN) {
         return json({ ok: false, error: 'unauthorized' }, 401, origin);
       }
-      const out = [];
+      const items = [];
       let cursor;
       do {
         const page = await env.DEDICATIONS.list({ prefix: 'ded:', cursor });
         for (const k of page.keys) {
           const v = await env.DEDICATIONS.get(k.name);
-          if (v) out.push(v);
+          if (v) { try { items.push(JSON.parse(v)); } catch { /* skip corrupt row */ } }
         }
         cursor = page.list_complete ? undefined : page.cursor;
       } while (cursor);
-      return new Response(out.join('\n'), {
-        headers: { 'Content-Type': 'application/x-ndjson; charset=utf-8' },
-      });
+      items.sort((a, b) => String(b.receivedAt).localeCompare(String(a.receivedAt)));
+      return json({ ok: true, count: items.length, items }, 200, origin);
     }
 
     if (request.method !== 'POST' || url.pathname !== '/api/dedication') {
