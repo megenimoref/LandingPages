@@ -1,2 +1,6 @@
 LandingPages.code-workspace
 bullet-time-studio/
+
+# wrangler build/auth cache — never belongs in git
+rosh-hashana-playlist/worker/.wrangler/
+node_modules/
