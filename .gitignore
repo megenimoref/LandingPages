@@ -4,3 +4,7 @@ bullet-time-studio/
 # wrangler build/auth cache — never belongs in git
 rosh-hashana-playlist/worker/.wrangler/
 node_modules/
+
+# stray downloads and shell accidents
+*.exe
+$env
