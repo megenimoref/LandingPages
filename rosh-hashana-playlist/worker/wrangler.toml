@@ -1,0 +1,19 @@
+name = "paskol-form"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+# KV namespace that holds the dedications.
+# Create it once, then paste the returned id here:
+#   npx wrangler kv namespace create DEDICATIONS
+[[kv_namespaces]]
+binding = "DEDICATIONS"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+# Custom hostname on the oref-main.com zone (optional — the workers.dev
+# URL works too). Uncomment after the route is wanted:
+# [[routes]]
+# pattern = "paskol.oref-main.com/api/*"
+# zone_name = "oref-main.com"
+
+# ADMIN_TOKEN is a secret, never a var:
+#   npx wrangler secret put ADMIN_TOKEN
