@@ -1166,9 +1166,9 @@ const CONFIG = {
 
   function play() {
     audio.volume = 0;
-    audio.play()
+    return audio.play()
       .then(() => { setState(true); fadeTo(LEVEL); remember('on'); })
-      .catch(() => setState(false));      // still blocked — leave the toggle off
+      .catch((err) => { setState(false); throw err; });   // blocked — caller decides
   }
   function stop() {
     fadeTo(0, () => audio.pause());
@@ -1177,15 +1177,23 @@ const CONFIG = {
   }
 
   btn.addEventListener('click', () => {
-    btn.getAttribute('aria-pressed') === 'true' ? stop() : play();
+    btn.getAttribute('aria-pressed') === 'true' ? stop() : play().catch(() => {});
   });
 
-  /* Start on the first gesture, unless it was switched off before. */
+  /* Try to start straight away. Browsers block autoplay with sound for a
+     visitor who has not interacted with the site yet, so when that rejects
+     we fall back to starting on the first gesture instead. Someone who
+     switched the music off before is left alone. */
   let optedOut = false;
   try { optedOut = localStorage.getItem(KEY) === 'off'; } catch (e) { /* private mode */ }
   if (!optedOut) {
-    const kick = () => { EVENTS.forEach((e) => window.removeEventListener(e, kick)); play(); };
-    EVENTS.forEach((e) => window.addEventListener(e, kick, { passive: true }));
+    play().catch(() => {
+      const kick = () => {
+        EVENTS.forEach((e) => window.removeEventListener(e, kick));
+        play().catch(() => {});
+      };
+      EVENTS.forEach((e) => window.addEventListener(e, kick, { passive: true }));
+    });
   }
 
   /* Don't keep playing into a tab nobody is looking at. */
