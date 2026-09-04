@@ -49,17 +49,17 @@
   --ink:      #05060c;
   --ink-2:    #0a0b16;
   --ink-3:    #12142395;
-  --pom:      #b31942;   /* pomegranate */
-  --pom-lt:   #e0325f;
-  --pom-deep: #5e0d24;
-  --honey:    #f2b134;
-  --honey-lt: #ffd98a;
+  --pom:      #d1003f;   /* pomegranate */
+  --pom-lt:   #ff2e63;
+  --pom-deep: #7d0b2b;
+  --honey:    #ffb302;
+  --honey-lt: #ffd76a;
   --cream:    #f7f1e6;
-  --muted:    #a5a9bd;
-  --line:     rgba(247,241,230,.12);
+  --muted:    #b6bad0;
+  --line:     rgba(247,241,230,.18);
 
-  --glass:      rgba(255,255,255,.045);
-  --glass-line: rgba(255,255,255,.10);
+  --glass:      rgba(255,255,255,.075);
+  --glass-line: rgba(255,255,255,.17);
 
   --font-display:'Frank Ruhl Libre', Georgia, 'Times New Roman', serif;
   --font-body:'Assistant', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -136,11 +136,11 @@ html.no-anim #seeds, html.no-anim .spotlight, html.no-anim .grain{ display:none 
    ============================================================ */
 
 /* 3a. Aurora — slow-drifting colour fields, the base of the whole look */
-.aurora{ position:fixed; inset:-20vh -20vw; z-index:-3; pointer-events:none; filter:blur(90px); opacity:.75; }
+.aurora{ position:fixed; inset:-20vh -20vw; z-index:-3; pointer-events:none; filter:blur(90px); opacity:.92; }
 .aurora span{ position:absolute; display:block; border-radius:50%; mix-blend-mode:screen; will-change:transform; }
-.aurora .a1{ width:58vw; height:58vw; background:radial-gradient(circle,rgba(179,25,66,.95),transparent 68%); top:-8%;  inset-inline-end:-10%; animation:drift1 26s var(--ease) infinite alternate; }
-.aurora .a2{ width:52vw; height:52vw; background:radial-gradient(circle,rgba(242,177,52,.55),transparent 66%); bottom:-14%; inset-inline-start:-8%; animation:drift2 32s var(--ease) infinite alternate; }
-.aurora .a3{ width:42vw; height:42vw; background:radial-gradient(circle,rgba(94,13,36,.9),transparent 70%);  top:34%; inset-inline-start:26%; animation:drift3 38s var(--ease) infinite alternate; }
+.aurora .a1{ width:58vw; height:58vw; background:radial-gradient(circle,rgba(209,0,63,1),transparent 68%); top:-8%;  inset-inline-end:-10%; animation:drift1 26s var(--ease) infinite alternate; }
+.aurora .a2{ width:52vw; height:52vw; background:radial-gradient(circle,rgba(255,179,2,.72),transparent 66%); bottom:-14%; inset-inline-start:-8%; animation:drift2 32s var(--ease) infinite alternate; }
+.aurora .a3{ width:42vw; height:42vw; background:radial-gradient(circle,rgba(125,11,43,.95),transparent 70%);  top:34%; inset-inline-start:26%; animation:drift3 38s var(--ease) infinite alternate; }
 @keyframes drift1{ to{ transform:translate3d(-9vw,12vh,0) scale(1.18); } }
 @keyframes drift2{ to{ transform:translate3d(11vw,-9vh,0) scale(1.12); } }
 @keyframes drift3{ to{ transform:translate3d(-7vw,-11vh,0) scale(1.25); } }
@@ -163,14 +163,14 @@ html.no-anim #seeds, html.no-anim .spotlight, html.no-anim .grain{ display:none 
 /* 3d. Vignette */
 .vignette{
   position:fixed; inset:0; z-index:1; pointer-events:none;
-  background:radial-gradient(ellipse at 50% 42%, transparent 42%, rgba(0,0,0,.55) 100%);
+  background:radial-gradient(ellipse at 50% 42%, transparent 46%, rgba(0,0,0,.46) 100%);
 }
 
 /* 3e. Cursor spotlight (desktop pointers only) */
 .spotlight{
   position:fixed; width:640px; height:640px; z-index:0; pointer-events:none;
   margin:-320px 0 0 -320px; opacity:0; transition:opacity .5s var(--ease);
-  background:radial-gradient(circle, rgba(242,177,52,.13), transparent 62%);
+  background:radial-gradient(circle, rgba(255,179,2,.2), transparent 62%);
   mix-blend-mode:screen;
 }
 @media (hover:hover) and (pointer:fine){ .spotlight.on{ opacity:1; } }
@@ -346,21 +346,6 @@ html.no-anim .sound .bars i{ animation:none !important; }
 }
 .stamp .dot{ width:7px; height:7px; border-radius:50%; background:var(--honey); box-shadow:0 0 0 0 rgba(242,177,52,.7); animation:pulse 2.2s infinite; }
 @keyframes pulse{ 70%{ box-shadow:0 0 0 12px rgba(242,177,52,0); } 100%{ box-shadow:0 0 0 0 rgba(242,177,52,0); } }
-
-/* Countdown */
-.countdown{ display:flex; gap:clamp(8px,2vw,18px); justify-content:center; margin:34px 0 40px; flex-wrap:wrap; }
-.cd-cell{
-  min-width:clamp(66px,15vw,96px); padding:14px 10px 11px; border-radius:16px;
-  background:var(--glass); border:1px solid var(--glass-line); backdrop-filter:blur(10px);
-}
-.cd-cell b{
-  display:block; font-family:var(--font-display); font-weight:900;
-  font-size:clamp(1.5rem,4.6vw,2.3rem); line-height:1;
-  font-variant-numeric:tabular-nums; color:var(--honey-lt);
-}
-.cd-cell span{ display:block; margin-top:7px; font-size:.68rem; letter-spacing:.2em; color:var(--muted); }
-.cd-cell b.tick{ animation:tick .4s var(--ease-out); }
-@keyframes tick{ from{ transform:translateY(-6px) scale(1.08); opacity:.4; } }
 
 /* CTA */
 .cta{
@@ -603,14 +588,7 @@ footer{
 
       <h1 data-split>פסקול אחד גדול <span class="gold">של אהבה</span></h1>
 
-      <p class="sub">ממלאים טופס קצר — הקדשה ושיר — ואנחנו דואגים שהם יגיעו לחייל.ת המילואים שלכם — כדי שתהיה להם שנה מתוקה כמו דבש.</p>
-
-      <div class="countdown" id="cd" role="timer" aria-live="off" aria-label="ספירה לאחור לערב ראש השנה">
-        <div class="cd-cell"><b id="cdD">--</b><span>ימים</span></div>
-        <div class="cd-cell"><b id="cdH">--</b><span>שעות</span></div>
-        <div class="cd-cell"><b id="cdM">--</b><span>דקות</span></div>
-        <div class="cd-cell"><b id="cdS">--</b><span>שניות</span></div>
-      </div>
+      <p class="sub">ממלאים טופס קצר — הקדשה ושיר — ואנחנו דואגים שהם יגיעו לחייל.ת המילואים שלכם — כדי שתתחיל להם שנה מתוקה כמו דבש.</p>
 
       <a class="cta" href="#form" data-magnetic data-goto>
         <span>מקדישים שיר &#10084;&#65039;</span>
@@ -799,8 +777,7 @@ footer{
    silently losing their dedication.
    ============================================================ */
 const CONFIG = {
-  endpoint: 'https://paskol-form.megenim-oref.workers.dev/api/dedication',                                   // e.g. 'https://paskol.oref-main.com/api/dedication'
-  eveOfHoliday: '2026-09-11T18:45:00+03:00'       // ערב ראש השנה תשפ"ז
+  endpoint: 'https://paskol-form.megenim-oref.workers.dev/api/dedication'
 };
 
 (function () {
@@ -953,30 +930,6 @@ const CONFIG = {
       btn.addEventListener('pointerleave', () => { btn.style.transform = ''; });
     });
   }
-
-  /* ---------- countdown ---------- */
-  const target = new Date(CONFIG.eveOfHoliday).getTime();
-  const cells = { d: $('#cdD'), h: $('#cdH'), m: $('#cdM'), s: $('#cdS') };
-  function pad(n) { return String(n).padStart(2, '0'); }
-  function setCell(el, val) {
-    if (el.textContent === val) return;
-    el.textContent = val;
-    el.classList.remove('tick'); void el.offsetWidth; el.classList.add('tick');
-  }
-  function tickCountdown() {
-    let diff = target - Date.now();
-    if (diff <= 0) {
-      $('#cd').innerHTML = '<div class="cd-cell" style="min-width:auto;padding:16px 28px"><b style="font-size:1.3rem">שנה טובה ומבורכת &#127808;</b></div>';
-      return;
-    }
-    const s = Math.floor(diff / 1000);
-    setCell(cells.d, String(Math.floor(s / 86400)));
-    setCell(cells.h, pad(Math.floor(s / 3600) % 24));
-    setCell(cells.m, pad(Math.floor(s / 60) % 60));
-    setCell(cells.s, pad(s % 60));
-    setTimeout(tickCountdown, 1000);
-  }
-  tickCountdown();
 
   $('#yr').textContent = new Date().getFullYear();
 
