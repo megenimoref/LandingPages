@@ -52,26 +52,26 @@ const phoneOk = (v) => /^0\d{1,2}-?\d{7}$/.test(v.replace(/\s/g, ''));
 
    Unset config means no notification — never a failed submission.
    ============================================================ */
-async function notifySms(env, rec) {
-  const url = env.NOTIFY_HUB_URL;         // .../notify/paskol-dedication
+async function notifyHub(env, template, vars) {
+  const base = env.NOTIFY_HUB_URL;        // https://notify.oref-main.com
   const token = env.NOTIFY_HUB_TOKEN;
-  if (!url || !token) return;             // not configured — nothing to do
+  if (!base || !token) return;            // not configured — nothing to do
 
   try {
-    const res = await fetch(url, {
+    const res = await fetch(`${base.replace(/\/$/, '')}/notify/${template}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ vars: { sender: rec.sender, song: rec.song } }),
+      body: JSON.stringify({ vars }),
     });
     const body = await res.text();
-    if (!res.ok) console.log('[notify] hub HTTP', res.status, body.slice(0, 200));
-    else console.log('[notify] sent', body.slice(0, 120));
+    if (!res.ok) console.log('[notify]', template, 'HTTP', res.status, body.slice(0, 200));
+    else console.log('[notify]', template, 'sent', body.slice(0, 120));
   } catch (err) {
     // A dedication is never lost because the hub had a bad minute.
-    console.log('[notify] hub unreachable:', err && err.message);
+    console.log('[notify]', template, 'unreachable:', err && err.message);
   }
 }
 
@@ -192,8 +192,15 @@ export default {
     const id = `ded:${rec.receivedAt}:${crypto.randomUUID().slice(0, 8)}`;
     await env.DEDICATIONS.put(id, JSON.stringify({ id, ...rec }));
 
-    // The sender should not wait on either of these to see "נשלח".
-    ctx.waitUntil(notifySms(env, rec));
+    // The sender should not wait on any of these to see "נשלח".
+    // One notification tells the team a dedication arrived; the other carries
+    // it to the soldier it was written for.
+    ctx.waitUntil(notifyHub(env, 'paskol-dedication', {
+      sender: rec.sender, song: rec.song, link: rec.link,
+    }));
+    ctx.waitUntil(notifyHub(env, 'paskol-greeting', {
+      sender: rec.sender, song: rec.song, link: rec.link, phone: rec.phone,
+    }));
     ctx.waitUntil(mirrorToForm(rec));
 
     return json({ ok: true, id }, 200, origin);
