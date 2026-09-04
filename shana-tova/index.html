@@ -1,0 +1,2917 @@
+<!--
+  Live: https://sagi-ba.github.io/AI/IDF/shana-tova
+  Live IDF: https://megenimoref.github.io/LandingPages/shana-tova/
+  Local: http://127.0.0.1:8080/IDF/shana-tova/
+  GA:    https://analytics.google.com/analytics/web/#/a351596902p494681343/reports/reportinghub
+-->
+
+<!doctype html>
+<html lang="he" dir="rtl">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17326f">
+  <meta name="description" content="שנה טובה מהבית — יצירות וברכות של ילדי משפחות המשרתים בחזית.">
+  <title>שנה טובה מהבית | יצירות לילדי חיילים</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --navy-950: #0b1d46;
+      --navy-900: #112960;
+      --navy-800: #17326f;
+      --navy-700: #1e3a8a;
+      --gold-600: #c08a08;
+      --gold-500: #d4af37;
+      --honey-500: #f59e0b;
+      --honey-300: #fcd34d;
+      --cream: #fffbeb;
+      --cream-2: #fff7d7;
+      --paper: #fffefa;
+      --ink: #18223c;
+      --muted: #5a647a;
+      --white: #ffffff;
+      --line: rgba(17, 41, 96, 0.13);
+      --shadow-sm: 0 9px 25px rgba(24, 34, 60, 0.08);
+      --shadow-lg: 0 24px 60px rgba(11, 29, 70, 0.16);
+      --radius: 1rem;
+      --radius-lg: 1.6rem;
+      --max-width: 72rem;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 5.5rem;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Rubik", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.65;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    img,
+    iframe {
+      max-width: 100%;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--honey-500);
+      outline-offset: 4px;
+    }
+
+    .skip-link {
+      position: fixed;
+      inset-block-start: 0.75rem;
+      inset-inline-start: 0.75rem;
+      z-index: 100;
+      padding: 0.65rem 1rem;
+      color: var(--white);
+      background: var(--navy-950);
+      border-radius: 0.75rem;
+      transform: translateY(-180%);
+      transition: transform 180ms ease;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .container {
+      width: min(calc(100% - 2rem), var(--max-width));
+      margin-inline: auto;
+    }
+
+    .section {
+      position: relative;
+      padding-block: clamp(4rem, 8vw, 7rem);
+    }
+
+    .section-heading {
+      max-width: 44rem;
+      margin: 0 auto clamp(2rem, 5vw, 3rem);
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin: 0 0 0.65rem;
+      color: var(--navy-700);
+      font-weight: 800;
+      letter-spacing: 0.01em;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-block-start: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      color: var(--navy-950);
+      line-height: 1.15;
+    }
+
+    h1 {
+      max-width: 13ch;
+      margin-block-end: 1.25rem;
+      font-size: clamp(2.55rem, 8vw, 5.4rem);
+      font-weight: 900;
+      letter-spacing: -0.055em;
+    }
+
+    h2 {
+      margin-block-end: 0.75rem;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      font-weight: 900;
+      letter-spacing: -0.035em;
+    }
+
+    h3 {
+      margin-block-end: 0.55rem;
+      font-size: 1.32rem;
+    }
+
+    .section-heading>p:last-child {
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.16rem);
+    }
+
+    /* ---- כותרת האתר: מרכז מגנים על העורף, מחוז חיפה ---- */
+    .site-header {
+      position: sticky;
+      inset-block-start: 0;
+      z-index: 50;
+      color: var(--white);
+      background: rgba(11, 29, 70, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-block-end: 1px solid rgba(212, 175, 55, 0.35);
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-block: 0.7rem;
+    }
+
+    .site-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 0.01em;
+    }
+
+    .site-brand .brand-sub {
+      color: var(--honey-300);
+      font-weight: 700;
+    }
+
+    .header-logos {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .header-logos img {
+      width: 2.1rem;
+      height: 2.1rem;
+      padding: 0.15rem;
+      background: var(--white);
+      border: 1.5px solid rgba(212, 175, 55, 0.6);
+      border-radius: 0.4rem;
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.25);
+      object-fit: contain;
+      display: block;
+    }
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      min-height: min(52rem, 92vh);
+      display: grid;
+      align-items: center;
+      overflow: hidden;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(245, 158, 11, 0.32), transparent 24rem),
+        radial-gradient(circle at 90% 85%, rgba(212, 175, 55, 0.19), transparent 25rem),
+        linear-gradient(135deg, var(--navy-950), var(--navy-700));
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+    }
+
+    .hero::before {
+      width: 34rem;
+      height: 34rem;
+      inset: -15rem -10rem auto auto;
+    }
+
+    .hero::after {
+      width: 26rem;
+      height: 26rem;
+      inset: auto auto -12rem -8rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 2.5rem;
+      align-items: center;
+      padding-block: clamp(4rem, 9vw, 7rem);
+    }
+
+    .hero h1 {
+      color: var(--white);
+    }
+
+    .badge {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      gap: 0.55rem;
+      margin-block-end: 1.35rem;
+      padding: 0.55rem 0.85rem;
+      color: var(--navy-950);
+      background: var(--honey-300);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      border-radius: 999px;
+      box-shadow: 0 8px 30px rgba(245, 158, 11, 0.25);
+      font-weight: 800;
+    }
+
+    .hero-copy>p {
+      max-width: 41rem;
+      margin-block-end: 1.75rem;
+      color: rgba(255, 255, 255, 0.86);
+      font-size: clamp(1.08rem, 2.4vw, 1.3rem);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 3.2rem;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0.82rem 1.25rem;
+      border: 1px solid transparent;
+      border-radius: 0.9rem;
+      text-decoration: none;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+    }
+
+    .button-primary {
+      color: var(--navy-950);
+      background: var(--honey-300);
+      box-shadow: 0 12px 30px rgba(245, 158, 11, 0.22);
+    }
+
+    .button-primary:hover {
+      background: #ffe37c;
+      box-shadow: 0 16px 35px rgba(245, 158, 11, 0.3);
+    }
+
+    .button-secondary {
+      color: var(--white);
+      background: rgba(255, 255, 255, 0.09);
+      border-color: rgba(255, 255, 255, 0.36);
+      backdrop-filter: blur(8px);
+    }
+
+    .button-secondary:hover {
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .hero-art {
+      position: relative;
+      min-height: 22rem;
+      display: grid;
+      place-items: center;
+    }
+
+    .greeting-card {
+      position: relative;
+      width: min(21rem, 86vw);
+      aspect-ratio: 4 / 5;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 2rem;
+      color: var(--navy-950);
+      background:
+        linear-gradient(45deg, rgba(212, 175, 55, 0.1) 25%, transparent 25%) 0 0 / 20px 20px,
+        linear-gradient(-45deg, rgba(212, 175, 55, 0.1) 25%, transparent 25%) 0 0 / 20px 20px,
+        var(--cream);
+      border: 8px solid var(--white);
+      border-radius: 1.5rem;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      transform: rotate(3deg);
+    }
+
+    .greeting-card::after {
+      content: "";
+      position: absolute;
+      inset: 1rem;
+      border: 2px solid var(--gold-500);
+      border-radius: 0.9rem;
+      pointer-events: none;
+    }
+
+    .card-symbols {
+      display: block;
+      font-size: clamp(3.3rem, 10vw, 5.8rem);
+      line-height: 1.1;
+    }
+
+    .greeting-card strong {
+      display: block;
+      margin-block: 1rem 0.4rem;
+      font-size: 2.15rem;
+      line-height: 1.1;
+    }
+
+    .greeting-card span:last-child {
+      color: var(--navy-700);
+      font-weight: 700;
+    }
+
+    .floating-note {
+      position: absolute;
+      inset-inline-start: 1%;
+      inset-block-end: 3%;
+      padding: 0.75rem 1rem;
+      color: var(--navy-950);
+      background: var(--honey-300);
+      border: 4px solid var(--white);
+      border-radius: 0.9rem;
+      box-shadow: var(--shadow-sm);
+      font-weight: 800;
+      transform: rotate(-5deg);
+    }
+
+    .downloads {
+      background: linear-gradient(180deg, var(--paper), var(--cream));
+    }
+
+    .download-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+
+    .download-card {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
+
+    .download-card:hover {
+      transform: translateY(-7px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .design-preview {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 1.25rem;
+      color: var(--navy-950);
+      background-color: var(--cream-2);
+      background-image: radial-gradient(rgba(30, 58, 138, 0.12) 1px, transparent 1px);
+      background-size: 15px 15px;
+      border-block-end: 1px solid var(--line);
+      text-align: center;
+    }
+
+    .design-preview::before {
+      content: "";
+      position: absolute;
+      width: 12rem;
+      height: 12rem;
+      border: 2px solid rgba(212, 175, 55, 0.45);
+      border-radius: 50%;
+    }
+
+    .preview-mark {
+      position: relative;
+      z-index: 1;
+      font-size: 3.4rem;
+      filter: grayscale(0.15);
+    }
+
+    .preview-label {
+      position: relative;
+      z-index: 1;
+      display: block;
+      margin-top: 0.55rem;
+      font-weight: 900;
+    }
+
+    .design-preview img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .download-card:nth-child(2) .design-preview {
+      background-color: #f3f7ff;
+    }
+
+    .download-card:nth-child(3) .design-preview {
+      background-color: #f0fbf6;
+    }
+
+    .download-card:nth-child(4) .design-preview {
+      background-color: #fff4ee;
+    }
+
+    .download-content {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      padding: 1.35rem;
+    }
+
+    .download-content p {
+      flex: 1;
+      margin-block-end: 1.35rem;
+      color: var(--muted);
+    }
+
+    .download-button {
+      width: 100%;
+      color: var(--white);
+      background: var(--navy-700);
+      box-shadow: 0 8px 20px rgba(30, 58, 138, 0.18);
+    }
+
+    .download-button:hover {
+      background: var(--navy-900);
+    }
+
+    .download-note {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 0.45rem;
+      margin: 1.4rem auto 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    .poem-section {
+      overflow: hidden;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(245, 158, 11, 0.18), transparent 25rem),
+        var(--navy-950);
+    }
+
+    .poem-section .section-heading h2,
+    .poem-section .section-heading p {
+      color: var(--white);
+    }
+
+    .poem-section .section-heading p {
+      opacity: 0.72;
+    }
+
+    .poem-card {
+      position: relative;
+      width: min(100%, 42rem);
+      margin-inline: auto;
+      padding: clamp(2rem, 7vw, 4.4rem) clamp(1.5rem, 7vw, 4rem);
+      color: var(--ink);
+      background: var(--cream);
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.28);
+      text-align: center;
+    }
+
+    .poem-card::before,
+    .poem-card::after {
+      content: "✦";
+      position: absolute;
+      color: var(--gold-600);
+      font-size: 1.4rem;
+    }
+
+    .poem-card::before {
+      inset: 1.1rem 1.3rem auto auto;
+    }
+
+    .poem-card::after {
+      inset: auto auto 1.1rem 1.3rem;
+    }
+
+    .poem-card p {
+      margin: 0;
+      font-size: clamp(1.08rem, 2.7vw, 1.34rem);
+      line-height: 1.95;
+    }
+
+    .poem-card .stanza+.stanza {
+      margin-block-start: 1.3rem;
+    }
+
+    .poem-divider {
+      width: 4rem;
+      height: 3px;
+      margin: 1.5rem auto;
+      background: var(--gold-500);
+      border: 0;
+      border-radius: 999px;
+    }
+
+    .upload {
+      background: var(--paper);
+    }
+
+    .form-shell {
+      overflow: hidden;
+      padding: clamp(1rem, 3vw, 2rem);
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .form-shell iframe {
+      display: block;
+      min-height: 28rem;
+      border-radius: 0.8rem;
+    }
+
+    .gallery {
+      background: linear-gradient(180deg, var(--cream), #fffdf7);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .gallery-status {
+      max-width: 36rem;
+      margin: 0 auto;
+      padding: 1.1rem 1.25rem;
+      color: var(--navy-800);
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      text-align: center;
+    }
+
+    .gallery-status.is-error {
+      color: #8a2b18;
+      background: #fff5f1;
+      border-color: rgba(138, 43, 24, 0.22);
+    }
+
+    .gallery-card {
+      min-width: 0;
+      overflow: hidden;
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .gallery-trigger {
+      width: 100%;
+      display: block;
+      padding: 0;
+      border: 0;
+      cursor: zoom-in;
+      background: transparent;
+      text-align: inherit;
+    }
+
+    .art-thumb {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 1rem;
+      color: var(--navy-950);
+      background: linear-gradient(135deg, #fff0b8, #fffaf0);
+      transition: transform 240ms ease;
+    }
+
+    .gallery-trigger:hover .art-thumb {
+      transform: scale(1.025);
+    }
+
+    .art-thumb::before {
+      content: "";
+      position: absolute;
+      width: 12rem;
+      height: 12rem;
+      background: rgba(245, 158, 11, 0.16);
+      border-radius: 48% 52% 60% 40%;
+      transform: rotate(24deg);
+    }
+
+    .art-thumb span {
+      position: relative;
+      z-index: 1;
+      font-size: clamp(3rem, 10vw, 5rem);
+    }
+
+    .art-thumb strong {
+      position: absolute;
+      z-index: 1;
+      inset: auto 1rem 0.8rem;
+      padding: 0.3rem 0.6rem;
+      background: rgba(255, 255, 255, 0.82);
+      border-radius: 0.5rem;
+      font-size: 0.85rem;
+      backdrop-filter: blur(5px);
+    }
+
+    .art-thumb.image-art {
+      background: #e8e3d8;
+    }
+
+    .art-thumb.image-art::before {
+      display: none;
+    }
+
+    .art-thumb img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .art-two {
+      background: linear-gradient(135deg, #ddecff, #fff);
+    }
+
+    .art-two::before {
+      background: rgba(30, 58, 138, 0.13);
+    }
+
+    .art-three {
+      background: linear-gradient(135deg, #def7e9, #fffcdf);
+    }
+
+    .art-three::before {
+      background: rgba(55, 141, 91, 0.14);
+    }
+
+    .art-four {
+      background: linear-gradient(135deg, #f5e3ff, #fff6dc);
+    }
+
+    .art-four::before {
+      background: rgba(128, 70, 171, 0.12);
+    }
+
+    .gallery-caption {
+      padding: 1rem 1.1rem 1.15rem;
+    }
+
+    .gallery-caption h3 {
+      margin-block-end: 0.25rem;
+      font-size: 1.05rem;
+    }
+
+    .gallery-caption p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .lightbox {
+      width: min(calc(100% - 2rem), 38rem);
+      padding: 0;
+      overflow: visible;
+      color: var(--ink);
+      background: var(--white);
+      border: 0;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 35px 100px rgba(0, 0, 0, 0.4);
+    }
+
+    .lightbox::backdrop {
+      background: rgba(5, 16, 42, 0.82);
+      backdrop-filter: blur(5px);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      z-index: 2;
+      inset-block-start: -0.85rem;
+      inset-inline-end: -0.85rem;
+      width: 2.8rem;
+      height: 2.8rem;
+      display: grid;
+      place-items: center;
+      color: var(--white);
+      background: var(--navy-950);
+      border: 3px solid var(--white);
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.3rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .lightbox-art {
+      min-height: 0;
+      aspect-ratio: 4 / 3;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .lightbox-art img {
+      object-fit: contain;
+    }
+
+    .lightbox-content {
+      padding: 1.25rem 1.4rem 1.5rem;
+    }
+
+    .lightbox-content h3 {
+      margin-block-end: 0.25rem;
+    }
+
+    .lightbox-content p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    footer {
+      color: rgba(255, 255, 255, 0.82);
+      background: var(--navy-950);
+      text-align: center;
+    }
+
+    .footer-inner {
+      display: grid;
+      gap: 1rem;
+      justify-items: center;
+      padding-block: 2.8rem;
+    }
+
+    .footer-inner p {
+      max-width: 44rem;
+      margin: 0;
+    }
+
+    .footer-title {
+      color: var(--white);
+      font-weight: 800;
+    }
+
+    .privacy {
+      font-size: 0.9rem;
+      opacity: 0.78;
+    }
+
+    .back-to-top {
+      min-height: auto;
+      padding: 0.62rem 1rem;
+      color: var(--navy-950);
+      background: var(--honey-300);
+    }
+
+    /* ---- שכבת הפתעות לילדים: קונפטי, תגמולים וטעינות ---- */
+    .confetti-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      pointer-events: none;
+    }
+
+    .tap-surprise {
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .tap-surprise.is-playing {
+      animation: surprise-bounce 650ms cubic-bezier(0.28, -0.35, 0.25, 1.4);
+    }
+
+    @keyframes surprise-bounce {
+      0% {
+        transform: scale(1) rotate(0deg);
+      }
+
+      30% {
+        transform: scale(1.3) rotate(-8deg);
+      }
+
+      60% {
+        transform: scale(0.92) rotate(6deg);
+      }
+
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    .button.is-celebrating {
+      animation: button-pop 500ms ease;
+    }
+
+    @keyframes button-pop {
+      0% {
+        transform: scale(1);
+      }
+
+      40% {
+        transform: scale(1.05);
+      }
+
+      70% {
+        transform: scale(0.97);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .toast {
+      position: fixed;
+      inset-inline: 1rem;
+      inset-block-end: 1.25rem;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .toast span {
+      padding: 0.8rem 1.2rem;
+      color: var(--white);
+      background: var(--navy-800);
+      border: 2px solid var(--honey-300);
+      border-radius: 999px;
+      font-weight: 700;
+      text-align: center;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      transform: translateY(1rem);
+      transition: opacity 250ms ease, transform 250ms ease;
+    }
+
+    .toast.is-visible span {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .upload-success {
+      display: none;
+      max-width: 36rem;
+      margin: 0 auto 1.5rem;
+      padding: 1rem 1.25rem;
+      color: var(--navy-950);
+      background: linear-gradient(135deg, var(--honey-300), #ffe9a3);
+      border-radius: var(--radius);
+      text-align: center;
+      font-weight: 800;
+      box-shadow: 0 12px 30px rgba(245, 158, 11, 0.35);
+    }
+
+    .upload-success.is-visible {
+      display: block;
+      animation: success-pop 600ms cubic-bezier(0.3, 1.4, 0.5, 1);
+    }
+
+    @keyframes success-pop {
+      from {
+        transform: scale(0.7);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .loader-bounce {
+      display: flex;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-block-end: 0.35rem;
+      font-size: 1.6rem;
+    }
+
+    .loader-bounce span {
+      animation: loader-hop 900ms ease-in-out infinite;
+    }
+
+    .loader-bounce span:nth-child(2) {
+      animation-delay: 150ms;
+    }
+
+    .loader-bounce span:nth-child(3) {
+      animation-delay: 300ms;
+    }
+
+    @keyframes loader-hop {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      40% {
+        transform: translateY(-0.55rem) scale(1.08);
+      }
+    }
+
+    .form-shell {
+      position: relative;
+    }
+
+    .form-loader {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: grid;
+      place-content: center;
+      justify-items: center;
+      gap: 0.2rem;
+      background: var(--white);
+      border-radius: inherit;
+      color: var(--muted);
+      font-weight: 700;
+      text-align: center;
+      transition: opacity 300ms ease, visibility 300ms ease;
+    }
+
+    .form-loader.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .form-loader p {
+      margin: 0;
+    }
+
+    .loader-stage {
+      position: relative;
+      width: 5.5rem;
+      height: 5.5rem;
+      display: grid;
+      place-items: center;
+      font-size: 2.8rem;
+    }
+
+    .loader-stage .bee {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: start center;
+      font-size: 1.4rem;
+      animation: bee-orbit 1.8s linear infinite;
+    }
+
+    @keyframes bee-orbit {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 37.99rem) {
+      .site-nav {
+        padding-block: 0.55rem;
+      }
+
+      .site-brand {
+        font-size: 0.82rem;
+        gap: 0.35rem;
+      }
+
+      .header-logos {
+        gap: 0.35rem;
+      }
+
+      .header-logos img {
+        width: 1.8rem;
+        height: 1.8rem;
+      }
+
+      html {
+        scroll-padding-top: 4.5rem;
+      }
+
+      .container {
+        width: min(calc(100% - 1.25rem), var(--max-width));
+      }
+
+      .section {
+        padding-block: 3.5rem;
+      }
+
+      .section-heading {
+        margin-block-end: 1.75rem;
+      }
+
+      .section-heading>p:last-child {
+        font-size: 1rem;
+      }
+
+      h1 {
+        max-width: 12ch;
+        font-size: clamp(2.2rem, 11vw, 3rem);
+      }
+
+      h2 {
+        font-size: clamp(1.75rem, 8.6vw, 2.35rem);
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .hero-grid {
+        gap: 1.7rem;
+        padding-block: 2.6rem 3.6rem;
+      }
+
+      .hero-copy>p {
+        margin-block-end: 1.4rem;
+        font-size: 1.04rem;
+        line-height: 1.75;
+      }
+
+      .badge {
+        margin-block-end: 1rem;
+        font-size: 0.92rem;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-actions .button {
+        width: 100%;
+      }
+
+      .hero-art {
+        min-height: 20rem;
+      }
+
+      .greeting-card {
+        width: min(16.5rem, 82vw);
+        padding: 1.4rem;
+        border-width: 6px;
+      }
+
+      .greeting-card::after {
+        inset: 0.7rem;
+      }
+
+      .greeting-card strong {
+        font-size: 1.75rem;
+      }
+
+      .floating-note {
+        inset-inline: auto 0;
+        inset-block-end: 0.25rem;
+        max-width: 13rem;
+        padding: 0.6rem 0.75rem;
+        font-size: 0.82rem;
+      }
+
+      .download-content {
+        padding: 1.15rem;
+      }
+
+      .download-content p {
+        margin-block-end: 1rem;
+      }
+
+      .download-button {
+        padding-inline: 0.8rem;
+      }
+
+      .poem-card {
+        padding: 2.2rem 1.05rem;
+        border-radius: 1.15rem;
+      }
+
+      .poem-card p {
+        font-size: 1rem;
+        line-height: 1.85;
+      }
+
+      .poem-divider {
+        margin-block: 1.15rem;
+      }
+
+      .form-shell {
+        padding: 0.35rem;
+        border-radius: 1rem;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .form-shell iframe {
+        min-height: 34rem;
+        border-radius: 0.75rem;
+      }
+
+      .gallery-caption {
+        padding: 0.9rem 1rem 1rem;
+      }
+
+      .lightbox {
+        width: calc(100% - 1rem);
+        max-height: calc(100dvh - 1rem);
+        overflow: auto;
+        border-radius: 1rem;
+      }
+
+      .lightbox-close {
+        position: absolute;
+        inset-block-start: 0.55rem;
+        inset-inline-end: 0.55rem;
+        margin: 0;
+        border-width: 2px;
+      }
+
+      .lightbox-art {
+        border-radius: 1rem 1rem 0 0;
+      }
+
+      .lightbox-content {
+        padding: 1rem 1.1rem 1.25rem;
+      }
+
+      .footer-inner {
+        padding-block: 2.25rem;
+      }
+
+      .back-to-top {
+        width: 100%;
+        min-height: 3rem;
+      }
+    }
+
+    @media (min-width: 38rem) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 48rem) {
+      .container {
+        width: min(calc(100% - 3rem), var(--max-width));
+      }
+
+      .download-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .gallery-grid {
+        gap: 1.25rem;
+      }
+    }
+
+    @media (min-width: 68rem) {
+      .download-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    @media (min-width: 56rem) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+        gap: 4rem;
+      }
+
+      .hero-art {
+        min-height: 31rem;
+      }
+
+      .floating-note {
+        inset-inline-start: -3%;
+        inset-block-end: 10%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
+    @media (hover: none),
+    (pointer: coarse) {
+
+      .button:hover,
+      .download-card:hover,
+      .gallery-trigger:hover .art-thumb {
+        transform: none;
+      }
+    }
+
+    /* ---- צובעים במסך: כפתורים בכרטיסים ---- */
+    .card-actions {
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .paint-button {
+      width: 100%;
+      color: var(--navy-950);
+      background: var(--honey-300);
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.22);
+    }
+
+    .paint-button:hover {
+      background: #ffe37c;
+    }
+
+    /* ---- צובעים במסך: הדיאלוג ---- */
+    .painter {
+      width: min(calc(100% - 1.5rem), 66rem);
+      max-height: calc(100dvh - 1.5rem);
+      padding: 0;
+      overflow: hidden;
+      color: var(--ink);
+      background: var(--paper);
+      border: 0;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 35px 100px rgba(0, 0, 0, 0.45);
+    }
+
+    .painter::backdrop {
+      background: rgba(5, 16, 42, 0.86);
+      backdrop-filter: blur(5px);
+    }
+
+    .painter-shell {
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      max-height: calc(100dvh - 1.5rem);
+    }
+
+    .painter-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.9rem 1.15rem;
+      color: var(--white);
+      background: linear-gradient(135deg, var(--navy-950), var(--navy-700));
+    }
+
+    .painter-head h3 {
+      margin: 0;
+      color: var(--white);
+      font-size: 1.15rem;
+    }
+
+    .painter-head p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.88rem;
+    }
+
+    .painter-close {
+      flex-shrink: 0;
+      width: 2.6rem;
+      height: 2.6rem;
+      display: grid;
+      place-items: center;
+      color: var(--navy-950);
+      background: var(--honey-300);
+      border: 0;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+
+    .painter-tools {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.6rem 0.9rem;
+      padding: 0.75rem 1rem;
+      background: var(--cream);
+      border-block-end: 1px solid var(--line);
+    }
+
+    .tool-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .tool-group-label {
+      margin-inline-end: 0.15rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
+    .tool {
+      display: inline-flex;
+      min-width: 2.7rem;
+      min-height: 2.7rem;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.35rem 0.7rem;
+      color: var(--navy-950);
+      background: var(--white);
+      border: 2px solid var(--line);
+      border-radius: 0.75rem;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 0.95rem;
+      transition: transform 150ms ease, background 150ms ease, border-color 150ms ease;
+    }
+
+    .tool:hover {
+      transform: translateY(-2px);
+    }
+
+    .tool[aria-pressed="true"] {
+      background: var(--honey-300);
+      border-color: var(--gold-600);
+    }
+
+    .tool:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .swatches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .swatch {
+      width: 2.1rem;
+      height: 2.1rem;
+      padding: 0;
+      border: 3px solid var(--white);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px var(--line);
+      cursor: pointer;
+      transition: transform 150ms ease;
+    }
+
+    .swatch:hover {
+      transform: scale(1.12);
+    }
+
+    .swatch[aria-pressed="true"] {
+      transform: scale(1.18);
+      box-shadow: 0 0 0 3px var(--navy-700);
+    }
+
+    .swatch-custom {
+      position: relative;
+      overflow: hidden;
+      background: conic-gradient(#e5484d, #f59e0b, #fcd34d, #22c55e, #38bdf8, #6366f1, #ec4899, #e5484d);
+    }
+
+    .swatch-custom input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .greeting-input {
+      flex: 1 1 16rem;
+      min-height: 2.7rem;
+      max-height: 6.5rem;
+      padding: 0.45rem 0.8rem;
+      color: var(--ink);
+      background: var(--white);
+      border: 2px solid var(--gold-500);
+      border-radius: 0.75rem;
+      font: inherit;
+      font-weight: 700;
+      line-height: 1.4;
+      resize: none;
+    }
+
+    .sizes {
+      display: flex;
+      gap: 0.3rem;
+    }
+
+    .size-dot {
+      display: block;
+      background: var(--navy-950);
+      border-radius: 50%;
+    }
+
+    .painter-stage {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 0;
+      padding: 0.75rem;
+      overflow: auto;
+      background:
+        radial-gradient(rgba(30, 58, 138, 0.1) 1px, transparent 1px) 0 0 / 15px 15px,
+        var(--cream-2);
+    }
+
+    .canvas-wrap {
+      position: relative;
+      width: min(100%, calc((100dvh - 19rem) * var(--ratio, 1.333)));
+      max-height: 100%;
+      aspect-ratio: var(--ratio, 4 / 3);
+      background: var(--white);
+      border-radius: 0.6rem;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    .canvas-wrap canvas {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .canvas-wrap canvas.outline-layer {
+      mix-blend-mode: multiply;
+      pointer-events: none;
+    }
+
+    .canvas-wrap canvas.text-layer {
+      pointer-events: none;
+    }
+
+    .canvas-wrap.is-text-tool {
+      cursor: move;
+    }
+
+    .canvas-wrap.is-dragging {
+      cursor: grabbing;
+    }
+
+    .canvas-wrap.is-loading::after {
+      content: "טוענים את הציור…";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: var(--navy-700);
+      background: rgba(255, 255, 255, 0.85);
+      font-weight: 800;
+    }
+
+    .painter-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.85rem 1rem;
+      background: var(--white);
+      border-block-start: 1px solid var(--line);
+    }
+
+    .painter-actions .button {
+      min-height: 2.9rem;
+      padding-block: 0.6rem;
+      font-size: 0.95rem;
+    }
+
+    .painter-actions .button-primary {
+      color: var(--navy-950);
+    }
+
+    .painter-actions .button-ghost {
+      color: var(--navy-950);
+      background: var(--white);
+      border-color: var(--line);
+    }
+
+    .painter-actions .button-ghost:hover {
+      background: var(--cream);
+    }
+
+    .painter-actions .button-send {
+      color: var(--white);
+      background: var(--navy-700);
+    }
+
+    .painter-actions .button-send:hover {
+      background: var(--navy-900);
+    }
+
+    .painter-hint {
+      width: 100%;
+      margin: 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.85rem;
+    }
+
+    /* ---- הדפסת היצירה מהמסך ---- */
+    .print-sheet {
+      display: none;
+    }
+
+    @media print {
+      body.print-art>*:not(.print-sheet) {
+        display: none !important;
+      }
+
+      body.print-art .print-sheet {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        min-height: 100vh;
+      }
+
+      body.print-art .print-sheet img {
+        max-width: 100%;
+        max-height: 95vh;
+        object-fit: contain;
+      }
+
+      @page {
+        size: A4 landscape;
+        margin: 8mm;
+      }
+    }
+
+    @media (max-width: 37.99rem) {
+      .painter {
+        width: calc(100% - 0.75rem);
+        max-height: calc(100dvh - 0.75rem);
+        border-radius: 1rem;
+      }
+
+      .painter-shell {
+        max-height: calc(100dvh - 0.75rem);
+      }
+
+      .painter-head {
+        padding: 0.7rem 0.85rem;
+      }
+
+      .painter-head p {
+        display: none;
+      }
+
+      .painter-tools {
+        gap: 0.45rem 0.6rem;
+        padding: 0.6rem 0.7rem;
+      }
+
+      .tool {
+        min-width: 2.5rem;
+        min-height: 2.5rem;
+        padding-inline: 0.5rem;
+        font-size: 0.88rem;
+      }
+
+      .tool .tool-text {
+        display: none;
+      }
+
+      .swatch {
+        width: 1.9rem;
+        height: 1.9rem;
+      }
+
+      .canvas-wrap {
+        width: 100%;
+      }
+
+      .painter-actions {
+        gap: 0.45rem;
+        padding: 0.65rem 0.7rem;
+      }
+
+      .painter-actions .button {
+        flex: 1 1 calc(50% - 0.45rem);
+        min-height: 2.8rem;
+        padding-inline: 0.6rem;
+        font-size: 0.88rem;
+      }
+    }
+
+    @media (hover: none),
+    (pointer: coarse) {
+
+      .tool:hover,
+      .swatch:hover {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body id="top">
+  <a class="skip-link" href="#main">דילוג לתוכן הראשי</a>
+
+  <header class="site-header">
+    <div class="container site-nav">
+      <div class="site-brand">
+        <span>מרכז מגנים על העורף</span>
+        <span class="brand-sub">· מחוז חיפה</span>
+      </div>
+      <div class="header-logos">
+        <img src="assets/logos/maganim-center.webp" alt="לוגו מרכז מגנים על העורף" loading="lazy">
+        <img src="assets/logos/oref-haifa.webp" alt="לוגו פיקוד העורף מחוז חיפה" loading="lazy">
+      </div>
+    </div>
+  </header>
+
+  <section class="hero" aria-labelledby="page-title">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <div class="badge" aria-label="שנה טובה מהבית"><span aria-hidden="true">🍎🍯</span> שנה טובה מהבית</div>
+        <h1 id="page-title">צובעים שנה טובה לאבא ואמא בחזית!</h1>
+        <p>ילדים ומשפחות יקרות, בזמן שאבא או אמא שומרים עלינו, אנחנו שולחים להם חיבוק וטעם של חג! בוחרים עיצוב, מדפיסים
+          בבית, צובעים, מקשטים - ומעלים לכאן כדי שנוסיף את היצירה שלכם לקיר הברכות החגיגי.</p>
+        <nav class="hero-actions" aria-label="פעולות ראשיות">
+          <a class="button button-primary" href="#downloads">דפי צביעה: במסך או להדפסה <span
+              aria-hidden="true">🎨</span></a>
+          <a class="button button-secondary" href="#upload">העלאת יצירה מוכנה <span aria-hidden="true">📸</span></a>
+        </nav>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <div class="greeting-card">
+          <div>
+            <span class="card-symbols tap-surprise" data-surprise="apples">🍎 🍯</span>
+            <strong>שנה טובה<br>מהבית</strong>
+            <span>צובעים באהבה ושולחים לחזית</span>
+          </div>
+        </div>
+        <div class="floating-note tap-surprise" data-surprise="hearts">חיבוק קטן בדרך אליכם 💛</div>
+      </div>
+    </div>
+  </section>
+
+  <main id="main">
+    <section class="section downloads" id="downloads" aria-labelledby="downloads-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow"><span aria-hidden="true">✏️</span> מתחילים ליצור</p>
+          <h2 id="downloads-title">בוחרים עיצוב, וצובעים איך שנוח לכם</h2>
+          <p>שתי דרכים: מורידים ומדפיסים בבית (A4) וצובעים על נייר, או צובעים ישר כאן במסך, בלי מדפסת</p>
+        </div>
+
+        <div class="download-grid">
+          <article class="download-card">
+            <div class="design-preview" role="img" aria-label="תצוגה מקדימה מופשטת של דף הצביעה המגן והדבש">
+              <img src="assets/coloring-pages/apple-honey-outline.webp" alt="תצוגה מקדימה של דף הצביעה התפוח והדבש"
+                loading="lazy">
+            </div>
+            <div class="download-content">
+              <h3>התפוח והדבש</h3>
+              <p>תפוח, צנצנת דבש, רימון, שופר ומגן</p>
+              <div class="card-actions">
+                <button class="button paint-button" type="button" data-id="apple-honey" data-title="התפוח והדבש"
+                  data-src="assets/coloring-pages/apple-honey-outline.webp">צובעים במסך <span
+                    aria-hidden="true">🎨</span></button>
+                <a class="button download-button" href="downloads/apple-honey-coloring-page.pdf" download>הורדה להדפסה
+                  (PDF) <span aria-hidden="true">🖨️</span></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="download-card">
+            <div class="design-preview" role="img" aria-label="תצוגה מקדימה מופשטת של דף הצביעה מכתב מהבית">
+              <img src="assets/coloring-pages/home-rainbow-outline.webp" alt="תצוגה מקדימה של דף הצביעה הבית והקשת"
+                loading="lazy">
+            </div>
+            <div class="download-content">
+              <h3>הבית והקשת</h3>
+              <p>בית, קשת, לבבות, תפוח ודבש</p>
+              <div class="card-actions">
+                <button class="button paint-button" type="button" data-id="home-rainbow" data-title="הבית והקשת"
+                  data-src="assets/coloring-pages/home-rainbow-outline.webp">צובעים במסך <span
+                    aria-hidden="true">🎨</span></button>
+                <a class="button download-button" href="downloads/home-rainbow-coloring-page.pdf" download>הורדה להדפסה
+                  (PDF) <span aria-hidden="true">🖨️</span></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="download-card">
+            <div class="design-preview" role="img" aria-label="תצוגה מקדימה מופשטת של דף הצביעה יונת השלום והשמירה">
+              <img src="assets/coloring-pages/dove-peace-outline.webp" alt="תצוגה מקדימה של דף הצביעה יונת השלום"
+                loading="lazy">
+            </div>
+            <div class="download-content">
+              <h3>יונת השלום</h3>
+              <p>יונה, ענפי זית, גבעות ורימונים עם מקום לברכה</p>
+              <div class="card-actions">
+                <button class="button paint-button" type="button" data-id="dove-peace" data-title="יונת השלום"
+                  data-src="assets/coloring-pages/dove-peace-outline.webp">צובעים במסך <span
+                    aria-hidden="true">🎨</span></button>
+                <a class="button download-button" href="downloads/dove-peace-coloring-page.pdf" download>הורדה להדפסה
+                  (PDF) <span aria-hidden="true">🖨️</span></a>
+              </div>
+            </div>
+          </article>
+
+          <article class="download-card">
+            <div class="design-preview" role="img" aria-label="תצוגה מקדימה של דף הצביעה מכתב מהבית">
+              <img src="assets/coloring-pages/letter-home-outline.webp" alt="תצוגה מקדימה של דף הצביעה מכתב מהבית"
+                loading="lazy">
+            </div>
+            <div class="download-content">
+              <h3>מכתב מהבית</h3>
+              <p>מעטפת לב, משפחה, בית, פרחים ותפוחים</p>
+              <div class="card-actions">
+                <button class="button paint-button" type="button" data-id="letter-home" data-title="מכתב מהבית"
+                  data-src="assets/coloring-pages/letter-home-outline.webp">צובעים במסך <span
+                    aria-hidden="true">🎨</span></button>
+                <a class="button download-button" href="downloads/letter-home-coloring-page.pdf" download>הורדה להדפסה
+                  (PDF) <span aria-hidden="true">🖨️</span></a>
+              </div>
+            </div>
+          </article>
+        </div>
+        <p class="download-note"><span aria-hidden="true">💡</span> להדפסה מיטבית בחרו בגודל A4 ובהתאמה לעמוד.</p>
+      </div>
+    </section>
+
+    <section class="section poem-section" id="poem" aria-labelledby="poem-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow" style="color: var(--honey-300);"><span aria-hidden="true">🕊️</span> מילים מהלב</p>
+          <h2 id="poem-title">שיר השנה שלנו <span class="tap-surprise" data-surprise="dove"
+              aria-hidden="true">🕊️</span></h2>
+          <p>ברכה אחת, מכל הבתים שמחכים</p>
+        </div>
+        <div class="poem-card">
+          <p class="stanza">הימים חולפים, שנה עוברת,<br>ובבית - הציפייה גוברת.<br>תפוח, דבש, שופר נשמע,<br>אבל משהו חסר
+            בנשמה.</p>
+          <hr class="poem-divider">
+          <p class="stanza">הלב שלנו - הוא שם איתך,<br>בבסיס, בטנק, בכל שליחותך.<br>אתם המגן, אתם החומה,<br>מביאים לנו
+            חג, מביאים נחמה.</p>
+          <hr class="poem-divider">
+          <p class="stanza">צבענו לכם ברכה מתוקה,<br>עם המון אהבה ונשיקה.<br>שתהיה זו שנה של חזרה מהירה,<br>שנה של
+            ביטחון, שנה מאירה.</p>
+          <hr class="poem-divider">
+          <p class="stanza">שנה טובה לכל הגיבורים,<br>שאותנו בלב תמיד שומרים.<br>הבית מחכה, הלב מתפלל,<br>לשנה של שלום
+            על ישראל.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section upload" id="upload" aria-labelledby="upload-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow"><span aria-hidden="true">📸</span> היצירה מוכנה?</p>
+          <h2 id="upload-title">סיימתם לקשט? שלחו לנו את הציור!</h2>
+          <p>צלמו את הציור, מלאו את הפרטים והעלו כאן. אנחנו נפרסם את זה בקיר החגיגי!</p>
+        </div>
+        <div class="upload-success" id="upload-success" role="status">🎉 איזה יופי! היצירה שלכם התקבלה ותעלה בקרוב לקיר
+          הברכות 💛</div>
+        <div class="form-shell">
+          <div class="form-loader" id="form-loader" aria-hidden="true">
+            <span class="loader-stage"><span aria-hidden="true">🍯</span><span class="bee">🐝</span></span>
+            <p>עוד רגע הטופס מגיע…</p>
+          </div>
+          <iframe
+            data-tally-src="https://tally.so/embed/NpZ7xN?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+            loading="lazy" width="100%" height="450" frameborder="0" marginheight="0" marginwidth="0"
+            title="שנה טובה מהבית"></iframe>
+          <script>var d = document, w = "https://tally.so/widgets/embed.js", v = function () { "undefined" != typeof Tally ? Tally.loadEmbeds() : d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function (e) { e.src = e.dataset.tallySrc })) }; if ("undefined" != typeof Tally) v(); else if (d.querySelector('script[src="' + w + '"]') == null) { var s = d.createElement("script"); s.src = w, s.onload = v, s.onerror = v, d.body.appendChild(s); }</script>
+        </div>
+      </div>
+    </section>
+
+    <section class="section gallery" id="gallery" aria-labelledby="gallery-title">
+      <div class="container">
+        <div class="section-heading">
+          <p class="eyebrow"><span aria-hidden="true">💛</span> באהבה מילדי הבית</p>
+          <h2 id="gallery-title">קיר הברכות והיצירות 🎨</h2>
+          <p>הציורים המרגשים שהתקבלו מילדי הגיבורים</p>
+        </div>
+
+        <p class="gallery-status" id="gallery-status" role="status">
+          <span class="loader-bounce" aria-hidden="true"><span>🍎</span><span>🍯</span><span>🎨</span></span>
+          טוענים את היצירות…
+        </p>
+        <div class="gallery-grid" id="gallery-grid" aria-live="polite" aria-busy="true"></div>
+        <noscript>
+          <p class="gallery-status is-error">כדי להציג את קיר היצירות יש לאפשר JavaScript בדפדפן.</p>
+        </noscript>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title" aria-describedby="lightbox-caption">
+    <button class="lightbox-close" type="button" aria-label="סגירת התצוגה">✕</button>
+    <div class="art-thumb image-art lightbox-art" id="lightbox-art"><img src="" alt=""></div>
+    <div class="lightbox-content">
+      <h3 id="lightbox-title"></h3>
+      <p id="lightbox-caption"></p>
+    </div>
+  </dialog>
+
+  <dialog class="painter" id="painter" aria-labelledby="painter-title">
+    <div class="painter-shell">
+      <div class="painter-head">
+        <div>
+          <h3 id="painter-title">צובעים במסך</h3>
+          <p>לוחצים על שטח כדי למלא בצבע, מציירים עם המכחול, וכותבים ברכה שאפשר לגרור לכל מקום. הציור נשמר אוטומטית
+            בדפדפן.</p>
+        </div>
+        <button class="painter-close" type="button" aria-label="סגירת הצייר">✕</button>
+      </div>
+
+      <div class="painter-tools" role="toolbar" aria-label="כלי צביעה">
+        <div class="tool-group" role="group" aria-label="כלים">
+          <button class="tool" type="button" data-tool="fill" aria-pressed="true" title="דלי צבע"><span
+              aria-hidden="true">🪣</span><span class="tool-text">דלי</span></button>
+          <button class="tool" type="button" data-tool="brush" aria-pressed="false" title="מכחול"><span
+              aria-hidden="true">🖌️</span><span class="tool-text">מכחול</span></button>
+          <button class="tool" type="button" data-tool="eraser" aria-pressed="false" title="מחק"><span
+              aria-hidden="true">🧽</span><span class="tool-text">מחק</span></button>
+          <button class="tool" type="button" data-tool="text" aria-pressed="false" title="כתיבת ברכה"><span
+              aria-hidden="true">✍️</span><span class="tool-text">ברכה</span></button>
+        </div>
+
+        <textarea class="greeting-input" id="greeting-text" rows="2" maxlength="70"
+          placeholder="כותבים ברכה (עד 3 שורות, Enter יורד שורה). גוררים אותה לכל מקום על הציור" aria-label="טקסט הברכה"
+          hidden></textarea>
+
+        <div class="tool-group sizes" role="group" aria-label="עובי מכחול">
+          <button class="tool" type="button" data-size="10" aria-pressed="false" aria-label="מכחול דק"><span
+              class="size-dot" style="width:0.45rem;height:0.45rem" aria-hidden="true"></span></button>
+          <button class="tool" type="button" data-size="24" aria-pressed="true" aria-label="מכחול בינוני"><span
+              class="size-dot" style="width:0.8rem;height:0.8rem" aria-hidden="true"></span></button>
+          <button class="tool" type="button" data-size="48" aria-pressed="false" aria-label="מכחול עבה"><span
+              class="size-dot" style="width:1.2rem;height:1.2rem" aria-hidden="true"></span></button>
+        </div>
+
+        <div class="tool-group swatches" role="group" aria-label="צבעים" id="swatches">
+          <button class="swatch" type="button" data-color="#e5484d" aria-pressed="true" aria-label="אדום"
+            style="background:#e5484d"></button>
+          <button class="swatch" type="button" data-color="#f97316" aria-pressed="false" aria-label="כתום"
+            style="background:#f97316"></button>
+          <button class="swatch" type="button" data-color="#fcd34d" aria-pressed="false" aria-label="צהוב"
+            style="background:#fcd34d"></button>
+          <button class="swatch" type="button" data-color="#d4af37" aria-pressed="false" aria-label="זהב"
+            style="background:#d4af37"></button>
+          <button class="swatch" type="button" data-color="#22c55e" aria-pressed="false" aria-label="ירוק"
+            style="background:#22c55e"></button>
+          <button class="swatch" type="button" data-color="#14b8a6" aria-pressed="false" aria-label="טורקיז"
+            style="background:#14b8a6"></button>
+          <button class="swatch" type="button" data-color="#38bdf8" aria-pressed="false" aria-label="תכלת"
+            style="background:#38bdf8"></button>
+          <button class="swatch" type="button" data-color="#1e3a8a" aria-pressed="false" aria-label="כחול"
+            style="background:#1e3a8a"></button>
+          <button class="swatch" type="button" data-color="#a855f7" aria-pressed="false" aria-label="סגול"
+            style="background:#a855f7"></button>
+          <button class="swatch" type="button" data-color="#ec4899" aria-pressed="false" aria-label="ורוד"
+            style="background:#ec4899"></button>
+          <button class="swatch" type="button" data-color="#92400e" aria-pressed="false" aria-label="חום"
+            style="background:#92400e"></button>
+          <button class="swatch" type="button" data-color="#18223c" aria-pressed="false" aria-label="שחור"
+            style="background:#18223c"></button>
+          <span class="swatch swatch-custom" title="צבע חופשי"><input type="color" id="custom-color" value="#e5484d"
+              aria-label="בחירת צבע חופשי"></span>
+        </div>
+
+        <div class="tool-group" role="group" aria-label="עריכה">
+          <button class="tool" type="button" id="painter-undo" disabled title="ביטול הפעולה האחרונה"><span
+              aria-hidden="true">↩️</span><span class="tool-text">ביטול</span></button>
+          <button class="tool" type="button" id="painter-clear" title="ניקוי הציור"><span
+              aria-hidden="true">🗑️</span><span class="tool-text">מתחילים מחדש</span></button>
+        </div>
+      </div>
+
+      <div class="painter-stage">
+        <div class="canvas-wrap is-loading" id="canvas-wrap">
+          <canvas class="paint-layer" id="paint-layer" role="img"
+            aria-label="משטח הצביעה. לחצו על שטח כדי לצבוע אותו, או גררו כדי לצייר."></canvas>
+          <canvas class="outline-layer" id="outline-layer" aria-hidden="true"></canvas>
+          <canvas class="text-layer" id="text-layer" aria-hidden="true"></canvas>
+        </div>
+      </div>
+
+      <div class="painter-actions">
+        <button class="button button-primary" type="button" id="painter-save"><span aria-hidden="true">💾</span> שמירת
+          תמונה</button>
+        <button class="button button-ghost" type="button" id="painter-share" hidden><span aria-hidden="true">📤</span>
+          שיתוף</button>
+        <button class="button button-ghost" type="button" id="painter-print"><span aria-hidden="true">🖨️</span>
+          הדפסה</button>
+        <button class="button button-send" type="button" id="painter-send"><span aria-hidden="true">💌</span> שולחים
+          לקיר הברכות</button>
+        <p class="painter-hint">שומרים את התמונה, ואז מעלים אותה בטופס שבהמשך העמוד.</p>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="print-sheet" id="print-sheet" aria-hidden="true"><img src="" alt=""></div>
+
+  <footer>
+    <div class="container footer-inner">
+      <p class="footer-title">מרכז מגנים על העורף · מחוז חיפה | יוזמה לחיבוק משפחות החיילים | ראש השנה תשפ״ז</p>
+      <p class="privacy">התמונות מפורסמות בהסכמת ההורים בלבד וללא חשיפת פרטי ביטחון מידע.</p>
+      <a class="button back-to-top" href="#top">חזרה למעלה <span aria-hidden="true">⬆️</span></a>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const dialog = document.querySelector("#lightbox");
+      const closeButton = dialog.querySelector(".lightbox-close");
+      const art = document.querySelector("#lightbox-art");
+      const artImage = art.querySelector("img");
+      const title = document.querySelector("#lightbox-title");
+      const caption = document.querySelector("#lightbox-caption");
+      const galleryGrid = document.querySelector("#gallery-grid");
+      const galleryStatus = document.querySelector("#gallery-status");
+      let opener = null;
+
+      const openLightbox = (trigger) => {
+        opener = trigger;
+        artImage.src = trigger.dataset.src;
+        artImage.alt = trigger.querySelector("img").alt;
+        title.textContent = trigger.dataset.title;
+        caption.textContent = trigger.dataset.caption;
+        document.body.classList.add("modal-open");
+        dialog.showModal();
+      };
+
+      galleryGrid.addEventListener("click", (event) => {
+        const trigger = event.target.closest(".gallery-trigger");
+        if (trigger) openLightbox(trigger);
+      });
+
+      const createGalleryCard = (item) => {
+        const figure = document.createElement("figure");
+        figure.className = "gallery-card";
+
+        const trigger = document.createElement("button");
+        trigger.className = "gallery-trigger";
+        trigger.type = "button";
+        trigger.dataset.src = item.image;
+        trigger.dataset.title = `הברכה של ${item.name}, ${item.age}`;
+        trigger.dataset.caption = item.caption;
+        trigger.setAttribute("aria-label", `פתיחת היצירה של ${item.name} בתצוגה גדולה`);
+
+        const thumbnail = document.createElement("div");
+        thumbnail.className = "art-thumb image-art";
+
+        const image = document.createElement("img");
+        image.src = item.image;
+        image.alt = item.alt;
+        image.loading = "lazy";
+        image.decoding = "async";
+
+        const zoomLabel = document.createElement("strong");
+        zoomLabel.textContent = "לוחצים להגדלה";
+
+        const figcaption = document.createElement("figcaption");
+        figcaption.className = "gallery-caption";
+        const heading = document.createElement("h3");
+        heading.textContent = `${item.name}, ${item.age}`;
+        const description = document.createElement("p");
+        description.textContent = `״${item.caption}״`;
+
+        thumbnail.append(image, zoomLabel);
+        trigger.append(thumbnail);
+        figcaption.append(heading, description);
+        figure.append(trigger, figcaption);
+        return figure;
+      };
+
+      const loadGallery = async () => {
+        try {
+          const response = await fetch("data/gallery.json", { cache: "no-store" });
+          if (!response.ok) throw new Error(`Gallery request failed: ${response.status}`);
+          const data = await response.json();
+          if (!Array.isArray(data)) throw new Error("Gallery data must be an array");
+
+          const items = data
+            .filter((item) => item && item.published !== false && item.image && item.name && item.age && item.caption && item.alt)
+            .sort((a, b) => String(b.date || "").localeCompare(String(a.date || ""), "he"));
+
+          galleryGrid.replaceChildren(...items.map(createGalleryCard));
+          galleryGrid.setAttribute("aria-busy", "false");
+
+          if (items.length === 0) {
+            galleryStatus.textContent = "עדיין לא פורסמו יצירות. הראשונה יכולה להיות שלכם!";
+          } else {
+            galleryStatus.hidden = true;
+          }
+        } catch (error) {
+          console.error("Could not load gallery:", error);
+          galleryGrid.setAttribute("aria-busy", "false");
+          galleryStatus.classList.add("is-error");
+          galleryStatus.textContent = "לא הצלחנו לטעון את קיר היצירות כרגע. נסו לרענן את העמוד.";
+        }
+      };
+
+      loadGallery();
+
+      const closeDialog = () => {
+        if (dialog.open) dialog.close();
+      };
+
+      closeButton.addEventListener("click", closeDialog);
+      dialog.addEventListener("click", (event) => {
+        const bounds = dialog.getBoundingClientRect();
+        const clickedOutside = event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom;
+        if (clickedOutside) closeDialog();
+      });
+      dialog.addEventListener("close", () => {
+        document.body.classList.remove("modal-open");
+        if (opener) opener.focus();
+      });
+    })();
+  </script>
+
+  <div class="toast" id="toast" role="status"><span></span></div>
+
+  <script>
+    (() => {
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const colors = ["#fcd34d", "#f59e0b", "#d4af37", "#1e3a8a", "#ffffff", "#e5484d"];
+      let canvas = null;
+      let ctx = null;
+      let particles = [];
+      let rafId = 0;
+
+      const resizeCanvas = () => {
+        if (!canvas) return;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(window.innerWidth * dpr);
+        canvas.height = Math.floor(window.innerHeight * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      };
+      window.addEventListener("resize", resizeCanvas);
+
+      const tick = () => {
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        particles = particles.filter((p) => p.life > 0 && p.y < window.innerHeight + 40);
+        if (particles.length === 0) {
+          canvas.remove();
+          canvas = ctx = null;
+          rafId = 0;
+          return;
+        }
+        for (const p of particles) {
+          p.vy += 0.12;
+          p.vx *= 0.992;
+          p.vy *= 0.992;
+          p.x += p.vx;
+          p.y += p.vy;
+          p.rot += p.vr;
+          p.life -= 1;
+          ctx.save();
+          ctx.globalAlpha = Math.min(1, p.life / 30);
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          if (p.emoji) {
+            ctx.font = `${p.size}px serif`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(p.emoji, 0, 0);
+          } else {
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+          }
+          ctx.restore();
+        }
+        rafId = requestAnimationFrame(tick);
+      };
+
+      const burst = (x, y, { count = 70, emojis = null, power = 9 } = {}) => {
+        if (reduceMotion.matches) return;
+        if (!canvas) {
+          canvas = document.createElement("canvas");
+          canvas.className = "confetti-canvas";
+          canvas.setAttribute("aria-hidden", "true");
+          document.body.appendChild(canvas);
+          ctx = canvas.getContext("2d");
+          resizeCanvas();
+        }
+        for (let i = 0; i < count; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = (0.35 + Math.random() * 0.65) * power;
+          particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed - power * 0.45,
+            rot: Math.random() * Math.PI * 2,
+            vr: (Math.random() - 0.5) * 0.25,
+            size: emojis ? 14 + Math.random() * 10 : 6 + Math.random() * 6,
+            color: colors[i % colors.length],
+            emoji: emojis ? emojis[i % emojis.length] : null,
+            life: 70 + Math.random() * 50
+          });
+        }
+        if (!rafId) rafId = requestAnimationFrame(tick);
+      };
+
+      const toast = document.querySelector("#toast");
+      const toastText = toast.querySelector("span");
+      let toastTimer = 0;
+      const showToast = (message) => {
+        toastText.textContent = message;
+        toast.classList.add("is-visible");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 3200);
+      };
+
+      window.shanaTovaFx = { burst, showToast };
+
+      const replay = (el, className) => {
+        el.classList.remove(className);
+        void el.offsetWidth;
+        el.classList.add(className);
+      };
+
+      document.querySelectorAll(".download-button").forEach((button) => {
+        button.addEventListener("click", (event) => {
+          replay(button, "is-celebrating");
+          burst(event.clientX, event.clientY, { count: 70 });
+          showToast("🖍️ מדפיסים, צובעים - ומחכים ליצירה שלכם כאן!");
+        });
+      });
+
+      const surpriseEmojis = {
+        apples: ["🍎", "🍯", "✨", "🍏"],
+        hearts: ["💛", "💖", "✨"],
+        dove: ["🕊️", "🪶", "✨"]
+      };
+      document.querySelectorAll(".tap-surprise").forEach((el) => {
+        el.addEventListener("click", () => {
+          replay(el, "is-playing");
+          const rect = el.getBoundingClientRect();
+          burst(rect.left + rect.width / 2, rect.top + rect.height / 2, {
+            count: 24,
+            power: 6,
+            emojis: surpriseEmojis[el.dataset.surprise] || ["✨"]
+          });
+        });
+      });
+
+      const formLoader = document.querySelector("#form-loader");
+      const tallyFrame = document.querySelector("iframe[data-tally-src]");
+      if (formLoader && tallyFrame) {
+        tallyFrame.addEventListener("load", () => {
+          if (tallyFrame.src && tallyFrame.src.includes("tally")) {
+            formLoader.classList.add("is-hidden");
+          }
+        });
+      }
+
+      const successBanner = document.querySelector("#upload-success");
+      let celebrated = false;
+      window.addEventListener("message", (event) => {
+        if (!String(event.origin).includes("tally.so")) return;
+        let data = event.data;
+        if (typeof data === "string") {
+          try { data = JSON.parse(data); } catch { return; }
+        }
+        if (!data || data.event !== "Tally.FormSubmitted" || celebrated) return;
+        celebrated = true;
+        successBanner.classList.add("is-visible");
+        successBanner.scrollIntoView({ behavior: "smooth", block: "center" });
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        burst(w * 0.5, h * 0.3, { count: 110, power: 11 });
+        setTimeout(() => burst(w * 0.22, h * 0.42, { count: 60 }), 250);
+        setTimeout(() => burst(w * 0.78, h * 0.42, { count: 60 }), 500);
+        setTimeout(() => burst(w * 0.5, h * 0.35, { count: 40, emojis: ["🎨", "💛", "⭐"], power: 8 }), 750);
+      });
+    })();
+  </script>
+  <script>
+    (() => {
+      // ---- צובעים במסך: צייר client-side עם דלי צבע, מכחול, ברכה, שמירה והדפסה ----
+      const dialog = document.querySelector("#painter");
+      if (!dialog || typeof dialog.showModal !== "function") return;
+
+      const wrap = document.querySelector("#canvas-wrap");
+      const paintCanvas = document.querySelector("#paint-layer");
+      const outlineCanvas = document.querySelector("#outline-layer");
+      const paintCtx = paintCanvas.getContext("2d", { willReadFrequently: true });
+      const outlineCtx = outlineCanvas.getContext("2d", { willReadFrequently: true });
+      const textCanvas = document.querySelector("#text-layer");
+      const textCtx = textCanvas.getContext("2d");
+      const titleEl = document.querySelector("#painter-title");
+      const closeButton = dialog.querySelector(".painter-close");
+      const toolButtons = dialog.querySelectorAll("[data-tool]");
+      const sizeButtons = dialog.querySelectorAll("[data-size]");
+      const swatches = dialog.querySelectorAll(".swatch[data-color]");
+      const customColor = document.querySelector("#custom-color");
+      const greetingInput = document.querySelector("#greeting-text");
+      const undoButton = document.querySelector("#painter-undo");
+      const clearButton = document.querySelector("#painter-clear");
+      const saveButton = document.querySelector("#painter-save");
+      const shareButton = document.querySelector("#painter-share");
+      const printButton = document.querySelector("#painter-print");
+      const sendButton = document.querySelector("#painter-send");
+      const printSheet = document.querySelector("#print-sheet");
+      const printImage = printSheet.querySelector("img");
+      const fx = () => window.shanaTovaFx || { burst() { }, showToast() { } };
+
+      const STORAGE_PREFIX = "shanaTova.paint.";
+      const MAX_UNDO = 15;
+      const WALL_THRESHOLD = 165;
+      const FILL_TOLERANCE = 48;
+
+      const state = {
+        id: "",
+        title: "",
+        outlineImage: null,
+        walls: null,
+        tool: "fill",
+        color: "#e5484d",
+        size: 24,
+        drawing: false,
+        lastX: 0,
+        lastY: 0,
+        undo: [],
+        saveTimer: 0,
+        opener: null,
+        greeting: { text: "", x: 0, y: 0, color: "#e5484d" },
+        dragging: false,
+        dragDx: 0,
+        dragDy: 0
+      };
+
+      // ---- עזרים ----
+      const storageKey = () => STORAGE_PREFIX + state.id;
+
+      const readStorage = (key) => {
+        try { return localStorage.getItem(key); } catch { return null; }
+      };
+
+      const writeStorage = (key, value) => {
+        try {
+          if (value === null) localStorage.removeItem(key);
+          else localStorage.setItem(key, value);
+        } catch { /* אחסון חסום או מלא, ממשיכים בלי שמירה */ }
+      };
+
+      const snapshotForStorage = () => JSON.stringify({
+        image: paintCanvas.toDataURL("image/png"),
+        greeting: state.greeting
+      });
+
+      const scheduleSave = () => {
+        clearTimeout(state.saveTimer);
+        state.saveTimer = setTimeout(() => writeStorage(storageKey(), snapshotForStorage()), 600);
+      };
+
+      const hexToRgb = (hex) => {
+        const value = hex.replace("#", "");
+        const full = value.length === 3 ? value.split("").map((c) => c + c).join("") : value;
+        const n = parseInt(full, 16);
+        return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+      };
+
+      const pushUndo = () => {
+        state.undo.push(paintCtx.getImageData(0, 0, paintCanvas.width, paintCanvas.height));
+        if (state.undo.length > MAX_UNDO) state.undo.shift();
+        undoButton.disabled = false;
+      };
+
+      const canvasPoint = (event) => {
+        const rect = paintCanvas.getBoundingClientRect();
+        return {
+          x: (event.clientX - rect.left) * (paintCanvas.width / rect.width),
+          y: (event.clientY - rect.top) * (paintCanvas.height / rect.height)
+        };
+      };
+
+      // ---- מפת הקווים: אילו פיקסלים במתאר הם "קיר" ----
+      const buildWalls = () => {
+        const { width, height } = outlineCanvas;
+        const data = outlineCtx.getImageData(0, 0, width, height).data;
+        const walls = new Uint8Array(width * height);
+        for (let i = 0, p = 0; i < data.length; i += 4, p++) {
+          const lum = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+          if (lum < WALL_THRESHOLD) walls[p] = 1;
+        }
+        state.walls = walls;
+      };
+
+      // ---- דלי צבע: מילוי שטח סגור (scanline) עם "זליגה" של פיקסל אחד מתחת לקו ----
+      const floodFill = (startX, startY, hex) => {
+        const width = paintCanvas.width;
+        const height = paintCanvas.height;
+        const sx = Math.floor(startX);
+        const sy = Math.floor(startY);
+        if (sx < 0 || sy < 0 || sx >= width || sy >= height) return false;
+        const walls = state.walls;
+        if (walls[sy * width + sx]) return false;
+
+        const image = paintCtx.getImageData(0, 0, width, height);
+        const data = image.data;
+        const [nr, ng, nb] = hexToRgb(hex);
+        const startIdx = (sy * width + sx) * 4;
+        const tr = data[startIdx];
+        const tg = data[startIdx + 1];
+        const tb = data[startIdx + 2];
+        if (Math.abs(tr - nr) + Math.abs(tg - ng) + Math.abs(tb - nb) < 6) return false;
+
+        const visited = new Uint8Array(width * height);
+        const matches = (p) => {
+          const i = p * 4;
+          return Math.abs(data[i] - tr) + Math.abs(data[i + 1] - tg) + Math.abs(data[i + 2] - tb) <= FILL_TOLERANCE;
+        };
+        const paint = (p) => {
+          const i = p * 4;
+          data[i] = nr;
+          data[i + 1] = ng;
+          data[i + 2] = nb;
+          data[i + 3] = 255;
+          visited[p] = 1;
+        };
+        const total = width * height;
+        const stack = [sy * width + sx];
+
+        while (stack.length) {
+          const p = stack.pop();
+          if (visited[p]) continue;
+          const y = Math.floor(p / width);
+          const rowStart = y * width;
+          let left = p;
+          while (left > rowStart && !visited[left - 1] && !walls[left - 1] && matches(left - 1)) left--;
+          let right = p;
+          while (right < rowStart + width - 1 && !visited[right + 1] && !walls[right + 1] && matches(right + 1)) right++;
+          if (left > rowStart && walls[left - 1] && !visited[left - 1]) paint(left - 1);
+          if (right < rowStart + width - 1 && walls[right + 1] && !visited[right + 1]) paint(right + 1);
+          for (let cp = left; cp <= right; cp++) {
+            paint(cp);
+            const up = cp - width;
+            const down = cp + width;
+            if (up >= 0 && !visited[up]) {
+              if (walls[up]) paint(up);
+              else if (matches(up)) stack.push(up);
+            }
+            if (down < total && !visited[down]) {
+              if (walls[down]) paint(down);
+              else if (matches(down)) stack.push(down);
+            }
+          }
+        }
+        paintCtx.putImageData(image, 0, 0);
+        return true;
+      };
+
+      // ---- מכחול ומחק ----
+      const strokeTo = (x, y) => {
+        paintCtx.lineCap = "round";
+        paintCtx.lineJoin = "round";
+        paintCtx.lineWidth = state.tool === "eraser" ? state.size * 1.6 : state.size;
+        paintCtx.strokeStyle = state.tool === "eraser" ? "#ffffff" : state.color;
+        paintCtx.beginPath();
+        paintCtx.moveTo(state.lastX, state.lastY);
+        paintCtx.lineTo(x, y);
+        paintCtx.stroke();
+        state.lastX = x;
+        state.lastY = y;
+      };
+
+      // ---- שכבת הברכה: טקסט שמופיע בזמן ההקלדה וניתן לגרירה ----
+      const GREETING_MAX_LINES = 3;
+      const GREETING_MAX_CHARS_PER_LINE = 22;
+      const greetingSize = () => Math.round(textCanvas.width / 22);
+      const greetingLineHeight = () => greetingSize() * 1.2;
+      const greetingLines = () => state.greeting.text ? state.greeting.text.split("\n") : [];
+
+      // מנקים את הקלט: עד 3 שורות, עד 22 תווים בשורה, בלי שורות ריקות בהתחלה ובסוף
+      const normalizeGreeting = (raw) => raw
+        .split("\n")
+        .map((line) => line.trim().slice(0, GREETING_MAX_CHARS_PER_LINE))
+        .join("\n")
+        .replace(/^\n+|\n+$/g, "")
+        .split("\n")
+        .slice(0, GREETING_MAX_LINES)
+        .join("\n");
+
+      const greetingBox = () => {
+        const lines = greetingLines();
+        if (!lines.length) return null;
+        const g = state.greeting;
+        const size = greetingSize();
+        textCtx.font = `900 ${size}px Rubik, "Segoe UI", sans-serif`;
+        const width = Math.max(...lines.map((line) => textCtx.measureText(line).width));
+        const height = size + greetingLineHeight() * (lines.length - 1);
+        const pad = size * 0.45;
+        return { x: g.x - width / 2 - pad, y: g.y - height / 2 - pad, w: width + pad * 2, h: height + pad * 2 };
+      };
+
+      const clampGreeting = () => {
+        const box = greetingBox();
+        if (!box) return;
+        const g = state.greeting;
+        const halfW = box.w / 2;
+        const halfH = box.h / 2;
+        g.x = Math.min(Math.max(g.x, halfW), textCanvas.width - halfW);
+        g.y = Math.min(Math.max(g.y, halfH), textCanvas.height - halfH);
+      };
+
+      const renderGreeting = ({ frame = state.tool === "text" } = {}) => {
+        textCtx.clearRect(0, 0, textCanvas.width, textCanvas.height);
+        const g = state.greeting;
+        if (!g.text) return;
+        const size = greetingSize();
+        const box = greetingBox();
+        if (frame) {
+          textCtx.save();
+          textCtx.setLineDash([size * 0.25, size * 0.18]);
+          textCtx.lineWidth = Math.max(2, size / 14);
+          textCtx.strokeStyle = "rgba(30, 58, 138, 0.55)";
+          textCtx.fillStyle = "rgba(252, 211, 77, 0.14)";
+          textCtx.beginPath();
+          if (textCtx.roundRect) textCtx.roundRect(box.x, box.y, box.w, box.h, size * 0.3);
+          else textCtx.rect(box.x, box.y, box.w, box.h);
+          textCtx.fill();
+          textCtx.stroke();
+          textCtx.restore();
+        }
+        textCtx.font = `900 ${size}px Rubik, "Segoe UI", sans-serif`;
+        textCtx.textAlign = "center";
+        textCtx.textBaseline = "middle";
+        textCtx.direction = "rtl";
+        textCtx.lineJoin = "round";
+        textCtx.lineWidth = size / 5;
+        textCtx.strokeStyle = "#ffffff";
+        const lines = greetingLines();
+        const lineHeight = greetingLineHeight();
+        const firstY = g.y - (lineHeight * (lines.length - 1)) / 2;
+        lines.forEach((line, index) => {
+          const y = firstY + index * lineHeight;
+          textCtx.strokeText(line, g.x, y);
+          textCtx.fillStyle = g.color;
+          textCtx.fillText(line, g.x, y);
+        });
+      };
+
+      const greetingHit = (x, y) => {
+        const box = greetingBox();
+        return !!box && x >= box.x && x <= box.x + box.w && y >= box.y && y <= box.y + box.h;
+      };
+
+      const startDrag = (event, x, y) => {
+        state.dragging = true;
+        state.dragDx = state.greeting.x - x;
+        state.dragDy = state.greeting.y - y;
+        wrap.classList.add("is-dragging");
+        wrap.setPointerCapture(event.pointerId);
+        renderGreeting({ frame: true });
+      };
+
+      // חיתוך רך בזמן ההקלדה: מגביל שורות ותווים בשדה עצמו, בלי לגעת בשורה ריקה שנפתחה עכשיו
+      const softClampGreeting = (raw) => raw
+        .split("\n")
+        .slice(0, GREETING_MAX_LINES)
+        .map((line) => line.slice(0, GREETING_MAX_CHARS_PER_LINE))
+        .join("\n");
+
+      greetingInput.addEventListener("input", () => {
+        const g = state.greeting;
+        const hadText = !!g.text;
+        const clamped = softClampGreeting(greetingInput.value);
+        if (clamped !== greetingInput.value) {
+          greetingInput.value = clamped;
+          greetingInput.setSelectionRange(clamped.length, clamped.length);
+        }
+        g.text = normalizeGreeting(clamped);
+        if (g.text && !hadText) {
+          g.x = textCanvas.width / 2;
+          g.y = textCanvas.height * 0.9;
+          g.color = state.color;
+        }
+        clampGreeting();
+        renderGreeting();
+        scheduleSave();
+      });
+
+      greetingInput.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter") return;
+        const lineCount = greetingInput.value.split("\n").length;
+        if (lineCount >= GREETING_MAX_LINES) {
+          event.preventDefault();
+          greetingInput.blur();
+          fx().showToast("✍️ עד 3 שורות בברכה. גוררים אותה לאן שרוצים");
+        }
+      });
+
+      // כשהשדה מאבד פוקוס, מיישרים את מה שכתוב למה שמוצג בפועל
+      greetingInput.addEventListener("blur", () => {
+        if (greetingInput.value !== state.greeting.text) greetingInput.value = state.greeting.text;
+      });
+
+      // ---- אירועי מצביע על הקנבס ----
+      wrap.addEventListener("pointerdown", (event) => {
+        if (!event.isPrimary || !state.walls) return;
+        event.preventDefault();
+        const { x, y } = canvasPoint(event);
+        if (state.greeting.text && (greetingHit(x, y) || state.tool === "text")) {
+          if (state.tool === "text" && !greetingHit(x, y)) {
+            state.greeting.x = x;
+            state.greeting.y = y;
+            clampGreeting();
+          }
+          startDrag(event, x, y);
+          return;
+        }
+        if (state.tool === "text") {
+          greetingInput.focus();
+          fx().showToast("✍️ קודם כותבים ברכה בשורה למעלה, והיא תופיע כאן");
+          return;
+        }
+        if (state.tool === "fill") {
+          pushUndo();
+          if (floodFill(x, y, state.color)) {
+            fx().burst(event.clientX, event.clientY, { count: 14, power: 5, emojis: ["✨", "🎨"] });
+            scheduleSave();
+          } else {
+            state.undo.pop();
+            undoButton.disabled = state.undo.length === 0;
+          }
+          return;
+        }
+        pushUndo();
+        state.drawing = true;
+        state.lastX = x;
+        state.lastY = y;
+        wrap.setPointerCapture(event.pointerId);
+        strokeTo(x + 0.01, y + 0.01);
+      });
+
+      wrap.addEventListener("pointermove", (event) => {
+        if (!event.isPrimary) return;
+        if (state.dragging) {
+          event.preventDefault();
+          const { x, y } = canvasPoint(event);
+          state.greeting.x = x + state.dragDx;
+          state.greeting.y = y + state.dragDy;
+          clampGreeting();
+          renderGreeting({ frame: true });
+          return;
+        }
+        if (!state.drawing) return;
+        event.preventDefault();
+        const { x, y } = canvasPoint(event);
+        strokeTo(x, y);
+      });
+
+      const endStroke = (event) => {
+        if (state.dragging) {
+          state.dragging = false;
+          wrap.classList.remove("is-dragging");
+          try { wrap.releasePointerCapture(event.pointerId); } catch { /* המצביע כבר שוחרר */ }
+          renderGreeting();
+          scheduleSave();
+          return;
+        }
+        if (!state.drawing) return;
+        state.drawing = false;
+        try { wrap.releasePointerCapture(event.pointerId); } catch { /* המצביע כבר שוחרר */ }
+        scheduleSave();
+      };
+      wrap.addEventListener("pointerup", endStroke);
+      wrap.addEventListener("pointercancel", endStroke);
+
+      // ---- סרגל כלים ----
+      const setPressed = (buttons, active) => {
+        buttons.forEach((button) => button.setAttribute("aria-pressed", String(button === active)));
+      };
+
+      toolButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          state.tool = button.dataset.tool;
+          setPressed(toolButtons, button);
+          greetingInput.hidden = state.tool !== "text";
+          wrap.classList.toggle("is-text-tool", state.tool === "text");
+          renderGreeting();
+          if (state.tool === "text") greetingInput.focus();
+        });
+      });
+
+      sizeButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          state.size = Number(button.dataset.size);
+          setPressed(sizeButtons, button);
+        });
+      });
+
+      swatches.forEach((button) => {
+        button.addEventListener("click", () => {
+          state.color = button.dataset.color;
+          setPressed(swatches, button);
+          customColor.value = state.color;
+          recolorGreeting();
+        });
+      });
+
+      customColor.addEventListener("input", () => {
+        state.color = customColor.value;
+        setPressed(swatches, null);
+        recolorGreeting();
+      });
+
+      function recolorGreeting() {
+        if (state.tool !== "text" || !state.greeting.text) return;
+        state.greeting.color = state.color;
+        renderGreeting();
+        scheduleSave();
+      }
+
+      undoButton.addEventListener("click", () => {
+        const snapshot = state.undo.pop();
+        if (snapshot) paintCtx.putImageData(snapshot, 0, 0);
+        undoButton.disabled = state.undo.length === 0;
+        scheduleSave();
+      });
+
+      clearButton.addEventListener("click", () => {
+        if (!window.confirm("למחוק את כל הצביעה ולהתחיל מחדש?")) return;
+        pushUndo();
+        paintCtx.fillStyle = "#ffffff";
+        paintCtx.fillRect(0, 0, paintCanvas.width, paintCanvas.height);
+        state.greeting = { text: "", x: 0, y: 0, color: state.color };
+        greetingInput.value = "";
+        renderGreeting();
+        writeStorage(storageKey(), null);
+        fx().showToast("🧼 דף נקי! מתחילים לצבוע מחדש");
+      });
+
+      // ---- ייצוא: צבע + מתאר בשכבה אחת ----
+      const composeExport = () => {
+        const out = document.createElement("canvas");
+        out.width = paintCanvas.width;
+        out.height = paintCanvas.height;
+        const ctx = out.getContext("2d");
+        ctx.drawImage(paintCanvas, 0, 0);
+        ctx.globalCompositeOperation = "multiply";
+        ctx.drawImage(outlineCanvas, 0, 0);
+        ctx.globalCompositeOperation = "source-over";
+        renderGreeting({ frame: false });
+        ctx.drawImage(textCanvas, 0, 0);
+        renderGreeting();
+        return out;
+      };
+
+      const exportBlob = () => new Promise((resolve) => composeExport().toBlob(resolve, "image/png"));
+      const fileName = () => `shana-tova-${state.id}.png`;
+
+      const downloadArt = async () => {
+        const blob = await exportBlob();
+        if (!blob) return false;
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = fileName();
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 4000);
+        return true;
+      };
+
+      saveButton.addEventListener("click", async () => {
+        if (await downloadArt()) {
+          fx().showToast("💾 התמונה נשמרה! עכשיו אפשר להעלות אותה בטופס");
+          const rect = saveButton.getBoundingClientRect();
+          fx().burst(rect.left + rect.width / 2, rect.top, { count: 40, power: 7 });
+        }
+      });
+
+      const canShareFiles = () => {
+        try {
+          return !!navigator.share && !!navigator.canShare &&
+            navigator.canShare({ files: [new File([""], "a.png", { type: "image/png" })] });
+        } catch { return false; }
+      };
+
+      shareButton.addEventListener("click", async () => {
+        const blob = await exportBlob();
+        if (!blob) return;
+        const file = new File([blob], fileName(), { type: "image/png" });
+        try {
+          await navigator.share({ files: [file], title: "שנה טובה מהבית", text: `היצירה שלנו: ${state.title}` });
+        } catch { /* המשתמש ביטל את השיתוף */ }
+      });
+
+      printButton.addEventListener("click", () => {
+        printImage.src = composeExport().toDataURL("image/png");
+        printImage.alt = `היצירה שלכם: ${state.title}`;
+        const run = () => {
+          document.body.classList.add("print-art");
+          window.print();
+        };
+        if (printImage.complete) run();
+        else printImage.addEventListener("load", run, { once: true });
+      });
+
+      window.addEventListener("afterprint", () => document.body.classList.remove("print-art"));
+
+      sendButton.addEventListener("click", async () => {
+        const saved = await downloadArt();
+        dialog.close();
+        const upload = document.querySelector("#upload");
+        if (upload) upload.scrollIntoView({ behavior: "smooth", block: "start" });
+        fx().showToast(saved
+          ? "💌 התמונה נשמרה למכשיר. עכשיו מעלים אותה כאן בטופס!"
+          : "💌 שמרו את התמונה ואז העלו אותה כאן בטופס");
+      });
+
+      // ---- פתיחה וסגירה ----
+      const resetTools = () => {
+        state.tool = "fill";
+        setPressed(toolButtons, dialog.querySelector('[data-tool="fill"]'));
+        greetingInput.hidden = true;
+        greetingInput.value = "";
+        wrap.classList.remove("is-text-tool", "is-dragging");
+        state.greeting = { text: "", x: 0, y: 0, color: state.color };
+        state.dragging = false;
+        state.undo = [];
+        undoButton.disabled = true;
+        state.drawing = false;
+      };
+
+      const loadImage = (src) => new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = reject;
+        image.src = src;
+      });
+
+      const openPainter = async (trigger) => {
+        state.opener = trigger;
+        state.id = trigger.dataset.id;
+        state.title = trigger.dataset.title;
+        titleEl.textContent = `צובעים במסך: ${state.title}`;
+        resetTools();
+        wrap.classList.add("is-loading");
+        shareButton.hidden = !canShareFiles();
+        document.body.classList.add("modal-open");
+        dialog.showModal();
+
+        try {
+          const image = await loadImage(trigger.dataset.src);
+          state.outlineImage = image;
+          const width = image.naturalWidth;
+          const height = image.naturalHeight;
+          paintCanvas.width = outlineCanvas.width = textCanvas.width = width;
+          paintCanvas.height = outlineCanvas.height = textCanvas.height = height;
+          wrap.style.setProperty("--ratio", (width / height).toFixed(4));
+          outlineCtx.drawImage(image, 0, 0, width, height);
+          paintCtx.fillStyle = "#ffffff";
+          paintCtx.fillRect(0, 0, width, height);
+          buildWalls();
+
+          renderGreeting();
+          const saved = readStorage(storageKey());
+          if (saved) {
+            try {
+              let imageSrc = saved;
+              if (saved.startsWith("{")) {
+                const parsed = JSON.parse(saved);
+                imageSrc = parsed.image;
+                if (parsed.greeting && typeof parsed.greeting.text === "string") {
+                  state.greeting = { ...state.greeting, ...parsed.greeting };
+                  greetingInput.value = state.greeting.text;
+                  clampGreeting();
+                  renderGreeting();
+                }
+              }
+              const restored = await loadImage(imageSrc);
+              paintCtx.drawImage(restored, 0, 0, width, height);
+              fx().showToast("🎨 המשכנו מאיפה שעצרתם");
+            } catch { writeStorage(storageKey(), null); }
+          }
+        } catch (error) {
+          console.error("Could not load coloring page:", error);
+          fx().showToast("😕 לא הצלחנו לטעון את דף הצביעה. נסו שוב");
+          dialog.close();
+          return;
+        } finally {
+          wrap.classList.remove("is-loading");
+        }
+      };
+
+      document.querySelectorAll(".paint-button").forEach((button) => {
+        button.addEventListener("click", () => openPainter(button));
+      });
+
+      closeButton.addEventListener("click", () => dialog.close());
+
+      dialog.addEventListener("close", () => {
+        document.body.classList.remove("modal-open");
+        clearTimeout(state.saveTimer);
+        if (state.walls) writeStorage(storageKey(), snapshotForStorage());
+        if (state.opener) state.opener.focus();
+      });
+    })();
+  </script>
+
+</body>
+
+</html>

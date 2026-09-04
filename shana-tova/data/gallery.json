@@ -1,0 +1,42 @@
+[
+  {
+    "id": "noa-apple-honey",
+    "image": "assets/gallery/noa-apple-honey.webp",
+    "name": "נועה",
+    "age": "בת 8",
+    "caption": "שנה מתוקה ושקטה לאמא - מחכים לך בבית.",
+    "alt": "דף צביעה של תפוח, דבש, רימון, שופר ומגן שנצבע בצבעי שעווה",
+    "published": true,
+    "date": "2026-08-31"
+  },
+  {
+    "id": "ido-home-rainbow",
+    "image": "assets/gallery/ido-home-rainbow.webp",
+    "name": "עידו", 
+    "age": "בן 6",
+    "caption": "אבא, הבית מחכה לך עם חיבוק ענק.",
+    "alt": "דף צביעה של בית, קשת, לבבות, תפוח ודבש שנצבע בצבעי שעווה",
+    "published": true,
+    "date": "2026-08-30"
+  },
+  {
+    "id": "yael-dove-peace",
+    "image": "assets/gallery/yael-dove-peace.webp",
+    "name": "יעל",
+    "age": "בת 10",
+    "caption": "מאחלת לכולם שנה של שלום, אור וחזרה הביתה.",
+    "alt": "דף צביעה של יונת שלום, ענפי זית, גבעות ורימונים שנצבע בעפרונות צבעוניים",
+    "published": true,
+    "date": "2026-08-29"
+  },
+  {
+    "id": "ori-letter-home",
+    "image": "assets/gallery/ori-letter-home.webp",
+    "name": "אורי",
+    "age": "בן 7",
+    "caption": "שתהיה שנה טובה לכל מי ששומר עלינו.",
+    "alt": "דף צביעה של מעטפת לב, משפחה, בית, פרחים ותפוחים שנצבע בטושים",
+    "published": true,
+    "date": "2026-08-28"
+  }
+]
