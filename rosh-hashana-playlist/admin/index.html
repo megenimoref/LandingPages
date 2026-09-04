@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<!--
+  פסקול תשפ"ז — תשובות
+  The "responses" view for the dedication form: stats, charts and the full list.
+
+  Live:  https://megenimoref.github.io/LandingPages/rosh-hashana-playlist/admin/
+  Local: http://127.0.0.1:8080/rosh-hashana-playlist/admin/
+
+  Reads GET /api/export from the paskol-form Worker with an Authorization
+  header. The admin token is typed once and kept in sessionStorage — it is
+  never put in the URL, so it stays out of browser history and edge logs.
+-->
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#05060c">
+<title>פסקול תשפ״ז · תשובות</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&family=Frank+Ruhl+Libre:wght@700;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --surface:   #0a0b16;
+  --surface-2: #10121f;
+  --ink:       #f7f1e6;   /* primary text */
+  --ink-2:     #b9bdcd;   /* secondary text */
+  --ink-3:     #7b8095;   /* muted text */
+  --line:      rgba(247,241,230,.12);
+  --line-2:    rgba(247,241,230,.06);
+
+  /* Chart marks — validated for dark mode against #0a0b16:
+     lightness band, chroma floor, CVD separation, contrast all pass. */
+  --mark:      #c08a1c;
+  --mark-2:    #e0325f;
+  --mark-soft: rgba(192,138,28,.18);
+
+  --font-body:'Assistant', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display:'Frank Ruhl Libre', Georgia, serif;
+}
+
+*,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+body{
+  font-family:var(--font-body); background:var(--surface); color:var(--ink);
+  font-size:16px; line-height:1.6; min-height:100vh;
+  background-image:radial-gradient(1200px 600px at 80% -10%, rgba(179,25,66,.16), transparent 60%);
+}
+:focus-visible{ outline:2px solid var(--mark); outline-offset:3px; border-radius:6px; }
+.sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+.wrap{ width:min(1180px,94vw); margin-inline:auto; padding-block:28px 64px; }
+
+/* ---------- gate ---------- */
+#gate{ min-height:100vh; display:grid; place-items:center; padding:24px; }
+.gatebox{ width:min(420px,100%); padding:36px 32px; border-radius:20px; background:var(--surface-2); border:1px solid var(--line); }
+.gatebox h1{ font-family:var(--font-display); font-size:1.5rem; margin-bottom:8px; }
+.gatebox p{ color:var(--ink-3); font-size:.92rem; margin-bottom:22px; }
+.gatebox label{ display:block; font-size:.86rem; font-weight:600; margin-bottom:8px; }
+input[type=password], input[type=search]{
+  width:100%; font-family:inherit; font-size:1rem; color:var(--ink);
+  background:rgba(0,0,0,.35); border:1px solid var(--line); border-radius:12px; padding:12px 14px;
+}
+input::placeholder{ color:var(--ink-3); }
+.btn{
+  font-family:inherit; font-size:.94rem; font-weight:700; cursor:pointer;
+  padding:11px 22px; border-radius:12px; border:1px solid var(--line);
+  background:rgba(255,255,255,.06); color:var(--ink); transition:background .2s;
+}
+.btn:hover{ background:rgba(255,255,255,.13); }
+.btn.primary{ background:var(--mark); border-color:var(--mark); color:#140c00; }
+.btn.primary:hover{ filter:brightness(1.1); }
+.gatebox .btn{ width:100%; margin-top:18px; }
+.gateerr{ display:none; margin-top:14px; font-size:.86rem; color:#ff8ca8; }
+.gateerr.on{ display:block; }
+
+/* ---------- header ---------- */
+.head{ display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end; justify-content:space-between; margin-bottom:30px; }
+.head h1{ font-family:var(--font-display); font-size:clamp(1.5rem,3vw,2rem); }
+.head p{ color:var(--ink-3); font-size:.88rem; }
+.actions{ display:flex; gap:10px; flex-wrap:wrap; }
+
+/* ---------- KPI row ---------- */
+.kpis{ display:grid; gap:14px; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); margin-bottom:30px; }
+.kpi{ padding:20px 22px; border-radius:16px; background:var(--surface-2); border:1px solid var(--line-2); }
+.kpi .v{ font-family:var(--font-display); font-weight:900; font-size:2.3rem; line-height:1; font-variant-numeric:tabular-nums; }
+.kpi .k{ margin-top:8px; font-size:.82rem; color:var(--ink-3); }
+
+/* ---------- panels & charts ---------- */
+.panels{ display:grid; gap:20px; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); margin-bottom:30px; }
+.panel{ padding:22px 24px 20px; border-radius:16px; background:var(--surface-2); border:1px solid var(--line-2); }
+.panel h2{ font-size:1rem; font-weight:700; margin-bottom:4px; }
+.panel .sub{ font-size:.8rem; color:var(--ink-3); margin-bottom:20px; }
+.empty{ color:var(--ink-3); font-size:.9rem; padding:26px 0; text-align:center; }
+
+/* Horizontal bars — plain HTML, so RTL and long Hebrew labels just work */
+.bars{ display:flex; flex-direction:column; gap:12px; }
+.bar-row{ display:grid; grid-template-columns:minmax(88px,26%) 1fr auto; gap:12px; align-items:center; }
+.bar-row .lbl{ font-size:.86rem; color:var(--ink-2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.bar-track{ height:14px; border-radius:7px; background:rgba(255,255,255,.05); overflow:hidden; }
+/* Rounded data-end, flat baseline-end — logical corners so it survives dir flips */
+.bar-fill{
+  height:100%; background:var(--mark); transition:width .5s cubic-bezier(.16,1,.3,1);
+  border-start-start-radius:0; border-end-start-radius:0;
+  border-start-end-radius:7px; border-end-end-radius:7px;
+}
+.bar-row .val{ font-size:.86rem; font-variant-numeric:tabular-nums; color:var(--ink); min-width:2ch; text-align:start; }
+.bar-row:hover .bar-fill{ filter:brightness(1.18); }
+
+/* Time series */
+.spark{ width:100%; height:190px; display:block; overflow:visible; }
+.spark .grid{ stroke:var(--line-2); stroke-width:1; }
+.spark .axis{ fill:var(--ink-3); font-size:11px; }
+.spark .area{ fill:var(--mark-soft); }
+.spark .line{ fill:none; stroke:var(--mark); stroke-width:2; stroke-linejoin:round; stroke-linecap:round; }
+.spark .dot{ fill:var(--mark); stroke:var(--surface-2); stroke-width:2; }
+.spark .hit{ fill:transparent; cursor:pointer; }
+.spark .crosshair{ stroke:var(--ink-3); stroke-width:1; stroke-dasharray:3 3; opacity:0; }
+
+#tip{
+  position:fixed; z-index:50; pointer-events:none; opacity:0; transform:translate(-50%,-118%);
+  background:#161827; border:1px solid var(--line); border-radius:10px; padding:8px 12px;
+  font-size:.82rem; white-space:nowrap; box-shadow:0 10px 30px rgba(0,0,0,.6); transition:opacity .12s;
+}
+#tip.on{ opacity:1; }
+#tip b{ color:var(--mark); }
+
+/* ---------- table ---------- */
+.tablebar{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.tablebar input[type=search]{ max-width:320px; }
+.tablewrap{ overflow-x:auto; border-radius:16px; border:1px solid var(--line-2); background:var(--surface-2); }
+table{ width:100%; border-collapse:collapse; font-size:.88rem; }
+th,td{ padding:12px 14px; text-align:start; border-bottom:1px solid var(--line-2); vertical-align:top; }
+th{ position:sticky; top:0; background:#141626; font-weight:700; font-size:.8rem; color:var(--ink-2); white-space:nowrap; cursor:pointer; user-select:none; }
+th:hover{ color:var(--ink); }
+th .arw{ opacity:.45; font-size:.7rem; }
+tbody tr:hover{ background:rgba(255,255,255,.03); }
+td.msg{ max-width:360px; white-space:normal; color:var(--ink-2); }
+td.num{ font-variant-numeric:tabular-nums; white-space:nowrap; color:var(--ink-2); }
+td a{ color:var(--mark); }
+.count{ font-size:.84rem; color:var(--ink-3); }
+</style>
+</head>
+
+<body>
+
+<!-- ---------- token gate ---------- -->
+<div id="gate">
+  <form class="gatebox" id="gateForm">
+    <h1>פסקול תשפ״ז · תשובות</h1>
+    <p>הדף מציג את ההקדשות שנשלחו. נדרש טוקן ניהול.</p>
+    <label for="tok">טוקן ניהול</label>
+    <input id="tok" type="password" autocomplete="current-password" placeholder="ADMIN_TOKEN" required>
+    <button class="btn primary" type="submit">כניסה</button>
+    <p class="gateerr" id="gateErr"></p>
+  </form>
+</div>
+
+<!-- ---------- dashboard ---------- -->
+<div class="wrap" id="app" hidden>
+
+  <div class="head">
+    <div>
+      <h1>תשובות · פסקול תשפ״ז</h1>
+      <p id="updated">טוען…</p>
+    </div>
+    <div class="actions">
+      <button class="btn" type="button" id="refresh">רענון</button>
+      <button class="btn" type="button" id="csv">הורדת CSV</button>
+      <button class="btn" type="button" id="logout">יציאה</button>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="v" id="kTotal">0</div><div class="k">סה״כ הקדשות</div></div>
+    <div class="kpi"><div class="v" id="kUnits">0</div><div class="k">גדודים / מחוזות</div></div>
+    <div class="kpi"><div class="v" id="kSoldiers">0</div><div class="k">משרתים ייחודיים</div></div>
+    <div class="kpi"><div class="v" id="kDay">0</div><div class="k">ב-24 השעות האחרונות</div></div>
+  </div>
+
+  <div class="panels">
+    <section class="panel">
+      <h2>הקדשות לפי גדוד</h2>
+      <p class="sub">עשרת הגדודים המובילים</p>
+      <div class="bars" id="unitBars"></div>
+      <p class="empty" id="unitEmpty" hidden>אין עדיין נתונים</p>
+    </section>
+
+    <section class="panel">
+      <h2>הקדשות לפי יום</h2>
+      <p class="sub">מאז תחילת המבצע</p>
+      <svg class="spark" id="spark" role="img" aria-label="גרף הקדשות לפי יום"></svg>
+      <p class="empty" id="dayEmpty" hidden>אין עדיין נתונים</p>
+    </section>
+  </div>
+
+  <div class="tablebar">
+    <input type="search" id="q" placeholder="חיפוש בשם, גדוד, שיר או הקדשה…" aria-label="חיפוש">
+    <span class="count" id="rowCount"></span>
+  </div>
+
+  <div class="tablewrap">
+    <table id="tbl">
+      <thead>
+        <tr>
+          <th data-sort="receivedAt">התקבל <span class="arw">▾</span></th>
+          <th data-sort="soldier">משרת/ת <span class="arw"></span></th>
+          <th data-sort="phone">נייד <span class="arw"></span></th>
+          <th data-sort="unit">גדוד <span class="arw"></span></th>
+          <th data-sort="song">שיר <span class="arw"></span></th>
+          <th data-sort="msg">הקדשה <span class="arw"></span></th>
+          <th data-sort="sender">נשלח ע״י <span class="arw"></span></th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div id="tip" role="status" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   CONFIG — base URL of the paskol-form Worker (no trailing slash).
+   Fill this in after `wrangler deploy`, same value as the landing
+   page's CONFIG.endpoint minus the /api/dedication path.
+   ============================================================ */
+const CONFIG = { api: '' };   // e.g. 'https://paskol-form.<account>.workers.dev'
+
+(function () {
+  'use strict';
+  const $ = (s) => document.querySelector(s);
+  const KEY = 'paskol-admin-token';
+
+  let rows = [];
+  let sortKey = 'receivedAt', sortDir = -1;
+
+  /* ---------- gate ---------- */
+  const gate = $('#gate'), app = $('#app');
+
+  function showApp() { gate.hidden = true; gate.style.display = 'none'; app.hidden = false; }
+  function showGate(msg) {
+    gate.hidden = false; gate.style.display = 'grid'; app.hidden = true;
+    if (msg) { $('#gateErr').textContent = msg; $('#gateErr').classList.add('on'); }
+  }
+
+  $('#gateForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const t = $('#tok').value.trim();
+    if (!t) return;
+    sessionStorage.setItem(KEY, t);
+    $('#gateErr').classList.remove('on');
+    load();
+  });
+
+  $('#logout').addEventListener('click', () => {
+    sessionStorage.removeItem(KEY);
+    $('#tok').value = '';
+    showGate('');
+    $('#gateErr').classList.remove('on');
+  });
+
+  /* ---------- fetch ---------- */
+  async function load() {
+    const token = sessionStorage.getItem(KEY);
+    if (!token) return showGate('');
+
+    if (!CONFIG.api) {
+      return showGate('הדף לא מחובר ל-Worker. יש למלא את CONFIG.api בקובץ admin/index.html.');
+    }
+
+    try {
+      const res = await fetch(CONFIG.api.replace(/\/$/, '') + '/api/export', {
+        headers: { Authorization: 'Bearer ' + token }
+      });
+      if (res.status === 401) { sessionStorage.removeItem(KEY); return showGate('טוקן שגוי.'); }
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      rows = Array.isArray(data.items) ? data.items : [];
+      showApp();
+      render();
+    } catch (err) {
+      showGate('לא הצלחנו לטעון את הנתונים (' + err.message + ').');
+    }
+  }
+
+  $('#refresh').addEventListener('click', load);
+
+  /* ---------- render ---------- */
+  function render() {
+    const now = Date.now();
+    const day = rows.filter(r => now - Date.parse(r.receivedAt) < 864e5).length;
+
+    $('#kTotal').textContent    = rows.length;
+    $('#kUnits').textContent    = new Set(rows.map(r => r.unit).filter(Boolean)).size;
+    $('#kSoldiers').textContent = new Set(rows.map(r => (r.soldier || '') + '|' + (r.phone || '')).filter(s => s !== '|')).size;
+    $('#kDay').textContent      = day;
+    $('#updated').textContent   = 'עודכן ' + new Date().toLocaleString('he-IL');
+
+    drawUnits();
+    drawDays();
+    drawTable();
+  }
+
+  /* Magnitude by identity → horizontal bars, one hue, direct-labelled. */
+  function drawUnits() {
+    const counts = new Map();
+    rows.forEach(r => { const u = (r.unit || '').trim(); if (u) counts.set(u, (counts.get(u) || 0) + 1); });
+    const top = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const box = $('#unitBars');
+    box.textContent = '';
+    $('#unitEmpty').hidden = top.length > 0;
+    if (!top.length) return;
+
+    const max = top[0][1];
+    top.forEach(([unit, n]) => {
+      const row = document.createElement('div');
+      row.className = 'bar-row';
+      row.title = unit + ' — ' + n + ' הקדשות';
+
+      const lbl = document.createElement('div');
+      lbl.className = 'lbl'; lbl.textContent = unit;
+
+      const track = document.createElement('div');
+      track.className = 'bar-track';
+      const fill = document.createElement('div');
+      fill.className = 'bar-fill';
+      fill.style.width = Math.max(2, (n / max) * 100) + '%';
+      track.appendChild(fill);
+
+      const val = document.createElement('div');
+      val.className = 'val'; val.textContent = n;
+
+      row.append(lbl, track, val);
+      box.appendChild(row);
+    });
+  }
+
+  /* Change over time → single-series line + area, crosshair on hover. */
+  function drawDays() {
+    const svg = $('#spark');
+    const counts = new Map();
+    rows.forEach(r => {
+      const d = String(r.receivedAt || '').slice(0, 10);
+      if (d) counts.set(d, (counts.get(d) || 0) + 1);
+    });
+    const days = [...counts.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+    $('#dayEmpty').hidden = days.length > 0;
+    svg.textContent = '';
+    if (!days.length) { svg.style.display = 'none'; return; }
+    svg.style.display = 'block';
+
+    const W = svg.clientWidth || 420, H = 190;
+    const pad = { t: 14, r: 12, b: 26, l: 30 };
+    const iw = Math.max(10, W - pad.l - pad.r), ih = H - pad.t - pad.b;
+    const max = Math.max(...days.map(d => d[1]), 1);
+    const x = i => pad.l + (days.length === 1 ? iw / 2 : (i / (days.length - 1)) * iw);
+    const y = v => pad.t + ih - (v / max) * ih;
+
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    const ns = 'http://www.w3.org/2000/svg';
+    const el = (n, a) => { const e = document.createElementNS(ns, n); for (const k in a) e.setAttribute(k, a[k]); return e; };
+
+    // recessive gridlines + y labels
+    [0, 0.5, 1].forEach(f => {
+      const yy = pad.t + ih - f * ih;
+      svg.appendChild(el('line', { class: 'grid', x1: pad.l, x2: W - pad.r, y1: yy, y2: yy }));
+      const t = el('text', { class: 'axis', x: pad.l - 6, y: yy + 4, 'text-anchor': 'end' });
+      t.textContent = Math.round(f * max);
+      svg.appendChild(t);
+    });
+
+    const pts = days.map((d, i) => [x(i), y(d[1])]);
+    const path = pts.map((p, i) => (i ? 'L' : 'M') + p[0] + ' ' + p[1]).join(' ');
+    svg.appendChild(el('path', { class: 'area', d: path + ' L' + pts[pts.length - 1][0] + ' ' + (pad.t + ih) + ' L' + pts[0][0] + ' ' + (pad.t + ih) + ' Z' }));
+    svg.appendChild(el('path', { class: 'line', d: path }));
+
+    // x labels: first and last only, so they never collide
+    [[0, 'start'], [days.length - 1, 'end']].forEach(([i, anchor]) => {
+      if (days.length === 1 && i !== 0) return;
+      const t = el('text', { class: 'axis', x: x(i), y: H - 8, 'text-anchor': days.length === 1 ? 'middle' : anchor });
+      t.textContent = days[i][0].slice(5).replace('-', '/');
+      svg.appendChild(t);
+    });
+
+    const cross = el('line', { class: 'crosshair', y1: pad.t, y2: pad.t + ih });
+    svg.appendChild(cross);
+
+    const tip = $('#tip');
+    days.forEach((d, i) => {
+      svg.appendChild(el('circle', { class: 'dot', cx: x(i), cy: y(d[1]), r: 4 }));
+      const hw = days.length === 1 ? iw : iw / (days.length - 1);
+      const hit = el('rect', { class: 'hit', x: x(i) - hw / 2, y: pad.t, width: hw, height: ih });
+      hit.addEventListener('pointerenter', (e) => {
+        cross.setAttribute('x1', x(i)); cross.setAttribute('x2', x(i)); cross.style.opacity = '1';
+        tip.innerHTML = d[0].split('-').reverse().join('/') + ' · <b>' + d[1] + '</b> הקדשות';
+        tip.classList.add('on');
+        tip.style.left = e.clientX + 'px'; tip.style.top = e.clientY + 'px';
+      });
+      hit.addEventListener('pointermove', (e) => { tip.style.left = e.clientX + 'px'; tip.style.top = e.clientY + 'px'; });
+      hit.addEventListener('pointerleave', () => { tip.classList.remove('on'); cross.style.opacity = '0'; });
+      svg.appendChild(hit);
+    });
+  }
+
+  /* ---------- table ---------- */
+  function filtered() {
+    const q = $('#q').value.trim().toLowerCase();
+    let out = rows;
+    if (q) {
+      out = rows.filter(r => ['soldier', 'phone', 'unit', 'song', 'msg', 'sender']
+        .some(k => String(r[k] || '').toLowerCase().includes(q)));
+    }
+    return [...out].sort((a, b) => sortDir * String(a[sortKey] ?? '').localeCompare(String(b[sortKey] ?? ''), 'he'));
+  }
+
+  function drawTable() {
+    const data = filtered();
+    const tb = $('#tbody');
+    tb.textContent = '';
+    $('#rowCount').textContent = data.length + ' מתוך ' + rows.length;
+
+    data.forEach(r => {
+      const tr = document.createElement('tr');
+      const cell = (text, cls) => { const td = document.createElement('td'); if (cls) td.className = cls; td.textContent = text || '—'; return td; };
+
+      tr.appendChild(cell(r.receivedAt ? new Date(r.receivedAt).toLocaleString('he-IL') : '', 'num'));
+      tr.appendChild(cell(r.soldier));
+      tr.appendChild(cell(r.phone, 'num'));
+      tr.appendChild(cell(r.unit));
+
+      const song = document.createElement('td');
+      if (r.link) {
+        const a = document.createElement('a');
+        a.href = r.link; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        a.textContent = r.song || r.link;
+        song.appendChild(a);
+      } else { song.textContent = r.song || '—'; }
+      tr.appendChild(song);
+
+      tr.appendChild(cell(r.msg, 'msg'));
+      tr.appendChild(cell(r.sender));
+      tb.appendChild(tr);
+    });
+  }
+
+  $('#q').addEventListener('input', drawTable);
+
+  document.querySelectorAll('th[data-sort]').forEach(th => {
+    th.addEventListener('click', () => {
+      const k = th.dataset.sort;
+      sortDir = (k === sortKey) ? -sortDir : -1;
+      sortKey = k;
+      document.querySelectorAll('th .arw').forEach(a => a.textContent = '');
+      th.querySelector('.arw').textContent = sortDir === 1 ? '▴' : '▾';
+      drawTable();
+    });
+  });
+
+  /* ---------- CSV ---------- */
+  $('#csv').addEventListener('click', () => {
+    const cols = ['receivedAt', 'soldier', 'phone', 'unit', 'song', 'link', 'msg', 'sender', 'senderPhone'];
+    const head = ['התקבל', 'משרת/ת', 'נייד', 'גדוד', 'שיר', 'קישור', 'הקדשה', 'נשלח ע״י', 'נייד השולח'];
+    const esc = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+    const csv = [head.map(esc).join(','), ...filtered().map(r => cols.map(c => esc(r[c])).join(','))].join('\r\n');
+    // BOM so Excel opens the Hebrew correctly
+    const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'paskol-5787-' + new Date().toISOString().slice(0, 10) + '.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  addEventListener('resize', () => { if (!app.hidden) drawDays(); });
+
+  // Resume an authenticated session without asking again.
+  if (sessionStorage.getItem(KEY)) load(); else showGate('');
+})();
+</script>
+</body>
+</html>
