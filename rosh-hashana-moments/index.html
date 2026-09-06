@@ -1761,13 +1761,13 @@
             <div class="wiz-panel launch">
                 <div class="order-note">
                     <span class="on-icon" aria-hidden="true">➕</span>
-                    <p>בצ׳אט: צרפו את התמונה ושלחו
-                        <em>כפתור ➕ ליד שדה ההודעה. צריך להיות מחוברים.
-                            ב-Gemini צריך גם להדביק את הפרומפט (Ctrl+V)</em>
+                    <p>הפרומפט כבר יהיה שם - רק צרפו את התמונה
+                        <em>ב-ChatGPT: כפתור ➕ ליד שדה ההודעה, והוא שולח לבד.
+                            ב-AI Studio: מצרפים תמונה ולוחצים Run. בשניהם צריך להיות מחוברים</em>
                     </p>
                 </div>
                 <button class="btn btn-chatgpt launch-btn" data-target="chatgpt">🟢 פתחו את ChatGPT</button>
-                <button class="btn btn-gemini launch-btn" data-target="gemini">🔵 פתחו את Gemini</button>
+                <button class="btn btn-gemini launch-btn" data-target="aistudio">🔵 פתחו ב-Google AI Studio</button>
                 <button class="btn btn-copy launch-btn" data-target="copy">📋 העתק פרומפט בלבד</button>
             </div>
             <div class="wiz-actions">
@@ -2614,14 +2614,19 @@ ${NOTEXT_GEM}`
                 const variants = PROMPTS[wiz.style];
                 if (!variants) { goStep(1); return; }
                 const target = btn.dataset.target;
-                const prompt = target === 'gemini' ? variants.gemini : variants.chatgpt;
+                const prompt = target === 'chatgpt' ? variants.chatgpt : variants.gemini;
 
                 const copyPromise = copyToClipboard(prompt);
 
                 if (target !== 'copy') {
+                    // ChatGPT's ?q= submits on open, which is why its wording
+                    // announces the photo first. AI Studio's ?prompt= only
+                    // prefills, so it gets the plain wording and the visitor
+                    // attaches the photo before pressing Run — the right order,
+                    // with no lead-in needed.
                     const url = target === 'chatgpt'
                         ? 'https://chatgpt.com/?q=' + encodeURIComponent(prompt)
-                        : 'https://gemini.google.com/app';
+                        : 'https://aistudio.google.com/prompts/new_chat?prompt=' + encodeURIComponent(prompt);
                     window.open(url, '_blank', 'noopener');
                     markLeftForChat();
                 }
@@ -2636,10 +2641,8 @@ ${NOTEXT_GEM}`
                     showToast(ok ? 'הפרומפט הועתק 📋' : 'ההעתקה נכשלה - סמנו והעתיקו ידנית');
                 } else if (target === 'chatgpt') {
                     showToast('הפרומפט כבר בצ׳אט - צרפו את התמונה ושלחו 📸');
-                } else if (ok) {
-                    showToast('הפרומפט הועתק! הדביקו ב-Gemini וצרפו תמונה');
                 } else {
-                    showToast('פתחנו את הצ׳אט - חזרו ולחצו "העתק פרומפט בלבד"');
+                    showToast('הפרומפט כבר בפנים - צרפו תמונה ולחצו Run ▶');
                 }
             });
         });
