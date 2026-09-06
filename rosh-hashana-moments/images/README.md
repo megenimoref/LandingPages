@@ -52,7 +52,11 @@ leave the top 25% of the frame clean. The greeting is composited in the page's
 studio section instead, so spelling is always correct and one generated image
 can produce a differently-worded card per family.
 
-`after2.webp` still carries AI-drawn lettering because it predates that change.
-It is accurate as a picture of the *finished* card, which does carry a greeting;
-regenerate it with the current prompt if you want the demo to show the clean
-pre-studio state.
+`after2.webp` is the raw AI output: no lettering, clean sky across the top,
+exactly what the current prompt asks for. The comparison card therefore shows
+the pre-studio state, and the studio section below it demonstrates the greeting
+being added.
+
+`og-preview.webp` is the opposite — it carries a composited greeting, because a
+WhatsApp preview should show the finished card rather than an unlettered
+intermediate.
