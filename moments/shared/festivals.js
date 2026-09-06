@@ -204,7 +204,7 @@ Please avoid: photorealism, 3D rendering, glossy digital shading, heavy black ou
         shareTitle: 'גמר חתימה טובה',
         styles: [
             { key: 'before', label: 'לפני הצום 🕯️', after: 'images/after1.webp' },
-            { key: 'neila', label: 'תפילת נעילה 🕊️', after: 'images/after2.webp' },
+            { key: 'blessing', label: 'ברכת הילדים 🤲', after: 'images/after2.webp' },
             { key: 'white', label: 'לבן וטהור ✨', after: 'images/after3.webp' },
         ],
         greetings: [
@@ -259,49 +259,71 @@ Soft cool dusk light with the last warmth low on the horizon, and a small warm g
 ${NOTEXT_GPT}
 Also avoid: food or drink of any kind, a table, festive decoration, bright saturated colour, and a celebratory mood.`
             },
-            neila: {
-                chatgpt: `${LEAD_GPT}Edit the photo into a solemn greeting image for the closing of Yom Kippur.
+            blessing: {
+                chatgpt: `${LEAD_GPT}Edit the photo into a tender Yom Kippur greeting image of a father blessing his children.
 
 FRAME:
 Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
-Compose top to bottom as: top ~24% open sky at last light, left completely empty; middle ~52% the people; bottom ~24% pale stone ground.
-Frame this as a medium shot, not a close-up.
+Compose top to bottom as: top ~22% a plain wall and soft light, left clear of anything busy; middle ~56% the family; bottom ~22% quiet floor or a low table edge.
+Frame this as a medium shot from the waist up, close enough that the hands and the faces both read clearly.
 
 ${FRAME_GPT}
 
-CLOTHING - change this:
-Dress everyone in plain white linen and cotton, long sleeves, unpatterned. One adult has a white prayer shawl with fine blue stripes and knotted corner fringes draped over the shoulders. Change only the clothes - faces, hair, skin and expressions stay exactly as they are in the photo.
+THE MOMENT - this is the whole picture:
+It is the hour before the fast begins, as the family is about to leave for synagogue.
+The father stands and rests both hands gently on his son's head, fingers relaxed, in the traditional blessing over the children. His own head is slightly bowed, his eyes lowered or closed, his expression calm and full of feeling.
+The boy stands in front of him, a little shorter, eyes closed, face turned slightly up, still and quiet.
+The mother and the daughter stand close beside them, watching, the mother's hand resting on the daughter's shoulder. Nobody is looking at the camera.
+
+CLOTHING - change all of this, and only this:
+Everyone is dressed entirely in white. Faces, hair, skin and expressions stay exactly as they are in the photo.
+- The father: a white shirt and a white prayer shawl with fine blue stripes and knotted fringes at the corners, over both shoulders.
+- The boy: a white shirt and a plain white knitted kippah on the back of his head.
+- The mother and the girl: simple white dresses, long sleeves, plain fabric, no pattern and no jewellery.
+Everything is unbranded and unmarked - no logos, no insignia, no writing on anything.
 
 SCENE:
-Remove the original background and place everyone outdoors at the very end of the day, at the hour the fast closes. Pale Jerusalem stone behind and underfoot, an arched opening at one side, the sky above going from deep amber at the horizon to blue overhead. A ram's horn shofar rests on a stone ledge at the edge of the frame, curved and spiralled, in natural cream and honey-brown horn.
-There is NO food and NO drink anywhere in this image.
+Remove the original background completely and place them in a quiet, simple room at home just before dusk. A plain pale wall, a doorway with warm light beyond it, and a few white candles already lit on a low surface at the edge of the frame.
+The room is bare and calm - no clutter, no furniture crowding the frame, no decoration.
+There is NO food and NO drink anywhere in this image. This is a fast.
 
 LIGHT AND LOOK:
-The last warm light of the day from low on the horizon, cool blue filling the shadows, a soft rim along shoulders and the prayer shawl. Quiet, spacious, reverent. Muted colour, low contrast, natural. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, realistic shadows.
+Soft warm light from one side, as if from a window at the end of the day, with a small glow from the candles. Low contrast, quiet and intimate. White on white on pale wall. Natural colour, gentle depth of field. Reverent and moving - not staged, not festive, not dramatic. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, realistic soft shadows.
 
 ${NOTEXT_GPT}
-Also avoid: food or drink of any kind, a table, festive decoration, and a celebratory mood.`,
-                gemini: `Edit the photo into a solemn greeting image for the closing of Yom Kippur.
+Also avoid: food or drink of any kind, a table set for a meal, festive decoration, anyone looking at the camera, a posed group-portrait smile, saturated colour, and a celebratory mood.`,
+                gemini: `Edit the photo into a tender Yom Kippur greeting image of a father blessing his children.
 
 FRAME:
 Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
-Compose top to bottom as: top ~24% open sky at last light, left completely empty; middle ~52% the people; bottom ~24% pale stone ground.
-Frame this as a medium shot, not a close-up.
+Compose top to bottom as: top ~22% a plain wall and soft light, left clear of anything busy; middle ~56% the family; bottom ~22% quiet floor or a low table edge.
+Frame this as a medium shot from the waist up, close enough that the hands and the faces both read clearly.
 
 ${FRAME_GPT}
 
-CLOTHING - change this:
-Dress everyone in plain white linen and cotton, long sleeves, unpatterned. One adult has a white prayer shawl with fine blue stripes and knotted corner fringes draped over the shoulders. Change only the clothes - faces, hair, skin and expressions stay exactly as they are in the photo.
+THE MOMENT - this is the whole picture:
+It is the hour before the fast begins, as the family is about to leave for synagogue.
+The father stands and rests both hands gently on his son's head, fingers relaxed, in the traditional blessing over the children. His own head is slightly bowed, his eyes lowered or closed, his expression calm and full of feeling.
+The boy stands in front of him, a little shorter, eyes closed, face turned slightly up, still and quiet.
+The mother and the daughter stand close beside them, watching, the mother's hand resting on the daughter's shoulder. Nobody is looking at the camera.
+
+CLOTHING - change all of this, and only this:
+Everyone is dressed entirely in white. Faces, hair, skin and expressions stay exactly as they are in the photo.
+- The father: a white shirt and a white prayer shawl with fine blue stripes and knotted fringes at the corners, over both shoulders.
+- The boy: a white shirt and a plain white knitted kippah on the back of his head.
+- The mother and the girl: simple white dresses, long sleeves, plain fabric, no pattern and no jewellery.
+Everything is unbranded and unmarked - no logos, no insignia, no writing on anything.
 
 SCENE:
-Remove the original background and place everyone outdoors at the very end of the day, at the hour the fast closes. Pale Jerusalem stone behind and underfoot, an arched opening at one side, the sky above going from deep amber at the horizon to blue overhead. A ram's horn shofar rests on a stone ledge at the edge of the frame, curved and spiralled, in natural cream and honey-brown horn.
-There is NO food and NO drink anywhere in this image.
+Remove the original background completely and place them in a quiet, simple room at home just before dusk. A plain pale wall, a doorway with warm light beyond it, and a few white candles already lit on a low surface at the edge of the frame.
+The room is bare and calm - no clutter, no furniture crowding the frame, no decoration.
+There is NO food and NO drink anywhere in this image. This is a fast.
 
 LIGHT AND LOOK:
-The last warm light of the day from low on the horizon, cool blue filling the shadows, a soft rim along shoulders and the prayer shawl. Quiet, spacious, reverent. Muted colour, low contrast, natural. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, realistic shadows.
+Soft warm light from one side, as if from a window at the end of the day, with a small glow from the candles. Low contrast, quiet and intimate. White on white on pale wall. Natural colour, gentle depth of field. Reverent and moving - not staged, not festive, not dramatic. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, realistic soft shadows.
 
 ${NOTEXT_GPT}
-Also avoid: food or drink of any kind, a table, festive decoration, and a celebratory mood.`
+Also avoid: food or drink of any kind, a table set for a meal, festive decoration, anyone looking at the camera, a posed group-portrait smile, saturated colour, and a celebratory mood.`
             },
             white: {
                 chatgpt: `${LEAD_GPT}Edit the photo into a white and reverent Yom Kippur greeting image.
