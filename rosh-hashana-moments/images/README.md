@@ -10,13 +10,13 @@ disappears on its own.
 |---|---|---|---|
 | `before.webp` | 1080×1350 | **in place** | Stock family portrait, cropped 4:5 and centred on the group |
 | `after1.webp` | 4:5, ~1080×1350 | missing | Style 01 — קולנועי, made with the page's own "cinematic" prompt |
-| `after2.webp` | 4:5, ~1080×1350 | missing | Style 02 — מלכותי, made with the "royal" prompt |
+| `after2.webp` | 1080×1350 | **in place** | Style 02 — מלכותי. Candlelit terrace table at dusk, generated from `before.webp` |
 | `after3.webp` | 4:5, ~1080×1350 | missing | Style 03 — זהוב, made with the "golden" prompt |
-| `og-preview.webp` | 1200×630 | missing | WhatsApp / Facebook share card. Crop from `after1.webp` |
+| `og-preview.webp` | 1200×630 | **in place** | Share card: `after2.webp` whole, on a blurred fill of itself so the greeting survives the 1.91:1 crop |
 
-**Until `og-preview.webp` exists the WhatsApp share preview renders blank.**
-It is the one file with no placeholder fallback, because Open Graph is read by
-scrapers that do not run our `onerror` handler.
+`og-preview.webp` is the one file with no placeholder fallback — Open Graph is
+read by scrapers that never run our `onerror` handler, so a missing file means
+a blank share preview rather than a stand-in.
 
 ## How to produce them
 
