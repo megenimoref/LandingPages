@@ -161,7 +161,15 @@
             z-index: 0;
         }
 
-        .bg-aurora {
+        /* Two layers on purpose: the wrapper carries the scroll parallax from JS,
+           the pseudo-element carries the drift animation. Putting both on one
+           element loses the inline transform — a running animation outranks it. */
+        .bg-aurora { overflow: hidden; }
+
+        .bg-aurora::before {
+            content: "";
+            position: absolute;
+            inset: -25%;
             background:
                 radial-gradient(52vw 52vw at 12% 6%, rgba(224, 30, 55, 0.42), transparent 62%),
                 radial-gradient(46vw 46vw at 88% 22%, rgba(106, 27, 77, 0.5), transparent 64%),
@@ -216,6 +224,170 @@
 
         .page { position: relative; z-index: 2; }
 
+        /* ══════════════ CINEMA EFFECTS ══════════════
+           Overlay stack that sits ABOVE the content (z 50+) so the page reads
+           like footage running through a projector rather than a web page with
+           a textured background. Everything here is pointer-events:none and is
+           switched off wholesale under prefers-reduced-motion.               */
+
+        .grain-top,
+        .scratches,
+        .projector,
+        .light-leak {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        /* fine gate grain riding over the content */
+        .grain-top {
+            opacity: 0.12;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+            animation: grainShift 0.62s steps(4) infinite;
+        }
+
+        @keyframes grainShift {
+            0% { transform: translate3d(0, 0, 0); }
+            25% { transform: translate3d(-3%, 2%, 0); }
+            50% { transform: translate3d(2%, -3%, 0); }
+            75% { transform: translate3d(-2%, -1%, 0); }
+            100% { transform: translate3d(3%, 1%, 0); }
+        }
+
+        /* three sparse emulsion scratches that jitter like a worn print */
+        .scratches {
+            opacity: 0.5;
+            background-image:
+                linear-gradient(90deg, transparent 18.2%, rgba(255, 255, 255, 0.4) 18.2% 18.32%, transparent 18.32%),
+                linear-gradient(90deg, transparent 63.4%, rgba(255, 240, 200, 0.26) 63.4% 63.5%, transparent 63.5%),
+                linear-gradient(90deg, transparent 81%, rgba(255, 255, 255, 0.18) 81% 81.1%, transparent 81.1%);
+            animation: scratchJitter 0.7s steps(3) infinite;
+        }
+
+        @keyframes scratchJitter {
+            0% { transform: translateX(0); opacity: 0.5; }
+            33% { transform: translateX(-9px); opacity: 0.18; }
+            66% { transform: translateX(6px); opacity: 0.42; }
+            100% { transform: translateX(-3px); opacity: 0.26; }
+        }
+
+        /* lamp flicker — tiny luminance wobble across the whole frame */
+        .projector {
+            background: #FFF3D6;
+            mix-blend-mode: overlay;
+            opacity: 0.02;
+            animation: lamp 3.1s steps(5) infinite;
+        }
+
+        @keyframes lamp {
+            0%, 100% { opacity: 0.015; }
+            20% { opacity: 0.05; }
+            40% { opacity: 0.004; }
+            60% { opacity: 0.038; }
+            80% { opacity: 0.02; }
+        }
+
+        /* warm light leak sweeping the gate every ~15s */
+        .light-leak {
+            inset: -25%;
+            opacity: 0;
+            mix-blend-mode: screen;
+            background: linear-gradient(72deg,
+                    transparent 36%,
+                    rgba(255, 138, 42, 0.42) 46%,
+                    rgba(255, 214, 138, 0.6) 51%,
+                    rgba(224, 30, 55, 0.34) 57%,
+                    transparent 67%);
+            animation: leak 15s ease-in-out infinite;
+        }
+
+        @keyframes leak {
+            0%, 70% { opacity: 0; transform: translateX(-42%); }
+            77% { opacity: 0.55; }
+            87% { opacity: 0.3; }
+            100% { opacity: 0; transform: translateX(46%); }
+        }
+
+        /* opening letterbox — the frame irises open on load */
+        .film-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            height: 50vh;
+            background: #000;
+            z-index: 90;
+            pointer-events: none;
+        }
+
+        .film-bar.top {
+            top: 0;
+            animation: barTop 1.25s cubic-bezier(0.76, 0, 0.24, 1) 0.15s both;
+        }
+
+        .film-bar.bottom {
+            bottom: 0;
+            animation: barBottom 1.25s cubic-bezier(0.76, 0, 0.24, 1) 0.15s both;
+        }
+
+        @keyframes barTop {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-100%); }
+        }
+
+        @keyframes barBottom {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(100%); }
+        }
+
+        /* anamorphic lens flare across the hero */
+        .flare {
+            position: absolute;
+            left: 50%;
+            top: 30%;
+            width: 128%;
+            height: 2px;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 0;
+            filter: blur(2px);
+            background: linear-gradient(90deg,
+                    transparent 8%,
+                    rgba(120, 180, 255, 0.42) 34%,
+                    rgba(190, 225, 255, 0.75) 50%,
+                    rgba(120, 180, 255, 0.42) 66%,
+                    transparent 92%);
+            animation: flarePulse 7.5s ease-in-out infinite;
+        }
+
+        .flare::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 190px;
+            height: 190px;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(190, 225, 255, 0.22), transparent 68%);
+        }
+
+        @keyframes flarePulse {
+            0%, 100% { opacity: 0.32; }
+            50% { opacity: 0.85; }
+        }
+
+        /* halation — the title blooms the way bright highlights do on film */
+        .hero h1 {
+            animation: halation 5.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes halation {
+            0% { filter: drop-shadow(0 6px 24px rgba(224, 30, 55, 0.3)); }
+            100% { filter: drop-shadow(0 6px 46px rgba(245, 197, 66, 0.55)); }
+        }
+
         /* ══════════════ HEADER ══════════════ */
         header.brand {
             border-bottom: 1px solid var(--line);
@@ -262,6 +434,7 @@
         .hero {
             text-align: center;
             padding: 76px 0 44px;
+            position: relative;
         }
 
         .hero-tag {
@@ -445,18 +618,34 @@
             background: var(--wine);
         }
 
-        .ba-compare img {
+        /* Each side is a clipped layer wrapping its own image, so the slow
+           Ken Burns push can live on the <img> transform without dragging the
+           clip-path — clipping the wrapper keeps the split line dead still. */
+        .ba-layer {
             position: absolute;
             inset: 0;
+            overflow: hidden;
+        }
+
+        .ba-layer img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            animation: ken 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes ken {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.09); }
         }
 
         .ba-compare .ba-after {
             clip-path: inset(0 50% 0 0);
             z-index: 2;
         }
+
+        /* offset the push so the two sides never move in lockstep */
+        .ba-compare .ba-after img { animation-delay: -10s; }
 
         /* letterbox bars — the cinematic tell */
         .ba-compare::before,
@@ -789,12 +978,27 @@
 
             .bg-aurora,
             .bg-grain,
+            .grain-top,
+            .scratches,
+            .projector,
+            .light-leak,
+            .flare,
+            .hero h1,
+            .ba-layer img,
             .apple,
             .mote {
                 animation: none !important;
             }
 
-            .motes { display: none; }
+            .motes,
+            .scratches,
+            .light-leak,
+            .film-bar {
+                display: none;
+            }
+
+            /* the title keeps its static bloom without the pulse */
+            .hero h1 { filter: drop-shadow(0 6px 30px rgba(224, 30, 55, 0.32)); }
 
             .reveal {
                 opacity: 1;
@@ -811,10 +1015,19 @@
 
 <body>
 
-    <div class="bg-aurora" aria-hidden="true"></div>
+    <!-- behind the content -->
+    <div class="bg-aurora" id="aurora" aria-hidden="true"></div>
     <div class="bg-grain" aria-hidden="true"></div>
     <div class="bg-vignette" aria-hidden="true"></div>
     <div class="motes" id="motes" aria-hidden="true"></div>
+
+    <!-- projector stack, over the content -->
+    <div class="grain-top" aria-hidden="true"></div>
+    <div class="scratches" aria-hidden="true"></div>
+    <div class="projector" aria-hidden="true"></div>
+    <div class="light-leak" aria-hidden="true"></div>
+    <div class="film-bar top" aria-hidden="true"></div>
+    <div class="film-bar bottom" aria-hidden="true"></div>
 
     <div class="page">
 
@@ -830,6 +1043,7 @@
         </header>
 
         <section class="hero">
+            <div class="flare" aria-hidden="true"></div>
             <div class="container">
                 <span class="hero-tag">ראש השנה · תשפ״ז</span>
                 <h1>תוך דקה - הופכים תמונה לגלויה קולנועית <span class="apple" aria-hidden="true">🍎</span></h1>
@@ -857,10 +1071,14 @@
                         <h3 class="card-title">קולנועי 🎬 <span class="style-no">01</span></h3>
                         <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון קולנועי"
                             aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
-                            <img class="ba-before" src="images/before.webp" alt="לפני - תמונה מקורית" loading="eager"
-                                decoding="async" onerror="this.onerror=null;this.src='images/ph-before.svg'">
-                            <img class="ba-after" src="images/after1.webp" alt="אחרי - סגנון קולנועי" loading="eager"
-                                decoding="async" onerror="this.onerror=null;this.src='images/ph-after1.svg'">
+                            <div class="ba-layer ba-before">
+                                <img src="images/before.webp" alt="לפני - תמונה מקורית" loading="eager" decoding="async"
+                                    onerror="this.onerror=null;this.src='images/ph-before.svg'">
+                            </div>
+                            <div class="ba-layer ba-after">
+                                <img src="images/after1.webp" alt="אחרי - סגנון קולנועי" loading="eager"
+                                    decoding="async" onerror="this.onerror=null;this.src='images/ph-after1.svg'">
+                            </div>
                             <div class="ba-slider-line"></div>
                             <div class="ba-slider-handle">◀▶</div>
                             <span class="ba-label before">לפני</span>
@@ -880,10 +1098,14 @@
                         <h3 class="card-title">מלכותי 🍎 <span class="style-no">02</span></h3>
                         <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון מלכותי"
                             aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
-                            <img class="ba-before" src="images/before.webp" alt="לפני - תמונה מקורית" loading="lazy"
-                                decoding="async" onerror="this.onerror=null;this.src='images/ph-before.svg'">
-                            <img class="ba-after" src="images/after2.webp" alt="אחרי - סגנון מלכותי" loading="lazy"
-                                decoding="async" onerror="this.onerror=null;this.src='images/ph-after2.svg'">
+                            <div class="ba-layer ba-before">
+                                <img src="images/before.webp" alt="לפני - תמונה מקורית" loading="lazy" decoding="async"
+                                    onerror="this.onerror=null;this.src='images/ph-before.svg'">
+                            </div>
+                            <div class="ba-layer ba-after">
+                                <img src="images/after2.webp" alt="אחרי - סגנון מלכותי" loading="lazy" decoding="async"
+                                    onerror="this.onerror=null;this.src='images/ph-after2.svg'">
+                            </div>
                             <div class="ba-slider-line"></div>
                             <div class="ba-slider-handle">◀▶</div>
                             <span class="ba-label before">לפני</span>
@@ -903,10 +1125,14 @@
                         <h3 class="card-title">זהוב 🍯 <span class="style-no">03</span></h3>
                         <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון זהוב"
                             aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
-                            <img class="ba-before" src="images/before.webp" alt="לפני - תמונה מקורית" loading="lazy"
-                                decoding="async" onerror="this.onerror=null;this.src='images/ph-before.svg'">
-                            <img class="ba-after" src="images/after3.webp" alt="אחרי - סגנון זהוב" loading="lazy"
-                                decoding="async" onerror="this.onerror=null;this.src='images/ph-after3.svg'">
+                            <div class="ba-layer ba-before">
+                                <img src="images/before.webp" alt="לפני - תמונה מקורית" loading="lazy" decoding="async"
+                                    onerror="this.onerror=null;this.src='images/ph-before.svg'">
+                            </div>
+                            <div class="ba-layer ba-after">
+                                <img src="images/after3.webp" alt="אחרי - סגנון זהוב" loading="lazy" decoding="async"
+                                    onerror="this.onerror=null;this.src='images/ph-after3.svg'">
+                            </div>
                             <div class="ba-slider-line"></div>
                             <div class="ba-slider-handle">◀▶</div>
                             <span class="ba-label before">לפני</span>
@@ -1357,6 +1583,33 @@ A natural, luminous family photograph taken in Israel at golden hour before Rosh
                 setSlider(el, next);
             });
         });
+
+        /* ══════════════ CAMERA PUSH ON SCROLL ══════════════
+           The backdrop drifts slower than the page, so the frame reads as
+           having depth. One rAF, one transform — nothing layout-affecting.  */
+        (function parallax() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const aurora = document.getElementById('aurora');
+            if (!aurora) return;
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (ticking) return;
+                ticking = true;
+                requestAnimationFrame(() => {
+                    // capped so the layer can never slide off its own overscan
+                    const y = Math.min(window.scrollY * 0.12, 150);
+                    aurora.style.transform = `translate3d(0, ${y}px, 0)`;
+                    ticking = false;
+                });
+            }, { passive: true });
+        })();
+
+        /* ══════════════ LETTERBOX FAILSAFE ══════════════
+           The opening bars start covering the viewport. If the CSS animation
+           never runs the page would stay black, so drop them unconditionally. */
+        setTimeout(() => {
+            document.querySelectorAll('.film-bar').forEach((b) => b.remove());
+        }, 2200);
 
         /* ══════════════ FLOATING MOTES ══════════════ */
         (function seedMotes() {
