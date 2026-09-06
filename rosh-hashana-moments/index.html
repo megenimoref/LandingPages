@@ -3,11 +3,17 @@
   Live:  https://megenimoref.github.io/LandingPages/rosh-hashana-moments/
   Local: http://127.0.0.1:8080/rosh-hashana-moments/
 
-  Zero backend by design: the page never calls an image API. It personalises a
-  prompt, puts it on the clipboard and hands the user off to ChatGPT / Gemini,
-  so generation runs on the visitor's own account.
+  Zero backend by design: the page never calls an image API. It copies a prompt
+  and hands the visitor off to ChatGPT / Gemini, so generation runs on their own
+  account.
 
-  Demo images are placeholders until real ones are dropped in — see images/README.md.
+  The AI is asked NOT to write Hebrew. It leaves the top of the frame clean and
+  the greeting is composited here on a canvas, which is the only way to get
+  correct spelling every time and to produce one card per family from a single
+  generated image. renderGreetingCard() returns a Blob so a sharing layer can
+  be added later without touching the renderer.
+
+  Demo images fall back to SVG placeholders — see images/README.md.
 -->
 
 <!DOCTYPE html>
@@ -435,6 +441,9 @@
             text-align: center;
             padding: 76px 0 44px;
             position: relative;
+            /* the lens flare is deliberately wider than the section; without this
+               it widens the document and shifts the whole RTL page sideways */
+            overflow: hidden;
         }
 
         .hero-tag {
@@ -855,6 +864,230 @@
             color: var(--cream-dim);
         }
 
+        /* ══════════════ GREETING STUDIO ══════════════ */
+        .studio { padding: 30px 0 60px; }
+
+        .studio h2 {
+            text-align: center;
+            font-size: clamp(1.6rem, 4.4vw, 2.5rem);
+            font-weight: 900;
+            background: linear-gradient(100deg, var(--gold-hot), var(--pom-hot));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .studio-lede {
+            text-align: center;
+            max-width: 52ch;
+            margin: 12px auto 34px;
+            font-weight: 300;
+            color: var(--cream-dim);
+        }
+
+        .studio-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+            gap: 28px;
+            align-items: start;
+        }
+
+        .studio-panel,
+        .studio-stage {
+            background: linear-gradient(165deg, rgba(255, 244, 224, 0.07), rgba(255, 244, 224, 0.02));
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(16px);
+            box-shadow: var(--shadow-deep);
+            padding: 22px;
+        }
+
+        .field { margin-bottom: 18px; }
+
+        .field > label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            color: var(--cream-dim);
+            margin-bottom: 8px;
+        }
+
+        .field input[type="text"],
+        .field textarea {
+            width: 100%;
+            padding: 12px 16px;
+            font: inherit;
+            font-size: 0.98rem;
+            color: var(--cream);
+            background: rgba(255, 244, 224, 0.06);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            resize: vertical;
+            transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+        }
+
+        .field textarea { min-height: 110px; line-height: 1.6; }
+
+        .field input:focus,
+        .field textarea:focus {
+            border-color: var(--gold);
+            box-shadow: var(--glow-gold);
+            outline: none;
+        }
+
+        /* ── drop zone ── */
+        .dropzone {
+            display: grid;
+            place-items: center;
+            gap: 8px;
+            padding: 26px 18px;
+            text-align: center;
+            border: 2px dashed rgba(245, 197, 66, 0.4);
+            border-radius: var(--radius-lg);
+            background: rgba(245, 197, 66, 0.05);
+            cursor: pointer;
+            transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+        }
+
+        .dropzone:hover,
+        .dropzone.over {
+            border-color: var(--gold);
+            background: rgba(245, 197, 66, 0.12);
+        }
+
+        .dropzone .dz-title {
+            font-weight: 800;
+            color: var(--gold-hot);
+        }
+
+        .dropzone .dz-sub {
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: var(--cream-faint);
+        }
+
+        /* ── preset blessings ── */
+        .presets {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .preset {
+            text-align: right;
+            padding: 12px 15px;
+            border-radius: var(--radius);
+            border: 1px solid var(--line);
+            background: rgba(255, 244, 224, 0.04);
+            transition: border-color 0.25s var(--ease), background 0.25s var(--ease), transform 0.25s var(--ease);
+        }
+
+        .preset:hover { transform: translateX(-3px); border-color: rgba(245, 197, 66, 0.55); }
+
+        .preset[aria-pressed="true"] {
+            border-color: var(--gold);
+            background: rgba(245, 197, 66, 0.12);
+        }
+
+        .preset-title {
+            display: block;
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--gold-hot);
+        }
+
+        .preset-body {
+            display: block;
+            font-size: 0.79rem;
+            font-weight: 300;
+            line-height: 1.5;
+            color: var(--cream-faint);
+            margin-top: 3px;
+        }
+
+        /* ── segmented control ── */
+        .seg {
+            display: grid;
+            grid-auto-flow: column;
+            gap: 6px;
+            padding: 5px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: rgba(255, 244, 224, 0.04);
+        }
+
+        .seg button {
+            padding: 9px 10px;
+            border-radius: 11px;
+            font-size: 0.86rem;
+            font-weight: 700;
+            color: var(--cream-dim);
+            transition: background 0.25s var(--ease), color 0.25s var(--ease);
+        }
+
+        .seg button[aria-pressed="true"] {
+            color: var(--night);
+            background: linear-gradient(140deg, var(--gold-hot), var(--honey));
+        }
+
+        /* ── stage ── */
+        .studio-stage { position: sticky; top: 88px; }
+
+        .canvas-wrap {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--wine);
+            aspect-ratio: 4 / 5;
+            display: grid;
+            place-items: center;
+        }
+
+        #cardCanvas {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            display: block;
+        }
+
+        .stage-empty {
+            padding: 24px;
+            text-align: center;
+            font-size: 0.88rem;
+            font-weight: 300;
+            color: var(--cream-faint);
+        }
+
+        .btn-download {
+            width: 100%;
+            margin-top: 16px;
+            padding: 15px;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--night);
+            background: linear-gradient(140deg, var(--gold-hot), var(--honey));
+            box-shadow: 0 10px 30px rgba(245, 197, 66, 0.3);
+            transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), opacity 0.25s var(--ease);
+        }
+
+        .btn-download:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 40px rgba(245, 197, 66, 0.45);
+        }
+
+        .btn-download:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 900px) {
+            .studio-grid { grid-template-columns: minmax(0, 1fr); }
+            .studio-stage { position: static; order: -1; }
+        }
+
         /* ══════════════ TIP + SHARE + FOOT ══════════════ */
         .tip-wrap { padding: 10px 0 46px; text-align: center; }
 
@@ -1055,9 +1288,9 @@
                     <input id="familyName" class="family-input" type="text" maxlength="40" autocomplete="family-name"
                         placeholder="לדוגמה: לוי" aria-describedby="familyHint">
                     <p class="greeting-preview" id="greetingPreview" aria-live="polite">
-                        <span class="pre-label">ייכתב על התמונה:</span><br><span id="greetingText"></span>
+                        <span class="pre-label">החתימה על הגלויה:</span><br><span id="greetingText"></span>
                     </p>
-                    <p id="familyHint" class="family-hint">לפעמים העברית בתמונה יוצאת לא מושלמת - אפשר תמיד לנסות שוב 🙌
+                    <p id="familyHint" class="family-hint">הברכה נוספת בהמשך הדף, בעברית תקינה - לא ה-AI כותב אותה 🙌
                     </p>
                 </div>
             </div>
@@ -1162,8 +1395,68 @@
                             לצ׳אט</span></div>
                     <div class="step reveal"><span class="step-num">3</span><span class="step-text">מדביקים את הפרומפט
                             (Ctrl+V)</span></div>
-                    <div class="step reveal"><span class="step-num">4</span><span class="step-text">מקבלים גלויה
-                            מוכנה</span></div>
+                    <div class="step reveal"><span class="step-num">4</span><span class="step-text">חוזרים לכאן
+                            ומלבישים ברכה</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="studio" id="studio">
+            <div class="container">
+                <h2>מלבישים ברכה</h2>
+                <p class="studio-lede">התמונה חוזרת מ-AI נקייה, בלי טקסט. כאן מוסיפים את הברכה בעברית תקינה - ומורידים
+                    גלויה מוכנה.</p>
+
+                <div class="studio-grid">
+
+                    <div class="studio-panel">
+                        <div class="field">
+                            <label for="fileInput">התמונה שיצרתם</label>
+                            <div class="dropzone" id="dropzone" role="button" tabindex="0"
+                                aria-label="העלאת תמונה - גרירה, הדבקה או בחירת קובץ">
+                                <span class="dz-title" id="dzTitle">גררו לכאן, או הדביקו (Ctrl+V)</span>
+                                <span class="dz-sub" id="dzSub">אפשר גם ללחוץ ולבחור קובץ</span>
+                            </div>
+                            <input type="file" id="fileInput" accept="image/*" class="sr-only">
+                        </div>
+
+                        <div class="field">
+                            <label>ברכה מוכנה</label>
+                            <div class="presets" id="presets"></div>
+                        </div>
+
+                        <div class="field">
+                            <label for="gTitle">כותרת</label>
+                            <input type="text" id="gTitle" maxlength="40" value="שנה טובה ומתוקה">
+                        </div>
+
+                        <div class="field">
+                            <label for="gBody">נוסח הברכה</label>
+                            <textarea id="gBody" maxlength="320"></textarea>
+                        </div>
+
+                        <div class="field">
+                            <label for="gFamily">חתימה <span class="opt">(אופציונלי)</span></label>
+                            <input type="text" id="gFamily" maxlength="40" placeholder="ממשפחת לוי">
+                        </div>
+
+                        <div class="field">
+                            <label>מיקום הברכה</label>
+                            <div class="seg" id="posSeg">
+                                <button type="button" data-pos="top" aria-pressed="true">למעלה</button>
+                                <button type="button" data-pos="bottom" aria-pressed="false">למטה</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="studio-stage">
+                        <div class="canvas-wrap">
+                            <p class="stage-empty" id="stageEmpty">התצוגה המקדימה תופיע כאן<br>אחרי שתעלו תמונה</p>
+                            <canvas id="cardCanvas" hidden></canvas>
+                        </div>
+                        <button class="btn-download" id="btnDownload" disabled>⬇ הורדת הגלויה</button>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -1202,7 +1495,7 @@
         /* ══════════════ PROMPTS ══════════════
            All three are written to the same depth on purpose — a thin third
            template produces visibly worse output than its siblings.
-           __GREETING__ is substituted at click time.                        */
+           None of them writes text: the greeting is composited in the studio. */
 
         const PROMPT_CINEMATIC = `Create a high-end, cinematic Rosh Hashana greeting image using the uploaded reference image.
 
@@ -1253,19 +1546,15 @@ COMPOSITION:
 - people placed slightly below centre
 - leave clean, uncluttered space at the top for text
 
-TEXT:
-Render this Hebrew line on the image, exactly as written, spelled correctly:
-"__GREETING__"
-
-TEXT STYLE:
-- elegant serif Hebrew lettering
-- warm gold or cream, with a soft glow for readability
-- centred at the top, not touching the edges
+TEXT — DO NOT ADD ANY:
+Leave the top 25% of the frame clean and open: empty sky, no objects, no branches, no lettering of any kind.
+The Hebrew greeting is composited afterwards in the browser, where it can be spelled correctly and personalised.
+Do not write any text, watermark or signature anywhere on the image.
 
 GOAL:
 A dramatic, emotional Rosh Hashana family portrait that looks like a frame from a feature film - premium, warm and personal.
 
---no distorted faces, extra fingers, text errors, duplicated people, watermark`;
+--no distorted faces, extra fingers, duplicated people, watermark, any text or lettering`;
 
         const PROMPT_ROYAL = `Create a rich, opulent Rosh Hashana greeting image using the uploaded reference image.
 
@@ -1314,19 +1603,15 @@ COMPOSITION:
 - people behind and around the table, slightly below centre
 - leave clean, uncluttered space at the top for text
 
-TEXT:
-Render this Hebrew line on the image, exactly as written, spelled correctly:
-"__GREETING__"
-
-TEXT STYLE:
-- ornate but legible Hebrew lettering
-- gold or warm cream, with a subtle drop shadow
-- centred at the top, not touching the edges
+TEXT — DO NOT ADD ANY:
+Leave the top 25% of the frame clean and open: empty sky, no objects, no branches, no lettering of any kind.
+The Hebrew greeting is composited afterwards in the browser, where it can be spelled correctly and personalised.
+Do not write any text, watermark or signature anywhere on the image.
 
 GOAL:
 A warm, regal Rosh Hashana family portrait that feels like a treasured heirloom photograph.
 
---no distorted faces, extra fingers, text errors, duplicated people, watermark`;
+--no distorted faces, extra fingers, duplicated people, watermark, any text or lettering`;
 
         const PROMPT_GOLDEN = `Create a photorealistic Rosh Hashana greeting image using the uploaded reference image.
 
@@ -1380,19 +1665,15 @@ COMPOSITION:
 - people placed slightly below centre
 - balanced and airy, leave clean space at the top for text
 
-TEXT:
-Render this Hebrew line on the image, exactly as written, spelled correctly:
-"__GREETING__"
-
-TEXT STYLE:
-- clean, elegant Hebrew font
-- white or soft cream with a slight shadow for readability
-- centred at the top, not touching the edges
+TEXT — DO NOT ADD ANY:
+Leave the top 25% of the frame clean and open: empty sky, no objects, no branches, no lettering of any kind.
+The Hebrew greeting is composited afterwards in the browser, where it can be spelled correctly and personalised.
+Do not write any text, watermark or signature anywhere on the image.
 
 GOAL:
 A natural, luminous family photograph taken in Israel at golden hour before Rosh Hashana - warm, authentic and emotionally true.
 
---no distorted faces, extra fingers, text errors, duplicated people, watermark`;
+--no distorted faces, extra fingers, duplicated people, watermark, any text or lettering`;
 
         const PROMPTS = {
             cinematic: PROMPT_CINEMATIC,
@@ -1410,12 +1691,11 @@ A natural, luminous family photograph taken in Israel at golden hour before Rosh
             if (saved) familyInput.value = saved;
         } catch (_) { /* localStorage blocked — not critical */ }
 
+        // The name is no longer sent to the AI — it becomes the signature line
+        // the studio composites onto the finished card.
         function buildGreeting() {
-            const raw = (familyInput.value || '').trim();
-            // strip quote characters that would terminate the prompt string early
-            const clean = raw.replace(/["'׳״`]/g, '').slice(0, 40);
-            if (!clean) return 'שנה טובה ומתוקה';
-            return `שנה טובה ומתוקה · ממשפחת ${clean}`;
+            const clean = (familyInput.value || '').trim().slice(0, 40);
+            return clean ? `ממשפחת ${clean}` : 'ללא חתימה';
         }
 
         function renderPreview() {
@@ -1427,10 +1707,6 @@ A natural, luminous family photograph taken in Israel at golden hour before Rosh
             try { localStorage.setItem(FAMILY_STORAGE_KEY, familyInput.value); } catch (_) { }
         });
         renderPreview();
-
-        function personalizePrompt(prompt) {
-            return prompt.replace(/__GREETING__/g, buildGreeting());
-        }
 
         /* ══════════════ CLIPBOARD ══════════════ */
         async function copyToClipboard(text) {
@@ -1470,7 +1746,7 @@ A natural, luminous family photograph taken in Israel at golden hour before Rosh
             const target = btn.dataset.target;
             const basePrompt = PROMPTS[key];
             if (!basePrompt) return;
-            const prompt = personalizePrompt(basePrompt);
+            const prompt = basePrompt;
 
             // Start the clipboard write while the document still has focus, but do NOT
             // await before window.open — awaiting first breaks the user-gesture chain
@@ -1582,6 +1858,311 @@ A natural, luminous family photograph taken in Israel at golden hour before Rosh
                 e.preventDefault();
                 setSlider(el, next);
             });
+        });
+
+        /* ══════════════ GREETING STUDIO ══════════════
+           The AI is no longer asked to write Hebrew — it leaves the top of the
+           frame clean and the greeting is composited here on a canvas. That is
+           the only way to get correct spelling every time, let the text be
+           edited after the fact, and produce one file per family from a single
+           generated image.
+
+           renderGreetingCard() deliberately returns a Blob rather than driving
+           the download itself: the sharing layer added later consumes the same
+           Blob without touching any of this.                                  */
+
+        const GREETINGS = [
+            {
+                title: 'שנה טובה ומתוקה',
+                body: 'שתהא השנה הבאה עלינו לטובה, מתוקה כדבש, מלאה בשמחה, בריאות איתנה והגשמת חלומות.'
+            },
+            {
+                title: 'שנה טובה ומתוקה',
+                body: 'שתיבנה שנתנו מתוך שלום, ביטחון, שקט ושלווה בכל גבולות הארץ.'
+            },
+            {
+                title: 'כתיבה וחתימה טובה',
+                body: 'גמר חתימה טובה! שנזכה לשנת בריאות, איתנות, שלום, ושנכתב ונחתם בספר החיים הטובים'
+            }
+        ];
+
+        const studio = {
+            img: null,
+            pos: 'top',
+            el: {
+                dropzone: document.getElementById('dropzone'),
+                dzTitle: document.getElementById('dzTitle'),
+                dzSub: document.getElementById('dzSub'),
+                file: document.getElementById('fileInput'),
+                presets: document.getElementById('presets'),
+                title: document.getElementById('gTitle'),
+                body: document.getElementById('gBody'),
+                family: document.getElementById('gFamily'),
+                posSeg: document.getElementById('posSeg'),
+                canvas: document.getElementById('cardCanvas'),
+                empty: document.getElementById('stageEmpty'),
+                download: document.getElementById('btnDownload')
+            }
+        };
+
+        /* ── preset list ── */
+        GREETINGS.forEach((g, i) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'preset';
+            b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+            b.innerHTML = '<span class="preset-title"></span><span class="preset-body"></span>';
+            b.querySelector('.preset-title').textContent = g.title;
+            b.querySelector('.preset-body').textContent = g.body;
+            b.addEventListener('click', () => {
+                studio.el.presets.querySelectorAll('.preset')
+                    .forEach((p) => p.setAttribute('aria-pressed', 'false'));
+                b.setAttribute('aria-pressed', 'true');
+                studio.el.title.value = g.title;
+                studio.el.body.value = g.body;
+                draw();
+            });
+            studio.el.presets.appendChild(b);
+        });
+        studio.el.title.value = GREETINGS[0].title;
+        studio.el.body.value = GREETINGS[0].body;
+
+        /* ── image intake: click, drag, paste ── */
+        function loadImageFile(file) {
+            if (!file || !file.type.startsWith('image/')) {
+                showToast('זה לא קובץ תמונה');
+                return;
+            }
+            const url = URL.createObjectURL(file);
+            const im = new Image();
+            im.onload = () => {
+                studio.img = im;
+                studio.el.dzTitle.textContent = 'תמונה נטענה ✓';
+                studio.el.dzSub.textContent = im.naturalWidth + '×' + im.naturalHeight + ' - לחצו להחלפה';
+                draw();
+            };
+            im.onerror = () => {
+                URL.revokeObjectURL(url);
+                showToast('לא הצלחנו לפתוח את התמונה');
+            };
+            im.src = url;
+        }
+
+        studio.el.dropzone.addEventListener('click', () => studio.el.file.click());
+        studio.el.dropzone.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); studio.el.file.click(); }
+        });
+        studio.el.file.addEventListener('change', (e) => loadImageFile(e.target.files[0]));
+
+        ['dragenter', 'dragover'].forEach((ev) =>
+            studio.el.dropzone.addEventListener(ev, (e) => {
+                e.preventDefault();
+                studio.el.dropzone.classList.add('over');
+            }));
+        ['dragleave', 'drop'].forEach((ev) =>
+            studio.el.dropzone.addEventListener(ev, (e) => {
+                e.preventDefault();
+                studio.el.dropzone.classList.remove('over');
+            }));
+        studio.el.dropzone.addEventListener('drop', (e) => {
+            if (e.dataTransfer.files.length) loadImageFile(e.dataTransfer.files[0]);
+        });
+
+        // paste straight from the AI chat — the shortest path there is
+        window.addEventListener('paste', (e) => {
+            const item = [...(e.clipboardData?.items || [])].find((i) => i.type.startsWith('image/'));
+            if (!item) return;
+            loadImageFile(item.getAsFile());
+            document.getElementById('studio').scrollIntoView({ block: 'center' });
+        });
+
+        /* ── controls ── */
+        [studio.el.title, studio.el.body, studio.el.family].forEach((el) =>
+            el.addEventListener('input', draw));
+
+        studio.el.posSeg.addEventListener('click', (e) => {
+            const b = e.target.closest('button[data-pos]');
+            if (!b) return;
+            studio.pos = b.dataset.pos;
+            studio.el.posSeg.querySelectorAll('button')
+                .forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+            draw();
+        });
+
+        // the hero field seeds the signature
+        familyInput.addEventListener('input', () => {
+            const v = (familyInput.value || '').trim();
+            if (v && !studio.el.family.dataset.touched) {
+                studio.el.family.value = 'ממשפחת ' + v;
+                draw();
+            }
+        });
+        studio.el.family.addEventListener('input', () => { studio.el.family.dataset.touched = '1'; });
+
+        /* ── canvas render ── */
+        function wrapLines(ctx, text, maxWidth) {
+            const out = [];
+            text.split('\n').forEach((para) => {
+                const words = para.trim().split(/\s+/).filter(Boolean);
+                if (!words.length) return;
+                let line = words[0];
+                for (let i = 1; i < words.length; i++) {
+                    const test = line + ' ' + words[i];
+                    if (ctx.measureText(test).width <= maxWidth) line = test;
+                    else { out.push(line); line = words[i]; }
+                }
+                out.push(line);
+            });
+            return out;
+        }
+
+        async function paint() {
+            const img = studio.img;
+            if (!img) return null;
+
+            // Heebo must be resolved before the first measureText, otherwise every
+            // width is computed against the fallback face and the wrap is wrong.
+            try {
+                await Promise.all([
+                    document.fonts.load('800 100px Heebo'),
+                    document.fonts.load('400 100px Heebo'),
+                    document.fonts.load('700 100px Heebo')
+                ]);
+                await document.fonts.ready;
+            } catch (_) { /* fall back to system face */ }
+
+            const MAX = 1600;
+            const scale = Math.min(1, MAX / Math.max(img.naturalWidth, img.naturalHeight));
+            const W = Math.round(img.naturalWidth * scale);
+            const H = Math.round(img.naturalHeight * scale);
+
+            const c = studio.el.canvas;
+            c.width = W;
+            c.height = H;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, W, H);
+            ctx.drawImage(img, 0, 0, W, H);
+
+            const title = studio.el.title.value.trim();
+            const body = studio.el.body.value.trim();
+            const family = studio.el.family.value.trim();
+            if (!title && !body && !family) return c;
+
+            const top = studio.pos === 'top';
+            const fsTitle = W * 0.072;
+            const fsBody = W * 0.036;
+            const fsFam = W * 0.032;
+            const maxW = W * 0.84;
+
+            ctx.direction = 'rtl';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+
+            ctx.font = `400 ${fsBody}px Heebo, Arial, sans-serif`;
+            const bodyLines = body ? wrapLines(ctx, body, maxW) : [];
+
+            const lhBody = fsBody * 1.5;
+            const blockH = (title ? fsTitle * 1.18 : 0)
+                + (bodyLines.length ? fsBody * 0.5 + bodyLines.length * lhBody : 0)
+                + (family ? fsFam * 1.7 : 0);
+
+            // readability scrim — a gradient, not a text shadow: shadows lose
+            // against a bright sky, a scrim never does
+            const pad = H * 0.055;
+            const scrimH = Math.min(H * 0.62, blockH + pad * 2.4);
+            const g = top
+                ? ctx.createLinearGradient(0, 0, 0, scrimH)
+                : ctx.createLinearGradient(0, H, 0, H - scrimH);
+            g.addColorStop(0, 'rgba(6,2,4,0.78)');
+            g.addColorStop(0.55, 'rgba(6,2,4,0.38)');
+            g.addColorStop(1, 'rgba(6,2,4,0)');
+            ctx.fillStyle = g;
+            ctx.fillRect(0, top ? 0 : H - scrimH, W, scrimH);
+
+            let y = top ? pad : H - pad - blockH;
+            const cx = W / 2;
+
+            if (title) {
+                ctx.font = `800 ${fsTitle}px Heebo, Arial, sans-serif`;
+                ctx.fillStyle = '#FFE9A8';
+                ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                ctx.shadowBlur = fsTitle * 0.22;
+                ctx.fillText(title, cx, y);
+                ctx.shadowBlur = 0;
+                y += fsTitle * 1.18;
+
+                // gold rule under the title
+                const rw = Math.min(maxW * 0.5, ctx.measureText(title).width * 0.8);
+                const rg = ctx.createLinearGradient(cx - rw / 2, 0, cx + rw / 2, 0);
+                rg.addColorStop(0, 'rgba(245,197,66,0)');
+                rg.addColorStop(0.5, 'rgba(245,197,66,0.95)');
+                rg.addColorStop(1, 'rgba(245,197,66,0)');
+                ctx.fillStyle = rg;
+                ctx.fillRect(cx - rw / 2, y - fsTitle * 0.28, rw, Math.max(1, W * 0.0016));
+            }
+
+            if (bodyLines.length) {
+                y += fsBody * 0.5;
+                ctx.font = `400 ${fsBody}px Heebo, Arial, sans-serif`;
+                ctx.fillStyle = '#FFF4E0';
+                ctx.shadowColor = 'rgba(0,0,0,0.55)';
+                ctx.shadowBlur = fsBody * 0.3;
+                bodyLines.forEach((ln) => { ctx.fillText(ln, cx, y); y += lhBody; });
+                ctx.shadowBlur = 0;
+            }
+
+            if (family) {
+                y += fsFam * 0.5;
+                ctx.font = `700 ${fsFam}px Heebo, Arial, sans-serif`;
+                ctx.fillStyle = '#F5C542';
+                ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                ctx.shadowBlur = fsFam * 0.3;
+                ctx.fillText(family, cx, y);
+                ctx.shadowBlur = 0;
+            }
+
+            return c;
+        }
+
+        let drawQueued = false;
+        async function draw() {
+            if (drawQueued) return;
+            drawQueued = true;
+            requestAnimationFrame(async () => {
+                drawQueued = false;
+                const c = await paint();
+                const ready = !!c;
+                studio.el.canvas.hidden = !ready;
+                studio.el.empty.hidden = ready;
+                studio.el.download.disabled = !ready;
+            });
+        }
+
+        /* Returns the finished card as a Blob. The share layer plugs in here. */
+        async function renderGreetingCard() {
+            const c = await paint();
+            if (!c) return null;
+            return new Promise((res) => c.toBlob(res, 'image/jpeg', 0.92));
+        }
+
+        studio.el.download.addEventListener('click', async () => {
+            const blob = await renderGreetingCard();
+            if (!blob) return;
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'shana-tova.jpg';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 4000);
+            showToast('הגלויה ירדה 🍎');
+            if (typeof gtag === 'function') {
+                gtag('event', 'download_card', {
+                    position: studio.pos,
+                    has_family: studio.el.family.value.trim().length > 0
+                });
+            }
         });
 
         /* ══════════════ CAMERA PUSH ON SCROLL ══════════════

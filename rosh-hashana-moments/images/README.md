@@ -44,3 +44,15 @@ page never shows a broken image if a webp is renamed or lost.
 
 `maganim-center.webp`, `oref-haifa.webp`, `shaagat-hari-logo.webp` are copies of
 the org logos in the repo root `/images`. Update both if a logo changes.
+
+## A note on the greeting
+
+The three prompts no longer ask the model to write Hebrew — they ask it to
+leave the top 25% of the frame clean. The greeting is composited in the page's
+studio section instead, so spelling is always correct and one generated image
+can produce a differently-worded card per family.
+
+`after2.webp` still carries AI-drawn lettering because it predates that change.
+It is accurate as a picture of the *finished* card, which does carry a greeting;
+regenerate it with the current prompt if you want the demo to show the clean
+pre-studio state.
