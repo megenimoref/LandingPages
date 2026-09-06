@@ -1301,15 +1301,15 @@
                 <div class="grid" id="cards">
 
                     <article class="card reveal">
-                        <h3 class="card-title">קולנועי 🎬 <span class="style-no">01</span></h3>
-                        <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון קולנועי"
+                        <h3 class="card-title">אווירת חג 🕊️ <span class="style-no">01</span></h3>
+                        <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון אווירת חג"
                             aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
                             <div class="ba-layer ba-before">
                                 <img src="images/before.webp" alt="לפני - תמונה מקורית" loading="eager" decoding="async"
                                     onerror="this.onerror=null;this.src='images/ph-before.svg'">
                             </div>
                             <div class="ba-layer ba-after">
-                                <img src="images/after1.webp" alt="אחרי - סגנון קולנועי" loading="eager"
+                                <img src="images/after1.webp" alt="אחרי - סגנון אווירת חג" loading="eager"
                                     decoding="async" onerror="this.onerror=null;this.src='images/ph-after1.svg'">
                             </div>
                             <div class="ba-slider-line"></div>
@@ -1318,11 +1318,11 @@
                             <span class="ba-label after">אחרי</span>
                         </div>
                         <div class="actions">
-                            <button class="btn btn-chatgpt" data-prompt-key="cinematic" data-target="chatgpt">🟢 צור עם
+                            <button class="btn btn-chatgpt" data-prompt-key="festive" data-target="chatgpt">🟢 צור עם
                                 ChatGPT</button>
-                            <button class="btn btn-gemini" data-prompt-key="cinematic" data-target="gemini">🔵 צור עם
+                            <button class="btn btn-gemini" data-prompt-key="festive" data-target="gemini">🔵 צור עם
                                 Gemini</button>
-                            <button class="btn btn-copy" data-prompt-key="cinematic" data-target="copy">📋 העתק פרומפט
+                            <button class="btn btn-copy" data-prompt-key="festive" data-target="copy">📋 העתק פרומפט
                                 בלבד</button>
                         </div>
                     </article>
@@ -1532,24 +1532,29 @@ Do not write any text, watermark or signature anywhere on the image.
 --no distorted faces, extra fingers, duplicated people, watermark, any text or lettering`;
 
         const PROMPTS = {
-            cinematic: {
-                chatgpt: `Edit the photo I just uploaded into a cinematic Rosh Hashana greeting image.
+            festive: {
+                chatgpt: `Edit the photo I just uploaded into a bright Rosh Hashana greeting image.
 
 ${FRAME_GPT}
-Compose top to bottom as: top ~22% open sky left completely empty, middle ~48% the people, bottom ~30% a pomegranate branch heavy with ripe fruit.
+Compose top to bottom as: top ~20% soft pale sky left completely empty, middle ~45% the people seated together, bottom ~35% a white-clothed holiday table with a shofar and a tallit clearly visible.
+
+CLOTHING - change this:
+Dress everyone in white and cream festive clothing: soft linen and knitwear, long sleeves, nothing branded, nothing patterned. Change only the clothes - faces, hair, skin and expressions stay exactly as they are in my photo.
 
 SCENE:
-Remove the original background completely and place everyone in a pomegranate orchard at dusk. Ripe fruit catches the last light, scattered seeds and a shallow honey bowl sit softly out of focus in the foreground, and Israeli hills fade into a wine-coloured sky behind them.
+Remove the original background completely and seat everyone at a holiday table in a calm, airy room with tall windows and pale stone walls, or on a bright terrace. Adults behind the table, children in front, all facing the camera with forearms resting on it.
 
-LIGHTING:
-A low warm key light from one side, deep shadows on the other, soft light rays through the branches, and a rim light along hair and shoulders. Match the lighting direction on the people to the scene and add realistic contact shadows.
+THE TABLE - keep it fully in frame:
+A crisp white linen tablecloth. On it: a ram's horn shofar lying across the front of the table, curved and spiralled, in natural cream and honey-brown horn. A white tallit prayer shawl with fine blue stripes and knotted fringes, folded softly beside it or draped over a chair back. A round braided challah, red apples in a white bowl, a glass dish of honey with a wooden dipper, and a split pomegranate. A few white flowers and small olive branches. Silver or clear glass, no gold.
 
-LOOK:
-A cinematic film still with an anamorphic feel. Crimson and molten gold, strong contrast, deep blacks, glowing highlights, fine film grain, shallow depth of field with soft bokeh behind. Blend everyone in seamlessly with no cut-out edges and matched colour temperature.
+LIGHT AND LOOK:
+Bright, clean daylight with a gentle warm cast. Airy and serene - white on white on cream, soft shadows, nothing dark or moody, no heavy contrast, no dramatic side light. Natural colour, gentle depth of field, a calm and reverent feeling rather than a cinematic one.
+
+Blend everyone in seamlessly with no cut-out edges, matched colour temperature and correct scale and perspective.
 
 ${NOTEXT_GPT}`,
 
-                gemini: `Create a high-end, cinematic Rosh Hashana greeting image using the uploaded reference image.
+                gemini: `Create a bright, serene Rosh Hashana greeting image using the uploaded reference image.
 
 CRITICAL:
 - The uploaded image MUST be the ONLY source of the people
@@ -1561,28 +1566,47 @@ OUTPUT:
 - Vertical 4:5 aspect ratio, high resolution
 - Optimized for mobile screens and WhatsApp sharing
 
-SCENE:
-- a pomegranate orchard at dusk, heavy ripe fruit catching the last light
-- deep crimson and gold palette, rich and saturated
-- a low warm key light from one side, deep shadows on the other
-- soft volumetric light rays through the branches
-- scattered pomegranate seeds and a shallow honey bowl in the foreground, out of focus
-- distant Israeli hills fading into a wine-coloured sky
+CLOTHING - CHANGE THIS:
+- dress everyone in white and cream festive clothing
+- soft linen and knitwear, long sleeves, unbranded, unpatterned
+- change ONLY the clothing; faces, hair and skin stay identical
+
+SEATING:
+- adults seated behind the table, children in front, all facing the camera
+- upper bodies clearly above the table line, forearms resting on it
+- any pet at the near edge, head raised above the tabletop
+
+THE TABLE:
+- a crisp white linen tablecloth
+- a ram's horn shofar lying across the front of the table, curved and spiralled,
+  natural cream and honey-brown horn
+- a white tallit prayer shawl with fine blue stripes and knotted corner fringes,
+  folded beside it or draped over a chair back
+- round braided challah, red apples in a white bowl, a glass dish of honey with
+  a wooden dipper, a split pomegranate
+- a few white flowers and small olive branches
+- silver or clear glass only, no gold
+- the table fills the bottom third of the frame edge to edge
+
+SETTING:
+- a calm airy room with tall windows and pale stone walls, or a bright terrace
+- soft neutral background, nothing busy
+
+LIGHT:
+- bright clean daylight with a gentle warm cast
+- soft shadows, low contrast, no dramatic side light
+- even fill so no face falls into shadow
 
 STYLE:
-- cinematic film still, anamorphic feel
-- strong contrast, deep blacks, glowing highlights, fine film grain
-- shallow depth of field with soft background bokeh
+- airy and serene, white on white on cream
+- natural colour, gentle depth of field
+- calm and reverent, NOT cinematic, NOT moody, NOT high contrast
 
 INTEGRATION:
 - seamless blending, no cut-out edges
-- match lighting direction and colour temperature to the scene
-- realistic contact shadows under and behind the people
-- cinematic rim light along hair and shoulders
-
-COMPOSITION:
-- vertical portrait layout, people slightly below centre
-- leave clean, uncluttered space at the top
+- match the daylight colour temperature across people and pets
+- realistic contact shadows where arms rest on the table
+- correct scale and perspective relative to the table
 
 ${NOTEXT_GEM}`
             },
