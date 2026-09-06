@@ -304,46 +304,60 @@ ${NOTEXT_GPT}
 Also avoid: food or drink of any kind, a table, festive decoration, and a celebratory mood.`
             },
             white: {
-                chatgpt: `${LEAD_GPT}Edit the photo into a simple white portrait for Yom Kippur.
+                chatgpt: `${LEAD_GPT}Edit the photo into a white and reverent Yom Kippur greeting image.
 
 FRAME:
 Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
-Compose top to bottom as: top ~26% empty pale background, left completely clear; middle ~56% the people; bottom ~18% empty pale background.
-Frame this as a medium shot, from the chest up, with generous quiet space around the group.
+Compose top to bottom as: top ~22% the upper courses of the stone wall and open sky, left clear of anything busy; middle ~56% the family standing together; bottom ~22% the pale stone of the plaza floor.
+Frame this as a medium shot, from the knees or waist up, with quiet space around the group.
 
 ${FRAME_GPT}
 
-CLOTHING - change this:
-Dress everyone in plain white: soft linen and cotton, long sleeves, no pattern, no branding, no jewellery. Change only the clothes - faces, hair, skin and expressions stay exactly as they are in the photo.
+CLOTHING - change all of this, and only this:
+Everyone is dressed entirely in white. Faces, hair, skin and expressions stay exactly as they are in the photo.
+- The father: a white shirt and a white prayer shawl with fine blue stripes and knotted fringes at the corners, draped over both shoulders. He holds a small plain prayer book in one hand, closed, held low and naturally at his side.
+- The boy: a white shirt and a plain white knitted kippah on the back of his head.
+- The mother and the girl: simple white dresses, long sleeves, plain fabric, no pattern and no jewellery.
+Everything is unbranded and unmarked - a plain prayer book with no title or lettering on its cover, a plain prayer shawl, no logos, no insignia, no writing on anything.
 
 SCENE:
-Remove the original background completely and replace it with a plain, softly lit pale background - warm off-white fading gently to light grey at the edges, like a quiet studio wall. Nothing else in the frame: no objects, no furniture, no decoration, no food, no drink.
+Remove the original background completely and place them standing together in the open plaza in front of an ancient limestone wall, facing the camera, close and calm.
+The wall behind them: enormous weathered ashlar blocks of warm golden Jerusalem limestone, laid in long horizontal courses, with narrow joints and a few small tufts of green growing from the cracks. It fills the background softly out of focus.
+The plaza is quiet and empty - no crowds, no chairs, no barriers, no signage, no modern buildings, no flags.
+There is NO food and NO drink anywhere in this image.
 
 LIGHT AND LOOK:
-Soft even light from the front and slightly above, the kind that leaves almost no hard shadow. Very low contrast, calm and clean. Skin tones natural and warm against the white. Restrained and reverent - not festive. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, a soft grounded shadow beneath.
+Warm late-afternoon light falling across the stone, soft and low. White on white on golden stone. Low contrast, calm and luminous, natural colour, gentle depth of field. Reverent and still - not festive, not dramatic. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, realistic contact shadows on the plaza floor.
 
 ${NOTEXT_GPT}
-Also avoid: food or drink of any kind, any object or prop, festive decoration, saturated colour, and a busy background.`,
-                gemini: `Edit the photo into a simple white portrait for Yom Kippur.
+Also avoid: food or drink of any kind, crowds or other people, signage, flags, modern buildings, any lettering on the prayer book or the prayer shawl, saturated colour, and a celebratory mood.`,
+                gemini: `Edit the photo into a white and reverent Yom Kippur greeting image.
 
 FRAME:
 Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
-Compose top to bottom as: top ~26% empty pale background, left completely clear; middle ~56% the people; bottom ~18% empty pale background.
-Frame this as a medium shot, from the chest up, with generous quiet space around the group.
+Compose top to bottom as: top ~22% the upper courses of the stone wall and open sky, left clear of anything busy; middle ~56% the family standing together; bottom ~22% the pale stone of the plaza floor.
+Frame this as a medium shot, from the knees or waist up, with quiet space around the group.
 
 ${FRAME_GPT}
 
-CLOTHING - change this:
-Dress everyone in plain white: soft linen and cotton, long sleeves, no pattern, no branding, no jewellery. Change only the clothes - faces, hair, skin and expressions stay exactly as they are in the photo.
+CLOTHING - change all of this, and only this:
+Everyone is dressed entirely in white. Faces, hair, skin and expressions stay exactly as they are in the photo.
+- The father: a white shirt and a white prayer shawl with fine blue stripes and knotted fringes at the corners, draped over both shoulders. He holds a small plain prayer book in one hand, closed, held low and naturally at his side.
+- The boy: a white shirt and a plain white knitted kippah on the back of his head.
+- The mother and the girl: simple white dresses, long sleeves, plain fabric, no pattern and no jewellery.
+Everything is unbranded and unmarked - a plain prayer book with no title or lettering on its cover, a plain prayer shawl, no logos, no insignia, no writing on anything.
 
 SCENE:
-Remove the original background completely and replace it with a plain, softly lit pale background - warm off-white fading gently to light grey at the edges, like a quiet studio wall. Nothing else in the frame: no objects, no furniture, no decoration, no food, no drink.
+Remove the original background completely and place them standing together in the open plaza in front of an ancient limestone wall, facing the camera, close and calm.
+The wall behind them: enormous weathered ashlar blocks of warm golden Jerusalem limestone, laid in long horizontal courses, with narrow joints and a few small tufts of green growing from the cracks. It fills the background softly out of focus.
+The plaza is quiet and empty - no crowds, no chairs, no barriers, no signage, no modern buildings, no flags.
+There is NO food and NO drink anywhere in this image.
 
 LIGHT AND LOOK:
-Soft even light from the front and slightly above, the kind that leaves almost no hard shadow. Very low contrast, calm and clean. Skin tones natural and warm against the white. Restrained and reverent - not festive. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, a soft grounded shadow beneath.
+Warm late-afternoon light falling across the stone, soft and low. White on white on golden stone. Low contrast, calm and luminous, natural colour, gentle depth of field. Reverent and still - not festive, not dramatic. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, realistic contact shadows on the plaza floor.
 
 ${NOTEXT_GPT}
-Also avoid: food or drink of any kind, any object or prop, festive decoration, saturated colour, and a busy background.`
+Also avoid: food or drink of any kind, crowds or other people, signage, flags, modern buildings, any lettering on the prayer book or the prayer shawl, saturated colour, and a celebratory mood.`
             },
         }
     },
