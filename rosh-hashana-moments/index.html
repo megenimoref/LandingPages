@@ -573,6 +573,45 @@
             color: var(--cream-faint);
         }
 
+        /* The one mistake that ruins the result is pasting before uploading.
+           It needs to be visible next to the buttons, not behind a dialog. */
+        .order-note {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 640px;
+            margin: 0 auto 30px;
+            padding: 14px 20px;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(245, 197, 66, 0.42);
+            background: rgba(245, 197, 66, 0.09);
+            backdrop-filter: blur(8px);
+        }
+
+        .order-note .on-icon {
+            flex: 0 0 auto;
+            font-size: 1.4rem;
+        }
+
+        .order-note p {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--gold-hot);
+            line-height: 1.5;
+        }
+
+        .order-note em {
+            display: block;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 0.82rem;
+            color: var(--cream-dim);
+        }
+
+        @media (max-width: 620px) {
+            .order-note { margin-inline: 4px; }
+        }
+
         /* ══════════════ CARDS ══════════════ */
         .examples { padding: 30px 0 20px; }
 
@@ -862,182 +901,6 @@
             font-size: 0.98rem;
             font-weight: 700;
             color: var(--cream-dim);
-        }
-
-        /* ══════════════ HANDOFF DIALOG ══════════════
-           The one failure that ruins the result is pasting before uploading:
-           the model answers a prompt about an image it has not been given. A
-           toast is too quiet to stop it, so the tab now opens from inside this
-           dialog, after the order has been spelled out.                      */
-        .modal-backdrop {
-            position: fixed;
-            inset: 0;
-            z-index: 120;
-            display: grid;
-            place-items: center;
-            padding: 20px;
-            background: rgba(6, 2, 4, 0.78);
-            backdrop-filter: blur(8px);
-            animation: fadeIn 0.25s var(--ease);
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal {
-            position: relative;
-            width: min(100%, 460px);
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 30px 26px 24px;
-            border-radius: var(--radius-lg);
-            border: 1px solid rgba(245, 197, 66, 0.4);
-            background: linear-gradient(165deg, #23070F, #12030A);
-            box-shadow: var(--shadow-deep), 0 0 60px rgba(224, 30, 55, 0.28);
-            animation: popIn 0.35s var(--ease);
-        }
-
-        @keyframes popIn {
-            from { opacity: 0; transform: translateY(18px) scale(0.97); }
-            to { opacity: 1; transform: none; }
-        }
-
-        .modal-x {
-            position: absolute;
-            top: 12px;
-            left: 14px;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            font-size: 1rem;
-            color: var(--cream-faint);
-            transition: background 0.2s var(--ease), color 0.2s var(--ease);
-        }
-
-        .modal-x:hover {
-            background: rgba(255, 244, 224, 0.1);
-            color: var(--cream);
-        }
-
-        .modal-badge {
-            display: inline-block;
-            margin-bottom: 14px;
-            padding: 6px 14px;
-            border-radius: 999px;
-            font-size: 0.76rem;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-            color: #04160E;
-            background: linear-gradient(140deg, #6EE7A8, #25D366);
-        }
-
-        .modal-badge.warn {
-            color: var(--night);
-            background: linear-gradient(140deg, var(--gold-hot), var(--honey));
-        }
-
-        .modal h3 {
-            font-size: 1.5rem;
-            font-weight: 900;
-            margin-bottom: 20px;
-            background: linear-gradient(100deg, var(--gold-hot), var(--pom-hot));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .handoff-steps {
-            list-style: none;
-            display: grid;
-            gap: 14px;
-            margin-bottom: 18px;
-        }
-
-        .handoff-steps li {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-        }
-
-        .hs-num {
-            flex: 0 0 auto;
-            display: grid;
-            place-items: center;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            font-size: 1.22rem;
-            font-weight: 900;
-            color: var(--night);
-            background: linear-gradient(145deg, var(--gold-hot), var(--pom));
-            box-shadow: 0 0 22px rgba(245, 197, 66, 0.4);
-        }
-
-        .hs-num.muted {
-            color: var(--cream-dim);
-            background: rgba(255, 244, 224, 0.1);
-            box-shadow: none;
-        }
-
-        .hs-body strong {
-            display: block;
-            font-size: 1.06rem;
-            font-weight: 800;
-            line-height: 1.35;
-        }
-
-        .hs-body span {
-            display: block;
-            font-size: 0.86rem;
-            font-weight: 300;
-            color: var(--cream-dim);
-        }
-
-        .handoff-warn {
-            margin-bottom: 20px;
-            padding: 12px 15px;
-            border-radius: var(--radius);
-            border: 1px solid rgba(245, 197, 66, 0.4);
-            background: rgba(245, 197, 66, 0.1);
-            font-size: 0.88rem;
-            font-weight: 700;
-            color: var(--gold-hot);
-        }
-
-        .modal-go {
-            width: 100%;
-            padding: 16px;
-            border-radius: var(--radius);
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: var(--night);
-            background: linear-gradient(140deg, var(--gold-hot), var(--honey));
-            box-shadow: 0 10px 30px rgba(245, 197, 66, 0.32);
-            transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
-        }
-
-        .modal-go:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 40px rgba(245, 197, 66, 0.46);
-        }
-
-        .modal-minor {
-            width: 100%;
-            margin-top: 10px;
-            padding: 11px;
-            border-radius: var(--radius);
-            font-size: 0.86rem;
-            font-weight: 700;
-            color: var(--cream-dim);
-            border: 1px solid var(--line);
-            transition: background 0.25s var(--ease), color 0.25s var(--ease);
-        }
-
-        .modal-minor:hover {
-            background: rgba(255, 244, 224, 0.07);
-            color: var(--cream);
         }
 
         /* ══════════════ GREETING STUDIO ══════════════ */
@@ -1516,6 +1379,12 @@
 
         <section class="examples">
             <div class="container">
+                <div class="order-note">
+                    <span class="on-icon" aria-hidden="true">☝️</span>
+                    <p>בצ׳אט: קודם מעלים את התמונה, ורק אחר כך מדביקים את הפרומפט
+                        <em>אם תדביקו קודם, התשובה תחזור בלי הגלויה</em>
+                    </p>
+                </div>
                 <div class="grid" id="cards">
 
                     <article class="card reveal">
@@ -1715,43 +1584,6 @@
             </div>
         </footer>
 
-    </div>
-
-    <div class="modal-backdrop" id="handoff" hidden>
-        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="hoTitle">
-            <button class="modal-x" id="hoClose" aria-label="סגירה">✕</button>
-            <span class="modal-badge" id="hoBadge">✓ הפרומפט הועתק</span>
-            <h3 id="hoTitle">רגע לפני — הסדר חשוב</h3>
-
-            <ol class="handoff-steps">
-                <li>
-                    <span class="hs-num">1</span>
-                    <div class="hs-body">
-                        <strong>קודם מעלים את התמונה</strong>
-                        <span>גררו או צרפו אותה לצ׳אט</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="hs-num">2</span>
-                    <div class="hs-body">
-                        <strong>ורק אז מדביקים <span dir="ltr">Ctrl+V</span></strong>
-                        <span>הפרומפט כבר מוכן אצלכם - הדביקו ושלחו</span>
-                    </div>
-                </li>
-                <li>
-                    <span class="hs-num muted">3</span>
-                    <div class="hs-body">
-                        <strong>חוזרים לכאן</strong>
-                        <span>מדביקים את התמונה שקיבלתם ומלבישים ברכה</span>
-                    </div>
-                </li>
-            </ol>
-
-            <p class="handoff-warn">אם תדביקו לפני שהעליתם תמונה - התשובה תחזור בלי הגלויה.</p>
-
-            <button class="modal-go" id="hoGo">פתחו את ChatGPT ←</button>
-            <button class="modal-minor" id="hoCopy">העתיקו את הפרומפט שוב</button>
-        </div>
     </div>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -2074,7 +1906,21 @@ ${NOTEXT_GEM}`
             // the copy button feeds ChatGPT far more often than Gemini
             const prompt = target === 'gemini' ? variants.gemini : variants.chatgpt;
 
-            const ok = await copyToClipboard(prompt);
+            // Start the clipboard write while the document still has focus, but do
+            // NOT await before window.open — awaiting first breaks the user-gesture
+            // chain and Safari's popup blocker kills the tab.
+            const copyPromise = copyToClipboard(prompt);
+
+            if (target !== 'copy') {
+                // A plain chat, not ChatGPT's ?q=, which auto-submits and would send
+                // an image prompt before the image has been uploaded.
+                const url = target === 'chatgpt'
+                    ? 'https://chatgpt.com/'
+                    : 'https://gemini.google.com/app';
+                window.open(url, '_blank', 'noopener');
+            }
+
+            const ok = await copyPromise;
 
             if (typeof gtag === 'function') {
                 gtag('event', 'copy_prompt', {
@@ -2086,74 +1932,11 @@ ${NOTEXT_GEM}`
 
             if (target === 'copy') {
                 showToast(ok ? 'הפרומפט הועתק 📋' : 'ההעתקה נכשלה - סמנו והעתיקו ידנית');
-                return;
+            } else if (ok) {
+                showToast('הפרומפט הועתק! בצ׳אט: קודם העלו תמונה, ורק אז הדביקו');
+            } else {
+                showToast('פתחנו את הצ׳אט - חזרו לכאן ולחצו "העתק פרומפט בלבד"');
             }
-
-            // The chat opens from the dialog's own button, not from here. That
-            // keeps the tab inside a fresh user gesture — so awaiting the
-            // clipboard above can no longer cost us the popup — and it buys the
-            // one screen where the upload-before-paste order can be stated.
-            openHandoff(target, prompt, ok);
-        });
-
-        /* ══════════════ HANDOFF DIALOG ══════════════ */
-        const handoff = {
-            el: document.getElementById('handoff'),
-            badge: document.getElementById('hoBadge'),
-            go: document.getElementById('hoGo'),
-            copy: document.getElementById('hoCopy'),
-            close: document.getElementById('hoClose'),
-            prompt: '',
-            target: 'chatgpt',
-            lastFocus: null
-        };
-
-        const TARGETS = {
-            chatgpt: { label: 'ChatGPT', url: 'https://chatgpt.com/' },
-            gemini: { label: 'Gemini', url: 'https://gemini.google.com/app' }
-        };
-
-        function openHandoff(target, prompt, copied) {
-            handoff.target = target;
-            handoff.prompt = prompt;
-            handoff.lastFocus = document.activeElement;
-
-            handoff.go.textContent = `פתחו את ${TARGETS[target].label} ←`;
-            handoff.badge.textContent = copied ? '✓ הפרומפט הועתק' : '! ההעתקה נכשלה - נסו שוב למטה';
-            handoff.badge.classList.toggle('warn', !copied);
-
-            handoff.el.hidden = false;
-            document.body.style.overflow = 'hidden';
-            handoff.go.focus();
-        }
-
-        function closeHandoff() {
-            handoff.el.hidden = true;
-            document.body.style.overflow = '';
-            if (handoff.lastFocus) handoff.lastFocus.focus();
-        }
-
-        handoff.go.addEventListener('click', () => {
-            window.open(TARGETS[handoff.target].url, '_blank', 'noopener');
-            closeHandoff();
-            showToast('קודם התמונה, אחר כך הדבקה 👆');
-            if (typeof gtag === 'function') {
-                gtag('event', 'open_chat', { target: handoff.target });
-            }
-        });
-
-        handoff.copy.addEventListener('click', async () => {
-            const ok = await copyToClipboard(handoff.prompt);
-            handoff.badge.textContent = ok ? '✓ הפרומפט הועתק' : '! ההעתקה נכשלה';
-            handoff.badge.classList.toggle('warn', !ok);
-        });
-
-        handoff.close.addEventListener('click', closeHandoff);
-        handoff.el.addEventListener('click', (e) => {
-            if (e.target === handoff.el) closeHandoff();
-        });
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !handoff.el.hidden) closeHandoff();
         });
 
         /* ══════════════ WHATSAPP SHARE ══════════════ */
