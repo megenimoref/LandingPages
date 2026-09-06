@@ -1020,28 +1020,6 @@
 
         .wiz-next:hover { transform: translateY(-2px); box-shadow: 0 12px 34px rgba(245, 197, 66, 0.45); }
 
-        /* a card is now a choice, not a launcher */
-        .card.pick { cursor: pointer; }
-
-        .pick-cta {
-            padding: 14px;
-            text-align: center;
-            font-size: 0.94rem;
-            font-weight: 800;
-            color: var(--gold-hot);
-            border-top: 1px solid var(--line);
-        }
-
-        .card.pick[aria-pressed="true"] {
-            border-color: var(--gold);
-            box-shadow: var(--shadow-deep), 0 0 42px rgba(245, 197, 66, 0.35);
-        }
-
-        .card.pick[aria-pressed="true"] .pick-cta {
-            color: var(--night);
-            background: linear-gradient(140deg, var(--gold-hot), var(--honey));
-        }
-
         @media (max-width: 620px) {
             .wiz-nav { gap: 3px; padding: 5px; }
             .wiz-tab { font-size: 0.66rem; }
@@ -1077,53 +1055,6 @@
         .wiz-lede {
             margin: 6px auto 14px;
             font-size: 0.88rem;
-        }
-
-        /* step 1: a sideways rail, so three cards cost one screen not three */
-        .wiz-step[data-step="1"] { --pick-h: min(32vh, 282px); }
-
-        .wiz-step[data-step="1"] .grid {
-            display: grid;
-            /* the base rule's explicit auto-fit template would win over
-               grid-auto-columns, stretching each card to a full 1fr */
-            grid-template-columns: none;
-            grid-auto-flow: column;
-            grid-auto-columns: calc(var(--pick-h) * 0.8);
-            justify-content: center;
-            gap: 16px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            padding-bottom: 10px;
-            scrollbar-width: thin;
-        }
-
-        .wiz-step[data-step="1"] .card {
-            scroll-snap-align: center;
-            min-width: 0;
-        }
-
-        .wiz-step[data-step="1"] .ba-compare {
-            aspect-ratio: 4 / 5;
-            height: var(--pick-h);
-        }
-
-        .wiz-step[data-step="1"] .card-title {
-            padding: 12px 14px 10px;
-            font-size: 1rem;
-        }
-
-        .wiz-step[data-step="1"] .pick-cta {
-            padding: 11px;
-            font-size: 0.86rem;
-        }
-
-        .swipe-hint {
-            display: none;
-            text-align: center;
-            margin-top: 6px;
-            font-size: 0.78rem;
-            font-weight: 300;
-            color: var(--cream-faint);
         }
 
         /* step 2: everything past the preset list is optional */
@@ -1186,18 +1117,8 @@
             .wiz-tab i { width: 22px; height: 22px; font-size: 0.72rem; }
             .wiz-step h2 { font-size: 1.18rem; }
             .wiz-lede { display: none; }
-            .swipe-hint { display: block; }
             .wiz-actions { margin-top: 12px; }
             .wiz-back, .wiz-next { padding: 12px 8px; font-size: 0.86rem; }
-
-            .wiz-step[data-step="1"] {
-                --pick-h: min(34vh, 250px);
-            }
-
-            .wiz-step[data-step="1"] .grid {
-                gap: 12px;
-                justify-content: start;
-            }
 
             .wiz-step[data-step="4"] .canvas-wrap,
             .wiz-step[data-step="4"] #cardCanvas { max-height: 18vh; }
@@ -1211,6 +1132,81 @@
             .btn-share, .btn-download { padding: 12px; font-size: 0.92rem; }
 
             .studio-panel, .wiz-panel { padding: 15px; }
+        }
+
+        /* The preview's height budget; its width follows from the 4:5 ratio,
+           so the step can never outgrow the screen. */
+        .wiz-step[data-step="1"] { --pick-h: min(30vh, 265px); }
+
+        @media (max-width: 620px) {
+            /* declared after the base value, or the cascade hands the phone
+               the desktop budget */
+            .wiz-step[data-step="1"] { --pick-h: min(27vh, 205px); }
+        }
+
+        /* ══════════════ STYLE PICKER ══════════════
+           A horizontal rail always hides something and never says so. Three
+           chips stay visible at once and only the preview swaps, so nothing
+           is off-screen and nothing has to be scrolled to be discovered. */
+        .style-chips {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 520px;
+            margin: 0 auto 16px;
+        }
+
+        .chip {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 6px 10px;
+            border-radius: var(--radius);
+            border: 1px solid var(--line);
+            background: rgba(255, 244, 224, 0.04);
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--cream-dim);
+            transition: border-color 0.25s var(--ease), background 0.25s var(--ease),
+                        color 0.25s var(--ease), transform 0.25s var(--ease);
+        }
+
+        .chip img {
+            width: 100%;
+            /* a cropped band, not the full 4:5 card — at three across, the true
+               ratio makes the chips taller than the preview they select */
+            height: clamp(62px, 9vh, 92px);
+            object-fit: cover;
+            border-radius: 9px;
+            opacity: 0.55;
+            transition: opacity 0.25s var(--ease);
+        }
+
+        .chip:hover { transform: translateY(-2px); border-color: rgba(245, 197, 66, 0.5); }
+        .chip:hover img { opacity: 0.85; }
+
+        .chip[aria-checked="true"] {
+            color: var(--night);
+            border-color: var(--gold);
+            background: linear-gradient(140deg, var(--gold-hot), var(--honey));
+            box-shadow: 0 0 26px rgba(245, 197, 66, 0.32);
+        }
+
+        .chip[aria-checked="true"] img { opacity: 1; }
+
+        .preview-wrap {
+            max-width: calc(var(--pick-h) * 0.8);
+            margin: 0 auto;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-deep);
+        }
+
+        .preview-wrap .ba-compare {
+            aspect-ratio: 4 / 5;
+            height: var(--pick-h);
         }
 
         /* ══════════════ GREETING STUDIO ══════════════ */
@@ -1652,7 +1648,6 @@
                 <span class="brand-mark">Rosh Hashana Moments</span>
                 <div class="header-logos" aria-hidden="true">
                     <img src="images/maganim-center.webp" alt="" class="brand-logo">
-                    <img src="images/shaagat-hari-logo.webp" alt="" class="brand-logo">
                     <img src="images/oref-haifa.webp" alt="" class="brand-logo">
                 </div>
             </div>
@@ -1676,68 +1671,39 @@
         <section class="wiz-step" data-step="1">
             <h2>איזה סגנון?</h2>
             <p class="wiz-lede">הזיזו את המחוון כדי לראות לפני ואחרי, ובחרו.</p>
-            <div class="grid" id="cards">
-                    <article class="card reveal pick" data-style="festive" role="button" tabindex="0" aria-pressed="false">
-                        <h3 class="card-title">חגיגי־לבן 🕊️ <span class="style-no">01</span></h3>
-                        <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון חגיגי־לבן"
-                            aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
-                            <div class="ba-layer ba-before">
-                                <img src="images/before.webp" alt="לפני - תמונה מקורית" loading="eager" decoding="async"
-                                    onerror="this.onerror=null;this.src='images/ph-before.svg'">
-                            </div>
-                            <div class="ba-layer ba-after">
-                                <img src="images/after1.webp" alt="אחרי - סגנון חגיגי־לבן" loading="eager"
-                                    decoding="async" onerror="this.onerror=null;this.src='images/ph-after1.svg'">
-                            </div>
-                            <div class="ba-slider-line"></div>
-                            <div class="ba-slider-handle">◀▶</div>
-                            <span class="ba-label before">לפני</span>
-                            <span class="ba-label after">אחרי</span>
-                        </div>
-                            <div class="pick-cta"><span>בחרו בסגנון הזה</span></div>
-                    </article>
-                    <article class="card reveal pick" data-style="royal" role="button" tabindex="0" aria-pressed="false">
-                        <h3 class="card-title">מלכותי 🍎 <span class="style-no">02</span></h3>
-                        <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון מלכותי"
-                            aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
-                            <div class="ba-layer ba-before">
-                                <img src="images/before.webp" alt="לפני - תמונה מקורית" loading="lazy" decoding="async"
-                                    onerror="this.onerror=null;this.src='images/ph-before.svg'">
-                            </div>
-                            <div class="ba-layer ba-after">
-                                <img src="images/after2.webp" alt="אחרי - סגנון מלכותי" loading="lazy" decoding="async"
-                                    onerror="this.onerror=null;this.src='images/ph-after2.svg'">
-                            </div>
-                            <div class="ba-slider-line"></div>
-                            <div class="ba-slider-handle">◀▶</div>
-                            <span class="ba-label before">לפני</span>
-                            <span class="ba-label after">אחרי</span>
-                        </div>
-                            <div class="pick-cta"><span>בחרו בסגנון הזה</span></div>
-                    </article>
-                    <article class="card reveal pick" data-style="honey" role="button" tabindex="0" aria-pressed="false">
-                        <h3 class="card-title">מאוייר 🍯 <span class="style-no">03</span></h3>
-                        <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון מאוייר"
-                            aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
-                            <div class="ba-layer ba-before">
-                                <img src="images/before.webp" alt="לפני - תמונה מקורית" loading="lazy" decoding="async"
-                                    onerror="this.onerror=null;this.src='images/ph-before.svg'">
-                            </div>
-                            <div class="ba-layer ba-after">
-                                <img src="images/after3.webp" alt="אחרי - סגנון מאוייר באקוורל" loading="lazy" decoding="async"
-                                    onerror="this.onerror=null;this.src='images/ph-after3.svg'">
-                            </div>
-                            <div class="ba-slider-line"></div>
-                            <div class="ba-slider-handle">◀▶</div>
-                            <span class="ba-label before">לפני</span>
-                            <span class="ba-label after">אחרי</span>
-                        </div>
-                            <div class="pick-cta"><span>בחרו בסגנון הזה</span></div>
-                    </article>
+            <div class="style-chips" id="styleChips" role="radiogroup" aria-label="בחירת סגנון">
+                <button type="button" class="chip" data-style="festive" role="radio" aria-checked="true">
+                    <img src="images/after1.webp" alt="" loading="eager" decoding="async">
+                    <span>חגיגי־לבן 🕊️</span>
+                </button>
+                <button type="button" class="chip" data-style="royal" role="radio" aria-checked="false">
+                    <img src="images/after2.webp" alt="" loading="eager" decoding="async">
+                    <span>מלכותי 🍎</span>
+                </button>
+                <button type="button" class="chip" data-style="honey" role="radio" aria-checked="false">
+                    <img src="images/after3.webp" alt="" loading="eager" decoding="async">
+                    <span>מאוייר 🍯</span>
+                </button>
             </div>
-            <p class="swipe-hint">← החליקו לצדדים לראות את שלושת הסגנונות →</p>
+
+            <div class="preview-wrap">
+                <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי"
+                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
+                    <div class="ba-layer ba-before">
+                        <img src="images/before.webp" alt="לפני - תמונה מקורית" loading="eager" decoding="async">
+                    </div>
+                    <div class="ba-layer ba-after">
+                        <img id="previewAfter" src="images/after1.webp" alt="אחרי" loading="eager" decoding="async">
+                    </div>
+                    <div class="ba-slider-line"></div>
+                    <div class="ba-slider-handle">◀▶</div>
+                    <span class="ba-label before">לפני</span>
+                    <span class="ba-label after">אחרי</span>
+                </div>
+            </div>
+
             <div class="wiz-actions one">
-                <button type="button" class="wiz-next" data-go="2" id="next1" disabled>לשלב 2 - בחירת ברכה ←</button>
+                <button type="button" class="wiz-next" data-go="2" id="next1">לשלב 2 - בחירת ברכה ←</button>
             </div>
         </section>
         <section class="wiz-step" data-step="2" hidden>
@@ -2619,24 +2585,21 @@ ${NOTEXT_GEM}`
 
         function pickStyle(key) {
             wiz.style = key;
-            document.querySelectorAll('.card.pick').forEach((c) =>
-                c.setAttribute('aria-pressed', String(c.dataset.style === key)));
+            document.querySelectorAll('.chip').forEach((c) =>
+                c.setAttribute('aria-checked', String(c.dataset.style === key)));
+            const after = document.getElementById('previewAfter');
+            if (after && STYLE_PREVIEW[key]) after.src = STYLE_PREVIEW[key];
             const n1 = document.getElementById('next1');
             if (n1) n1.disabled = false;
             wiz.el.tabs.forEach((t) => { t.disabled = !wizReachable(Number(t.dataset.go)); });
             saveWiz();
         }
 
-        document.getElementById('cards').addEventListener('click', (e) => {
-            const card = e.target.closest('.card.pick');
-            if (card) pickStyle(card.dataset.style);
-        });
-        document.getElementById('cards').addEventListener('keydown', (e) => {
-            if (e.key !== 'Enter' && e.key !== ' ') return;
-            const card = e.target.closest('.card.pick');
-            if (!card) return;
-            e.preventDefault();
-            pickStyle(card.dataset.style);
+        const STYLE_PREVIEW = {'festive': 'images/after1.webp', 'royal': 'images/after2.webp', 'honey': 'images/after3.webp'};
+
+        document.getElementById('styleChips').addEventListener('click', (e) => {
+            const chip = e.target.closest('.chip');
+            if (chip) pickStyle(chip.dataset.style);
         });
 
         wiz.el.root.addEventListener('click', (e) => {
@@ -2695,6 +2658,8 @@ ${NOTEXT_GEM}`
                 }));
             } catch (_) { }
         }
+
+        pickStyle('festive');          // a sensible default beats an empty first screen
 
         (function restoreWiz() {
             let d = null;
