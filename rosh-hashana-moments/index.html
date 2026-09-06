@@ -1,0 +1,1386 @@
+<!--
+  Rosh Hashana Moments — מחוז חיפה 350
+  Live:  https://megenimoref.github.io/LandingPages/rosh-hashana-moments/
+  Local: http://127.0.0.1:8080/rosh-hashana-moments/
+
+  Zero backend by design: the page never calls an image API. It personalises a
+  prompt, puts it on the clipboard and hands the user off to ChatGPT / Gemini,
+  so generation runs on the visitor's own account.
+
+  Demo images are placeholders until real ones are dropped in — see images/README.md.
+-->
+
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rosh Hashana Moments · מחוז חיפה 350 - גלויה קולנועית לראש השנה</title>
+    <meta name="description"
+        content="מעלים תמונה, מדביקים פרומפט, ומקבלים גלויה קולנועית לראש השנה תוך דקה. עובד עם ChatGPT ועם Gemini.">
+    <meta name="theme-color" content="#0B0206">
+    <link rel="canonical" href="https://megenimoref.github.io/LandingPages/rosh-hashana-moments/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="he_IL">
+    <meta property="og:site_name" content="Rosh Hashana Moments">
+    <meta property="og:url" content="https://megenimoref.github.io/LandingPages/rosh-hashana-moments/">
+    <meta property="og:title" content="מחוז חיפה 350 - הופכים תמונה לגלויה קולנועית לראש השנה 🍎">
+    <meta property="og:description"
+        content="מעלים תמונה, מדביקים פרומפט, ומקבלים גלויה מרהיבה. עובד עם ChatGPT ועם Gemini.">
+    <meta property="og:image"
+        content="https://megenimoref.github.io/LandingPages/rosh-hashana-moments/images/og-preview.webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="גלויה קולנועית לראש השנה שנוצרה ב-AI">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="מחוז חיפה 350 - גלויה קולנועית לראש השנה 🍎">
+    <meta name="twitter:description" content="מעלים תמונה, מדביקים פרומפט, ומקבלים גלויה מרהיבה.">
+    <meta name="twitter:image"
+        content="https://megenimoref.github.io/LandingPages/rosh-hashana-moments/images/og-preview.webp">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XSH19K5LBZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-XSH19K5LBZ');
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="preload" href="images/before.webp" as="image">
+    <link rel="preload" href="images/after1.webp" as="image">
+
+    <style>
+        /* ══════════════ TOKENS ══════════════ */
+        :root {
+            /* deep cinematic base */
+            --night: #0B0206;
+            --night-2: #16040C;
+            --wine: #3D0715;
+            /* signature accents — pushed hard on purpose */
+            --pom: #E01E37;
+            --pom-hot: #FF3B54;
+            --gold: #F5C542;
+            --gold-hot: #FFDE7A;
+            --gold-deep: #A87C12;
+            --honey: #FF9F1C;
+            --plum: #6A1B4D;
+            /* neutrals */
+            --cream: #FFF4E0;
+            --cream-dim: rgba(255, 244, 224, 0.66);
+            --cream-faint: rgba(255, 244, 224, 0.32);
+            --line: rgba(245, 197, 66, 0.22);
+            --glass: rgba(255, 244, 224, 0.045);
+            /* AI target brands */
+            --chatgpt: #10A37F;
+            --gemini: #4E8CF7;
+
+            --radius: 16px;
+            --radius-lg: 26px;
+            --shadow-deep: 0 30px 80px rgba(0, 0, 0, 0.6);
+            --glow-gold: 0 0 34px rgba(245, 197, 66, 0.38);
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Heebo', -apple-system, system-ui, sans-serif;
+            font-size: 17px;
+            line-height: 1.7;
+            color: var(--cream);
+            background: var(--night);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: inherit;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 3px;
+            border-radius: 8px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            white-space: nowrap;
+        }
+
+        /* ══════════════ CINEMATIC BACKDROP ══════════════ */
+        /* fixed stack: drifting aurora → film grain → vignette */
+        .bg-aurora,
+        .bg-grain,
+        .bg-vignette,
+        .motes {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-aurora {
+            background:
+                radial-gradient(52vw 52vw at 12% 6%, rgba(224, 30, 55, 0.42), transparent 62%),
+                radial-gradient(46vw 46vw at 88% 22%, rgba(106, 27, 77, 0.5), transparent 64%),
+                radial-gradient(58vw 58vw at 74% 88%, rgba(168, 124, 18, 0.3), transparent 66%),
+                radial-gradient(40vw 40vw at 20% 78%, rgba(61, 7, 21, 0.75), transparent 64%),
+                linear-gradient(160deg, var(--night) 0%, var(--night-2) 48%, #10030A 100%);
+            animation: drift 26s var(--ease) infinite alternate;
+        }
+
+        @keyframes drift {
+            0% { transform: scale(1) translate3d(0, 0, 0); }
+            100% { transform: scale(1.12) translate3d(-2%, -1.5%, 0); }
+        }
+
+        .bg-grain {
+            opacity: 0.45;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.36 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+            animation: flicker 0.9s steps(3) infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 0.45; }
+            50% { opacity: 0.34; }
+        }
+
+        .bg-vignette {
+            background: radial-gradient(120% 90% at 50% 42%, transparent 40%, rgba(0, 0, 0, 0.74) 100%);
+        }
+
+        /* floating pomegranate-seed motes */
+        .motes { overflow: hidden; }
+
+        .mote {
+            position: absolute;
+            bottom: -10vh;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--gold-hot);
+            box-shadow: 0 0 12px var(--gold);
+            opacity: 0;
+            animation: rise linear infinite;
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            12% { opacity: 0.8; }
+            86% { opacity: 0.62; }
+            100% { transform: translateY(-116vh) scale(1.15); opacity: 0; }
+        }
+
+        .page { position: relative; z-index: 2; }
+
+        /* ══════════════ HEADER ══════════════ */
+        header.brand {
+            border-bottom: 1px solid var(--line);
+            background: linear-gradient(180deg, rgba(11, 2, 6, 0.92), rgba(11, 2, 6, 0.55));
+            backdrop-filter: blur(14px);
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+
+        header.brand .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding-block: 12px;
+        }
+
+        .brand-mark {
+            font-weight: 900;
+            font-size: 0.95rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, var(--gold-hot), var(--pom-hot));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            white-space: nowrap;
+        }
+
+        .header-logos {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-logo {
+            height: 42px;
+            width: auto;
+            filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.6));
+        }
+
+        /* ══════════════ HERO ══════════════ */
+        .hero {
+            text-align: center;
+            padding: 76px 0 44px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 0.24em;
+            padding: 8px 20px;
+            border-radius: 999px;
+            color: var(--gold-hot);
+            border: 1px solid var(--line);
+            background: var(--glass);
+            backdrop-filter: blur(8px);
+            margin-bottom: 26px;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.3rem, 7.4vw, 5rem);
+            font-weight: 900;
+            line-height: 1.08;
+            letter-spacing: -0.02em;
+            max-width: 16ch;
+            margin: 0 auto;
+            background: linear-gradient(168deg, var(--cream) 4%, var(--gold-hot) 42%, var(--pom-hot) 96%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 6px 30px rgba(224, 30, 55, 0.32));
+        }
+
+        .apple {
+            display: inline-block;
+            -webkit-text-fill-color: initial;
+            color: initial;
+            animation: bob 3.4s var(--ease) infinite alternate;
+        }
+
+        @keyframes bob {
+            0% { transform: translateY(0) rotate(-5deg); }
+            100% { transform: translateY(-9px) rotate(5deg); }
+        }
+
+        .hero p.lede {
+            margin: 20px auto 0;
+            max-width: 44ch;
+            font-size: clamp(1rem, 2.5vw, 1.22rem);
+            font-weight: 300;
+            color: var(--cream-dim);
+        }
+
+        .hero-rule {
+            width: 190px;
+            height: 2px;
+            margin: 32px auto 0;
+            background: linear-gradient(90deg, transparent, var(--gold), var(--pom), transparent);
+            box-shadow: var(--glow-gold);
+        }
+
+        /* ── family name field ── */
+        .family-field {
+            max-width: 500px;
+            margin: 40px auto 0;
+            text-align: center;
+        }
+
+        .family-field label {
+            display: block;
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            color: var(--cream-dim);
+            margin-bottom: 12px;
+        }
+
+        .family-field .opt {
+            font-weight: 400;
+            color: var(--cream-faint);
+        }
+
+        .family-input {
+            width: 100%;
+            padding: 16px 22px;
+            font-size: 1.08rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--cream);
+            background: rgba(255, 244, 224, 0.06);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            backdrop-filter: blur(10px);
+            transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), background 0.3s var(--ease);
+        }
+
+        .family-input::placeholder {
+            color: var(--cream-faint);
+            font-weight: 400;
+        }
+
+        .family-input:focus {
+            border-color: var(--gold);
+            background: rgba(255, 244, 224, 0.1);
+            box-shadow: var(--glow-gold);
+            outline: none;
+        }
+
+        /* live preview of the exact line the AI will render */
+        .greeting-preview {
+            margin-top: 16px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--gold-hot);
+            min-height: 1.7em;
+            transition: opacity 0.25s var(--ease);
+        }
+
+        .greeting-preview .pre-label {
+            font-weight: 400;
+            font-size: 0.78rem;
+            color: var(--cream-faint);
+            letter-spacing: 0.1em;
+        }
+
+        .family-hint {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: var(--cream-faint);
+        }
+
+        /* ══════════════ CARDS ══════════════ */
+        .examples { padding: 30px 0 20px; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: linear-gradient(165deg, rgba(255, 244, 224, 0.07), rgba(255, 244, 224, 0.02));
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            backdrop-filter: blur(16px);
+            box-shadow: var(--shadow-deep);
+            transition: transform 0.55s var(--ease), box-shadow 0.55s var(--ease), border-color 0.55s var(--ease);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(245, 197, 66, 0.5);
+            box-shadow: var(--shadow-deep), 0 0 46px rgba(224, 30, 55, 0.26);
+        }
+
+        .card-title {
+            padding: 20px 22px 16px;
+            font-size: 1.22rem;
+            font-weight: 900;
+            letter-spacing: -0.01em;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .card-title .style-no {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            color: var(--gold-deep);
+        }
+
+        /* ══════════════ BEFORE / AFTER ══════════════ */
+        .ba-compare {
+            position: relative;
+            aspect-ratio: 4 / 5;
+            overflow: hidden;
+            cursor: col-resize;
+            user-select: none;
+            touch-action: none;
+            background: var(--wine);
+        }
+
+        .ba-compare img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .ba-compare .ba-after {
+            clip-path: inset(0 50% 0 0);
+            z-index: 2;
+        }
+
+        /* letterbox bars — the cinematic tell */
+        .ba-compare::before,
+        .ba-compare::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 26px;
+            z-index: 7;
+            pointer-events: none;
+        }
+
+        .ba-compare::before {
+            top: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.82), transparent);
+        }
+
+        .ba-compare::after {
+            bottom: 0;
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.82), transparent);
+        }
+
+        .ba-slider-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 3px;
+            z-index: 5;
+            pointer-events: none;
+            transform: translateX(-50%);
+            background: linear-gradient(180deg, var(--gold-hot), var(--pom), var(--gold-hot));
+            box-shadow: 0 0 18px rgba(245, 197, 66, 0.85);
+        }
+
+        .ba-slider-handle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            z-index: 6;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 900;
+            letter-spacing: -0.06em;
+            color: var(--night);
+            background: linear-gradient(145deg, var(--gold-hot), var(--honey));
+            border: 3px solid rgba(255, 244, 224, 0.92);
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.55), 0 0 26px rgba(245, 197, 66, 0.55);
+            pointer-events: none;
+        }
+
+        .ba-compare:focus-visible .ba-slider-handle {
+            box-shadow: 0 6px 22px rgba(0, 0, 0, 0.55), 0 0 0 6px rgba(245, 197, 66, 0.45);
+        }
+
+        .ba-label {
+            position: absolute;
+            bottom: 14px;
+            z-index: 4;
+            border-radius: 7px;
+            padding: 5px 13px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            backdrop-filter: blur(6px);
+        }
+
+        .ba-label.before {
+            right: 14px;
+            color: var(--cream);
+            background: rgba(11, 2, 6, 0.8);
+            border: 1px solid rgba(255, 244, 224, 0.2);
+        }
+
+        .ba-label.after {
+            left: 14px;
+            color: var(--night);
+            background: linear-gradient(135deg, var(--gold-hot), var(--honey));
+        }
+
+        /* ══════════════ BUTTONS ══════════════ */
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            padding: 18px;
+        }
+
+        .btn {
+            position: relative;
+            overflow: hidden;
+            padding: 14px 12px;
+            border-radius: var(--radius);
+            font-size: 0.92rem;
+            font-weight: 800;
+            text-align: center;
+            border: 1px solid transparent;
+            transition: transform 0.28s var(--ease), box-shadow 0.28s var(--ease), background 0.28s var(--ease);
+        }
+
+        /* gold shimmer sweep on hover */
+        .btn::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            transform: translateX(-120%);
+            background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+            transition: transform 0.75s var(--ease);
+        }
+
+        .btn:hover::after { transform: translateX(120%); }
+
+        .btn:hover { transform: translateY(-3px); }
+
+        .btn:active { transform: translateY(0); }
+
+        .btn-chatgpt {
+            color: #051612;
+            background: linear-gradient(140deg, #2FE0AF, var(--chatgpt));
+            box-shadow: 0 8px 26px rgba(16, 163, 127, 0.36);
+        }
+
+        .btn-chatgpt:hover { box-shadow: 0 12px 34px rgba(16, 163, 127, 0.52); }
+
+        .btn-gemini {
+            color: #04122C;
+            background: linear-gradient(140deg, #8FB6FF, var(--gemini));
+            box-shadow: 0 8px 26px rgba(78, 140, 247, 0.36);
+        }
+
+        .btn-gemini:hover { box-shadow: 0 12px 34px rgba(78, 140, 247, 0.52); }
+
+        .btn-copy {
+            grid-column: 1 / -1;
+            color: var(--gold-hot);
+            background: transparent;
+            border-color: var(--line);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .btn-copy:hover {
+            background: rgba(245, 197, 66, 0.1);
+            border-color: var(--gold);
+        }
+
+        /* ══════════════ STEPS ══════════════ */
+        .steps { padding: 66px 0 40px; }
+
+        .steps h2 {
+            text-align: center;
+            font-size: clamp(1.6rem, 4.4vw, 2.5rem);
+            font-weight: 900;
+            margin-bottom: 42px;
+            background: linear-gradient(100deg, var(--gold-hot), var(--pom-hot));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 18px;
+            position: relative;
+        }
+
+        .step {
+            text-align: center;
+            padding: 26px 16px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--line);
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            transition: transform 0.45s var(--ease), border-color 0.45s var(--ease);
+        }
+
+        .step:hover {
+            transform: translateY(-6px);
+            border-color: rgba(245, 197, 66, 0.5);
+        }
+
+        .step-num {
+            display: grid;
+            place-items: center;
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 14px;
+            border-radius: 50%;
+            font-size: 1.22rem;
+            font-weight: 900;
+            color: var(--night);
+            background: linear-gradient(145deg, var(--gold-hot), var(--pom));
+            box-shadow: 0 0 26px rgba(245, 197, 66, 0.42);
+        }
+
+        .step-text {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--cream-dim);
+        }
+
+        /* ══════════════ TIP + SHARE + FOOT ══════════════ */
+        .tip-wrap { padding: 10px 0 46px; text-align: center; }
+
+        .tip {
+            display: inline-block;
+            padding: 13px 26px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--gold-hot);
+            border: 1px dashed rgba(245, 197, 66, 0.42);
+            background: rgba(245, 197, 66, 0.07);
+        }
+
+        .share-wrap { padding-bottom: 66px; text-align: center; }
+
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 11px;
+            padding: 16px 34px;
+            border-radius: 999px;
+            font-weight: 800;
+            color: #04160E;
+            background: linear-gradient(140deg, #6EE7A8, #25D366);
+            box-shadow: 0 12px 34px rgba(37, 211, 102, 0.34);
+            transition: transform 0.28s var(--ease), box-shadow 0.28s var(--ease);
+        }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 44px rgba(37, 211, 102, 0.5);
+        }
+
+        .share-btn svg { width: 21px; height: 21px; }
+
+        .foot {
+            border-top: 1px solid var(--line);
+            padding: 34px 0 44px;
+            text-align: center;
+        }
+
+        .foot .gold {
+            font-size: 1.14rem;
+            font-weight: 900;
+            background: linear-gradient(100deg, var(--gold-hot), var(--pom-hot));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .foot .sub {
+            margin-top: 8px;
+            font-size: 0.78rem;
+            font-weight: 300;
+            color: var(--cream-faint);
+        }
+
+        /* ══════════════ TOAST ══════════════ */
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 28px;
+            transform: translate(-50%, 130%);
+            z-index: 100;
+            max-width: min(92vw, 460px);
+            padding: 15px 26px;
+            border-radius: var(--radius);
+            font-size: 0.92rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--night);
+            background: linear-gradient(140deg, var(--gold-hot), var(--honey));
+            box-shadow: 0 18px 50px rgba(0, 0, 0, 0.62);
+            transition: transform 0.5s var(--ease), opacity 0.5s var(--ease);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translate(-50%, 0);
+            opacity: 1;
+        }
+
+        /* ══════════════ REVEAL ══════════════ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(46px) rotateX(9deg);
+            transform-origin: bottom center;
+            transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ══════════════ RESPONSIVE ══════════════ */
+        @media (max-width: 620px) {
+            body { font-size: 16px; }
+            .hero { padding: 46px 0 30px; }
+            .brand-logo { height: 34px; }
+            .header-logos { gap: 8px; }
+            .grid { gap: 22px; }
+            .actions { grid-template-columns: 1fr; }
+
+            /* the wordmark's wide tracking overflows a 375px viewport — tighten it */
+            .brand-mark {
+                font-size: 0.66rem;
+                letter-spacing: 0.08em;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .brand-mark { display: none; }
+        }
+
+        /* ══════════════ REDUCED MOTION ══════════════ */
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+
+            .bg-aurora,
+            .bg-grain,
+            .apple,
+            .mote {
+                animation: none !important;
+            }
+
+            .motes { display: none; }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
+
+            *, *::before, *::after {
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-aurora" aria-hidden="true"></div>
+    <div class="bg-grain" aria-hidden="true"></div>
+    <div class="bg-vignette" aria-hidden="true"></div>
+    <div class="motes" id="motes" aria-hidden="true"></div>
+
+    <div class="page">
+
+        <header class="brand">
+            <div class="container">
+                <span class="brand-mark">Rosh Hashana Moments</span>
+                <div class="header-logos" aria-hidden="true">
+                    <img src="images/maganim-center.webp" alt="" class="brand-logo">
+                    <img src="images/shaagat-hari-logo.webp" alt="" class="brand-logo">
+                    <img src="images/oref-haifa.webp" alt="" class="brand-logo">
+                </div>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="container">
+                <span class="hero-tag">ראש השנה · תשפ״ז</span>
+                <h1>תוך דקה - הופכים תמונה לגלויה קולנועית <span class="apple" aria-hidden="true">🍎</span></h1>
+                <p class="lede">מעלים תמונה, מדביקים פרומפט, ומקבלים גלויה מרהיבה שנראית כאילו צולמה באולפן</p>
+                <div class="hero-rule"></div>
+
+                <div class="family-field">
+                    <label for="familyName">שם המשפחה שלכם <span class="opt">(אופציונלי)</span></label>
+                    <input id="familyName" class="family-input" type="text" maxlength="40" autocomplete="family-name"
+                        placeholder="לדוגמה: לוי" aria-describedby="familyHint">
+                    <p class="greeting-preview" id="greetingPreview" aria-live="polite">
+                        <span class="pre-label">ייכתב על התמונה:</span><br><span id="greetingText"></span>
+                    </p>
+                    <p id="familyHint" class="family-hint">לפעמים העברית בתמונה יוצאת לא מושלמת - אפשר תמיד לנסות שוב 🙌
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="examples">
+            <div class="container">
+                <div class="grid" id="cards">
+
+                    <article class="card reveal">
+                        <h3 class="card-title">קולנועי 🎬 <span class="style-no">01</span></h3>
+                        <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון קולנועי"
+                            aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
+                            <img class="ba-before" src="images/before.webp" alt="לפני - תמונה מקורית" loading="eager"
+                                decoding="async" onerror="this.onerror=null;this.src='images/ph-before.svg'">
+                            <img class="ba-after" src="images/after1.webp" alt="אחרי - סגנון קולנועי" loading="eager"
+                                decoding="async" onerror="this.onerror=null;this.src='images/ph-after1.svg'">
+                            <div class="ba-slider-line"></div>
+                            <div class="ba-slider-handle">◀▶</div>
+                            <span class="ba-label before">לפני</span>
+                            <span class="ba-label after">אחרי</span>
+                        </div>
+                        <div class="actions">
+                            <button class="btn btn-chatgpt" data-prompt-key="cinematic" data-target="chatgpt">🟢 צור עם
+                                ChatGPT</button>
+                            <button class="btn btn-gemini" data-prompt-key="cinematic" data-target="gemini">🔵 צור עם
+                                Gemini</button>
+                            <button class="btn btn-copy" data-prompt-key="cinematic" data-target="copy">📋 העתק פרומפט
+                                בלבד</button>
+                        </div>
+                    </article>
+
+                    <article class="card reveal">
+                        <h3 class="card-title">מלכותי 🍎 <span class="style-no">02</span></h3>
+                        <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון מלכותי"
+                            aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
+                            <img class="ba-before" src="images/before.webp" alt="לפני - תמונה מקורית" loading="lazy"
+                                decoding="async" onerror="this.onerror=null;this.src='images/ph-before.svg'">
+                            <img class="ba-after" src="images/after2.webp" alt="אחרי - סגנון מלכותי" loading="lazy"
+                                decoding="async" onerror="this.onerror=null;this.src='images/ph-after2.svg'">
+                            <div class="ba-slider-line"></div>
+                            <div class="ba-slider-handle">◀▶</div>
+                            <span class="ba-label before">לפני</span>
+                            <span class="ba-label after">אחרי</span>
+                        </div>
+                        <div class="actions">
+                            <button class="btn btn-chatgpt" data-prompt-key="royal" data-target="chatgpt">🟢 צור עם
+                                ChatGPT</button>
+                            <button class="btn btn-gemini" data-prompt-key="royal" data-target="gemini">🔵 צור עם
+                                Gemini</button>
+                            <button class="btn btn-copy" data-prompt-key="royal" data-target="copy">📋 העתק פרומפט
+                                בלבד</button>
+                        </div>
+                    </article>
+
+                    <article class="card reveal">
+                        <h3 class="card-title">זהוב 🍯 <span class="style-no">03</span></h3>
+                        <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון זהוב"
+                            aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
+                            <img class="ba-before" src="images/before.webp" alt="לפני - תמונה מקורית" loading="lazy"
+                                decoding="async" onerror="this.onerror=null;this.src='images/ph-before.svg'">
+                            <img class="ba-after" src="images/after3.webp" alt="אחרי - סגנון זהוב" loading="lazy"
+                                decoding="async" onerror="this.onerror=null;this.src='images/ph-after3.svg'">
+                            <div class="ba-slider-line"></div>
+                            <div class="ba-slider-handle">◀▶</div>
+                            <span class="ba-label before">לפני</span>
+                            <span class="ba-label after">אחרי</span>
+                        </div>
+                        <div class="actions">
+                            <button class="btn btn-chatgpt" data-prompt-key="golden" data-target="chatgpt">🟢 צור עם
+                                ChatGPT</button>
+                            <button class="btn btn-gemini" data-prompt-key="golden" data-target="gemini">🔵 צור עם
+                                Gemini</button>
+                            <button class="btn btn-copy" data-prompt-key="golden" data-target="copy">📋 העתק פרומפט
+                                בלבד</button>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="steps">
+            <div class="container">
+                <h2>תוך דקה זה מוכן</h2>
+                <div class="steps-grid">
+                    <div class="step reveal"><span class="step-num">1</span><span class="step-text">לוחצים על
+                            כפתור</span></div>
+                    <div class="step reveal"><span class="step-num">2</span><span class="step-text">מעלים תמונה
+                            לצ׳אט</span></div>
+                    <div class="step reveal"><span class="step-num">3</span><span class="step-text">מדביקים את הפרומפט
+                            (Ctrl+V)</span></div>
+                    <div class="step reveal"><span class="step-num">4</span><span class="step-text">מקבלים גלויה
+                            מוכנה</span></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="tip-wrap">
+            <div class="container">
+                <span class="tip">לתוצאה הכי טובה - העלו תמונה באור טוב, והעלו אותה לפני שמדביקים 🙌</span>
+            </div>
+        </div>
+
+        <div class="share-wrap">
+            <div class="container">
+                <a id="shareWa" class="share-btn" href="https://wa.me/?text=" target="_blank" rel="noopener"
+                    aria-label="שתפו ב-WhatsApp">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path
+                            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                    </svg>
+                    שתפו ב־WhatsApp
+                </a>
+            </div>
+        </div>
+
+        <footer class="foot">
+            <div class="container">
+                <div class="gold">שנה טובה ומתוקה 🍎🍯</div>
+                <div class="sub">מרכז חוסן קהילתי · מחוז חיפה 350</div>
+            </div>
+        </footer>
+
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+        /* ══════════════ PROMPTS ══════════════
+           All three are written to the same depth on purpose — a thin third
+           template produces visibly worse output than its siblings.
+           __GREETING__ is substituted at click time.                        */
+
+        const PROMPT_CINEMATIC = `Create a high-end, cinematic Rosh Hashana greeting image using the uploaded reference image.
+
+CRITICAL:
+- The uploaded image MUST be the ONLY source of the people
+- STRICT identity preservation - do NOT change faces, expressions, or facial structure
+- Do NOT generate new people, do NOT add or remove anyone
+
+OUTPUT:
+- Vertical 4:5 aspect ratio
+- High resolution (minimum 2048x2560)
+- Optimized for mobile screens and WhatsApp sharing
+
+TASK:
+Carefully extract the people from the reference image and remove the original background completely.
+Place them into a dramatic, cinematic Israeli Rosh Hashana scene.
+
+SCENE:
+- a pomegranate orchard at dusk, heavy ripe fruit catching the last light
+- deep crimson and gold colour palette, rich and saturated
+- a low warm key light from one side, deep shadows on the other
+- soft volumetric light rays through the branches
+- scattered pomegranate seeds and a shallow honey bowl in the foreground (subtle, out of focus)
+- distant Israeli hills fading into a wine-coloured sky
+
+STYLE:
+- cinematic film still, anamorphic feel
+- teal-and-orange grade pushed toward crimson and molten gold
+- strong contrast, deep blacks, glowing highlights
+- fine film grain
+- shallow depth of field with soft background bokeh
+
+PEOPLE:
+- preserve exact identity and faces
+- keep natural expressions (do NOT exaggerate smiles)
+- maintain realistic proportions
+- add cinematic rim light along hair and shoulders
+- keep clothing natural, deepen tones slightly toward burgundy and cream
+
+INTEGRATION:
+- seamless blending, no cut-out edges
+- match lighting direction and colour temperature to the scene
+- realistic contact shadows under and behind the people
+- subtle ambient light wrap around edges
+
+COMPOSITION:
+- vertical portrait layout
+- people placed slightly below centre
+- leave clean, uncluttered space at the top for text
+
+TEXT:
+Render this Hebrew line on the image, exactly as written, spelled correctly:
+"__GREETING__"
+
+TEXT STYLE:
+- elegant serif Hebrew lettering
+- warm gold or cream, with a soft glow for readability
+- centred at the top, not touching the edges
+
+GOAL:
+A dramatic, emotional Rosh Hashana family portrait that looks like a frame from a feature film - premium, warm and personal.
+
+--no distorted faces, extra fingers, text errors, duplicated people, watermark`;
+
+        const PROMPT_ROYAL = `Create a rich, opulent Rosh Hashana greeting image using the uploaded reference image.
+
+CRITICAL:
+- The uploaded image MUST be the ONLY source of the people
+- STRICT identity preservation - do NOT change faces, expressions, or facial structure
+- Do NOT generate new people
+
+OUTPUT:
+- Vertical 4:5 aspect ratio
+- High resolution (minimum 2048x2560)
+- Optimized for mobile screens and WhatsApp sharing
+
+TASK:
+Extract the people from the reference image, remove the original background completely,
+and place them at a lavish Rosh Hashana holiday table.
+
+SCENE:
+- a festive evening table set for the holiday
+- polished apples, a honey jar with a dipper, split pomegranates showing seeds
+- round challah, brass candlesticks with lit candles
+- deep burgundy textile, gold accents, dark wood
+- warm candlelight as the main light source, glowing and intimate
+
+STYLE:
+- opulent and painterly, close to a classical oil portrait but still photographic
+- saturated jewel tones: crimson, gold, deep plum, bronze
+- strong chiaroscuro - bright faces against a dark, rich background
+- luxurious texture on fabric and fruit
+
+PEOPLE:
+- preserve exact identity and faces
+- keep natural expressions
+- maintain realistic proportions
+- warm candlelight falling on faces from the table level
+- clothing shifted subtly toward festive burgundy, cream and gold
+
+INTEGRATION:
+- seamless blending, no cut-out edges
+- match the candlelight direction and warm colour temperature
+- realistic reflected light and soft shadows
+- correct scale and perspective relative to the table
+
+COMPOSITION:
+- vertical portrait layout
+- people behind and around the table, slightly below centre
+- leave clean, uncluttered space at the top for text
+
+TEXT:
+Render this Hebrew line on the image, exactly as written, spelled correctly:
+"__GREETING__"
+
+TEXT STYLE:
+- ornate but legible Hebrew lettering
+- gold or warm cream, with a subtle drop shadow
+- centred at the top, not touching the edges
+
+GOAL:
+A warm, regal Rosh Hashana family portrait that feels like a treasured heirloom photograph.
+
+--no distorted faces, extra fingers, text errors, duplicated people, watermark`;
+
+        const PROMPT_GOLDEN = `Create a photorealistic Rosh Hashana greeting image using the uploaded reference image.
+
+CRITICAL:
+- The uploaded image MUST be the ONLY source of the people
+- STRICT identity preservation - do NOT change faces, expressions, proportions, or facial structure
+- Do NOT generate new people
+- The result should look like a real photograph, not an AI image
+
+OUTPUT:
+- Vertical 4:5 aspect ratio
+- High resolution (minimum 2048x2560)
+- Optimized for mobile screens and WhatsApp sharing
+
+TASK:
+Extract the people precisely from the reference image, remove the original background completely,
+and place them outdoors in the Israeli landscape at golden hour.
+
+SCENE:
+- an open Israeli hillside in early autumn, dry golden grass and green scrub
+- a pomegranate tree with ripe fruit at one side of the frame
+- low golden sunlight just before sunset, long warm light
+- soft haze and glowing dust in the air
+- natural horizon, wide open sky in warm amber tones
+
+LIGHTING:
+- strong warm backlight creating a rim of light on hair and shoulders
+- soft bounced fill on the faces so no detail is lost in shadow
+- consistent shadow direction across every person
+- realistic ground contact shadows (critical)
+
+STYLE:
+- photorealistic, natural, editorial quality
+- warm golden grade with rich but believable saturation
+- gentle lens flare from the sun, no artificial glow
+- shallow depth of field, background softly blurred
+
+PEOPLE:
+- keep exact identity and facial detail
+- natural relaxed posture, no exaggeration
+- keep original clothing, brightened very slightly toward warm festive tones
+
+INTEGRATION:
+- seamless blending, no cut-out edges
+- colour grade the people to match the environment
+- add ambient light wrap around the edges
+- correct scale and perspective relative to the landscape
+
+COMPOSITION:
+- vertical portrait layout
+- people placed slightly below centre
+- balanced and airy, leave clean space at the top for text
+
+TEXT:
+Render this Hebrew line on the image, exactly as written, spelled correctly:
+"__GREETING__"
+
+TEXT STYLE:
+- clean, elegant Hebrew font
+- white or soft cream with a slight shadow for readability
+- centred at the top, not touching the edges
+
+GOAL:
+A natural, luminous family photograph taken in Israel at golden hour before Rosh Hashana - warm, authentic and emotionally true.
+
+--no distorted faces, extra fingers, text errors, duplicated people, watermark`;
+
+        const PROMPTS = {
+            cinematic: PROMPT_CINEMATIC,
+            royal: PROMPT_ROYAL,
+            golden: PROMPT_GOLDEN
+        };
+
+        /* ══════════════ PERSONAL GREETING ══════════════ */
+        const FAMILY_STORAGE_KEY = 'roshHashana:familyName';
+        const familyInput = document.getElementById('familyName');
+        const greetingText = document.getElementById('greetingText');
+
+        try {
+            const saved = localStorage.getItem(FAMILY_STORAGE_KEY);
+            if (saved) familyInput.value = saved;
+        } catch (_) { /* localStorage blocked — not critical */ }
+
+        function buildGreeting() {
+            const raw = (familyInput.value || '').trim();
+            // strip quote characters that would terminate the prompt string early
+            const clean = raw.replace(/["'׳״`]/g, '').slice(0, 40);
+            if (!clean) return 'שנה טובה ומתוקה';
+            return `שנה טובה ומתוקה · ממשפחת ${clean}`;
+        }
+
+        function renderPreview() {
+            greetingText.textContent = buildGreeting();
+        }
+
+        familyInput.addEventListener('input', () => {
+            renderPreview();
+            try { localStorage.setItem(FAMILY_STORAGE_KEY, familyInput.value); } catch (_) { }
+        });
+        renderPreview();
+
+        function personalizePrompt(prompt) {
+            return prompt.replace(/__GREETING__/g, buildGreeting());
+        }
+
+        /* ══════════════ CLIPBOARD ══════════════ */
+        async function copyToClipboard(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                return true;
+            } catch (_) {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                ta.setAttribute('readonly', '');
+                document.body.appendChild(ta);
+                ta.select();
+                let ok = false;
+                try { ok = document.execCommand('copy'); } catch (_) { ok = false; }
+                document.body.removeChild(ta);
+                return ok;
+            }
+        }
+
+        /* ══════════════ TOAST ══════════════ */
+        let toastTimer = null;
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => t.classList.remove('show'), 4200);
+        }
+
+        /* ══════════════ BUTTON HANDLER (delegated) ══════════════ */
+        document.getElementById('cards').addEventListener('click', async (e) => {
+            const btn = e.target.closest('button[data-prompt-key]');
+            if (!btn) return;
+            const key = btn.dataset.promptKey;
+            const target = btn.dataset.target;
+            const basePrompt = PROMPTS[key];
+            if (!basePrompt) return;
+            const prompt = personalizePrompt(basePrompt);
+
+            // Start the clipboard write while the document still has focus, but do NOT
+            // await before window.open — awaiting first breaks the user-gesture chain
+            // and Safari's popup blocker kills the new tab.
+            const copyPromise = copyToClipboard(prompt);
+
+            if (target !== 'copy') {
+                // Both targets open a plain chat. ChatGPT's ?q= parameter auto-submits,
+                // which would send an image prompt before the image is uploaded.
+                const url = target === 'chatgpt'
+                    ? 'https://chatgpt.com/'
+                    : 'https://gemini.google.com/app';
+                window.open(url, '_blank', 'noopener');
+            }
+
+            const ok = await copyPromise;
+
+            if (typeof gtag === 'function') {
+                gtag('event', 'copy_prompt', {
+                    template: key,
+                    target: target,
+                    has_family_name: (familyInput.value || '').trim().length > 0
+                });
+            }
+
+            if (target === 'copy') {
+                showToast(ok ? 'הפרומפט הועתק 📋' : 'ההעתקה נכשלה - סמנו והעתיקו ידנית');
+            } else if (ok) {
+                showToast('הפרומפט הועתק! העלו תמונה ואז הדביקו (Ctrl+V) 👇');
+            } else {
+                showToast('פתחנו את הצ׳אט - חזרו לכאן ולחצו "העתק פרומפט בלבד"');
+            }
+        });
+
+        /* ══════════════ WHATSAPP SHARE ══════════════ */
+        const shareBtn = document.getElementById('shareWa');
+        if (shareBtn) {
+            const shareMsg = 'תוך דקה - הופכים תמונה לגלויה קולנועית לראש השנה 🍎\n' + window.location.href;
+            shareBtn.href = 'https://wa.me/?text=' + encodeURIComponent(shareMsg);
+            shareBtn.addEventListener('click', () => {
+                if (typeof gtag === 'function') {
+                    gtag('event', 'share', { method: 'whatsapp', content_type: 'page' });
+                }
+            });
+        }
+
+        /* ══════════════ REVEAL ON SCROLL ══════════════ */
+        const reveals = document.querySelectorAll('.reveal');
+        const revealIO = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                const el = entry.target;
+                const peers = Array.from(el.parentElement.querySelectorAll('.reveal'));
+                el.style.transitionDelay = (peers.indexOf(el) * 130) + 'ms';
+                el.classList.add('visible');
+                revealIO.unobserve(el);
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        reveals.forEach((el) => revealIO.observe(el));
+
+        /* ══════════════ BEFORE / AFTER SLIDER ══════════════
+           Pointer Events cover mouse, touch and pen in one path.
+           Keyboard: arrows nudge, Home/End jump — the slider is focusable
+           and exposes role="slider" so it is usable without a pointer.     */
+        function setSlider(el, pct) {
+            pct = Math.max(0, Math.min(100, pct));
+            el.querySelector('.ba-after').style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+            el.querySelector('.ba-slider-line').style.left = pct + '%';
+            el.querySelector('.ba-slider-handle').style.left = pct + '%';
+            const rounded = Math.round(pct);
+            el.setAttribute('aria-valuenow', rounded);
+            el.setAttribute('aria-valuetext', rounded + ' אחוז');
+        }
+
+        function pctFromEvent(el, e) {
+            const rect = el.getBoundingClientRect();
+            return ((e.clientX - rect.left) / rect.width) * 100;
+        }
+
+        document.querySelectorAll('[data-ba]').forEach((el) => {
+            el.addEventListener('pointerdown', (e) => {
+                e.preventDefault();
+                el.setPointerCapture(e.pointerId);
+                setSlider(el, pctFromEvent(el, e));
+            });
+
+            el.addEventListener('pointermove', (e) => {
+                if (!el.hasPointerCapture(e.pointerId)) return;
+                e.preventDefault();
+                setSlider(el, pctFromEvent(el, e));
+            });
+
+            const release = (e) => {
+                if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+            };
+            el.addEventListener('pointerup', release);
+            el.addEventListener('pointercancel', release);
+
+            el.addEventListener('keydown', (e) => {
+                const now = parseFloat(el.getAttribute('aria-valuenow')) || 50;
+                const step = e.shiftKey ? 10 : 4;
+                let next = null;
+                // RTL: ArrowRight moves the handle right on screen either way
+                if (e.key === 'ArrowRight' || e.key === 'ArrowUp') next = now + step;
+                else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') next = now - step;
+                else if (e.key === 'Home') next = 0;
+                else if (e.key === 'End') next = 100;
+                if (next === null) return;
+                e.preventDefault();
+                setSlider(el, next);
+            });
+        });
+
+        /* ══════════════ FLOATING MOTES ══════════════ */
+        (function seedMotes() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            const host = document.getElementById('motes');
+            const frag = document.createDocumentFragment();
+            for (let i = 0; i < 22; i++) {
+                const m = document.createElement('span');
+                m.className = 'mote';
+                m.style.left = Math.random() * 100 + '%';
+                m.style.animationDuration = (13 + Math.random() * 16) + 's';
+                m.style.animationDelay = (Math.random() * -26) + 's';
+                const size = 3 + Math.random() * 5;
+                m.style.width = m.style.height = size + 'px';
+                if (i % 3 === 0) {
+                    m.style.background = 'var(--pom-hot)';
+                    m.style.boxShadow = '0 0 12px var(--pom)';
+                }
+                frag.appendChild(m);
+            }
+            host.appendChild(frag);
+        })();
+    </script>
+
+</body>
+
+</html>
