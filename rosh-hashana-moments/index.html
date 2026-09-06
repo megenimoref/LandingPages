@@ -1084,6 +1084,9 @@
 
         .wiz-step[data-step="1"] .grid {
             display: grid;
+            /* the base rule's explicit auto-fit template would win over
+               grid-auto-columns, stretching each card to a full 1fr */
+            grid-template-columns: none;
             grid-auto-flow: column;
             grid-auto-columns: calc(var(--pick-h) * 0.8);
             justify-content: center;
