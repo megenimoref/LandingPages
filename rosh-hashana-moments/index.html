@@ -1006,6 +1006,15 @@
             color: var(--cream-faint);
         }
 
+        .dropzone.pulse {
+            animation: dzPulse 1.1s var(--ease) 3;
+        }
+
+        @keyframes dzPulse {
+            0%, 100% { border-color: rgba(245, 197, 66, 0.4); box-shadow: none; }
+            50% { border-color: var(--gold); box-shadow: 0 0 0 8px rgba(245, 197, 66, 0.16); }
+        }
+
         /* ── preset blessings ── */
         .presets {
             display: grid;
@@ -1600,12 +1609,28 @@
            Gemini follows the structured, sectioned form more closely.
            Neither writes Hebrew — the greeting is composited in the studio.  */
 
+        /* ChatGPT's ?q= sends the prompt the moment the tab opens. That used to
+           be a reason to avoid it — an image prompt arriving before the image
+           is useless. Announcing the photo up front turns it into the point:
+           the prompt is already in the chat and the visitor only drops a file.
+           The reply doubles as the instruction, in Hebrew, inside the chat. */
+        const LEAD_GPT = `I am going to upload one photo in my next message. Do NOT generate, draw or describe anything yet — wait for that photo to arrive.
+
+When it does, edit it exactly as specified below.
+
+Right now, reply with nothing except this line:
+מוכן! עכשיו העלו את התמונה 📸
+
+--- INSTRUCTIONS FOR WHEN THE PHOTO ARRIVES ---
+
+`;
+
         const FRAME_GPT = `FRAME:
 Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
 Frame this as a medium shot, not a close-up. Nothing important may be cut off by the edges.
 
 SUBJECTS:
-Use my uploaded photo as the only source for the people. Keep every face exactly as it is - same features, same expressions, same proportions. If there are pets in the photo keep them too, with the same face and the same coat. Do not add or remove anyone.`;
+Use the photo as the only source for the people. Keep every face exactly as it is - same features, same expressions, same proportions. If there are pets in the photo keep them too, with the same face and the same coat. Do not add or remove anyone.`;
 
         const NOTEXT_GPT = `NO TEXT - this is important:
 Do not write any words, letters, Hebrew, numbers, watermark, logo or signature anywhere on the image. The top of the frame must stay clean and open with nothing in it - no lettering, no ornament, no branches crossing into it. Lettering is added separately afterwards, so anything you draw there would have to be covered over.
@@ -1621,13 +1646,13 @@ Do not write any text, watermark or signature anywhere on the image.
 
         const PROMPTS = {
             festive: {
-                chatgpt: `Edit the photo I just uploaded into a bright Rosh Hashana greeting image.
+                chatgpt: `${LEAD_GPT}Edit the photo into a bright Rosh Hashana greeting image.
 
 ${FRAME_GPT}
 Compose top to bottom as: top ~20% soft pale sky left completely empty, middle ~45% the people seated together, bottom ~35% a white-clothed holiday table with a shofar and a tallit clearly visible.
 
 CLOTHING - change this:
-Dress everyone in white and cream festive clothing: soft linen and knitwear, long sleeves, nothing branded, nothing patterned. Change only the clothes - faces, hair, skin and expressions stay exactly as they are in my photo.
+Dress everyone in white and cream festive clothing: soft linen and knitwear, long sleeves, nothing branded, nothing patterned. Change only the clothes - faces, hair, skin and expressions stay exactly as they are in the photo.
 
 SCENE:
 Remove the original background completely and seat everyone at a holiday table in a calm, airy room with tall windows and pale stone walls, or on a bright terrace. Adults behind the table, children in front, all facing the camera with forearms resting on it.
@@ -1704,7 +1729,7 @@ ${NOTEXT_GEM}
             },
 
             royal: {
-                chatgpt: `Edit the photo I just uploaded into a Rosh Hashana holiday-table greeting image.
+                chatgpt: `${LEAD_GPT}Edit the photo into a Rosh Hashana holiday-table greeting image.
 
 ${FRAME_GPT}
 Compose top to bottom as: top ~20% open sky left completely empty, middle ~45% the people seated together, bottom ~35% the holiday table with its full setting clearly visible.
@@ -1768,7 +1793,7 @@ ${NOTEXT_GEM}`
             },
 
             honey: {
-                chatgpt: `Turn the photo I just uploaded into a hand-painted Rosh Hashana storybook illustration.
+                chatgpt: `${LEAD_GPT}Turn the photo into a hand-painted Rosh Hashana storybook illustration.
 
 FRAME:
 Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
@@ -1781,7 +1806,7 @@ Hand-drawn and gentle - absolutely not 3D, not Pixar, not digital vector art, no
 Leave generous quiet space; the composition should feel airy, not crowded.
 
 SUBJECTS:
-Use my uploaded photo as the reference for who is in the scene. Redraw everyone as storybook characters but keep each one clearly recognisable - same hair colour and shape, same rough ages, same warm expressions, the same closeness between them. Simple, softly drawn faces with a few confident lines; not caricatures. Keep any pets in the photo, drawn in the same style with the same colouring.
+Use the photo as the reference for who is in the scene. Redraw everyone as storybook characters but keep each one clearly recognisable - same hair colour and shape, same rough ages, same warm expressions, the same closeness between them. Simple, softly drawn faces with a few confident lines; not caricatures. Keep any pets in the photo, drawn in the same style with the same colouring.
 
 SCENE:
 The family sits together in the grass under a large old tree at the edge of a meadow on a mild honey-coloured afternoon.
@@ -1912,12 +1937,13 @@ ${NOTEXT_GEM}`
             const copyPromise = copyToClipboard(prompt);
 
             if (target !== 'copy') {
-                // A plain chat, not ChatGPT's ?q=, which auto-submits and would send
-                // an image prompt before the image has been uploaded.
+                // Gemini has no prompt parameter, so it still opens blank and the
+                // visitor pastes. ChatGPT gets the prompt in the URL.
                 const url = target === 'chatgpt'
-                    ? 'https://chatgpt.com/'
+                    ? 'https://chatgpt.com/?q=' + encodeURIComponent(prompt)
                     : 'https://gemini.google.com/app';
                 window.open(url, '_blank', 'noopener');
+                markLeftForChat();
             }
 
             const ok = await copyPromise;
@@ -1932,12 +1958,15 @@ ${NOTEXT_GEM}`
 
             if (target === 'copy') {
                 showToast(ok ? 'הפרומפט הועתק 📋' : 'ההעתקה נכשלה - סמנו והעתיקו ידנית');
+            } else if (target === 'chatgpt') {
+                showToast('הפרומפט כבר בצ׳אט - פשוט העלו את התמונה 📸');
             } else if (ok) {
-                showToast('הפרומפט הועתק! בצ׳אט: קודם העלו תמונה, ורק אז הדביקו');
+                showToast('הפרומפט הועתק! הדביקו ב-Gemini והעלו תמונה');
             } else {
                 showToast('פתחנו את הצ׳אט - חזרו לכאן ולחצו "העתק פרומפט בלבד"');
             }
         });
+
 
         /* ══════════════ WHATSAPP SHARE ══════════════ */
         const shareBtn = document.getElementById('shareWa');
@@ -2114,6 +2143,7 @@ ${NOTEXT_GEM}`
             const im = new Image();
             im.onload = () => {
                 studio.img = im;
+                studio.el.dropzone.classList.remove('pulse');
                 studio.el.dzTitle.textContent = 'תמונה נטענה ✓';
                 studio.el.dzSub.textContent = im.naturalWidth + '×' + im.naturalHeight + ' - לחצו להחלפה';
                 draw();
@@ -2389,6 +2419,38 @@ ${NOTEXT_GEM}`
                 });
             }
         });
+
+        /* ══════════════ RETURN FROM THE CHAT ══════════════
+           Coming back to a page scrolled to the top means hunting for the next
+           step. If they left for a chat and still have no image loaded, put the
+           drop zone in front of them.                                        */
+        const LEFT_KEY = 'roshHashana:leftForChat';
+
+        function markLeftForChat() {
+            try { localStorage.setItem(LEFT_KEY, '1'); } catch (_) { }
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) return;
+            let left = false;
+            try { left = localStorage.getItem(LEFT_KEY) === '1'; } catch (_) { }
+            if (!left || studio.img) return;
+            try { localStorage.removeItem(LEFT_KEY); } catch (_) { }
+            document.getElementById('studio').scrollIntoView({ block: 'start' });
+            studio.el.dropzone.classList.add('pulse');
+            setTimeout(() => studio.el.dropzone.classList.remove('pulse'), 4000);
+        });
+
+        /* A coarse pointer has no Ctrl+V and no drag — say what actually works. */
+        (function dropzoneCopy() {
+            const touch = window.matchMedia('(pointer: coarse)').matches;
+            studio.el.dzTitle.textContent = touch
+                ? 'לחצו כאן לבחירת התמונה'
+                : 'הדביקו כאן (Ctrl+V) או גררו';
+            studio.el.dzSub.textContent = touch
+                ? 'שמרו את התמונה מהצ׳אט, ואז בחרו אותה מהגלריה'
+                : 'בצ׳אט: קליק ימני על התמונה ← העתקת תמונה. אין צורך להוריד קובץ';
+        })();
 
         /* ══════════════ CAMERA PUSH ON SCROLL ══════════════
            The backdrop drifts slower than the page, so the frame reads as
