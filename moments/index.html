@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>גלויות לחגי תשרי | מגנים על העורף · מחוז חיפה 350</title>
+    <meta name="description"
+        content="הופכים תמונה משפחתית לגלויה לראש השנה, ליום כיפור ולסוכות - ומוסיפים ברכה בעברית תקינה.">
+    <meta name="theme-color" content="#0B0206">
+    <link rel="canonical" href="https://megenimoref.github.io/LandingPages/moments/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="he_IL">
+    <meta property="og:site_name" content="מגנים על העורף · מחוז חיפה 350">
+    <meta property="og:url" content="https://megenimoref.github.io/LandingPages/moments/">
+    <meta property="og:title" content="גלויות לחגי תשרי 🍎🕊️🌿">
+    <meta property="og:description"
+        content="הופכים תמונה משפחתית לגלויה לחג - ומוסיפים ברכה בעברית תקינה.">
+    <meta property="og:image"
+        content="https://megenimoref.github.io/LandingPages/moments/rosh-hashana/images/og-preview.webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XSH19K5LBZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-XSH19K5LBZ');
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="shared/app.css">
+
+    <style>
+        /* The hub reuses the shell's backdrop and type; all it adds is the
+           three doors and the tone that tells them apart. */
+        .hub { padding: 26px 0 40px; }
+
+        .hub h1 {
+            text-align: center;
+            font-size: clamp(1.7rem, 5.4vw, 3rem);
+            font-weight: 900;
+            line-height: 1.15;
+            background: linear-gradient(168deg, var(--cream) 4%, var(--gold-hot) 46%, var(--pom-hot) 96%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 6px 30px rgba(224, 30, 55, 0.3));
+        }
+
+        .hub-lede {
+            text-align: center;
+            max-width: 44ch;
+            margin: 14px auto 30px;
+            font-weight: 300;
+            color: var(--cream-dim);
+        }
+
+        .doors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            max-width: 980px;
+            margin: 0 auto;
+        }
+
+        .door {
+            display: block;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--line);
+            overflow: hidden;
+            background: linear-gradient(165deg, rgba(255, 244, 224, 0.07), rgba(255, 244, 224, 0.02));
+            backdrop-filter: blur(16px);
+            box-shadow: var(--shadow-deep);
+            transition: transform 0.45s var(--ease), border-color 0.45s var(--ease), box-shadow 0.45s var(--ease);
+        }
+
+        .door:hover {
+            transform: translateY(-7px);
+            border-color: rgba(245, 197, 66, 0.55);
+            box-shadow: var(--shadow-deep), 0 0 46px rgba(224, 30, 55, 0.26);
+        }
+
+        .door-art {
+            position: relative;
+            aspect-ratio: 4 / 3;
+            overflow: hidden;
+            background: var(--wine);
+        }
+
+        .door-art img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease);
+        }
+
+        .door:hover .door-art img { transform: scale(1.05); }
+
+        .door-art::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, rgba(6, 2, 4, 0.85), transparent 60%);
+        }
+
+        .door-body { padding: 16px 18px 18px; }
+
+        .door-name {
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: 4px;
+        }
+
+        .door-sub {
+            font-size: 0.86rem;
+            font-weight: 300;
+            color: var(--cream-dim);
+            min-height: 2.6em;
+        }
+
+        .door-go {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 9px 18px;
+            border-radius: 999px;
+            font-size: 0.86rem;
+            font-weight: 800;
+            color: var(--night);
+            background: linear-gradient(140deg, var(--gold-hot), var(--honey));
+        }
+
+        .door.soon { opacity: 0.72; }
+
+        .door.soon .door-go {
+            color: var(--cream-dim);
+            background: transparent;
+            border: 1px solid var(--line);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bg-aurora" id="aurora" aria-hidden="true"></div>
+    <div class="bg-grain" aria-hidden="true"></div>
+    <div class="bg-vignette" aria-hidden="true"></div>
+
+    <div class="grain-top" aria-hidden="true"></div>
+    <div class="scratches" aria-hidden="true"></div>
+    <div class="projector" aria-hidden="true"></div>
+    <div class="light-leak" aria-hidden="true"></div>
+
+    <div class="page">
+
+        <header class="brand">
+            <div class="container">
+                <span class="brand-mark">חגי תשרי</span>
+                <div class="header-logos" aria-hidden="true">
+                    <img src="rosh-hashana/images/maganim-center.webp" alt="" class="brand-logo">
+                    <img src="rosh-hashana/images/oref-haifa.webp" alt="" class="brand-logo">
+                </div>
+            </div>
+        </header>
+
+        <section class="hub">
+            <div class="container">
+                <h1>גלויה לחג, מהתמונה שלכם</h1>
+                <p class="hub-lede">בוחרים חג, בוחרים סגנון, ומקבלים גלויה עם ברכה בעברית תקינה. תוך דקה.</p>
+
+                <div class="doors">
+
+                    <a class="door" href="rosh-hashana/">
+                        <div class="door-art">
+                            <img src="rosh-hashana/images/after2.webp" alt="גלויה לראש השנה" loading="eager"
+                                decoding="async">
+                        </div>
+                        <div class="door-body">
+                            <div class="door-name">ראש השנה 🍎</div>
+                            <div class="door-sub">שולחן חג, שדות זהב או איור אקוורל - ובחירה מתוך שלוש ברכות.</div>
+                            <span class="door-go">ליצירת גלויה ←</span>
+                        </div>
+                    </a>
+
+                    <a class="door" href="yom-kippur/">
+                        <div class="door-art">
+                            <img src="yom-kippur/images/ph-after1.svg" alt="ברכה ליום כיפור" loading="lazy"
+                                decoding="async">
+                        </div>
+                        <div class="door-body">
+                            <div class="door-name">יום כיפור 🕊️</div>
+                            <div class="door-sub">לבן, מאופק ושקט - ברכה שנשלחת לפני הצום.</div>
+                            <span class="door-go">ליצירת גלויה ←</span>
+                        </div>
+                    </a>
+
+                    <a class="door" href="sukkot/">
+                        <div class="door-art">
+                            <img src="sukkot/images/after2-clean.webp" alt="גלויה לסוכות" loading="lazy" decoding="async">
+                        </div>
+                        <div class="door-body">
+                            <div class="door-name">סוכות 🌿</div>
+                            <div class="door-sub">בתוך הסוכה, עם ארבעת המינים, או סביב שולחן החג.</div>
+                            <span class="door-go">ליצירת גלויה ←</span>
+                        </div>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <footer class="foot">
+            <div class="container">
+                <div class="gold">חג שמח 🍎🕊️🌿</div>
+                <div class="sub">מרכז חוסן קהילתי · מחוז חיפה 350</div>
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>

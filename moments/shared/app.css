@@ -1,0 +1,1558 @@
+/* ══════════════ TOKENS ══════════════ */
+:root {
+/* deep cinematic base */
+--night: #0B0206;
+--night-2: #16040C;
+--wine: #3D0715;
+/* signature accents — pushed hard on purpose */
+--pom: #E01E37;
+--pom-hot: #FF3B54;
+--gold: #F5C542;
+--gold-hot: #FFDE7A;
+--gold-deep: #A87C12;
+--honey: #FF9F1C;
+--plum: #6A1B4D;
+/* neutrals */
+--cream: #FFF4E0;
+--cream-dim: rgba(255, 244, 224, 0.66);
+--cream-faint: rgba(255, 244, 224, 0.32);
+--line: rgba(245, 197, 66, 0.22);
+--glass: rgba(255, 244, 224, 0.045);
+/* AI target brands */
+--chatgpt: #10A37F;
+--gemini: #4E8CF7;
+
+--radius: 16px;
+--radius-lg: 26px;
+--shadow-deep: 0 30px 80px rgba(0, 0, 0, 0.6);
+--glow-gold: 0 0 34px rgba(245, 197, 66, 0.38);
+--ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* {
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+html {
+scroll-behavior: smooth;
+-webkit-text-size-adjust: 100%;
+}
+
+body {
+font-family: 'Heebo', -apple-system, system-ui, sans-serif;
+font-size: 17px;
+line-height: 1.7;
+color: var(--cream);
+background: var(--night);
+overflow-x: hidden;
+min-height: 100vh;
+}
+
+img {
+max-width: 100%;
+display: block;
+}
+
+a {
+color: inherit;
+text-decoration: none;
+}
+
+button {
+font: inherit;
+cursor: pointer;
+border: none;
+background: none;
+color: inherit;
+}
+
+:focus-visible {
+outline: 3px solid var(--gold);
+outline-offset: 3px;
+border-radius: 8px;
+}
+
+.container {
+max-width: 1200px;
+margin: 0 auto;
+padding: 0 20px;
+}
+
+.sr-only {
+position: absolute;
+width: 1px;
+height: 1px;
+overflow: hidden;
+clip: rect(0 0 0 0);
+white-space: nowrap;
+}
+
+/* ══════════════ CINEMATIC BACKDROP ══════════════ */
+/* fixed stack: drifting aurora → film grain → vignette */
+.bg-aurora,
+.bg-grain,
+.bg-vignette,
+.motes {
+position: fixed;
+inset: 0;
+pointer-events: none;
+z-index: 0;
+}
+
+/* Two layers on purpose: the wrapper carries the scroll parallax from JS,
+   the pseudo-element carries the drift animation. Putting both on one
+   element loses the inline transform — a running animation outranks it. */
+.bg-aurora { overflow: hidden; }
+
+.bg-aurora::before {
+content: "";
+position: absolute;
+inset: -25%;
+background:
+    radial-gradient(52vw 52vw at 12% 6%, rgba(224, 30, 55, 0.42), transparent 62%),
+    radial-gradient(46vw 46vw at 88% 22%, rgba(106, 27, 77, 0.5), transparent 64%),
+    radial-gradient(58vw 58vw at 74% 88%, rgba(168, 124, 18, 0.3), transparent 66%),
+    radial-gradient(40vw 40vw at 20% 78%, rgba(61, 7, 21, 0.75), transparent 64%),
+    linear-gradient(160deg, var(--night) 0%, var(--night-2) 48%, #10030A 100%);
+animation: drift 26s var(--ease) infinite alternate;
+}
+
+@keyframes drift {
+0% { transform: scale(1) translate3d(0, 0, 0); }
+100% { transform: scale(1.12) translate3d(-2%, -1.5%, 0); }
+}
+
+.bg-grain {
+opacity: 0.45;
+mix-blend-mode: overlay;
+background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='260'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.36 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+animation: flicker 0.9s steps(3) infinite;
+}
+
+@keyframes flicker {
+0%, 100% { opacity: 0.45; }
+50% { opacity: 0.34; }
+}
+
+.bg-vignette {
+background: radial-gradient(120% 90% at 50% 42%, transparent 40%, rgba(0, 0, 0, 0.74) 100%);
+}
+
+/* floating pomegranate-seed motes */
+.motes { overflow: hidden; }
+
+.mote {
+position: absolute;
+bottom: -10vh;
+width: 5px;
+height: 5px;
+border-radius: 50%;
+background: var(--gold-hot);
+box-shadow: 0 0 12px var(--gold);
+opacity: 0;
+animation: rise linear infinite;
+}
+
+@keyframes rise {
+0% { transform: translateY(0) scale(0.5); opacity: 0; }
+12% { opacity: 0.8; }
+86% { opacity: 0.62; }
+100% { transform: translateY(-116vh) scale(1.15); opacity: 0; }
+}
+
+.page { position: relative; z-index: 2; }
+
+/* ══════════════ CINEMA EFFECTS ══════════════
+   Overlay stack that sits ABOVE the content (z 50+) so the page reads
+   like footage running through a projector rather than a web page with
+   a textured background. Everything here is pointer-events:none and is
+   switched off wholesale under prefers-reduced-motion.               */
+
+.grain-top,
+.scratches,
+.projector,
+.light-leak {
+position: fixed;
+inset: 0;
+z-index: 50;
+pointer-events: none;
+}
+
+/* fine gate grain riding over the content */
+.grain-top {
+opacity: 0.12;
+mix-blend-mode: overlay;
+background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.5 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+animation: grainShift 0.62s steps(4) infinite;
+}
+
+@keyframes grainShift {
+0% { transform: translate3d(0, 0, 0); }
+25% { transform: translate3d(-3%, 2%, 0); }
+50% { transform: translate3d(2%, -3%, 0); }
+75% { transform: translate3d(-2%, -1%, 0); }
+100% { transform: translate3d(3%, 1%, 0); }
+}
+
+/* three sparse emulsion scratches that jitter like a worn print */
+.scratches {
+opacity: 0.5;
+background-image:
+    linear-gradient(90deg, transparent 18.2%, rgba(255, 255, 255, 0.4) 18.2% 18.32%, transparent 18.32%),
+    linear-gradient(90deg, transparent 63.4%, rgba(255, 240, 200, 0.26) 63.4% 63.5%, transparent 63.5%),
+    linear-gradient(90deg, transparent 81%, rgba(255, 255, 255, 0.18) 81% 81.1%, transparent 81.1%);
+animation: scratchJitter 0.7s steps(3) infinite;
+}
+
+@keyframes scratchJitter {
+0% { transform: translateX(0); opacity: 0.5; }
+33% { transform: translateX(-9px); opacity: 0.18; }
+66% { transform: translateX(6px); opacity: 0.42; }
+100% { transform: translateX(-3px); opacity: 0.26; }
+}
+
+/* lamp flicker — tiny luminance wobble across the whole frame */
+.projector {
+background: #FFF3D6;
+mix-blend-mode: overlay;
+opacity: 0.02;
+animation: lamp 3.1s steps(5) infinite;
+}
+
+@keyframes lamp {
+0%, 100% { opacity: 0.015; }
+20% { opacity: 0.05; }
+40% { opacity: 0.004; }
+60% { opacity: 0.038; }
+80% { opacity: 0.02; }
+}
+
+/* warm light leak sweeping the gate every ~15s */
+.light-leak {
+inset: -25%;
+opacity: 0;
+mix-blend-mode: screen;
+background: linear-gradient(72deg,
+        transparent 36%,
+        rgba(255, 138, 42, 0.42) 46%,
+        rgba(255, 214, 138, 0.6) 51%,
+        rgba(224, 30, 55, 0.34) 57%,
+        transparent 67%);
+animation: leak 15s ease-in-out infinite;
+}
+
+@keyframes leak {
+0%, 70% { opacity: 0; transform: translateX(-42%); }
+77% { opacity: 0.55; }
+87% { opacity: 0.3; }
+100% { opacity: 0; transform: translateX(46%); }
+}
+
+/* opening letterbox — the frame irises open on load */
+.film-bar {
+position: fixed;
+left: 0;
+right: 0;
+height: 50vh;
+background: #000;
+z-index: 90;
+pointer-events: none;
+}
+
+.film-bar.top {
+top: 0;
+animation: barTop 1.25s cubic-bezier(0.76, 0, 0.24, 1) 0.15s both;
+}
+
+.film-bar.bottom {
+bottom: 0;
+animation: barBottom 1.25s cubic-bezier(0.76, 0, 0.24, 1) 0.15s both;
+}
+
+@keyframes barTop {
+0% { transform: translateY(0); }
+100% { transform: translateY(-100%); }
+}
+
+@keyframes barBottom {
+0% { transform: translateY(0); }
+100% { transform: translateY(100%); }
+}
+
+/* anamorphic lens flare across the hero */
+.flare {
+position: absolute;
+left: 50%;
+top: 30%;
+width: 128%;
+height: 2px;
+transform: translate(-50%, -50%);
+pointer-events: none;
+z-index: 0;
+filter: blur(2px);
+background: linear-gradient(90deg,
+        transparent 8%,
+        rgba(120, 180, 255, 0.42) 34%,
+        rgba(190, 225, 255, 0.75) 50%,
+        rgba(120, 180, 255, 0.42) 66%,
+        transparent 92%);
+animation: flarePulse 7.5s ease-in-out infinite;
+}
+
+.flare::after {
+content: "";
+position: absolute;
+left: 50%;
+top: 50%;
+width: 190px;
+height: 190px;
+transform: translate(-50%, -50%);
+border-radius: 50%;
+background: radial-gradient(circle, rgba(190, 225, 255, 0.22), transparent 68%);
+}
+
+@keyframes flarePulse {
+0%, 100% { opacity: 0.32; }
+50% { opacity: 0.85; }
+}
+
+/* halation — the title blooms the way bright highlights do on film */
+.hero h1 {
+animation: halation 5.5s ease-in-out infinite alternate;
+}
+
+@keyframes halation {
+0% { filter: drop-shadow(0 6px 24px rgba(224, 30, 55, 0.3)); }
+100% { filter: drop-shadow(0 6px 46px rgba(245, 197, 66, 0.55)); }
+}
+
+/* ══════════════ HEADER ══════════════ */
+header.brand {
+border-bottom: 1px solid var(--line);
+background: linear-gradient(180deg, rgba(11, 2, 6, 0.92), rgba(11, 2, 6, 0.55));
+backdrop-filter: blur(14px);
+position: sticky;
+top: 0;
+z-index: 40;
+}
+
+header.brand .container {
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 16px;
+padding-block: 12px;
+}
+
+.brand-mark {
+font-weight: 900;
+font-size: 0.95rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+background: linear-gradient(90deg, var(--gold-hot), var(--pom-hot));
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+white-space: nowrap;
+}
+
+.header-logos {
+display: flex;
+align-items: center;
+gap: 14px;
+}
+
+.brand-logo {
+height: 42px;
+width: auto;
+filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.6));
+}
+
+/* ══════════════ HERO ══════════════ */
+.hero {
+text-align: center;
+padding: 76px 0 44px;
+position: relative;
+/* the lens flare is deliberately wider than the section; without this
+   it widens the document and shifts the whole RTL page sideways */
+overflow: hidden;
+}
+
+.hero-tag {
+display: inline-block;
+font-size: 0.74rem;
+font-weight: 800;
+letter-spacing: 0.24em;
+padding: 8px 20px;
+border-radius: 999px;
+color: var(--gold-hot);
+border: 1px solid var(--line);
+background: var(--glass);
+backdrop-filter: blur(8px);
+margin-bottom: 26px;
+}
+
+.hero h1 {
+font-size: clamp(2.3rem, 7.4vw, 5rem);
+font-weight: 900;
+line-height: 1.08;
+letter-spacing: -0.02em;
+max-width: 16ch;
+margin: 0 auto;
+background: linear-gradient(168deg, var(--cream) 4%, var(--gold-hot) 42%, var(--pom-hot) 96%);
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+filter: drop-shadow(0 6px 30px rgba(224, 30, 55, 0.32));
+}
+
+.apple {
+display: inline-block;
+-webkit-text-fill-color: initial;
+color: initial;
+animation: bob 3.4s var(--ease) infinite alternate;
+}
+
+@keyframes bob {
+0% { transform: translateY(0) rotate(-5deg); }
+100% { transform: translateY(-9px) rotate(5deg); }
+}
+
+.hero p.lede {
+margin: 20px auto 0;
+max-width: 44ch;
+font-size: clamp(1rem, 2.5vw, 1.22rem);
+font-weight: 300;
+color: var(--cream-dim);
+}
+
+.hero-rule {
+width: 190px;
+height: 2px;
+margin: 32px auto 0;
+background: linear-gradient(90deg, transparent, var(--gold), var(--pom), transparent);
+box-shadow: var(--glow-gold);
+}
+
+/* ── family name field ── */
+.family-field {
+max-width: 500px;
+margin: 40px auto 0;
+text-align: center;
+}
+
+.family-field label {
+display: block;
+font-size: 0.86rem;
+font-weight: 700;
+letter-spacing: 0.06em;
+color: var(--cream-dim);
+margin-bottom: 12px;
+}
+
+.family-field .opt {
+font-weight: 400;
+color: var(--cream-faint);
+}
+
+.family-input {
+width: 100%;
+padding: 16px 22px;
+font-size: 1.08rem;
+font-weight: 700;
+text-align: center;
+color: var(--cream);
+background: rgba(255, 244, 224, 0.06);
+border: 1px solid var(--line);
+border-radius: var(--radius);
+backdrop-filter: blur(10px);
+transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease), background 0.3s var(--ease);
+}
+
+.family-input::placeholder {
+color: var(--cream-faint);
+font-weight: 400;
+}
+
+.family-input:focus {
+border-color: var(--gold);
+background: rgba(255, 244, 224, 0.1);
+box-shadow: var(--glow-gold);
+outline: none;
+}
+
+/* live preview of the exact line the AI will render */
+.greeting-preview {
+margin-top: 16px;
+font-size: 0.95rem;
+font-weight: 700;
+color: var(--gold-hot);
+min-height: 1.7em;
+transition: opacity 0.25s var(--ease);
+}
+
+.greeting-preview .pre-label {
+font-weight: 400;
+font-size: 0.78rem;
+color: var(--cream-faint);
+letter-spacing: 0.1em;
+}
+
+.family-hint {
+margin-top: 10px;
+font-size: 0.8rem;
+font-weight: 300;
+color: var(--cream-faint);
+}
+
+/* The one mistake that ruins the result is pasting before uploading.
+   It needs to be visible next to the buttons, not behind a dialog. */
+.order-note {
+display: flex;
+align-items: center;
+gap: 12px;
+max-width: 640px;
+margin: 0 auto 30px;
+padding: 14px 20px;
+border-radius: var(--radius-lg);
+border: 1px solid rgba(245, 197, 66, 0.42);
+background: rgba(245, 197, 66, 0.09);
+backdrop-filter: blur(8px);
+}
+
+.order-note .on-icon {
+flex: 0 0 auto;
+font-size: 1.4rem;
+}
+
+.order-note p {
+font-size: 0.92rem;
+font-weight: 700;
+color: var(--gold-hot);
+line-height: 1.5;
+}
+
+.order-note em {
+display: block;
+font-style: normal;
+font-weight: 300;
+font-size: 0.82rem;
+color: var(--cream-dim);
+}
+
+@media (max-width: 620px) {
+.order-note { margin-inline: 4px; }
+}
+
+/* ══════════════ CARDS ══════════════ */
+.examples { padding: 30px 0 20px; }
+
+.grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+gap: 30px;
+}
+
+.card {
+background: linear-gradient(165deg, rgba(255, 244, 224, 0.07), rgba(255, 244, 224, 0.02));
+border: 1px solid var(--line);
+border-radius: var(--radius-lg);
+overflow: hidden;
+backdrop-filter: blur(16px);
+box-shadow: var(--shadow-deep);
+transition: transform 0.55s var(--ease), box-shadow 0.55s var(--ease), border-color 0.55s var(--ease);
+}
+
+.card:hover {
+transform: translateY(-8px);
+border-color: rgba(245, 197, 66, 0.5);
+box-shadow: var(--shadow-deep), 0 0 46px rgba(224, 30, 55, 0.26);
+}
+
+.card-title {
+padding: 20px 22px 16px;
+font-size: 1.22rem;
+font-weight: 900;
+letter-spacing: -0.01em;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 10px;
+}
+
+.card-title .style-no {
+font-size: 0.7rem;
+font-weight: 800;
+letter-spacing: 0.18em;
+color: var(--gold-deep);
+}
+
+/* ══════════════ BEFORE / AFTER ══════════════ */
+.ba-compare {
+position: relative;
+aspect-ratio: 4 / 5;
+overflow: hidden;
+cursor: col-resize;
+user-select: none;
+touch-action: none;
+background: var(--wine);
+}
+
+/* Each side is a clipped layer wrapping its own image, so the slow
+   Ken Burns push can live on the <img> transform without dragging the
+   clip-path — clipping the wrapper keeps the split line dead still. */
+.ba-layer {
+position: absolute;
+inset: 0;
+overflow: hidden;
+}
+
+.ba-layer img {
+width: 100%;
+height: 100%;
+object-fit: cover;
+animation: ken 20s ease-in-out infinite alternate;
+}
+
+@keyframes ken {
+0% { transform: scale(1); }
+100% { transform: scale(1.09); }
+}
+
+.ba-compare .ba-after {
+clip-path: inset(0 50% 0 0);
+z-index: 2;
+}
+
+/* offset the push so the two sides never move in lockstep */
+.ba-compare .ba-after img { animation-delay: -10s; }
+
+/* letterbox bars — the cinematic tell */
+.ba-compare::before,
+.ba-compare::after {
+content: "";
+position: absolute;
+left: 0;
+right: 0;
+height: 26px;
+z-index: 7;
+pointer-events: none;
+}
+
+.ba-compare::before {
+top: 0;
+background: linear-gradient(180deg, rgba(0, 0, 0, 0.82), transparent);
+}
+
+.ba-compare::after {
+bottom: 0;
+background: linear-gradient(0deg, rgba(0, 0, 0, 0.82), transparent);
+}
+
+.ba-slider-line {
+position: absolute;
+top: 0;
+bottom: 0;
+left: 50%;
+width: 3px;
+z-index: 5;
+pointer-events: none;
+transform: translateX(-50%);
+background: linear-gradient(180deg, var(--gold-hot), var(--pom), var(--gold-hot));
+box-shadow: 0 0 18px rgba(245, 197, 66, 0.85);
+}
+
+.ba-slider-handle {
+position: absolute;
+top: 50%;
+left: 50%;
+width: 50px;
+height: 50px;
+border-radius: 50%;
+z-index: 6;
+transform: translate(-50%, -50%);
+display: flex;
+align-items: center;
+justify-content: center;
+font-size: 0.8rem;
+font-weight: 900;
+letter-spacing: -0.06em;
+color: var(--night);
+background: linear-gradient(145deg, var(--gold-hot), var(--honey));
+border: 3px solid rgba(255, 244, 224, 0.92);
+box-shadow: 0 6px 22px rgba(0, 0, 0, 0.55), 0 0 26px rgba(245, 197, 66, 0.55);
+pointer-events: none;
+}
+
+.ba-compare:focus-visible .ba-slider-handle {
+box-shadow: 0 6px 22px rgba(0, 0, 0, 0.55), 0 0 0 6px rgba(245, 197, 66, 0.45);
+}
+
+.ba-label {
+position: absolute;
+bottom: 14px;
+z-index: 4;
+border-radius: 7px;
+padding: 5px 13px;
+font-size: 0.7rem;
+font-weight: 800;
+letter-spacing: 0.16em;
+backdrop-filter: blur(6px);
+}
+
+.ba-label.before {
+right: 14px;
+color: var(--cream);
+background: rgba(11, 2, 6, 0.8);
+border: 1px solid rgba(255, 244, 224, 0.2);
+}
+
+.ba-label.after {
+left: 14px;
+color: var(--night);
+background: linear-gradient(135deg, var(--gold-hot), var(--honey));
+}
+
+/* ══════════════ BUTTONS ══════════════ */
+.actions {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 10px;
+padding: 18px;
+}
+
+.btn {
+position: relative;
+overflow: hidden;
+padding: 14px 12px;
+border-radius: var(--radius);
+font-size: 0.92rem;
+font-weight: 800;
+text-align: center;
+border: 1px solid transparent;
+transition: transform 0.28s var(--ease), box-shadow 0.28s var(--ease), background 0.28s var(--ease);
+}
+
+/* gold shimmer sweep on hover */
+.btn::after {
+content: "";
+position: absolute;
+inset: 0;
+transform: translateX(-120%);
+background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+transition: transform 0.75s var(--ease);
+}
+
+.btn:hover::after { transform: translateX(120%); }
+
+.btn:hover { transform: translateY(-3px); }
+
+.btn:active { transform: translateY(0); }
+
+.btn-chatgpt {
+color: #051612;
+background: linear-gradient(140deg, #2FE0AF, var(--chatgpt));
+box-shadow: 0 8px 26px rgba(16, 163, 127, 0.36);
+}
+
+.btn-chatgpt:hover { box-shadow: 0 12px 34px rgba(16, 163, 127, 0.52); }
+
+.btn-gemini {
+color: #04122C;
+background: linear-gradient(140deg, #8FB6FF, var(--gemini));
+box-shadow: 0 8px 26px rgba(78, 140, 247, 0.36);
+}
+
+.btn-gemini:hover { box-shadow: 0 12px 34px rgba(78, 140, 247, 0.52); }
+
+.btn-copy {
+grid-column: 1 / -1;
+color: var(--gold-hot);
+background: transparent;
+border-color: var(--line);
+font-weight: 700;
+font-size: 0.85rem;
+}
+
+.btn-copy:hover {
+background: rgba(245, 197, 66, 0.1);
+border-color: var(--gold);
+}
+
+/* ══════════════ STEPS ══════════════ */
+.steps { padding: 66px 0 40px; }
+
+.steps h2 {
+text-align: center;
+font-size: clamp(1.6rem, 4.4vw, 2.5rem);
+font-weight: 900;
+margin-bottom: 42px;
+background: linear-gradient(100deg, var(--gold-hot), var(--pom-hot));
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+}
+
+.steps-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 18px;
+position: relative;
+}
+
+.step {
+text-align: center;
+padding: 26px 16px;
+border-radius: var(--radius-lg);
+border: 1px solid var(--line);
+background: var(--glass);
+backdrop-filter: blur(12px);
+transition: transform 0.45s var(--ease), border-color 0.45s var(--ease);
+}
+
+.step:hover {
+transform: translateY(-6px);
+border-color: rgba(245, 197, 66, 0.5);
+}
+
+.step-num {
+display: grid;
+place-items: center;
+width: 50px;
+height: 50px;
+margin: 0 auto 14px;
+border-radius: 50%;
+font-size: 1.22rem;
+font-weight: 900;
+color: var(--night);
+background: linear-gradient(145deg, var(--gold-hot), var(--pom));
+box-shadow: 0 0 26px rgba(245, 197, 66, 0.42);
+}
+
+.step-text {
+font-size: 0.98rem;
+font-weight: 700;
+color: var(--cream-dim);
+}
+
+/* ══════════════ WIZARD ══════════════
+   One decision per screen. The old page put the style, the blessing and
+   the upload in three places the visitor bounced between, which on a
+   phone meant losing your place every time you switched to the chat.
+   Both choices are now made before leaving, so coming back is one act. */
+.wiz { padding: 10px 0 40px; }
+
+.wiz-nav {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 6px;
+max-width: 560px;
+margin: 0 auto 34px;
+padding: 6px;
+border-radius: var(--radius-lg);
+border: 1px solid var(--line);
+background: var(--glass);
+backdrop-filter: blur(12px);
+}
+
+.wiz-tab {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 4px;
+padding: 9px 4px;
+border-radius: 13px;
+font-size: 0.74rem;
+font-weight: 700;
+color: var(--cream-faint);
+transition: color 0.25s var(--ease), background 0.25s var(--ease);
+}
+
+.wiz-tab i {
+display: grid;
+place-items: center;
+width: 26px;
+height: 26px;
+border-radius: 50%;
+font-style: normal;
+font-size: 0.8rem;
+font-weight: 900;
+background: rgba(255, 244, 224, 0.1);
+transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+.wiz-tab[aria-selected="true"] { color: var(--night); background: linear-gradient(140deg, var(--gold-hot), var(--honey)); }
+.wiz-tab[aria-selected="true"] i { background: rgba(11, 2, 6, 0.22); color: var(--night); }
+.wiz-tab.done { color: var(--gold-hot); }
+.wiz-tab.done i { background: rgba(245, 197, 66, 0.22); color: var(--gold-hot); }
+.wiz-tab:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.wiz-step h2 {
+text-align: center;
+font-size: clamp(1.5rem, 4.2vw, 2.3rem);
+font-weight: 900;
+background: linear-gradient(100deg, var(--gold-hot), var(--pom-hot));
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+}
+
+.wiz-lede {
+text-align: center;
+max-width: 46ch;
+margin: 10px auto 28px;
+font-weight: 300;
+color: var(--cream-dim);
+}
+
+.wiz-panel {
+max-width: 620px;
+margin: 0 auto;
+padding: 17px;
+border-radius: var(--radius-lg);
+border: 1px solid var(--line);
+background: linear-gradient(165deg, rgba(255, 244, 224, 0.07), rgba(255, 244, 224, 0.02));
+backdrop-filter: blur(16px);
+box-shadow: var(--shadow-deep);
+}
+
+.wiz-panel.launch { display: grid; gap: 10px; }
+.wiz-panel.launch .order-note { margin-bottom: 8px; }
+.launch-btn { width: 100%; }
+
+.wiz-actions {
+display: flex;
+justify-content: space-between;
+gap: 12px;
+max-width: 620px;
+margin: 16px auto 0;
+}
+
+.wiz-back,
+.wiz-next {
+padding: 13px 24px;
+border-radius: var(--radius);
+font-size: 0.94rem;
+font-weight: 800;
+transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.25s var(--ease);
+}
+
+.wiz-back {
+color: var(--cream-dim);
+border: 1px solid var(--line);
+}
+
+.wiz-back:hover { color: var(--cream); background: rgba(255, 244, 224, 0.07); }
+
+.wiz-next {
+color: var(--night);
+background: linear-gradient(140deg, var(--gold-hot), var(--honey));
+box-shadow: 0 8px 26px rgba(245, 197, 66, 0.3);
+}
+
+.wiz-next:hover { transform: translateY(-2px); box-shadow: 0 12px 34px rgba(245, 197, 66, 0.45); }
+
+@media (max-width: 620px) {
+.wiz-nav { gap: 3px; padding: 5px; }
+.wiz-tab { font-size: 0.66rem; }
+.wiz-actions { margin-inline: 4px; }
+.wiz-back, .wiz-next { flex: 1; padding: 13px 10px; }
+}
+
+/* ══════════════ FIT ONE STEP TO ONE SCREEN ══════════════
+   A wizard the visitor has to scroll through is not a wizard. The hero
+   is a strip, the page-level tip and share are gone, step 2 folds its
+   fine-tuning away, and step 1 scrolls sideways instead of stacking
+   three tall cards down the page.                                     */
+.hero {
+padding: 16px 0 10px;
+}
+
+.hero h1 {
+font-size: clamp(1.5rem, 5vw, 2.4rem);
+max-width: none;
+}
+
+.hero-tag {
+margin-bottom: 12px;
+padding: 5px 15px;
+font-size: 0.66rem;
+}
+
+.wiz { padding: 4px 0 26px; }
+.wiz-nav { margin-bottom: 16px; }
+
+.wiz-step h2 { font-size: clamp(1.25rem, 3.6vw, 1.9rem); }
+
+.wiz-lede {
+margin: 6px auto 14px;
+font-size: 0.88rem;
+}
+
+/* step 2: everything past the preset list is optional */
+.tweak {
+margin-top: 4px;
+border-top: 1px solid var(--line);
+padding-top: 14px;
+}
+
+.tweak > summary {
+cursor: pointer;
+list-style: none;
+font-size: 0.86rem;
+font-weight: 800;
+color: var(--gold-hot);
+padding: 6px 0;
+}
+
+.tweak > summary::-webkit-details-marker { display: none; }
+
+.tweak > summary::before {
+content: "▸ ";
+display: inline-block;
+transition: transform 0.2s var(--ease);
+}
+
+.tweak[open] > summary::before { content: "▾ "; }
+
+.tweak .field { margin-bottom: 14px; }
+.tweak textarea { min-height: 84px; }
+
+/* step 4: preview and controls share the screen instead of stacking */
+.wiz-step[data-step="4"] .studio-grid {
+grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+gap: 20px;
+}
+
+.wiz-step[data-step="4"] .studio-panel { padding: 14px; }
+.wiz-step[data-step="4"] .dropzone { padding: 16px 14px; }
+.wiz-step[data-step="4"] .field { margin-bottom: 0; }
+.wiz-step[data-step="4"] .canvas-wrap { max-height: 26vh; }
+.wiz-step[data-step="4"] #cardCanvas { max-height: 26vh; }
+
+.foot { padding: 20px 0 26px; }
+.foot .gold { font-size: 0.98rem; }
+
+@media (max-width: 900px) {
+.wiz-step[data-step="4"] .studio-grid { grid-template-columns: minmax(0, 1fr); }
+.wiz-step[data-step="4"] .studio-stage { order: -1; position: static; padding: 14px; }
+}
+
+@media (max-width: 620px) {
+/* the hero repeats the sticky brand bar; on a phone that is a whole
+   step's worth of height spent saying nothing new */
+.hero { display: none; }
+
+.wiz { padding-top: 12px; }
+.wiz-nav { margin-bottom: 10px; padding: 3px; }
+.wiz-tab { padding: 5px 3px; gap: 1px; font-size: 0.62rem; }
+.wiz-tab i { width: 22px; height: 22px; font-size: 0.72rem; }
+.wiz-step h2 { font-size: 1.18rem; }
+.wiz-lede { display: none; }
+.wiz-actions { margin-top: 12px; }
+.wiz-back, .wiz-next { padding: 12px 8px; font-size: 0.86rem; }
+
+.wiz-step[data-step="4"] .canvas-wrap,
+.wiz-step[data-step="4"] #cardCanvas { max-height: 18vh; }
+
+/* out-specifies the step-4 drop zone padding, which otherwise wins */
+.wiz-step[data-step="4"] .dropzone.loaded { padding: 9px 13px; }
+.wiz-step[data-step="4"] h2 { display: none; }
+.wiz-step[data-step="4"] .studio-panel { padding: 11px; }
+.wiz-step[data-step="4"] .studio-stage { padding: 11px; }
+.wiz-step[data-step="4"] .field > label { margin-bottom: 5px; font-size: 0.74rem; }
+.btn-share, .btn-download { padding: 12px; font-size: 0.92rem; }
+
+.studio-panel, .wiz-panel { padding: 15px; }
+}
+
+/* The preview's height budget; its width follows from the 4:5 ratio,
+   so the step can never outgrow the screen. */
+.wiz-step[data-step="1"] { --pick-h: min(30vh, 265px); }
+
+@media (max-width: 620px) {
+/* declared after the base value, or the cascade hands the phone
+   the desktop budget */
+.wiz-step[data-step="1"] { --pick-h: min(27vh, 205px); }
+}
+
+/* ══════════════ STYLE PICKER ══════════════
+   A horizontal rail always hides something and never says so. Three
+   chips stay visible at once and only the preview swaps, so nothing
+   is off-screen and nothing has to be scrolled to be discovered. */
+.style-chips {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 10px;
+max-width: 520px;
+margin: 0 auto 16px;
+}
+
+.chip {
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 7px;
+padding: 8px 6px 10px;
+border-radius: var(--radius);
+border: 1px solid var(--line);
+background: rgba(255, 244, 224, 0.04);
+font-size: 0.8rem;
+font-weight: 800;
+color: var(--cream-dim);
+transition: border-color 0.25s var(--ease), background 0.25s var(--ease),
+            color 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.chip img {
+width: 100%;
+/* a cropped band, not the full 4:5 card — at three across, the true
+   ratio makes the chips taller than the preview they select */
+height: clamp(62px, 9vh, 92px);
+object-fit: cover;
+border-radius: 9px;
+opacity: 0.55;
+transition: opacity 0.25s var(--ease);
+}
+
+.chip:hover { transform: translateY(-2px); border-color: rgba(245, 197, 66, 0.5); }
+.chip:hover img { opacity: 0.85; }
+
+.chip[aria-checked="true"] {
+color: var(--night);
+border-color: var(--gold);
+background: linear-gradient(140deg, var(--gold-hot), var(--honey));
+box-shadow: 0 0 26px rgba(245, 197, 66, 0.32);
+}
+
+.chip[aria-checked="true"] img { opacity: 1; }
+
+.preview-wrap {
+max-width: calc(var(--pick-h) * 0.8);
+margin: 0 auto;
+border-radius: var(--radius-lg);
+overflow: hidden;
+border: 1px solid var(--line);
+box-shadow: var(--shadow-deep);
+}
+
+.preview-wrap .ba-compare {
+aspect-ratio: 4 / 5;
+height: var(--pick-h);
+}
+
+/* ══════════════ GREETING STUDIO ══════════════ */
+.studio { padding: 30px 0 60px; }
+
+.studio h2 {
+text-align: center;
+font-size: clamp(1.6rem, 4.4vw, 2.5rem);
+font-weight: 900;
+background: linear-gradient(100deg, var(--gold-hot), var(--pom-hot));
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+}
+
+.studio-lede {
+text-align: center;
+max-width: 52ch;
+margin: 12px auto 34px;
+font-weight: 300;
+color: var(--cream-dim);
+}
+
+.studio-grid {
+display: grid;
+grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+gap: 28px;
+align-items: start;
+}
+
+.studio-panel,
+.studio-stage {
+background: linear-gradient(165deg, rgba(255, 244, 224, 0.07), rgba(255, 244, 224, 0.02));
+border: 1px solid var(--line);
+border-radius: var(--radius-lg);
+backdrop-filter: blur(16px);
+box-shadow: var(--shadow-deep);
+padding: 22px;
+}
+
+.field { margin-bottom: 18px; }
+
+.field > label {
+display: block;
+font-size: 0.8rem;
+font-weight: 800;
+letter-spacing: 0.06em;
+color: var(--cream-dim);
+margin-bottom: 8px;
+}
+
+.field input[type="text"],
+.field textarea {
+width: 100%;
+padding: 12px 16px;
+font: inherit;
+font-size: 0.98rem;
+color: var(--cream);
+background: rgba(255, 244, 224, 0.06);
+border: 1px solid var(--line);
+border-radius: var(--radius);
+resize: vertical;
+transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+
+.field textarea { min-height: 110px; line-height: 1.6; }
+
+.field input:focus,
+.field textarea:focus {
+border-color: var(--gold);
+box-shadow: var(--glow-gold);
+outline: none;
+}
+
+/* ── drop zone ── */
+.dropzone {
+display: grid;
+place-items: center;
+gap: 8px;
+padding: 26px 18px;
+text-align: center;
+border: 2px dashed rgba(245, 197, 66, 0.4);
+border-radius: var(--radius-lg);
+background: rgba(245, 197, 66, 0.05);
+cursor: pointer;
+transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+}
+
+.dropzone:hover,
+.dropzone.over {
+border-color: var(--gold);
+background: rgba(245, 197, 66, 0.12);
+}
+
+.dropzone .dz-title {
+font-weight: 800;
+color: var(--gold-hot);
+}
+
+.dropzone .dz-sub {
+font-size: 0.8rem;
+font-weight: 300;
+color: var(--cream-faint);
+}
+
+.wiz-actions.one { justify-content: center; }
+.wiz-actions.one .wiz-next { min-width: min(100%, 340px); }
+
+.wiz-next:disabled {
+opacity: 0.4;
+cursor: not-allowed;
+transform: none;
+box-shadow: none;
+}
+
+/* A loaded drop zone is a status line, not a landing pad. Keeping it
+   full size costs a phone most of its preview. */
+.dropzone.loaded {
+padding: 11px 14px;
+gap: 2px;
+}
+
+.dropzone.loaded .dz-sub { font-size: 0.74rem; }
+
+.dropzone.pulse {
+animation: dzPulse 1.1s var(--ease) 3;
+}
+
+@keyframes dzPulse {
+0%, 100% { border-color: rgba(245, 197, 66, 0.4); box-shadow: none; }
+50% { border-color: var(--gold); box-shadow: 0 0 0 8px rgba(245, 197, 66, 0.16); }
+}
+
+/* ── preset blessings ── */
+.presets {
+display: grid;
+gap: 8px;
+margin-bottom: 12px;
+}
+
+.preset {
+text-align: right;
+padding: 10px 14px;
+border-radius: var(--radius);
+border: 1px solid var(--line);
+background: rgba(255, 244, 224, 0.04);
+transition: border-color 0.25s var(--ease), background 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.preset:hover { transform: translateX(-3px); border-color: rgba(245, 197, 66, 0.55); }
+
+.preset[aria-pressed="true"] {
+border-color: var(--gold);
+background: rgba(245, 197, 66, 0.12);
+}
+
+.preset-title {
+display: block;
+font-weight: 800;
+font-size: 0.95rem;
+color: var(--gold-hot);
+}
+
+.preset-body {
+display: block;
+font-size: 0.79rem;
+font-weight: 300;
+line-height: 1.5;
+color: var(--cream-faint);
+margin-top: 3px;
+}
+
+/* ── segmented control ── */
+.seg {
+display: grid;
+grid-auto-flow: column;
+gap: 6px;
+padding: 5px;
+border: 1px solid var(--line);
+border-radius: var(--radius);
+background: rgba(255, 244, 224, 0.04);
+}
+
+.seg button {
+padding: 9px 10px;
+border-radius: 11px;
+font-size: 0.86rem;
+font-weight: 700;
+color: var(--cream-dim);
+transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+.seg button[aria-pressed="true"] {
+color: var(--night);
+background: linear-gradient(140deg, var(--gold-hot), var(--honey));
+}
+
+/* ── stage ── */
+.studio-stage { position: sticky; top: 88px; }
+
+.canvas-wrap {
+position: relative;
+border-radius: var(--radius);
+overflow: hidden;
+background: var(--wine);
+aspect-ratio: 4 / 5;
+display: grid;
+place-items: center;
+}
+
+#cardCanvas {
+max-width: 100%;
+max-height: 100%;
+width: auto;
+height: auto;
+display: block;
+}
+
+.stage-empty {
+padding: 24px;
+text-align: center;
+font-size: 0.88rem;
+font-weight: 300;
+color: var(--cream-faint);
+}
+
+/* Share leads on a phone, where the whole flow ends anyway; download is
+   kept underneath as the desktop path and the fallback. */
+.btn-share {
+width: 100%;
+margin-top: 12px;
+padding: 13px;
+border-radius: var(--radius);
+font-size: 1rem;
+font-weight: 800;
+color: #04160E;
+background: linear-gradient(140deg, #6EE7A8, #25D366);
+box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+
+.btn-share:hover:not(:disabled) {
+transform: translateY(-2px);
+box-shadow: 0 14px 40px rgba(37, 211, 102, 0.45);
+}
+
+.btn-share:disabled {
+opacity: 0.4;
+cursor: not-allowed;
+}
+
+/* when share is present it takes the lead and download steps back */
+.btn-share:not([hidden]) + .btn-download {
+margin-top: 10px;
+color: var(--gold-hot);
+background: transparent;
+border: 1px solid var(--line);
+box-shadow: none;
+font-size: 0.9rem;
+}
+
+.btn-share:not([hidden]) + .btn-download:hover:not(:disabled) {
+background: rgba(245, 197, 66, 0.1);
+border-color: var(--gold);
+transform: none;
+box-shadow: none;
+}
+
+.btn-download {
+width: 100%;
+margin-top: 12px;
+padding: 13px;
+border-radius: var(--radius);
+font-size: 1rem;
+font-weight: 800;
+color: var(--night);
+background: linear-gradient(140deg, var(--gold-hot), var(--honey));
+box-shadow: 0 10px 30px rgba(245, 197, 66, 0.3);
+transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+
+.btn-download:hover:not(:disabled) {
+transform: translateY(-2px);
+box-shadow: 0 14px 40px rgba(245, 197, 66, 0.45);
+}
+
+.btn-download:disabled {
+opacity: 0.4;
+cursor: not-allowed;
+}
+
+@media (max-width: 900px) {
+.studio-grid { grid-template-columns: minmax(0, 1fr); }
+.studio-stage { position: static; order: -1; }
+}
+
+.foot {
+border-top: 1px solid var(--line);
+padding: 34px 0 44px;
+text-align: center;
+}
+
+.foot .gold {
+font-size: 1.14rem;
+font-weight: 900;
+background: linear-gradient(100deg, var(--gold-hot), var(--pom-hot));
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+}
+
+.foot .sub {
+margin-top: 8px;
+font-size: 0.78rem;
+font-weight: 300;
+color: var(--cream-faint);
+}
+
+/* ══════════════ TOAST ══════════════ */
+.toast {
+position: fixed;
+left: 50%;
+bottom: 28px;
+transform: translate(-50%, 130%);
+z-index: 100;
+max-width: min(92vw, 460px);
+padding: 15px 26px;
+border-radius: var(--radius);
+font-size: 0.92rem;
+font-weight: 700;
+text-align: center;
+color: var(--night);
+background: linear-gradient(140deg, var(--gold-hot), var(--honey));
+box-shadow: 0 18px 50px rgba(0, 0, 0, 0.62);
+transition: transform 0.5s var(--ease), opacity 0.5s var(--ease);
+opacity: 0;
+pointer-events: none;
+}
+
+.toast.show {
+transform: translate(-50%, 0);
+opacity: 1;
+}
+
+/* ══════════════ REVEAL ══════════════ */
+.reveal {
+opacity: 0;
+transform: translateY(46px) rotateX(9deg);
+transform-origin: bottom center;
+transition: opacity 0.85s var(--ease), transform 0.85s var(--ease);
+}
+
+.reveal.visible {
+opacity: 1;
+transform: none;
+}
+
+/* ══════════════ RESPONSIVE ══════════════ */
+@media (max-width: 620px) {
+body { font-size: 16px; }
+.hero { padding: 46px 0 30px; }
+.brand-logo { height: 34px; }
+.header-logos { gap: 8px; }
+.grid { gap: 22px; }
+.actions { grid-template-columns: 1fr; }
+
+/* the wordmark's wide tracking overflows a 375px viewport — tighten it */
+.brand-mark {
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+}
+}
+
+@media (max-width: 380px) {
+.brand-mark { display: none; }
+}
+
+/* ══════════════ REDUCED MOTION ══════════════ */
+@media (prefers-reduced-motion: reduce) {
+html { scroll-behavior: auto; }
+
+.bg-aurora,
+.bg-grain,
+.grain-top,
+.scratches,
+.projector,
+.light-leak,
+.flare,
+.hero h1,
+.ba-layer img,
+.apple,
+.mote {
+    animation: none !important;
+}
+
+.motes,
+.scratches,
+.light-leak,
+.film-bar {
+    display: none;
+}
+
+/* the title keeps its static bloom without the pulse */
+.hero h1 { filter: drop-shadow(0 6px 30px rgba(224, 30, 55, 0.32)); }
+
+.reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+}
+
+*, *::before, *::after {
+    transition-duration: 0.01ms !important;
+}
+}
