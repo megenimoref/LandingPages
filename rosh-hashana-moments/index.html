@@ -903,6 +903,313 @@
             color: var(--cream-dim);
         }
 
+        /* ══════════════ WIZARD ══════════════
+           One decision per screen. The old page put the style, the blessing and
+           the upload in three places the visitor bounced between, which on a
+           phone meant losing your place every time you switched to the chat.
+           Both choices are now made before leaving, so coming back is one act. */
+        .wiz { padding: 10px 0 40px; }
+
+        .wiz-nav {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            max-width: 560px;
+            margin: 0 auto 34px;
+            padding: 6px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--line);
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+        }
+
+        .wiz-tab {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 9px 4px;
+            border-radius: 13px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: var(--cream-faint);
+            transition: color 0.25s var(--ease), background 0.25s var(--ease);
+        }
+
+        .wiz-tab i {
+            display: grid;
+            place-items: center;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            font-style: normal;
+            font-size: 0.8rem;
+            font-weight: 900;
+            background: rgba(255, 244, 224, 0.1);
+            transition: background 0.25s var(--ease), color 0.25s var(--ease);
+        }
+
+        .wiz-tab[aria-selected="true"] { color: var(--night); background: linear-gradient(140deg, var(--gold-hot), var(--honey)); }
+        .wiz-tab[aria-selected="true"] i { background: rgba(11, 2, 6, 0.22); color: var(--night); }
+        .wiz-tab.done { color: var(--gold-hot); }
+        .wiz-tab.done i { background: rgba(245, 197, 66, 0.22); color: var(--gold-hot); }
+        .wiz-tab:disabled { opacity: 0.45; cursor: not-allowed; }
+
+        .wiz-step h2 {
+            text-align: center;
+            font-size: clamp(1.5rem, 4.2vw, 2.3rem);
+            font-weight: 900;
+            background: linear-gradient(100deg, var(--gold-hot), var(--pom-hot));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .wiz-lede {
+            text-align: center;
+            max-width: 46ch;
+            margin: 10px auto 28px;
+            font-weight: 300;
+            color: var(--cream-dim);
+        }
+
+        .wiz-panel {
+            max-width: 620px;
+            margin: 0 auto;
+            padding: 17px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--line);
+            background: linear-gradient(165deg, rgba(255, 244, 224, 0.07), rgba(255, 244, 224, 0.02));
+            backdrop-filter: blur(16px);
+            box-shadow: var(--shadow-deep);
+        }
+
+        .wiz-panel.launch { display: grid; gap: 10px; }
+        .wiz-panel.launch .order-note { margin-bottom: 8px; }
+        .launch-btn { width: 100%; }
+
+        .wiz-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            max-width: 620px;
+            margin: 16px auto 0;
+        }
+
+        .wiz-back,
+        .wiz-next {
+            padding: 13px 24px;
+            border-radius: var(--radius);
+            font-size: 0.94rem;
+            font-weight: 800;
+            transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.25s var(--ease);
+        }
+
+        .wiz-back {
+            color: var(--cream-dim);
+            border: 1px solid var(--line);
+        }
+
+        .wiz-back:hover { color: var(--cream); background: rgba(255, 244, 224, 0.07); }
+
+        .wiz-next {
+            color: var(--night);
+            background: linear-gradient(140deg, var(--gold-hot), var(--honey));
+            box-shadow: 0 8px 26px rgba(245, 197, 66, 0.3);
+        }
+
+        .wiz-next:hover { transform: translateY(-2px); box-shadow: 0 12px 34px rgba(245, 197, 66, 0.45); }
+
+        /* a card is now a choice, not a launcher */
+        .card.pick { cursor: pointer; }
+
+        .pick-cta {
+            padding: 14px;
+            text-align: center;
+            font-size: 0.94rem;
+            font-weight: 800;
+            color: var(--gold-hot);
+            border-top: 1px solid var(--line);
+        }
+
+        .card.pick[aria-pressed="true"] {
+            border-color: var(--gold);
+            box-shadow: var(--shadow-deep), 0 0 42px rgba(245, 197, 66, 0.35);
+        }
+
+        .card.pick[aria-pressed="true"] .pick-cta {
+            color: var(--night);
+            background: linear-gradient(140deg, var(--gold-hot), var(--honey));
+        }
+
+        @media (max-width: 620px) {
+            .wiz-nav { gap: 3px; padding: 5px; }
+            .wiz-tab { font-size: 0.66rem; }
+            .wiz-actions { margin-inline: 4px; }
+            .wiz-back, .wiz-next { flex: 1; padding: 13px 10px; }
+        }
+
+        /* ══════════════ FIT ONE STEP TO ONE SCREEN ══════════════
+           A wizard the visitor has to scroll through is not a wizard. The hero
+           is a strip, the page-level tip and share are gone, step 2 folds its
+           fine-tuning away, and step 1 scrolls sideways instead of stacking
+           three tall cards down the page.                                     */
+        .hero {
+            padding: 16px 0 10px;
+        }
+
+        .hero h1 {
+            font-size: clamp(1.5rem, 5vw, 2.4rem);
+            max-width: none;
+        }
+
+        .hero-tag {
+            margin-bottom: 12px;
+            padding: 5px 15px;
+            font-size: 0.66rem;
+        }
+
+        .wiz { padding: 4px 0 26px; }
+        .wiz-nav { margin-bottom: 16px; }
+
+        .wiz-step h2 { font-size: clamp(1.25rem, 3.6vw, 1.9rem); }
+
+        .wiz-lede {
+            margin: 6px auto 14px;
+            font-size: 0.88rem;
+        }
+
+        /* step 1: a sideways rail, so three cards cost one screen not three */
+        .wiz-step[data-step="1"] { --pick-h: min(32vh, 282px); }
+
+        .wiz-step[data-step="1"] .grid {
+            display: grid;
+            grid-auto-flow: column;
+            grid-auto-columns: calc(var(--pick-h) * 0.8);
+            justify-content: center;
+            gap: 16px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 10px;
+            scrollbar-width: thin;
+        }
+
+        .wiz-step[data-step="1"] .card {
+            scroll-snap-align: center;
+            min-width: 0;
+        }
+
+        .wiz-step[data-step="1"] .ba-compare {
+            aspect-ratio: 4 / 5;
+            height: var(--pick-h);
+        }
+
+        .wiz-step[data-step="1"] .card-title {
+            padding: 12px 14px 10px;
+            font-size: 1rem;
+        }
+
+        .wiz-step[data-step="1"] .pick-cta {
+            padding: 11px;
+            font-size: 0.86rem;
+        }
+
+        .swipe-hint {
+            display: none;
+            text-align: center;
+            margin-top: 6px;
+            font-size: 0.78rem;
+            font-weight: 300;
+            color: var(--cream-faint);
+        }
+
+        /* step 2: everything past the preset list is optional */
+        .tweak {
+            margin-top: 4px;
+            border-top: 1px solid var(--line);
+            padding-top: 14px;
+        }
+
+        .tweak > summary {
+            cursor: pointer;
+            list-style: none;
+            font-size: 0.86rem;
+            font-weight: 800;
+            color: var(--gold-hot);
+            padding: 6px 0;
+        }
+
+        .tweak > summary::-webkit-details-marker { display: none; }
+
+        .tweak > summary::before {
+            content: "▸ ";
+            display: inline-block;
+            transition: transform 0.2s var(--ease);
+        }
+
+        .tweak[open] > summary::before { content: "▾ "; }
+
+        .tweak .field { margin-bottom: 14px; }
+        .tweak textarea { min-height: 84px; }
+
+        /* step 4: preview and controls share the screen instead of stacking */
+        .wiz-step[data-step="4"] .studio-grid {
+            grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+            gap: 20px;
+        }
+
+        .wiz-step[data-step="4"] .studio-panel { padding: 14px; }
+        .wiz-step[data-step="4"] .dropzone { padding: 16px 14px; }
+        .wiz-step[data-step="4"] .field { margin-bottom: 0; }
+        .wiz-step[data-step="4"] .canvas-wrap { max-height: 26vh; }
+        .wiz-step[data-step="4"] #cardCanvas { max-height: 26vh; }
+
+        .foot { padding: 20px 0 26px; }
+        .foot .gold { font-size: 0.98rem; }
+
+        @media (max-width: 900px) {
+            .wiz-step[data-step="4"] .studio-grid { grid-template-columns: minmax(0, 1fr); }
+            .wiz-step[data-step="4"] .studio-stage { order: -1; position: static; padding: 14px; }
+        }
+
+        @media (max-width: 620px) {
+            /* the hero repeats the sticky brand bar; on a phone that is a whole
+               step's worth of height spent saying nothing new */
+            .hero { display: none; }
+
+            .wiz { padding-top: 12px; }
+            .wiz-nav { margin-bottom: 10px; padding: 3px; }
+            .wiz-tab { padding: 5px 3px; gap: 1px; font-size: 0.62rem; }
+            .wiz-tab i { width: 22px; height: 22px; font-size: 0.72rem; }
+            .wiz-step h2 { font-size: 1.18rem; }
+            .wiz-lede { display: none; }
+            .swipe-hint { display: block; }
+            .wiz-actions { margin-top: 12px; }
+            .wiz-back, .wiz-next { padding: 12px 8px; font-size: 0.86rem; }
+
+            .wiz-step[data-step="1"] {
+                --pick-h: min(34vh, 250px);
+            }
+
+            .wiz-step[data-step="1"] .grid {
+                gap: 12px;
+                justify-content: start;
+            }
+
+            .wiz-step[data-step="4"] .canvas-wrap,
+            .wiz-step[data-step="4"] #cardCanvas { max-height: 18vh; }
+
+            /* out-specifies the step-4 drop zone padding, which otherwise wins */
+            .wiz-step[data-step="4"] .dropzone.loaded { padding: 9px 13px; }
+            .wiz-step[data-step="4"] h2 { display: none; }
+            .wiz-step[data-step="4"] .studio-panel { padding: 11px; }
+            .wiz-step[data-step="4"] .studio-stage { padding: 11px; }
+            .wiz-step[data-step="4"] .field > label { margin-bottom: 5px; font-size: 0.74rem; }
+            .btn-share, .btn-download { padding: 12px; font-size: 0.92rem; }
+
+            .studio-panel, .wiz-panel { padding: 15px; }
+        }
+
         /* ══════════════ GREETING STUDIO ══════════════ */
         .studio { padding: 30px 0 60px; }
 
@@ -1006,6 +1313,25 @@
             color: var(--cream-faint);
         }
 
+        .wiz-actions.one { justify-content: center; }
+        .wiz-actions.one .wiz-next { min-width: min(100%, 340px); }
+
+        .wiz-next:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* A loaded drop zone is a status line, not a landing pad. Keeping it
+           full size costs a phone most of its preview. */
+        .dropzone.loaded {
+            padding: 11px 14px;
+            gap: 2px;
+        }
+
+        .dropzone.loaded .dz-sub { font-size: 0.74rem; }
+
         .dropzone.pulse {
             animation: dzPulse 1.1s var(--ease) 3;
         }
@@ -1018,13 +1344,13 @@
         /* ── preset blessings ── */
         .presets {
             display: grid;
-            gap: 10px;
-            margin-bottom: 18px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
 
         .preset {
             text-align: right;
-            padding: 12px 15px;
+            padding: 10px 14px;
             border-radius: var(--radius);
             border: 1px solid var(--line);
             background: rgba(255, 244, 224, 0.04);
@@ -1112,8 +1438,8 @@
            kept underneath as the desktop path and the fallback. */
         .btn-share {
             width: 100%;
-            margin-top: 16px;
-            padding: 15px;
+            margin-top: 12px;
+            padding: 13px;
             border-radius: var(--radius);
             font-size: 1rem;
             font-weight: 800;
@@ -1152,8 +1478,8 @@
 
         .btn-download {
             width: 100%;
-            margin-top: 16px;
-            padding: 15px;
+            margin-top: 12px;
+            padding: 13px;
             border-radius: var(--radius);
             font-size: 1rem;
             font-weight: 800;
@@ -1177,42 +1503,6 @@
             .studio-grid { grid-template-columns: minmax(0, 1fr); }
             .studio-stage { position: static; order: -1; }
         }
-
-        /* ══════════════ TIP + SHARE + FOOT ══════════════ */
-        .tip-wrap { padding: 10px 0 46px; text-align: center; }
-
-        .tip {
-            display: inline-block;
-            padding: 13px 26px;
-            border-radius: 999px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--gold-hot);
-            border: 1px dashed rgba(245, 197, 66, 0.42);
-            background: rgba(245, 197, 66, 0.07);
-        }
-
-        .share-wrap { padding-bottom: 66px; text-align: center; }
-
-        .share-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 11px;
-            padding: 16px 34px;
-            border-radius: 999px;
-            font-weight: 800;
-            color: #04160E;
-            background: linear-gradient(140deg, #6EE7A8, #25D366);
-            box-shadow: 0 12px 34px rgba(37, 211, 102, 0.34);
-            transition: transform 0.28s var(--ease), box-shadow 0.28s var(--ease);
-        }
-
-        .share-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 16px 44px rgba(37, 211, 102, 0.5);
-        }
-
-        .share-btn svg { width: 21px; height: 21px; }
 
         .foot {
             border-top: 1px solid var(--line);
@@ -1369,35 +1659,22 @@
             <div class="flare" aria-hidden="true"></div>
             <div class="container">
                 <span class="hero-tag">ראש השנה · תשפ״ז</span>
-                <h1>תוך דקה - הופכים תמונה לגלויה לראש השנה <span class="apple" aria-hidden="true">🍎</span></h1>
-                <p class="lede">מעלים תמונה, מדביקים פרומפט, ומקבלים גלויה מרהיבה - צילומית או מאויירת</p>
-                <div class="hero-rule"></div>
-
-                <div class="family-field">
-                    <label for="familyName">שם המשפחה שלכם <span class="opt">(אופציונלי)</span></label>
-                    <input id="familyName" class="family-input" type="text" maxlength="40" autocomplete="family-name"
-                        placeholder="לדוגמה: לוי" aria-describedby="familyHint">
-                    <p class="greeting-preview" id="greetingPreview" aria-live="polite">
-                        <span class="pre-label">החתימה על הגלויה:</span><br><span id="greetingText"></span>
-                    </p>
-                    <p id="familyHint" class="family-hint">הברכה נוספת בהמשך הדף, בעברית תקינה - לא ה-AI כותב אותה 🙌
-                    </p>
-                </div>
+                <h1>גלויה לראש השנה <span class="apple" aria-hidden="true">🍎</span></h1>
             </div>
         </section>
 
-        <section class="examples">
-            <div class="container">
-                <div class="order-note">
-                    <span class="on-icon" aria-hidden="true">➕</span>
-                    <p>בצ׳אט שייפתח הפרומפט כבר בפנים - רק צרפו את התמונה ושלחו
-                        <em>ב-ChatGPT: כפתור ➕ ליד שדה ההודעה, או פשוט גררו את התמונה לחלון.
-                            צריך להיות מחוברים. ב-Gemini צריך גם להדביק את הפרומפט (Ctrl+V)</em>
-                    </p>
-                </div>
-                <div class="grid" id="cards">
-
-                    <article class="card reveal">
+        <div class="wiz" id="wiz">
+        <div class="wiz-nav" id="wizNav" role="tablist" aria-label="שלבי היצירה">
+            <button type="button" class="wiz-tab" data-go="1" aria-selected="true"><i>1</i><span>סגנון</span></button>
+            <button type="button" class="wiz-tab" data-go="2" aria-selected="false"><i>2</i><span>ברכה</span></button>
+            <button type="button" class="wiz-tab" data-go="3" aria-selected="false"><i>3</i><span>יצירה</span></button>
+            <button type="button" class="wiz-tab" data-go="4" aria-selected="false"><i>4</i><span>שליחה</span></button>
+        </div>
+        <section class="wiz-step" data-step="1">
+            <h2>איזה סגנון?</h2>
+            <p class="wiz-lede">הזיזו את המחוון כדי לראות לפני ואחרי, ובחרו.</p>
+            <div class="grid" id="cards">
+                    <article class="card reveal pick" data-style="festive" role="button" tabindex="0" aria-pressed="false">
                         <h3 class="card-title">חגיגי־לבן 🕊️ <span class="style-no">01</span></h3>
                         <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון חגיגי־לבן"
                             aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
@@ -1414,17 +1691,9 @@
                             <span class="ba-label before">לפני</span>
                             <span class="ba-label after">אחרי</span>
                         </div>
-                        <div class="actions">
-                            <button class="btn btn-chatgpt" data-prompt-key="festive" data-target="chatgpt">🟢 צור עם
-                                ChatGPT</button>
-                            <button class="btn btn-gemini" data-prompt-key="festive" data-target="gemini">🔵 צור עם
-                                Gemini</button>
-                            <button class="btn btn-copy" data-prompt-key="festive" data-target="copy">📋 העתק פרומפט
-                                בלבד</button>
-                        </div>
+                            <div class="pick-cta"><span>בחרו בסגנון הזה</span></div>
                     </article>
-
-                    <article class="card reveal">
+                    <article class="card reveal pick" data-style="royal" role="button" tabindex="0" aria-pressed="false">
                         <h3 class="card-title">מלכותי 🍎 <span class="style-no">02</span></h3>
                         <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון מלכותי"
                             aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
@@ -1441,17 +1710,9 @@
                             <span class="ba-label before">לפני</span>
                             <span class="ba-label after">אחרי</span>
                         </div>
-                        <div class="actions">
-                            <button class="btn btn-chatgpt" data-prompt-key="royal" data-target="chatgpt">🟢 צור עם
-                                ChatGPT</button>
-                            <button class="btn btn-gemini" data-prompt-key="royal" data-target="gemini">🔵 צור עם
-                                Gemini</button>
-                            <button class="btn btn-copy" data-prompt-key="royal" data-target="copy">📋 העתק פרומפט
-                                בלבד</button>
-                        </div>
+                            <div class="pick-cta"><span>בחרו בסגנון הזה</span></div>
                     </article>
-
-                    <article class="card reveal">
+                    <article class="card reveal pick" data-style="honey" role="button" tabindex="0" aria-pressed="false">
                         <h3 class="card-title">מאוייר 🍯 <span class="style-no">03</span></h3>
                         <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון מאוייר"
                             aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
@@ -1468,60 +1729,25 @@
                             <span class="ba-label before">לפני</span>
                             <span class="ba-label after">אחרי</span>
                         </div>
-                        <div class="actions">
-                            <button class="btn btn-chatgpt" data-prompt-key="honey" data-target="chatgpt">🟢 צור עם
-                                ChatGPT</button>
-                            <button class="btn btn-gemini" data-prompt-key="honey" data-target="gemini">🔵 צור עם
-                                Gemini</button>
-                            <button class="btn btn-copy" data-prompt-key="honey" data-target="copy">📋 העתק פרומפט
-                                בלבד</button>
-                        </div>
+                            <div class="pick-cta"><span>בחרו בסגנון הזה</span></div>
                     </article>
-
-                </div>
+            </div>
+            <p class="swipe-hint">← החליקו לצדדים לראות את שלושת הסגנונות →</p>
+            <div class="wiz-actions one">
+                <button type="button" class="wiz-next" data-go="2" id="next1" disabled>לשלב 2 - בחירת ברכה ←</button>
             </div>
         </section>
-
-        <section class="steps">
-            <div class="container">
-                <h2>תוך דקה זה מוכן</h2>
-                <div class="steps-grid">
-                    <div class="step reveal"><span class="step-num">1</span><span class="step-text">לוחצים על
-                            כפתור</span></div>
-                    <div class="step reveal"><span class="step-num">2</span><span class="step-text">הפרומפט נשלח
-                            לצ׳אט לבד</span></div>
-                    <div class="step reveal"><span class="step-num">3</span><span class="step-text">מצרפים תמונה
-                            ושולחים</span></div>
-                    <div class="step reveal"><span class="step-num">4</span><span class="step-text">חוזרים לכאן
-                            ומלבישים ברכה</span></div>
-                </div>
-            </div>
-        </section>
-
-        <section class="studio" id="studio">
-            <div class="container">
-                <h2>מלבישים ברכה</h2>
-                <p class="studio-lede">התמונה חוזרת מ-AI נקייה, בלי טקסט. כאן מוסיפים את הברכה בעברית תקינה - ומורידים
-                    גלויה מוכנה.</p>
-
-                <div class="studio-grid">
-
-                    <div class="studio-panel">
-                        <div class="field">
-                            <label for="fileInput">התמונה שיצרתם</label>
-                            <div class="dropzone" id="dropzone" role="button" tabindex="0"
-                                aria-label="העלאת תמונה - גרירה, הדבקה או בחירת קובץ">
-                                <span class="dz-title" id="dzTitle">גררו לכאן, או הדביקו (Ctrl+V)</span>
-                                <span class="dz-sub" id="dzSub">אפשר גם ללחוץ ולבחור קובץ</span>
-                            </div>
-                            <input type="file" id="fileInput" accept="image/*" class="sr-only">
-                        </div>
-
-                        <div class="field">
+        <section class="wiz-step" data-step="2" hidden>
+            <h2>איזו ברכה?</h2>
+            <p class="wiz-lede">בוחרים עכשיו, כדי שבסוף יישאר רק להעלות ולשלוח.</p>
+            <div class="wiz-panel">
+<div class="field">
                             <label>ברכה מוכנה</label>
                             <div class="presets" id="presets"></div>
                         </div>
 
+                        <details class="tweak">
+                        <summary>התאמה אישית</summary>
                         <div class="field">
                             <label for="gTitle">כותרת</label>
                             <input type="text" id="gTitle" maxlength="40" value="שנה טובה ומתוקה">
@@ -1553,9 +1779,50 @@
                             </div>
                             <p class="family-hint">לתמונות בהירות, כמו הסגנון המאוייר, בחרו "דיו על בהיר"</p>
                         </div>
-                    </div>
+                        </details>
+            </div>
+            <div class="wiz-actions">
+                <button type="button" class="wiz-back" data-go="1">→ שלב 1</button>
+                <button type="button" class="wiz-next" data-go="3">לשלב 3 - יצירת התמונה ←</button>
+            </div>
+        </section>
+        <section class="wiz-step" data-step="3" hidden>
+            <h2>יוצרים את התמונה</h2>
+            <p class="wiz-lede">נפתח צ׳אט שהפרומפט כבר נשלח בו. כל מה שנשאר - לצרף את התמונה שלכם.</p>
+            <div class="wiz-panel launch">
+                <div class="order-note">
+                    <span class="on-icon" aria-hidden="true">➕</span>
+                    <p>בצ׳אט: צרפו את התמונה ושלחו
+                        <em>כפתור ➕ ליד שדה ההודעה. צריך להיות מחוברים.
+                            ב-Gemini צריך גם להדביק את הפרומפט (Ctrl+V)</em>
+                    </p>
+                </div>
+                <button class="btn btn-chatgpt launch-btn" data-target="chatgpt">🟢 פתחו את ChatGPT</button>
+                <button class="btn btn-gemini launch-btn" data-target="gemini">🔵 פתחו את Gemini</button>
+                <button class="btn btn-copy launch-btn" data-target="copy">📋 העתק פרומפט בלבד</button>
+            </div>
+            <div class="wiz-actions">
+                <button type="button" class="wiz-back" data-go="2">→ שלב 2</button>
+                <button type="button" class="wiz-next" data-go="4">לשלב 4 - העלאה ושליחה ←</button>
+            </div>
+        </section>
+        <section class="wiz-step" data-step="4" hidden>
+            <h2>מעלים ושולחים</h2>
+            <p class="wiz-lede">העלו את התמונה שקיבלתם - הברכה שבחרתם כבר מחכה עליה.</p>
+            <div class="studio-grid">
+                <div class="studio-panel">
+<div class="field">
+                            <label for="fileInput">התמונה שיצרתם</label>
+                            <div class="dropzone" id="dropzone" role="button" tabindex="0"
+                                aria-label="העלאת תמונה - גרירה, הדבקה או בחירת קובץ">
+                                <span class="dz-title" id="dzTitle">גררו לכאן, או הדביקו (Ctrl+V)</span>
+                                <span class="dz-sub" id="dzSub">אפשר גם ללחוץ ולבחור קובץ</span>
+                            </div>
+                            <input type="file" id="fileInput" accept="image/*" class="sr-only">
+                        </div>
 
-                    <div class="studio-stage">
+                                        </div>
+                <div class="studio-stage">
                         <div class="canvas-wrap">
                             <p class="stage-empty" id="stageEmpty">התצוגה המקדימה תופיע כאן<br>אחרי שתעלו תמונה</p>
                             <canvas id="cardCanvas" hidden></canvas>
@@ -1564,27 +1831,11 @@
                         <button class="btn-download" id="btnDownload" disabled>⬇ הורדת הגלויה</button>
                     </div>
 
-                </div>
+            </div>
+            <div class="wiz-actions">
+                <button type="button" class="wiz-back" data-go="2">→ שלב 2 - לשנות ברכה</button>
             </div>
         </section>
-
-        <div class="tip-wrap">
-            <div class="container">
-                <span class="tip">לתוצאה הכי טובה - בחרו תמונה באור טוב, שכל הפנים בה גלויות 🙌</span>
-            </div>
-        </div>
-
-        <div class="share-wrap">
-            <div class="container">
-                <a id="shareWa" class="share-btn" href="https://wa.me/?text=" target="_blank" rel="noopener"
-                    aria-label="שתפו ב-WhatsApp">
-                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path
-                            d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-                    </svg>
-                    שתפו ב־WhatsApp
-                </a>
-            </div>
         </div>
 
         <footer class="foot">
@@ -1865,32 +2116,6 @@ ${NOTEXT_GEM}`
         };
 
         /* ══════════════ PERSONAL GREETING ══════════════ */
-        const FAMILY_STORAGE_KEY = 'roshHashana:familyName';
-        const familyInput = document.getElementById('familyName');
-        const greetingText = document.getElementById('greetingText');
-
-        try {
-            const saved = localStorage.getItem(FAMILY_STORAGE_KEY);
-            if (saved) familyInput.value = saved;
-        } catch (_) { /* localStorage blocked — not critical */ }
-
-        // The name is no longer sent to the AI — it becomes the signature line
-        // the studio composites onto the finished card.
-        function buildGreeting() {
-            const clean = (familyInput.value || '').trim().slice(0, 40);
-            return clean ? `ממשפחת ${clean}` : 'ללא חתימה';
-        }
-
-        function renderPreview() {
-            greetingText.textContent = buildGreeting();
-        }
-
-        familyInput.addEventListener('input', () => {
-            renderPreview();
-            try { localStorage.setItem(FAMILY_STORAGE_KEY, familyInput.value); } catch (_) { }
-        });
-        renderPreview();
-
         /* ══════════════ CLIPBOARD ══════════════ */
         async function copyToClipboard(text) {
             try {
@@ -1919,66 +2144,6 @@ ${NOTEXT_GEM}`
             t.classList.add('show');
             clearTimeout(toastTimer);
             toastTimer = setTimeout(() => t.classList.remove('show'), 4200);
-        }
-
-        /* ══════════════ BUTTON HANDLER (delegated) ══════════════ */
-        document.getElementById('cards').addEventListener('click', async (e) => {
-            const btn = e.target.closest('button[data-prompt-key]');
-            if (!btn) return;
-            const key = btn.dataset.promptKey;
-            const target = btn.dataset.target;
-            const variants = PROMPTS[key];
-            if (!variants) return;
-            // the copy button feeds ChatGPT far more often than Gemini
-            const prompt = target === 'gemini' ? variants.gemini : variants.chatgpt;
-
-            // Start the clipboard write while the document still has focus, but do
-            // NOT await before window.open — awaiting first breaks the user-gesture
-            // chain and Safari's popup blocker kills the tab.
-            const copyPromise = copyToClipboard(prompt);
-
-            if (target !== 'copy') {
-                // Gemini has no prompt parameter, so it still opens blank and the
-                // visitor pastes. ChatGPT gets the prompt in the URL.
-                const url = target === 'chatgpt'
-                    ? 'https://chatgpt.com/?q=' + encodeURIComponent(prompt)
-                    : 'https://gemini.google.com/app';
-                window.open(url, '_blank', 'noopener');
-                markLeftForChat();
-            }
-
-            const ok = await copyPromise;
-
-            if (typeof gtag === 'function') {
-                gtag('event', 'copy_prompt', {
-                    template: key,
-                    target: target,
-                    has_family_name: (familyInput.value || '').trim().length > 0
-                });
-            }
-
-            if (target === 'copy') {
-                showToast(ok ? 'הפרומפט הועתק 📋' : 'ההעתקה נכשלה - סמנו והעתיקו ידנית');
-            } else if (target === 'chatgpt') {
-                showToast('הפרומפט כבר בצ׳אט - פשוט העלו את התמונה 📸');
-            } else if (ok) {
-                showToast('הפרומפט הועתק! הדביקו ב-Gemini והעלו תמונה');
-            } else {
-                showToast('פתחנו את הצ׳אט - חזרו לכאן ולחצו "העתק פרומפט בלבד"');
-            }
-        });
-
-
-        /* ══════════════ WHATSAPP SHARE ══════════════ */
-        const shareBtn = document.getElementById('shareWa');
-        if (shareBtn) {
-            const shareMsg = 'תוך דקה - הופכים תמונה לגלויה לראש השנה 🍎\n' + window.location.href;
-            shareBtn.href = 'https://wa.me/?text=' + encodeURIComponent(shareMsg);
-            shareBtn.addEventListener('click', () => {
-                if (typeof gtag === 'function') {
-                    gtag('event', 'share', { method: 'whatsapp', content_type: 'page' });
-                }
-            });
         }
 
         /* ══════════════ REVEAL ON SCROLL ══════════════ */
@@ -2145,6 +2310,8 @@ ${NOTEXT_GEM}`
             im.onload = () => {
                 studio.img = im;
                 studio.el.dropzone.classList.remove('pulse');
+                studio.el.dropzone.classList.add('loaded');
+                if (wiz.step !== 4) goStep(4);
                 studio.el.dzTitle.textContent = 'תמונה נטענה ✓';
                 studio.el.dzSub.textContent = im.naturalWidth + '×' + im.naturalHeight + ' - לחצו להחלפה';
                 draw();
@@ -2206,14 +2373,6 @@ ${NOTEXT_GEM}`
             draw();
         });
 
-        // the hero field seeds the signature
-        familyInput.addEventListener('input', () => {
-            const v = (familyInput.value || '').trim();
-            if (v && !studio.el.family.dataset.touched) {
-                studio.el.family.value = 'ממשפחת ' + v;
-                draw();
-            }
-        });
         studio.el.family.addEventListener('input', () => { studio.el.family.dataset.touched = '1'; });
 
         /* ── canvas render ── */
@@ -2421,6 +2580,148 @@ ${NOTEXT_GEM}`
             }
         });
 
+
+        /* ══════════════ WIZARD ══════════════ */
+        const WIZ_KEY = 'roshHashana:wiz';
+        const wiz = {
+            step: 1,
+            style: null,
+            el: {
+                root: document.getElementById('wiz'),
+                nav: document.getElementById('wizNav'),
+                steps: [...document.querySelectorAll('.wiz-step')],
+                tabs: [...document.querySelectorAll('.wiz-tab')]
+            }
+        };
+
+        function wizReachable(n) {
+            if (n <= 1) return true;
+            return !!wiz.style;           // nothing downstream means anything without a style
+        }
+
+        function goStep(n, opts = {}) {
+            if (!wizReachable(n)) return;
+            wiz.step = n;
+            wiz.el.steps.forEach((sec) => { sec.hidden = Number(sec.dataset.step) !== n; });
+            wiz.el.tabs.forEach((t) => {
+                const i = Number(t.dataset.go);
+                t.setAttribute('aria-selected', String(i === n));
+                t.classList.toggle('done', i < n);
+                t.disabled = !wizReachable(i);
+            });
+            if (!opts.silent) wiz.el.root.scrollIntoView({ block: 'start' });
+            saveWiz();
+            if (typeof gtag === 'function') gtag('event', 'wizard_step', { step: n, style: wiz.style || '' });
+        }
+
+        function pickStyle(key) {
+            wiz.style = key;
+            document.querySelectorAll('.card.pick').forEach((c) =>
+                c.setAttribute('aria-pressed', String(c.dataset.style === key)));
+            const n1 = document.getElementById('next1');
+            if (n1) n1.disabled = false;
+            wiz.el.tabs.forEach((t) => { t.disabled = !wizReachable(Number(t.dataset.go)); });
+            saveWiz();
+        }
+
+        document.getElementById('cards').addEventListener('click', (e) => {
+            const card = e.target.closest('.card.pick');
+            if (card) pickStyle(card.dataset.style);
+        });
+        document.getElementById('cards').addEventListener('keydown', (e) => {
+            if (e.key !== 'Enter' && e.key !== ' ') return;
+            const card = e.target.closest('.card.pick');
+            if (!card) return;
+            e.preventDefault();
+            pickStyle(card.dataset.style);
+        });
+
+        wiz.el.root.addEventListener('click', (e) => {
+            const b = e.target.closest('[data-go]');
+            if (!b || b.classList.contains('card')) return;
+            goStep(Number(b.dataset.go));
+        });
+
+        /* ── step 3: hand off with the chosen style's prompt ── */
+        document.querySelectorAll('.launch-btn').forEach((btn) => {
+            btn.addEventListener('click', async () => {
+                const variants = PROMPTS[wiz.style];
+                if (!variants) { goStep(1); return; }
+                const target = btn.dataset.target;
+                const prompt = target === 'gemini' ? variants.gemini : variants.chatgpt;
+
+                const copyPromise = copyToClipboard(prompt);
+
+                if (target !== 'copy') {
+                    const url = target === 'chatgpt'
+                        ? 'https://chatgpt.com/?q=' + encodeURIComponent(prompt)
+                        : 'https://gemini.google.com/app';
+                    window.open(url, '_blank', 'noopener');
+                    markLeftForChat();
+                }
+
+                const ok = await copyPromise;
+
+                if (typeof gtag === 'function') {
+                    gtag('event', 'copy_prompt', { template: wiz.style, target: target });
+                }
+
+                if (target === 'copy') {
+                    showToast(ok ? 'הפרומפט הועתק 📋' : 'ההעתקה נכשלה - סמנו והעתיקו ידנית');
+                } else if (target === 'chatgpt') {
+                    showToast('הפרומפט כבר בצ׳אט - צרפו את התמונה ושלחו 📸');
+                } else if (ok) {
+                    showToast('הפרומפט הועתק! הדביקו ב-Gemini וצרפו תמונה');
+                } else {
+                    showToast('פתחנו את הצ׳אט - חזרו ולחצו "העתק פרומפט בלבד"');
+                }
+            });
+        });
+
+        /* ── remember every choice, so the return trip resumes ── */
+        function saveWiz() {
+            try {
+                localStorage.setItem(WIZ_KEY, JSON.stringify({
+                    step: wiz.step,
+                    style: wiz.style,
+                    title: studio.el.title.value,
+                    body: studio.el.body.value,
+                    family: studio.el.family.value,
+                    pos: studio.pos,
+                    textStyle: studio.style
+                }));
+            } catch (_) { }
+        }
+
+        (function restoreWiz() {
+            let d = null;
+            try { d = JSON.parse(localStorage.getItem(WIZ_KEY) || 'null'); } catch (_) { }
+            if (!d) { goStep(1, { silent: true }); return; }
+
+            if (d.style && PROMPTS[d.style]) pickStyle(d.style);
+            if (d.title) studio.el.title.value = d.title;
+            if (d.body) studio.el.body.value = d.body;
+            if (d.family) studio.el.family.value = d.family;
+            if (d.pos) {
+                studio.pos = d.pos;
+                studio.el.posSeg.querySelectorAll('button')
+                    .forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.pos === d.pos)));
+            }
+            if (d.textStyle) {
+                studio.style = d.textStyle;
+                studio.el.styleSeg.querySelectorAll('button')
+                    .forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.style === d.textStyle)));
+            }
+            // step 4 without an image is a dead end on reload; fall back to 3
+            const step = d.step === 4 && !studio.img ? 3 : (d.step || 1);
+            goStep(wizReachable(step) ? step : 1, { silent: true });
+        })();
+
+        [studio.el.title, studio.el.body, studio.el.family].forEach((el) =>
+            el.addEventListener('input', saveWiz));
+        studio.el.posSeg.addEventListener('click', saveWiz);
+        studio.el.styleSeg.addEventListener('click', saveWiz);
+
         /* ══════════════ RETURN FROM THE CHAT ══════════════
            Coming back to a page scrolled to the top means hunting for the next
            step. If they left for a chat and still have no image loaded, put the
@@ -2437,7 +2738,7 @@ ${NOTEXT_GEM}`
             try { left = localStorage.getItem(LEFT_KEY) === '1'; } catch (_) { }
             if (!left || studio.img) return;
             try { localStorage.removeItem(LEFT_KEY); } catch (_) { }
-            document.getElementById('studio').scrollIntoView({ block: 'start' });
+            goStep(4);
             studio.el.dropzone.classList.add('pulse');
             setTimeout(() => studio.el.dropzone.classList.remove('pulse'), 4000);
         });
