@@ -3,11 +3,17 @@
   Live:  https://megenimoref.github.io/LandingPages/rosh-hashana-moments/
   Local: http://127.0.0.1:8080/rosh-hashana-moments/
 
-  Zero backend by design: the page never calls an image API. It personalises a
-  prompt, puts it on the clipboard and hands the user off to ChatGPT / Gemini,
-  so generation runs on the visitor's own account.
+  Zero backend by design: the page never calls an image API. It copies a prompt
+  and hands the visitor off to ChatGPT / Gemini, so generation runs on their own
+  account.
 
-  Demo images are placeholders until real ones are dropped in — see images/README.md.
+  The AI is asked NOT to write Hebrew. It leaves the top of the frame clean and
+  the greeting is composited here on a canvas, which is the only way to get
+  correct spelling every time and to produce one card per family from a single
+  generated image. renderGreetingCard() returns a Blob so a sharing layer can
+  be added later without touching the renderer.
+
+  Demo images fall back to SVG placeholders — see images/README.md.
 -->
 
 <!DOCTYPE html>
@@ -16,9 +22,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rosh Hashana Moments · מחוז חיפה 350 - גלויה קולנועית לראש השנה</title>
+    <title>Rosh Hashana Moments · מחוז חיפה 350 - גלויה לראש השנה</title>
     <meta name="description"
-        content="מעלים תמונה, מדביקים פרומפט, ומקבלים גלויה קולנועית לראש השנה תוך דקה. עובד עם ChatGPT ועם Gemini.">
+        content="מעלים תמונה, מדביקים פרומפט, ומקבלים גלויה לראש השנה תוך דקה. עובד עם ChatGPT ועם Gemini.">
     <meta name="theme-color" content="#0B0206">
     <link rel="canonical" href="https://megenimoref.github.io/LandingPages/rosh-hashana-moments/">
 
@@ -27,16 +33,16 @@
     <meta property="og:locale" content="he_IL">
     <meta property="og:site_name" content="Rosh Hashana Moments">
     <meta property="og:url" content="https://megenimoref.github.io/LandingPages/rosh-hashana-moments/">
-    <meta property="og:title" content="מחוז חיפה 350 - הופכים תמונה לגלויה קולנועית לראש השנה 🍎">
+    <meta property="og:title" content="מחוז חיפה 350 - הופכים תמונה לגלויה לראש השנה 🍎">
     <meta property="og:description"
         content="מעלים תמונה, מדביקים פרומפט, ומקבלים גלויה מרהיבה. עובד עם ChatGPT ועם Gemini.">
     <meta property="og:image"
         content="https://megenimoref.github.io/LandingPages/rosh-hashana-moments/images/og-preview.webp">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="גלויה קולנועית לראש השנה שנוצרה ב-AI">
+    <meta property="og:image:alt" content="גלויה לראש השנה שנוצרה ב-AI">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="מחוז חיפה 350 - גלויה קולנועית לראש השנה 🍎">
+    <meta name="twitter:title" content="מחוז חיפה 350 - גלויה לראש השנה 🍎">
     <meta name="twitter:description" content="מעלים תמונה, מדביקים פרומפט, ומקבלים גלויה מרהיבה.">
     <meta name="twitter:image"
         content="https://megenimoref.github.io/LandingPages/rosh-hashana-moments/images/og-preview.webp">
@@ -435,6 +441,9 @@
             text-align: center;
             padding: 76px 0 44px;
             position: relative;
+            /* the lens flare is deliberately wider than the section; without this
+               it widens the document and shifts the whole RTL page sideways */
+            overflow: hidden;
         }
 
         .hero-tag {
@@ -562,6 +571,45 @@
             font-size: 0.8rem;
             font-weight: 300;
             color: var(--cream-faint);
+        }
+
+        /* The one mistake that ruins the result is pasting before uploading.
+           It needs to be visible next to the buttons, not behind a dialog. */
+        .order-note {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            max-width: 640px;
+            margin: 0 auto 30px;
+            padding: 14px 20px;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(245, 197, 66, 0.42);
+            background: rgba(245, 197, 66, 0.09);
+            backdrop-filter: blur(8px);
+        }
+
+        .order-note .on-icon {
+            flex: 0 0 auto;
+            font-size: 1.4rem;
+        }
+
+        .order-note p {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--gold-hot);
+            line-height: 1.5;
+        }
+
+        .order-note em {
+            display: block;
+            font-style: normal;
+            font-weight: 300;
+            font-size: 0.82rem;
+            color: var(--cream-dim);
+        }
+
+        @media (max-width: 620px) {
+            .order-note { margin-inline: 4px; }
         }
 
         /* ══════════════ CARDS ══════════════ */
@@ -855,6 +903,281 @@
             color: var(--cream-dim);
         }
 
+        /* ══════════════ GREETING STUDIO ══════════════ */
+        .studio { padding: 30px 0 60px; }
+
+        .studio h2 {
+            text-align: center;
+            font-size: clamp(1.6rem, 4.4vw, 2.5rem);
+            font-weight: 900;
+            background: linear-gradient(100deg, var(--gold-hot), var(--pom-hot));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .studio-lede {
+            text-align: center;
+            max-width: 52ch;
+            margin: 12px auto 34px;
+            font-weight: 300;
+            color: var(--cream-dim);
+        }
+
+        .studio-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+            gap: 28px;
+            align-items: start;
+        }
+
+        .studio-panel,
+        .studio-stage {
+            background: linear-gradient(165deg, rgba(255, 244, 224, 0.07), rgba(255, 244, 224, 0.02));
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(16px);
+            box-shadow: var(--shadow-deep);
+            padding: 22px;
+        }
+
+        .field { margin-bottom: 18px; }
+
+        .field > label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            color: var(--cream-dim);
+            margin-bottom: 8px;
+        }
+
+        .field input[type="text"],
+        .field textarea {
+            width: 100%;
+            padding: 12px 16px;
+            font: inherit;
+            font-size: 0.98rem;
+            color: var(--cream);
+            background: rgba(255, 244, 224, 0.06);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            resize: vertical;
+            transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+        }
+
+        .field textarea { min-height: 110px; line-height: 1.6; }
+
+        .field input:focus,
+        .field textarea:focus {
+            border-color: var(--gold);
+            box-shadow: var(--glow-gold);
+            outline: none;
+        }
+
+        /* ── drop zone ── */
+        .dropzone {
+            display: grid;
+            place-items: center;
+            gap: 8px;
+            padding: 26px 18px;
+            text-align: center;
+            border: 2px dashed rgba(245, 197, 66, 0.4);
+            border-radius: var(--radius-lg);
+            background: rgba(245, 197, 66, 0.05);
+            cursor: pointer;
+            transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+        }
+
+        .dropzone:hover,
+        .dropzone.over {
+            border-color: var(--gold);
+            background: rgba(245, 197, 66, 0.12);
+        }
+
+        .dropzone .dz-title {
+            font-weight: 800;
+            color: var(--gold-hot);
+        }
+
+        .dropzone .dz-sub {
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: var(--cream-faint);
+        }
+
+        .dropzone.pulse {
+            animation: dzPulse 1.1s var(--ease) 3;
+        }
+
+        @keyframes dzPulse {
+            0%, 100% { border-color: rgba(245, 197, 66, 0.4); box-shadow: none; }
+            50% { border-color: var(--gold); box-shadow: 0 0 0 8px rgba(245, 197, 66, 0.16); }
+        }
+
+        /* ── preset blessings ── */
+        .presets {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .preset {
+            text-align: right;
+            padding: 12px 15px;
+            border-radius: var(--radius);
+            border: 1px solid var(--line);
+            background: rgba(255, 244, 224, 0.04);
+            transition: border-color 0.25s var(--ease), background 0.25s var(--ease), transform 0.25s var(--ease);
+        }
+
+        .preset:hover { transform: translateX(-3px); border-color: rgba(245, 197, 66, 0.55); }
+
+        .preset[aria-pressed="true"] {
+            border-color: var(--gold);
+            background: rgba(245, 197, 66, 0.12);
+        }
+
+        .preset-title {
+            display: block;
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--gold-hot);
+        }
+
+        .preset-body {
+            display: block;
+            font-size: 0.79rem;
+            font-weight: 300;
+            line-height: 1.5;
+            color: var(--cream-faint);
+            margin-top: 3px;
+        }
+
+        /* ── segmented control ── */
+        .seg {
+            display: grid;
+            grid-auto-flow: column;
+            gap: 6px;
+            padding: 5px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: rgba(255, 244, 224, 0.04);
+        }
+
+        .seg button {
+            padding: 9px 10px;
+            border-radius: 11px;
+            font-size: 0.86rem;
+            font-weight: 700;
+            color: var(--cream-dim);
+            transition: background 0.25s var(--ease), color 0.25s var(--ease);
+        }
+
+        .seg button[aria-pressed="true"] {
+            color: var(--night);
+            background: linear-gradient(140deg, var(--gold-hot), var(--honey));
+        }
+
+        /* ── stage ── */
+        .studio-stage { position: sticky; top: 88px; }
+
+        .canvas-wrap {
+            position: relative;
+            border-radius: var(--radius);
+            overflow: hidden;
+            background: var(--wine);
+            aspect-ratio: 4 / 5;
+            display: grid;
+            place-items: center;
+        }
+
+        #cardCanvas {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            display: block;
+        }
+
+        .stage-empty {
+            padding: 24px;
+            text-align: center;
+            font-size: 0.88rem;
+            font-weight: 300;
+            color: var(--cream-faint);
+        }
+
+        /* Share leads on a phone, where the whole flow ends anyway; download is
+           kept underneath as the desktop path and the fallback. */
+        .btn-share {
+            width: 100%;
+            margin-top: 16px;
+            padding: 15px;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 800;
+            color: #04160E;
+            background: linear-gradient(140deg, #6EE7A8, #25D366);
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.3);
+            transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), opacity 0.25s var(--ease);
+        }
+
+        .btn-share:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 40px rgba(37, 211, 102, 0.45);
+        }
+
+        .btn-share:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* when share is present it takes the lead and download steps back */
+        .btn-share:not([hidden]) + .btn-download {
+            margin-top: 10px;
+            color: var(--gold-hot);
+            background: transparent;
+            border: 1px solid var(--line);
+            box-shadow: none;
+            font-size: 0.9rem;
+        }
+
+        .btn-share:not([hidden]) + .btn-download:hover:not(:disabled) {
+            background: rgba(245, 197, 66, 0.1);
+            border-color: var(--gold);
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-download {
+            width: 100%;
+            margin-top: 16px;
+            padding: 15px;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--night);
+            background: linear-gradient(140deg, var(--gold-hot), var(--honey));
+            box-shadow: 0 10px 30px rgba(245, 197, 66, 0.3);
+            transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease), opacity 0.25s var(--ease);
+        }
+
+        .btn-download:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 40px rgba(245, 197, 66, 0.45);
+        }
+
+        .btn-download:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 900px) {
+            .studio-grid { grid-template-columns: minmax(0, 1fr); }
+            .studio-stage { position: static; order: -1; }
+        }
+
         /* ══════════════ TIP + SHARE + FOOT ══════════════ */
         .tip-wrap { padding: 10px 0 46px; text-align: center; }
 
@@ -1046,8 +1369,8 @@
             <div class="flare" aria-hidden="true"></div>
             <div class="container">
                 <span class="hero-tag">ראש השנה · תשפ״ז</span>
-                <h1>תוך דקה - הופכים תמונה לגלויה קולנועית <span class="apple" aria-hidden="true">🍎</span></h1>
-                <p class="lede">מעלים תמונה, מדביקים פרומפט, ומקבלים גלויה מרהיבה שנראית כאילו צולמה באולפן</p>
+                <h1>תוך דקה - הופכים תמונה לגלויה לראש השנה <span class="apple" aria-hidden="true">🍎</span></h1>
+                <p class="lede">מעלים תמונה, מדביקים פרומפט, ומקבלים גלויה מרהיבה - צילומית או מאויירת</p>
                 <div class="hero-rule"></div>
 
                 <div class="family-field">
@@ -1055,9 +1378,9 @@
                     <input id="familyName" class="family-input" type="text" maxlength="40" autocomplete="family-name"
                         placeholder="לדוגמה: לוי" aria-describedby="familyHint">
                     <p class="greeting-preview" id="greetingPreview" aria-live="polite">
-                        <span class="pre-label">ייכתב על התמונה:</span><br><span id="greetingText"></span>
+                        <span class="pre-label">החתימה על הגלויה:</span><br><span id="greetingText"></span>
                     </p>
-                    <p id="familyHint" class="family-hint">לפעמים העברית בתמונה יוצאת לא מושלמת - אפשר תמיד לנסות שוב 🙌
+                    <p id="familyHint" class="family-hint">הברכה נוספת בהמשך הדף, בעברית תקינה - לא ה-AI כותב אותה 🙌
                     </p>
                 </div>
             </div>
@@ -1065,18 +1388,25 @@
 
         <section class="examples">
             <div class="container">
+                <div class="order-note">
+                    <span class="on-icon" aria-hidden="true">➕</span>
+                    <p>בצ׳אט שייפתח הפרומפט כבר בפנים - רק צרפו את התמונה ושלחו
+                        <em>ב-ChatGPT: כפתור ➕ ליד שדה ההודעה, או פשוט גררו את התמונה לחלון.
+                            צריך להיות מחוברים. ב-Gemini צריך גם להדביק את הפרומפט (Ctrl+V)</em>
+                    </p>
+                </div>
                 <div class="grid" id="cards">
 
                     <article class="card reveal">
-                        <h3 class="card-title">קולנועי 🎬 <span class="style-no">01</span></h3>
-                        <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון קולנועי"
+                        <h3 class="card-title">חגיגי־לבן 🕊️ <span class="style-no">01</span></h3>
+                        <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון חגיגי־לבן"
                             aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
                             <div class="ba-layer ba-before">
                                 <img src="images/before.webp" alt="לפני - תמונה מקורית" loading="eager" decoding="async"
                                     onerror="this.onerror=null;this.src='images/ph-before.svg'">
                             </div>
                             <div class="ba-layer ba-after">
-                                <img src="images/after1.webp" alt="אחרי - סגנון קולנועי" loading="eager"
+                                <img src="images/after1.webp" alt="אחרי - סגנון חגיגי־לבן" loading="eager"
                                     decoding="async" onerror="this.onerror=null;this.src='images/ph-after1.svg'">
                             </div>
                             <div class="ba-slider-line"></div>
@@ -1085,11 +1415,11 @@
                             <span class="ba-label after">אחרי</span>
                         </div>
                         <div class="actions">
-                            <button class="btn btn-chatgpt" data-prompt-key="cinematic" data-target="chatgpt">🟢 צור עם
+                            <button class="btn btn-chatgpt" data-prompt-key="festive" data-target="chatgpt">🟢 צור עם
                                 ChatGPT</button>
-                            <button class="btn btn-gemini" data-prompt-key="cinematic" data-target="gemini">🔵 צור עם
+                            <button class="btn btn-gemini" data-prompt-key="festive" data-target="gemini">🔵 צור עם
                                 Gemini</button>
-                            <button class="btn btn-copy" data-prompt-key="cinematic" data-target="copy">📋 העתק פרומפט
+                            <button class="btn btn-copy" data-prompt-key="festive" data-target="copy">📋 העתק פרומפט
                                 בלבד</button>
                         </div>
                     </article>
@@ -1122,15 +1452,15 @@
                     </article>
 
                     <article class="card reveal">
-                        <h3 class="card-title">זהוב 🍯 <span class="style-no">03</span></h3>
-                        <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון זהוב"
+                        <h3 class="card-title">מאוייר 🍯 <span class="style-no">03</span></h3>
+                        <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון מאוייר"
                             aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
                             <div class="ba-layer ba-before">
                                 <img src="images/before.webp" alt="לפני - תמונה מקורית" loading="lazy" decoding="async"
                                     onerror="this.onerror=null;this.src='images/ph-before.svg'">
                             </div>
                             <div class="ba-layer ba-after">
-                                <img src="images/after3.webp" alt="אחרי - סגנון זהוב" loading="lazy" decoding="async"
+                                <img src="images/after3.webp" alt="אחרי - סגנון מאוייר באקוורל" loading="lazy" decoding="async"
                                     onerror="this.onerror=null;this.src='images/ph-after3.svg'">
                             </div>
                             <div class="ba-slider-line"></div>
@@ -1139,11 +1469,11 @@
                             <span class="ba-label after">אחרי</span>
                         </div>
                         <div class="actions">
-                            <button class="btn btn-chatgpt" data-prompt-key="golden" data-target="chatgpt">🟢 צור עם
+                            <button class="btn btn-chatgpt" data-prompt-key="honey" data-target="chatgpt">🟢 צור עם
                                 ChatGPT</button>
-                            <button class="btn btn-gemini" data-prompt-key="golden" data-target="gemini">🔵 צור עם
+                            <button class="btn btn-gemini" data-prompt-key="honey" data-target="gemini">🔵 צור עם
                                 Gemini</button>
-                            <button class="btn btn-copy" data-prompt-key="golden" data-target="copy">📋 העתק פרומפט
+                            <button class="btn btn-copy" data-prompt-key="honey" data-target="copy">📋 העתק פרומפט
                                 בלבד</button>
                         </div>
                     </article>
@@ -1158,19 +1488,89 @@
                 <div class="steps-grid">
                     <div class="step reveal"><span class="step-num">1</span><span class="step-text">לוחצים על
                             כפתור</span></div>
-                    <div class="step reveal"><span class="step-num">2</span><span class="step-text">מעלים תמונה
-                            לצ׳אט</span></div>
-                    <div class="step reveal"><span class="step-num">3</span><span class="step-text">מדביקים את הפרומפט
-                            (Ctrl+V)</span></div>
-                    <div class="step reveal"><span class="step-num">4</span><span class="step-text">מקבלים גלויה
-                            מוכנה</span></div>
+                    <div class="step reveal"><span class="step-num">2</span><span class="step-text">הפרומפט נשלח
+                            לצ׳אט לבד</span></div>
+                    <div class="step reveal"><span class="step-num">3</span><span class="step-text">מצרפים תמונה
+                            ושולחים</span></div>
+                    <div class="step reveal"><span class="step-num">4</span><span class="step-text">חוזרים לכאן
+                            ומלבישים ברכה</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="studio" id="studio">
+            <div class="container">
+                <h2>מלבישים ברכה</h2>
+                <p class="studio-lede">התמונה חוזרת מ-AI נקייה, בלי טקסט. כאן מוסיפים את הברכה בעברית תקינה - ומורידים
+                    גלויה מוכנה.</p>
+
+                <div class="studio-grid">
+
+                    <div class="studio-panel">
+                        <div class="field">
+                            <label for="fileInput">התמונה שיצרתם</label>
+                            <div class="dropzone" id="dropzone" role="button" tabindex="0"
+                                aria-label="העלאת תמונה - גרירה, הדבקה או בחירת קובץ">
+                                <span class="dz-title" id="dzTitle">גררו לכאן, או הדביקו (Ctrl+V)</span>
+                                <span class="dz-sub" id="dzSub">אפשר גם ללחוץ ולבחור קובץ</span>
+                            </div>
+                            <input type="file" id="fileInput" accept="image/*" class="sr-only">
+                        </div>
+
+                        <div class="field">
+                            <label>ברכה מוכנה</label>
+                            <div class="presets" id="presets"></div>
+                        </div>
+
+                        <div class="field">
+                            <label for="gTitle">כותרת</label>
+                            <input type="text" id="gTitle" maxlength="40" value="שנה טובה ומתוקה">
+                        </div>
+
+                        <div class="field">
+                            <label for="gBody">נוסח הברכה</label>
+                            <textarea id="gBody" maxlength="320"></textarea>
+                        </div>
+
+                        <div class="field">
+                            <label for="gFamily">חתימה <span class="opt">(אופציונלי)</span></label>
+                            <input type="text" id="gFamily" maxlength="40" placeholder="ממשפחת לוי">
+                        </div>
+
+                        <div class="field">
+                            <label>מיקום הברכה</label>
+                            <div class="seg" id="posSeg">
+                                <button type="button" data-pos="top" aria-pressed="true">למעלה</button>
+                                <button type="button" data-pos="bottom" aria-pressed="false">למטה</button>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>סגנון הכיתוב</label>
+                            <div class="seg" id="styleSeg">
+                                <button type="button" data-style="dark" aria-pressed="true">זהב על כהה</button>
+                                <button type="button" data-style="light" aria-pressed="false">דיו על בהיר</button>
+                            </div>
+                            <p class="family-hint">לתמונות בהירות, כמו הסגנון המאוייר, בחרו "דיו על בהיר"</p>
+                        </div>
+                    </div>
+
+                    <div class="studio-stage">
+                        <div class="canvas-wrap">
+                            <p class="stage-empty" id="stageEmpty">התצוגה המקדימה תופיע כאן<br>אחרי שתעלו תמונה</p>
+                            <canvas id="cardCanvas" hidden></canvas>
+                        </div>
+                        <button class="btn-share" id="btnShare" disabled hidden>📲 שליחת הגלויה</button>
+                        <button class="btn-download" id="btnDownload" disabled>⬇ הורדת הגלויה</button>
+                    </div>
+
                 </div>
             </div>
         </section>
 
         <div class="tip-wrap">
             <div class="container">
-                <span class="tip">לתוצאה הכי טובה - העלו תמונה באור טוב, והעלו אותה לפני שמדביקים 🙌</span>
+                <span class="tip">לתוצאה הכי טובה - בחרו תמונה באור טוב, שכל הפנים בה גלויות 🙌</span>
             </div>
         </div>
 
@@ -1202,202 +1602,266 @@
         /* ══════════════ PROMPTS ══════════════
            All three are written to the same depth on purpose — a thin third
            template produces visibly worse output than its siblings.
-           __GREETING__ is substituted at click time.                        */
+           None of them writes text: the greeting is composited in the studio. */
 
-        const PROMPT_CINEMATIC = `Create a high-end, cinematic Rosh Hashana greeting image using the uploaded reference image.
+        /* Each style ships two wordings. ChatGPT ignores Midjourney's --no
+           syntax (and sometimes draws what you meant to exclude) and discards
+           resolution demands, so it gets prose with an explicit frame budget.
+           Gemini follows the structured, sectioned form more closely.
+           Neither writes Hebrew — the greeting is composited in the studio.  */
+
+        /* ChatGPT's ?q= sends the prompt the moment the tab opens. That used to
+           be a reason to avoid it — an image prompt arriving before the image
+           is useless. Announcing the photo up front turns it into the point:
+           the prompt is already in the chat and the visitor only drops a file.
+           The reply doubles as the instruction, in Hebrew, inside the chat. */
+        const LEAD_GPT = `I am going to upload one photo in my next message. Do NOT generate, draw or describe anything yet — wait for that photo to arrive.
+
+When it does, edit it exactly as specified below.
+
+Right now, reply with nothing except this line:
+מוכן! עכשיו העלו את התמונה 📸
+
+--- INSTRUCTIONS FOR WHEN THE PHOTO ARRIVES ---
+
+`;
+
+        const FRAME_GPT = `FRAME:
+Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
+Frame this as a medium shot, not a close-up. Nothing important may be cut off by the edges.
+
+SUBJECTS:
+Use the photo as the only source for the people. Keep every face exactly as it is - same features, same expressions, same proportions. If there are pets in the photo keep them too, with the same face and the same coat. Do not add or remove anyone.`;
+
+        const NOTEXT_GPT = `NO TEXT - this is important:
+Do not write any words, letters, Hebrew, numbers, watermark, logo or signature anywhere on the image. The top of the frame must stay clean and open with nothing in it - no lettering, no ornament, no branches crossing into it. Lettering is added separately afterwards, so anything you draw there would have to be covered over.
+
+Please avoid: distorted faces, extra fingers or limbs, duplicated people, a missing or duplicated pet, a cropped-off foreground, a tall narrow frame, and any text or decorative flourish in the upper part of the frame.`;
+
+        const NOTEXT_GEM = `TEXT - DO NOT ADD ANY:
+Leave the top 25% of the frame clean and open: empty sky, no objects, no branches, no lettering of any kind.
+The Hebrew greeting is composited afterwards in the browser, where it can be spelled correctly and personalised.
+Do not write any text, watermark or signature anywhere on the image.
+
+--no distorted faces, extra fingers, duplicated people, watermark, any text or lettering`;
+
+        const PROMPTS = {
+            festive: {
+                chatgpt: `${LEAD_GPT}Edit the photo into a bright Rosh Hashana greeting image.
+
+${FRAME_GPT}
+Compose top to bottom as: top ~20% soft pale sky left completely empty, middle ~45% the people seated together, bottom ~35% a white-clothed holiday table with a shofar and a tallit clearly visible.
+
+CLOTHING - change this:
+Dress everyone in white and cream festive clothing: soft linen and knitwear, long sleeves, nothing branded, nothing patterned. Change only the clothes - faces, hair, skin and expressions stay exactly as they are in the photo.
+
+SCENE:
+Remove the original background completely and seat everyone at a holiday table in a calm, airy room with tall windows and pale stone walls, or on a bright terrace. Adults behind the table, children in front, all facing the camera with forearms resting on it.
+
+THE TABLE - keep it bare, this matters:
+A crisp white linen tablecloth, and on it exactly two objects and nothing else:
+1. A ram's horn shofar lying across the front of the table, curved and spiralled, in natural cream and honey-brown horn.
+2. A white tallit prayer shawl with fine blue stripes and knotted corner fringes, folded softly beside it or draped over a chair back.
+No food of any kind. No apples, no honey, no challah, no pomegranates, no fruit, no bowls, no plates, no cutlery, no glasses, no candles, no flowers. The rest of the cloth stays empty and uncluttered - the emptiness is the point.
+
+LIGHT AND LOOK:
+Bright, clean daylight with a gentle warm cast. Airy and serene - white on white on cream, soft shadows, nothing dark or moody, no heavy contrast, no dramatic side light. Natural colour, gentle depth of field, a calm and reverent feeling rather than a cinematic one.
+
+Blend everyone in seamlessly with no cut-out edges, matched colour temperature and correct scale and perspective.
+
+${NOTEXT_GPT}`,
+
+                gemini: `Create a bright, serene Rosh Hashana greeting image using the uploaded reference image.
 
 CRITICAL:
 - The uploaded image MUST be the ONLY source of the people
 - STRICT identity preservation - do NOT change faces, expressions, or facial structure
-- Do NOT generate new people, do NOT add or remove anyone
+- If the reference contains pets, keep them with their exact appearance
+- Do NOT generate new people or animals
 
 OUTPUT:
-- Vertical 4:5 aspect ratio
-- High resolution (minimum 2048x2560)
+- Vertical 4:5 aspect ratio, high resolution
 - Optimized for mobile screens and WhatsApp sharing
 
-TASK:
-Carefully extract the people from the reference image and remove the original background completely.
-Place them into a dramatic, cinematic Israeli Rosh Hashana scene.
+CLOTHING - CHANGE THIS:
+- dress everyone in white and cream festive clothing
+- soft linen and knitwear, long sleeves, unbranded, unpatterned
+- change ONLY the clothing; faces, hair and skin stay identical
 
-SCENE:
-- a pomegranate orchard at dusk, heavy ripe fruit catching the last light
-- deep crimson and gold colour palette, rich and saturated
-- a low warm key light from one side, deep shadows on the other
-- soft volumetric light rays through the branches
-- scattered pomegranate seeds and a shallow honey bowl in the foreground (subtle, out of focus)
-- distant Israeli hills fading into a wine-coloured sky
+SEATING:
+- adults seated behind the table, children in front, all facing the camera
+- upper bodies clearly above the table line, forearms resting on it
+- any pet at the near edge, head raised above the tabletop
+
+THE TABLE - KEEP IT BARE:
+- a crisp white linen tablecloth
+- EXACTLY TWO objects on it and nothing else:
+  1. a ram's horn shofar lying across the front of the table, curved and
+     spiralled, natural cream and honey-brown horn
+  2. a white tallit prayer shawl with fine blue stripes and knotted corner
+     fringes, folded beside it or draped over a chair back
+- NO food: no apples, no honey, no challah, no pomegranates, no fruit
+- NO bowls, plates, cutlery, glasses, candles or flowers
+- the rest of the cloth stays empty and uncluttered
+- the table fills the bottom third of the frame edge to edge
+
+SETTING:
+- a calm airy room with tall windows and pale stone walls, or a bright terrace
+- soft neutral background, nothing busy
+
+LIGHT:
+- bright clean daylight with a gentle warm cast
+- soft shadows, low contrast, no dramatic side light
+- even fill so no face falls into shadow
 
 STYLE:
-- cinematic film still, anamorphic feel
-- teal-and-orange grade pushed toward crimson and molten gold
-- strong contrast, deep blacks, glowing highlights
-- fine film grain
-- shallow depth of field with soft background bokeh
-
-PEOPLE:
-- preserve exact identity and faces
-- keep natural expressions (do NOT exaggerate smiles)
-- maintain realistic proportions
-- add cinematic rim light along hair and shoulders
-- keep clothing natural, deepen tones slightly toward burgundy and cream
+- airy and serene, white on white on cream
+- natural colour, gentle depth of field
+- calm and reverent, NOT cinematic, NOT moody, NOT high contrast
 
 INTEGRATION:
 - seamless blending, no cut-out edges
-- match lighting direction and colour temperature to the scene
-- realistic contact shadows under and behind the people
-- subtle ambient light wrap around edges
+- match the daylight colour temperature across people and pets
+- realistic contact shadows where arms rest on the table
+- correct scale and perspective relative to the table
 
-COMPOSITION:
-- vertical portrait layout
-- people placed slightly below centre
-- leave clean, uncluttered space at the top for text
+${NOTEXT_GEM}
+--no food, apples, honey, challah, pomegranates, plates, bowls, glasses, candles, flowers on the table`
+            },
 
-TEXT:
-Render this Hebrew line on the image, exactly as written, spelled correctly:
-"__GREETING__"
+            royal: {
+                chatgpt: `${LEAD_GPT}Edit the photo into a Rosh Hashana holiday-table greeting image.
 
-TEXT STYLE:
-- elegant serif Hebrew lettering
-- warm gold or cream, with a soft glow for readability
-- centred at the top, not touching the edges
+${FRAME_GPT}
+Compose top to bottom as: top ~20% open sky left completely empty, middle ~45% the people seated together, bottom ~35% the holiday table with its full setting clearly visible.
 
-GOAL:
-A dramatic, emotional Rosh Hashana family portrait that looks like a frame from a feature film - premium, warm and personal.
+SCENE:
+Remove the original background completely and seat everyone at a lavish Rosh Hashana table on a stone terrace at dusk. Adults behind the table, children in front, all facing the camera with forearms resting on it.
 
---no distorted faces, extra fingers, text errors, duplicated people, watermark`;
+THE TABLE - keep it fully in frame:
+A deep burgundy cloth seen from slightly above eye level so the whole surface reads. Polished red apples, a honey bowl with a wooden dipper mid-drip, split pomegranates showing their seeds, a round braided challah, brass lanterns with lit candles, crystal glasses and gold-rimmed plates. The table fills the bottom third edge to edge.
 
-        const PROMPT_ROYAL = `Create a rich, opulent Rosh Hashana greeting image using the uploaded reference image.
+LIGHTING:
+Warm candlelight from the table upward onto the faces, cool dusk light filling the shadows, a rim light along hair and shoulders, consistent shadow direction, and realistic contact shadows where arms rest on the table.
+
+LOOK:
+Cinematic and opulent - saturated crimson, gold and deep plum against the blue of dusk. Strong contrast, glowing highlights, fine grain, shallow depth of field. Blend everyone in seamlessly with correct scale and perspective.
+
+${NOTEXT_GPT}`,
+
+                gemini: `Create a rich, opulent Rosh Hashana greeting image using the uploaded reference image.
 
 CRITICAL:
 - The uploaded image MUST be the ONLY source of the people
 - STRICT identity preservation - do NOT change faces, expressions, or facial structure
-- Do NOT generate new people
+- If the reference contains pets, keep them with their exact appearance
+- Do NOT generate new people or animals
 
 OUTPUT:
-- Vertical 4:5 aspect ratio
-- High resolution (minimum 2048x2560)
+- Vertical 4:5 aspect ratio, high resolution
 - Optimized for mobile screens and WhatsApp sharing
 
-TASK:
-Extract the people from the reference image, remove the original background completely,
-and place them at a lavish Rosh Hashana holiday table.
+SEATING:
+- adults seated behind the table, children in front, all facing the camera
+- upper bodies clearly above the table line, forearms resting on it
+- any pet at the near edge, head raised above the tabletop
 
-SCENE:
-- a festive evening table set for the holiday
+THE TABLE:
+- a long table dressed in deep burgundy, seen from slightly above eye level
 - polished apples, a honey jar with a dipper, split pomegranates showing seeds
-- round challah, brass candlesticks with lit candles
-- deep burgundy textile, gold accents, dark wood
-- warm candlelight as the main light source, glowing and intimate
+- round braided challah, brass lanterns with lit candles, crystal glasses
+- gold-rimmed plates, small olive branches
+- the table fills the bottom third of the frame edge to edge
+
+LIGHTING:
+- warm candlelight as the main source, coming up from the table onto the faces
+- cool ambient dusk light filling the shadows
+- realistic reflected light, catchlights in every eye
+- consistent shadow direction across all subjects
 
 STYLE:
 - opulent and painterly, close to a classical oil portrait but still photographic
 - saturated jewel tones: crimson, gold, deep plum, bronze
-- strong chiaroscuro - bright faces against a dark, rich background
-- luxurious texture on fabric and fruit
-
-PEOPLE:
-- preserve exact identity and faces
-- keep natural expressions
-- maintain realistic proportions
-- warm candlelight falling on faces from the table level
-- clothing shifted subtly toward festive burgundy, cream and gold
+- strong chiaroscuro, luxurious texture on fabric and fruit
 
 INTEGRATION:
 - seamless blending, no cut-out edges
 - match the candlelight direction and warm colour temperature
-- realistic reflected light and soft shadows
+- contact shadows where arms rest on the table
 - correct scale and perspective relative to the table
 
-COMPOSITION:
-- vertical portrait layout
-- people behind and around the table, slightly below centre
-- leave clean, uncluttered space at the top for text
+${NOTEXT_GEM}`
+            },
 
-TEXT:
-Render this Hebrew line on the image, exactly as written, spelled correctly:
-"__GREETING__"
+            honey: {
+                chatgpt: `${LEAD_GPT}Turn the photo into a hand-painted Rosh Hashana storybook illustration.
 
-TEXT STYLE:
-- ornate but legible Hebrew lettering
-- gold or warm cream, with a subtle drop shadow
-- centred at the top, not touching the edges
+FRAME:
+Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
+Compose top to bottom as: top ~22% warm empty sky left completely clean, middle ~48% the family seated together, bottom ~30% a picnic spread of honey pots and apples in the grass.
 
-GOAL:
-A warm, regal Rosh Hashana family portrait that feels like a treasured heirloom photograph.
+STYLE - this is the whole point:
+A classic English children's storybook illustration in the 1920s tradition. Soft pen-and-ink outlines, thin and slightly uneven, as if drawn with a nib. Loose watercolour washes that do not quite stay inside the lines, with the cream of the paper showing through in places. Visible paper grain and a gently aged tone at the edges.
+Warm and simple: honey amber, soft gold, muted sage green, dusty rose, ink brown. Nothing saturated, nothing glossy.
+Hand-drawn and gentle - absolutely not 3D, not Pixar, not digital vector art, not anime, not a photograph with a filter.
+Leave generous quiet space; the composition should feel airy, not crowded.
 
---no distorted faces, extra fingers, text errors, duplicated people, watermark`;
-
-        const PROMPT_GOLDEN = `Create a photorealistic Rosh Hashana greeting image using the uploaded reference image.
-
-CRITICAL:
-- The uploaded image MUST be the ONLY source of the people
-- STRICT identity preservation - do NOT change faces, expressions, proportions, or facial structure
-- Do NOT generate new people
-- The result should look like a real photograph, not an AI image
-
-OUTPUT:
-- Vertical 4:5 aspect ratio
-- High resolution (minimum 2048x2560)
-- Optimized for mobile screens and WhatsApp sharing
-
-TASK:
-Extract the people precisely from the reference image, remove the original background completely,
-and place them outdoors in the Israeli landscape at golden hour.
+SUBJECTS:
+Use the photo as the reference for who is in the scene. Redraw everyone as storybook characters but keep each one clearly recognisable - same hair colour and shape, same rough ages, same warm expressions, the same closeness between them. Simple, softly drawn faces with a few confident lines; not caricatures. Keep any pets in the photo, drawn in the same style with the same colouring.
 
 SCENE:
-- an open Israeli hillside in early autumn, dry golden grass and green scrub
-- a pomegranate tree with ripe fruit at one side of the frame
-- low golden sunlight just before sunset, long warm light
-- soft haze and glowing dust in the air
-- natural horizon, wide open sky in warm amber tones
+The family sits together in the grass under a large old tree at the edge of a meadow on a mild honey-coloured afternoon.
+Around them: several round earthenware honey pots, one open with a wooden dipper resting across it and a slow drip of honey. Red apples in a wicker basket and a few scattered in the grass. A pomegranate or two split open. A small woven blanket.
+Behind them: soft rolling hills, a few round trees, tall grass, and a hollow trunk with a simple beehive and three or four little bees drawn as small loops in the air.
+No buildings, no crowds, nothing modern.
 
-LIGHTING:
-- strong warm backlight creating a rim of light on hair and shoulders
-- soft bounced fill on the faces so no detail is lost in shadow
-- consistent shadow direction across every person
-- realistic ground contact shadows (critical)
+LIGHT:
+Soft, warm, late-afternoon light. Gentle washes rather than hard shadows, and a faint golden glow around the group.
+
+NO TEXT - this is important:
+Do not write any words, letters, Hebrew, numbers, watermark, logo or signature anywhere on the image. The top 22% must stay clean open sky with nothing in it - no lettering, no ornament, no branches or leaves crossing into it. Lettering is added separately afterwards.
+
+Please avoid: photorealism, 3D rendering, glossy digital shading, heavy black outlines, distorted hands, extra limbs, duplicated people, a missing or duplicated pet, and any text or decorative flourish in the upper part of the frame.`,
+
+                gemini: `Create a hand-painted Rosh Hashana storybook illustration from the uploaded reference image.
+
+CRITICAL:
+- The uploaded image is the reference for who appears in the scene
+- Redraw everyone as storybook characters, each clearly recognisable: same hair colour and shape, same rough ages, same expressions, same closeness
+- Keep any pets, drawn in the same style with the same colouring
+- Do NOT add or remove anyone
+
+OUTPUT:
+- Vertical 4:5 aspect ratio, high resolution
 
 STYLE:
-- photorealistic, natural, editorial quality
-- warm golden grade with rich but believable saturation
-- gentle lens flare from the sun, no artificial glow
-- shallow depth of field, background softly blurred
+- classic English children's storybook illustration, 1920s tradition
+- soft pen-and-ink outlines, thin and slightly uneven, as if drawn with a nib
+- loose watercolour washes that do not quite stay inside the lines
+- the cream of the paper showing through, visible paper grain, gently aged edges
+- honey amber, soft gold, muted sage green, dusty rose, ink brown
+- nothing saturated, nothing glossy
+- NOT 3D, NOT Pixar, NOT digital vector art, NOT anime, NOT a filtered photograph
 
-PEOPLE:
-- keep exact identity and facial detail
-- natural relaxed posture, no exaggeration
-- keep original clothing, brightened very slightly toward warm festive tones
+SCENE:
+- the family seated in the grass under a large old tree at the edge of a meadow
+- round earthenware honey pots, one open with a wooden dipper and a slow drip
+- red apples in a wicker basket, a few scattered in the grass
+- one or two split pomegranates, a small woven blanket
+- soft rolling hills behind, a hollow trunk with a simple beehive, a few bees as small loops
+- no buildings, no crowds, nothing modern
 
-INTEGRATION:
-- seamless blending, no cut-out edges
-- colour grade the people to match the environment
-- add ambient light wrap around the edges
-- correct scale and perspective relative to the landscape
+LIGHT:
+- soft, warm, late-afternoon light
+- gentle washes rather than hard shadows
+- a faint golden glow around the group
 
 COMPOSITION:
-- vertical portrait layout
-- people placed slightly below centre
-- balanced and airy, leave clean space at the top for text
+- vertical portrait layout, airy not crowded
+- the family slightly below centre, the honey pots and apples along the bottom
 
-TEXT:
-Render this Hebrew line on the image, exactly as written, spelled correctly:
-"__GREETING__"
-
-TEXT STYLE:
-- clean, elegant Hebrew font
-- white or soft cream with a slight shadow for readability
-- centred at the top, not touching the edges
-
-GOAL:
-A natural, luminous family photograph taken in Israel at golden hour before Rosh Hashana - warm, authentic and emotionally true.
-
---no distorted faces, extra fingers, text errors, duplicated people, watermark`;
-
-        const PROMPTS = {
-            cinematic: PROMPT_CINEMATIC,
-            royal: PROMPT_ROYAL,
-            golden: PROMPT_GOLDEN
+${NOTEXT_GEM}`
+            }
         };
 
         /* ══════════════ PERSONAL GREETING ══════════════ */
@@ -1410,12 +1874,11 @@ A natural, luminous family photograph taken in Israel at golden hour before Rosh
             if (saved) familyInput.value = saved;
         } catch (_) { /* localStorage blocked — not critical */ }
 
+        // The name is no longer sent to the AI — it becomes the signature line
+        // the studio composites onto the finished card.
         function buildGreeting() {
-            const raw = (familyInput.value || '').trim();
-            // strip quote characters that would terminate the prompt string early
-            const clean = raw.replace(/["'׳״`]/g, '').slice(0, 40);
-            if (!clean) return 'שנה טובה ומתוקה';
-            return `שנה טובה ומתוקה · ממשפחת ${clean}`;
+            const clean = (familyInput.value || '').trim().slice(0, 40);
+            return clean ? `ממשפחת ${clean}` : 'ללא חתימה';
         }
 
         function renderPreview() {
@@ -1427,10 +1890,6 @@ A natural, luminous family photograph taken in Israel at golden hour before Rosh
             try { localStorage.setItem(FAMILY_STORAGE_KEY, familyInput.value); } catch (_) { }
         });
         renderPreview();
-
-        function personalizePrompt(prompt) {
-            return prompt.replace(/__GREETING__/g, buildGreeting());
-        }
 
         /* ══════════════ CLIPBOARD ══════════════ */
         async function copyToClipboard(text) {
@@ -1468,22 +1927,24 @@ A natural, luminous family photograph taken in Israel at golden hour before Rosh
             if (!btn) return;
             const key = btn.dataset.promptKey;
             const target = btn.dataset.target;
-            const basePrompt = PROMPTS[key];
-            if (!basePrompt) return;
-            const prompt = personalizePrompt(basePrompt);
+            const variants = PROMPTS[key];
+            if (!variants) return;
+            // the copy button feeds ChatGPT far more often than Gemini
+            const prompt = target === 'gemini' ? variants.gemini : variants.chatgpt;
 
-            // Start the clipboard write while the document still has focus, but do NOT
-            // await before window.open — awaiting first breaks the user-gesture chain
-            // and Safari's popup blocker kills the new tab.
+            // Start the clipboard write while the document still has focus, but do
+            // NOT await before window.open — awaiting first breaks the user-gesture
+            // chain and Safari's popup blocker kills the tab.
             const copyPromise = copyToClipboard(prompt);
 
             if (target !== 'copy') {
-                // Both targets open a plain chat. ChatGPT's ?q= parameter auto-submits,
-                // which would send an image prompt before the image is uploaded.
+                // Gemini has no prompt parameter, so it still opens blank and the
+                // visitor pastes. ChatGPT gets the prompt in the URL.
                 const url = target === 'chatgpt'
-                    ? 'https://chatgpt.com/'
+                    ? 'https://chatgpt.com/?q=' + encodeURIComponent(prompt)
                     : 'https://gemini.google.com/app';
                 window.open(url, '_blank', 'noopener');
+                markLeftForChat();
             }
 
             const ok = await copyPromise;
@@ -1498,17 +1959,20 @@ A natural, luminous family photograph taken in Israel at golden hour before Rosh
 
             if (target === 'copy') {
                 showToast(ok ? 'הפרומפט הועתק 📋' : 'ההעתקה נכשלה - סמנו והעתיקו ידנית');
+            } else if (target === 'chatgpt') {
+                showToast('הפרומפט כבר בצ׳אט - פשוט העלו את התמונה 📸');
             } else if (ok) {
-                showToast('הפרומפט הועתק! העלו תמונה ואז הדביקו (Ctrl+V) 👇');
+                showToast('הפרומפט הועתק! הדביקו ב-Gemini והעלו תמונה');
             } else {
                 showToast('פתחנו את הצ׳אט - חזרו לכאן ולחצו "העתק פרומפט בלבד"');
             }
         });
 
+
         /* ══════════════ WHATSAPP SHARE ══════════════ */
         const shareBtn = document.getElementById('shareWa');
         if (shareBtn) {
-            const shareMsg = 'תוך דקה - הופכים תמונה לגלויה קולנועית לראש השנה 🍎\n' + window.location.href;
+            const shareMsg = 'תוך דקה - הופכים תמונה לגלויה לראש השנה 🍎\n' + window.location.href;
             shareBtn.href = 'https://wa.me/?text=' + encodeURIComponent(shareMsg);
             shareBtn.addEventListener('click', () => {
                 if (typeof gtag === 'function') {
@@ -1583,6 +2047,411 @@ A natural, luminous family photograph taken in Israel at golden hour before Rosh
                 setSlider(el, next);
             });
         });
+
+        /* ══════════════ GREETING STUDIO ══════════════
+           The AI is no longer asked to write Hebrew — it leaves the top of the
+           frame clean and the greeting is composited here on a canvas. That is
+           the only way to get correct spelling every time, let the text be
+           edited after the fact, and produce one file per family from a single
+           generated image.
+
+           renderGreetingCard() deliberately returns a Blob rather than driving
+           the download itself: the sharing layer added later consumes the same
+           Blob without touching any of this.                                  */
+
+        const GREETINGS = [
+            {
+                title: 'שנה טובה ומתוקה',
+                body: 'שתהא השנה הבאה עלינו לטובה, מתוקה כדבש, מלאה בשמחה, בריאות איתנה והגשמת חלומות.'
+            },
+            {
+                title: 'שנה טובה ומתוקה',
+                body: 'שתיבנה שנתנו מתוך שלום, ביטחון, שקט ושלווה בכל גבולות הארץ.'
+            },
+            {
+                title: 'כתיבה וחתימה טובה',
+                body: 'גמר חתימה טובה! שנזכה לשנת בריאות, איתנות, שלום, ושנכתב ונחתם בספר החיים הטובים'
+            }
+        ];
+
+        /* Two palettes, because one does not survive both looks: a dark scrim
+           with gold lettering reads on a dusk photograph and ruins the pale
+           sky of the watercolour, and the ink-on-cream pair does the reverse. */
+        const TEXT_STYLES = {
+            dark: {
+                scrim: [6, 2, 4], scrimAlpha: 0.78,
+                title: '#FFE9A8', body: '#FFF4E0', sign: '#F5C542',
+                rule: 'rgba(245,197,66,', shadow: 'rgba(0,0,0,0.55)'
+            },
+            light: {
+                scrim: [255, 248, 232], scrimAlpha: 0.7,
+                title: '#7A4410', body: '#4A3418', sign: '#8A5A18',
+                rule: 'rgba(184,134,11,', shadow: 'rgba(255,250,235,0.75)'
+            }
+        };
+
+        const studio = {
+            img: null,
+            pos: 'top',
+            style: 'dark',
+            el: {
+                dropzone: document.getElementById('dropzone'),
+                dzTitle: document.getElementById('dzTitle'),
+                dzSub: document.getElementById('dzSub'),
+                file: document.getElementById('fileInput'),
+                presets: document.getElementById('presets'),
+                title: document.getElementById('gTitle'),
+                body: document.getElementById('gBody'),
+                family: document.getElementById('gFamily'),
+                posSeg: document.getElementById('posSeg'),
+                styleSeg: document.getElementById('styleSeg'),
+                canvas: document.getElementById('cardCanvas'),
+                empty: document.getElementById('stageEmpty'),
+                download: document.getElementById('btnDownload'),
+                share: document.getElementById('btnShare')
+            }
+        };
+
+        /* ── preset list ── */
+        GREETINGS.forEach((g, i) => {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'preset';
+            b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false');
+            b.innerHTML = '<span class="preset-title"></span><span class="preset-body"></span>';
+            b.querySelector('.preset-title').textContent = g.title;
+            b.querySelector('.preset-body').textContent = g.body;
+            b.addEventListener('click', () => {
+                studio.el.presets.querySelectorAll('.preset')
+                    .forEach((p) => p.setAttribute('aria-pressed', 'false'));
+                b.setAttribute('aria-pressed', 'true');
+                studio.el.title.value = g.title;
+                studio.el.body.value = g.body;
+                draw();
+            });
+            studio.el.presets.appendChild(b);
+        });
+        studio.el.title.value = GREETINGS[0].title;
+        studio.el.body.value = GREETINGS[0].body;
+
+        /* ── image intake: click, drag, paste ── */
+        function loadImageFile(file) {
+            if (!file || !file.type.startsWith('image/')) {
+                showToast('זה לא קובץ תמונה');
+                return;
+            }
+            const url = URL.createObjectURL(file);
+            const im = new Image();
+            im.onload = () => {
+                studio.img = im;
+                studio.el.dropzone.classList.remove('pulse');
+                studio.el.dzTitle.textContent = 'תמונה נטענה ✓';
+                studio.el.dzSub.textContent = im.naturalWidth + '×' + im.naturalHeight + ' - לחצו להחלפה';
+                draw();
+            };
+            im.onerror = () => {
+                URL.revokeObjectURL(url);
+                showToast('לא הצלחנו לפתוח את התמונה');
+            };
+            im.src = url;
+        }
+
+        studio.el.dropzone.addEventListener('click', () => studio.el.file.click());
+        studio.el.dropzone.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); studio.el.file.click(); }
+        });
+        studio.el.file.addEventListener('change', (e) => loadImageFile(e.target.files[0]));
+
+        ['dragenter', 'dragover'].forEach((ev) =>
+            studio.el.dropzone.addEventListener(ev, (e) => {
+                e.preventDefault();
+                studio.el.dropzone.classList.add('over');
+            }));
+        ['dragleave', 'drop'].forEach((ev) =>
+            studio.el.dropzone.addEventListener(ev, (e) => {
+                e.preventDefault();
+                studio.el.dropzone.classList.remove('over');
+            }));
+        studio.el.dropzone.addEventListener('drop', (e) => {
+            if (e.dataTransfer.files.length) loadImageFile(e.dataTransfer.files[0]);
+        });
+
+        // paste straight from the AI chat — the shortest path there is
+        window.addEventListener('paste', (e) => {
+            const item = [...(e.clipboardData?.items || [])].find((i) => i.type.startsWith('image/'));
+            if (!item) return;
+            loadImageFile(item.getAsFile());
+            document.getElementById('studio').scrollIntoView({ block: 'center' });
+        });
+
+        /* ── controls ── */
+        [studio.el.title, studio.el.body, studio.el.family].forEach((el) =>
+            el.addEventListener('input', draw));
+
+        studio.el.posSeg.addEventListener('click', (e) => {
+            const b = e.target.closest('button[data-pos]');
+            if (!b) return;
+            studio.pos = b.dataset.pos;
+            studio.el.posSeg.querySelectorAll('button')
+                .forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+            draw();
+        });
+
+        studio.el.styleSeg.addEventListener('click', (e) => {
+            const b = e.target.closest('button[data-style]');
+            if (!b) return;
+            studio.style = b.dataset.style;
+            studio.el.styleSeg.querySelectorAll('button')
+                .forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+            draw();
+        });
+
+        // the hero field seeds the signature
+        familyInput.addEventListener('input', () => {
+            const v = (familyInput.value || '').trim();
+            if (v && !studio.el.family.dataset.touched) {
+                studio.el.family.value = 'ממשפחת ' + v;
+                draw();
+            }
+        });
+        studio.el.family.addEventListener('input', () => { studio.el.family.dataset.touched = '1'; });
+
+        /* ── canvas render ── */
+        function wrapLines(ctx, text, maxWidth) {
+            const out = [];
+            text.split('\n').forEach((para) => {
+                const words = para.trim().split(/\s+/).filter(Boolean);
+                if (!words.length) return;
+                let line = words[0];
+                for (let i = 1; i < words.length; i++) {
+                    const test = line + ' ' + words[i];
+                    if (ctx.measureText(test).width <= maxWidth) line = test;
+                    else { out.push(line); line = words[i]; }
+                }
+                out.push(line);
+            });
+            return out;
+        }
+
+        async function paint() {
+            const img = studio.img;
+            if (!img) return null;
+
+            // Heebo must be resolved before the first measureText, otherwise every
+            // width is computed against the fallback face and the wrap is wrong.
+            try {
+                await Promise.all([
+                    document.fonts.load('800 100px Heebo'),
+                    document.fonts.load('400 100px Heebo'),
+                    document.fonts.load('700 100px Heebo')
+                ]);
+                await document.fonts.ready;
+            } catch (_) { /* fall back to system face */ }
+
+            const MAX = 1600;
+            const scale = Math.min(1, MAX / Math.max(img.naturalWidth, img.naturalHeight));
+            const W = Math.round(img.naturalWidth * scale);
+            const H = Math.round(img.naturalHeight * scale);
+
+            const c = studio.el.canvas;
+            c.width = W;
+            c.height = H;
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, W, H);
+            ctx.drawImage(img, 0, 0, W, H);
+
+            const title = studio.el.title.value.trim();
+            const body = studio.el.body.value.trim();
+            const family = studio.el.family.value.trim();
+            if (!title && !body && !family) return c;
+
+            const top = studio.pos === 'top';
+            const fsTitle = W * 0.072;
+            const fsBody = W * 0.036;
+            const fsFam = W * 0.032;
+            const maxW = W * 0.84;
+
+            ctx.direction = 'rtl';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+
+            ctx.font = `400 ${fsBody}px Heebo, Arial, sans-serif`;
+            const bodyLines = body ? wrapLines(ctx, body, maxW) : [];
+
+            const lhBody = fsBody * 1.5;
+            const blockH = (title ? fsTitle * 1.30 : 0)
+                + (bodyLines.length ? fsBody * 0.5 + bodyLines.length * lhBody : 0)
+                + (family ? fsFam * 1.7 : 0);
+
+            // readability scrim — a gradient, not a text shadow: shadows lose
+            // against a bright sky, a scrim never does
+            const pad = H * 0.055;
+            const scrimH = Math.min(H * 0.62, blockH + pad * 2.4);
+            const T = TEXT_STYLES[studio.style] || TEXT_STYLES.dark;
+            const sc = T.scrim.join(',');
+            const g = top
+                ? ctx.createLinearGradient(0, 0, 0, scrimH)
+                : ctx.createLinearGradient(0, H, 0, H - scrimH);
+            g.addColorStop(0, `rgba(${sc},${T.scrimAlpha})`);
+            g.addColorStop(0.55, `rgba(${sc},${T.scrimAlpha * 0.49})`);
+            g.addColorStop(1, `rgba(${sc},0)`);
+            ctx.fillStyle = g;
+            ctx.fillRect(0, top ? 0 : H - scrimH, W, scrimH);
+
+            let y = top ? pad : H - pad - blockH;
+            const cx = W / 2;
+
+            if (title) {
+                ctx.font = `800 ${fsTitle}px Heebo, Arial, sans-serif`;
+                ctx.fillStyle = T.title;
+                ctx.shadowColor = T.shadow;
+                ctx.shadowBlur = fsTitle * 0.22;
+                ctx.fillText(title, cx, y);
+                ctx.shadowBlur = 0;
+                y += fsTitle * 1.30;
+
+                // gold rule under the title
+                const rw = Math.min(maxW * 0.5, ctx.measureText(title).width * 0.8);
+                const rg = ctx.createLinearGradient(cx - rw / 2, 0, cx + rw / 2, 0);
+                rg.addColorStop(0, T.rule + '0)');
+                rg.addColorStop(0.5, T.rule + '0.95)');
+                rg.addColorStop(1, T.rule + '0)');
+                ctx.fillStyle = rg;
+                ctx.fillRect(cx - rw / 2, y - fsTitle * 0.14, rw, Math.max(1, W * 0.0016));
+            }
+
+            if (bodyLines.length) {
+                y += fsBody * 0.5;
+                ctx.font = `400 ${fsBody}px Heebo, Arial, sans-serif`;
+                ctx.fillStyle = T.body;
+                ctx.shadowColor = T.shadow;
+                ctx.shadowBlur = fsBody * 0.3;
+                bodyLines.forEach((ln) => { ctx.fillText(ln, cx, y); y += lhBody; });
+                ctx.shadowBlur = 0;
+            }
+
+            if (family) {
+                y += fsFam * 0.5;
+                ctx.font = `700 ${fsFam}px Heebo, Arial, sans-serif`;
+                ctx.fillStyle = T.sign;
+                ctx.shadowColor = T.shadow;
+                ctx.shadowBlur = fsFam * 0.3;
+                ctx.fillText(family, cx, y);
+                ctx.shadowBlur = 0;
+            }
+
+            return c;
+        }
+
+        let drawQueued = false;
+        async function draw() {
+            if (drawQueued) return;
+            drawQueued = true;
+            const run = async () => {
+                drawQueued = false;
+                const c = await paint();
+                const ready = !!c;
+                studio.el.canvas.hidden = !ready;
+                studio.el.empty.hidden = ready;
+                studio.el.download.disabled = !ready;
+                studio.el.share.disabled = !ready;
+            };
+            // rAF is throttled to nothing in a background tab, which would leave
+            // the preview stale and the buttons dead after a tab switch
+            if (document.hidden) run();
+            else requestAnimationFrame(run);
+        }
+
+        /* Returns the finished card as a Blob. The share layer plugs in here. */
+        async function renderGreetingCard() {
+            const c = await paint();
+            if (!c) return null;
+            return new Promise((res) => c.toBlob(res, 'image/jpeg', 0.92));
+        }
+
+        /* Web Share with a file attached — the phone's own share sheet, so the
+           card reaches WhatsApp without a download-then-attach detour. Feature
+           detection has to probe with a real File: several browsers expose
+           navigator.share while refusing files. */
+        (function wireShare() {
+            let supported = false;
+            try {
+                const probe = new File([new Blob(['x'])], 'p.jpg', { type: 'image/jpeg' });
+                supported = !!navigator.canShare && navigator.canShare({ files: [probe] });
+            } catch (_) { supported = false; }
+
+            if (!supported) return;          // stays hidden; download carries the flow
+            studio.el.share.hidden = false;
+
+            studio.el.share.addEventListener('click', async () => {
+                const blob = await renderGreetingCard();
+                if (!blob) return;
+                const file = new File([blob], 'shana-tova.jpg', { type: 'image/jpeg' });
+                try {
+                    await navigator.share({ files: [file], title: 'שנה טובה ומתוקה' });
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'share_card', { method: 'web_share' });
+                    }
+                } catch (err) {
+                    // dismissing the sheet throws AbortError; that is not a failure
+                    if (err && err.name !== 'AbortError') {
+                        showToast('השיתוף נכשל - אפשר להוריד ולשלוח ידנית');
+                    }
+                }
+            });
+        })();
+
+        studio.el.download.addEventListener('click', async () => {
+            const blob = await renderGreetingCard();
+            if (!blob) return;
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'shana-tova.jpg';
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 4000);
+            showToast('הגלויה ירדה 🍎');
+            if (typeof gtag === 'function') {
+                gtag('event', 'download_card', {
+                    position: studio.pos,
+                    has_family: studio.el.family.value.trim().length > 0
+                });
+            }
+        });
+
+        /* ══════════════ RETURN FROM THE CHAT ══════════════
+           Coming back to a page scrolled to the top means hunting for the next
+           step. If they left for a chat and still have no image loaded, put the
+           drop zone in front of them.                                        */
+        const LEFT_KEY = 'roshHashana:leftForChat';
+
+        function markLeftForChat() {
+            try { localStorage.setItem(LEFT_KEY, '1'); } catch (_) { }
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) return;
+            let left = false;
+            try { left = localStorage.getItem(LEFT_KEY) === '1'; } catch (_) { }
+            if (!left || studio.img) return;
+            try { localStorage.removeItem(LEFT_KEY); } catch (_) { }
+            document.getElementById('studio').scrollIntoView({ block: 'start' });
+            studio.el.dropzone.classList.add('pulse');
+            setTimeout(() => studio.el.dropzone.classList.remove('pulse'), 4000);
+        });
+
+        /* A coarse pointer has no Ctrl+V and no drag — say what actually works. */
+        (function dropzoneCopy() {
+            const touch = window.matchMedia('(pointer: coarse)').matches;
+            studio.el.dzTitle.textContent = touch
+                ? 'לחצו כאן לבחירת התמונה'
+                : 'הדביקו כאן (Ctrl+V) או גררו';
+            studio.el.dzSub.textContent = touch
+                ? 'שמרו את התמונה מהצ׳אט, ואז בחרו אותה מהגלריה'
+                : 'בצ׳אט: קליק ימני על התמונה ← העתקת תמונה. אין צורך להוריד קובץ';
+        })();
 
         /* ══════════════ CAMERA PUSH ON SCROLL ══════════════
            The backdrop drifts slower than the page, so the frame reads as

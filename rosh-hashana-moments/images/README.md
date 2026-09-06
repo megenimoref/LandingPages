@@ -9,14 +9,14 @@ disappears on its own.
 | File | Size | Status | What it is |
 |---|---|---|---|
 | `before.webp` | 1080×1350 | **in place** | Stock family portrait, cropped 4:5 and centred on the group |
-| `after1.webp` | 4:5, ~1080×1350 | missing | Style 01 — קולנועי, made with the page's own "cinematic" prompt |
-| `after2.webp` | 4:5, ~1080×1350 | missing | Style 02 — מלכותי, made with the "royal" prompt |
-| `after3.webp` | 4:5, ~1080×1350 | missing | Style 03 — זהוב, made with the "golden" prompt |
-| `og-preview.webp` | 1200×630 | missing | WhatsApp / Facebook share card. Crop from `after1.webp` |
+| `after1.webp` | 1080×1350 | **in place** | Style 01 — חגיגי־לבן. White clothing, white linen, shofar and tallit |
+| `after2.webp` | 1080×1350 | **in place** | Style 02 — מלכותי. Candlelit terrace table at dusk, generated from `before.webp` |
+| `after3.webp` | 1080×1350 | **in place** | Style 03 — מאוייר. 1920s storybook watercolour with honey pots |
+| `og-preview.webp` | 1200×630 | **in place** | Share card: `after2.webp` whole, on a blurred fill of itself so the greeting survives the 1.91:1 crop |
 
-**Until `og-preview.webp` exists the WhatsApp share preview renders blank.**
-It is the one file with no placeholder fallback, because Open Graph is read by
-scrapers that do not run our `onerror` handler.
+`og-preview.webp` is the one file with no placeholder fallback — Open Graph is
+read by scrapers that never run our `onerror` handler, so a missing file means
+a blank share preview rather than a stand-in.
 
 ## How to produce them
 
@@ -44,3 +44,26 @@ page never shows a broken image if a webp is renamed or lost.
 
 `maganim-center.webp`, `oref-haifa.webp`, `shaagat-hari-logo.webp` are copies of
 the org logos in the repo root `/images`. Update both if a logo changes.
+
+## Why some files come in pairs
+
+`afterN.webp` / `afterN-clean.webp`, for all three styles.
+
+The `-clean` file is the raw AI output: no lettering, clean sky across the top,
+exactly what the current prompt asks for. The file without the suffix is that
+same image with a greeting composited on, and it is the one the comparison
+slider shows — sliding to an unlettered picture gives away no payoff, so the
+demo reveals a finished card.
+
+Keep the `-clean` originals. They are what you re-bake from if the wording,
+palette or position changes.
+
+`og-preview.webp` is built from the finished `after2.webp` for the same reason:
+a WhatsApp preview should show the product, not an intermediate.
+
+## Two text palettes
+
+The studio renders in one of two: **gold on a dark scrim** for photographs, and
+**ink on a cream scrim** for the illustrated style. A dark scrim over the
+watercolour's pale sky ruins it, and cream lettering disappears into it — one
+palette cannot serve both. `after2` uses dark; `after1` and `after3` use light.
