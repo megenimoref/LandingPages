@@ -378,15 +378,16 @@ ${FRAME_GPT}
 SCENE:
 Remove the original background completely and place everyone standing together inside a sukkah on a mild autumn evening.
 They stand close together and relaxed, facing the camera, an arm around a shoulder. Nobody is seated and nobody is on the floor.
-The sukkah: a simple wooden frame, walls of natural woven bamboo mats and light draped fabric, and a roof of green palm fronds and leafy branches laid loosely across beams, with clear gaps letting the deep blue evening sky and a few early stars show through.
-Hanging from the roof: paper chains in warm colours, a string of small warm lights, a few dried pomegranates and painted gourds. Children's drawings pinned to one wall.
+The sukkah: a simple wooden frame hung all around with flowing WHITE FABRIC - light white cotton sheets draped from the beams down to the ground on every side, gathered and tied back at the corners, stirring gently in the evening air. The walls are white cloth, NOT bamboo, NOT reed matting, NOT woven mats, NOT wooden boards.
+The roof is green palm fronds and leafy branches laid loosely across the beams, with clear gaps letting the deep blue evening sky and a few early stars show through.
+Hanging from the roof: paper chains in warm colours, a string of small warm lights, a few dried pomegranates and painted gourds. A couple of children's drawings pinned to the white cloth.
 There is NO table in this image, and no food of any kind. The sukkah itself is the subject.
 
 LIGHT AND LOOK:
 Warm golden light from the hanging bulbs, cool blue evening sky above through the roof. Soft shadows, cosy and intimate, natural colour, gentle depth of field. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, correct scale and perspective.
 
 ${NOTEXT_GPT}
-Also avoid: a table, food, plates or dishes of any kind, floor cushions, mats or beanbags, anyone sitting on the ground, a picnic or tent look, and a solid opaque roof with no sky showing.`,
+Also avoid: a table, food, plates or dishes of any kind, floor cushions, mats or beanbags, anyone sitting on the ground, a picnic or tent look, bamboo or reed walls, and a solid opaque roof with no sky showing.`,
                 gemini: `Edit the photo into a warm Sukkot greeting image.
 
 FRAME:
@@ -399,15 +400,16 @@ ${FRAME_GPT}
 SCENE:
 Remove the original background completely and place everyone standing together inside a sukkah on a mild autumn evening.
 They stand close together and relaxed, facing the camera, an arm around a shoulder. Nobody is seated and nobody is on the floor.
-The sukkah: a simple wooden frame, walls of natural woven bamboo mats and light draped fabric, and a roof of green palm fronds and leafy branches laid loosely across beams, with clear gaps letting the deep blue evening sky and a few early stars show through.
-Hanging from the roof: paper chains in warm colours, a string of small warm lights, a few dried pomegranates and painted gourds. Children's drawings pinned to one wall.
+The sukkah: a simple wooden frame hung all around with flowing WHITE FABRIC - light white cotton sheets draped from the beams down to the ground on every side, gathered and tied back at the corners, stirring gently in the evening air. The walls are white cloth, NOT bamboo, NOT reed matting, NOT woven mats, NOT wooden boards.
+The roof is green palm fronds and leafy branches laid loosely across the beams, with clear gaps letting the deep blue evening sky and a few early stars show through.
+Hanging from the roof: paper chains in warm colours, a string of small warm lights, a few dried pomegranates and painted gourds. A couple of children's drawings pinned to the white cloth.
 There is NO table in this image, and no food of any kind. The sukkah itself is the subject.
 
 LIGHT AND LOOK:
 Warm golden light from the hanging bulbs, cool blue evening sky above through the roof. Soft shadows, cosy and intimate, natural colour, gentle depth of field. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, correct scale and perspective.
 
 ${NOTEXT_GPT}
-Also avoid: a table, food, plates or dishes of any kind, floor cushions, mats or beanbags, anyone sitting on the ground, a picnic or tent look, and a solid opaque roof with no sky showing.`
+Also avoid: a table, food, plates or dishes of any kind, floor cushions, mats or beanbags, anyone sitting on the ground, a picnic or tent look, bamboo or reed walls, and a solid opaque roof with no sky showing.`
             },
             minim: {
                 chatgpt: `${LEAD_GPT}Edit the photo into a bright Sukkot greeting image.
