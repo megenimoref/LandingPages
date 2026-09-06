@@ -1355,15 +1355,15 @@
                     </article>
 
                     <article class="card reveal">
-                        <h3 class="card-title">זהוב 🍯 <span class="style-no">03</span></h3>
-                        <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון זהוב"
+                        <h3 class="card-title">מאוייר 🍯 <span class="style-no">03</span></h3>
+                        <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי - סגנון מאוייר"
                             aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
                             <div class="ba-layer ba-before">
                                 <img src="images/before.webp" alt="לפני - תמונה מקורית" loading="lazy" decoding="async"
                                     onerror="this.onerror=null;this.src='images/ph-before.svg'">
                             </div>
                             <div class="ba-layer ba-after">
-                                <img src="images/after3.webp" alt="אחרי - סגנון זהוב" loading="lazy" decoding="async"
+                                <img src="images/after3.webp" alt="אחרי - סגנון מאוייר באקוורל" loading="lazy" decoding="async"
                                     onerror="this.onerror=null;this.src='images/ph-after3.svg'">
                             </div>
                             <div class="ba-slider-line"></div>
@@ -1372,11 +1372,11 @@
                             <span class="ba-label after">אחרי</span>
                         </div>
                         <div class="actions">
-                            <button class="btn btn-chatgpt" data-prompt-key="golden" data-target="chatgpt">🟢 צור עם
+                            <button class="btn btn-chatgpt" data-prompt-key="honey" data-target="chatgpt">🟢 צור עם
                                 ChatGPT</button>
-                            <button class="btn btn-gemini" data-prompt-key="golden" data-target="gemini">🔵 צור עם
+                            <button class="btn btn-gemini" data-prompt-key="honey" data-target="gemini">🔵 צור עם
                                 Gemini</button>
-                            <button class="btn btn-copy" data-prompt-key="golden" data-target="copy">📋 העתק פרומפט
+                            <button class="btn btn-copy" data-prompt-key="honey" data-target="copy">📋 העתק פרומפט
                                 בלבד</button>
                         </div>
                     </article>
@@ -1497,188 +1497,220 @@
            template produces visibly worse output than its siblings.
            None of them writes text: the greeting is composited in the studio. */
 
-        const PROMPT_CINEMATIC = `Create a high-end, cinematic Rosh Hashana greeting image using the uploaded reference image.
+        /* Each style ships two wordings. ChatGPT ignores Midjourney's --no
+           syntax (and sometimes draws what you meant to exclude) and discards
+           resolution demands, so it gets prose with an explicit frame budget.
+           Gemini follows the structured, sectioned form more closely.
+           Neither writes Hebrew — the greeting is composited in the studio.  */
+
+        const FRAME_GPT = `FRAME:
+Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
+Frame this as a medium shot, not a close-up. Nothing important may be cut off by the edges.
+
+SUBJECTS:
+Use my uploaded photo as the only source for the people. Keep every face exactly as it is - same features, same expressions, same proportions. If there are pets in the photo keep them too, with the same face and the same coat. Do not add or remove anyone.`;
+
+        const NOTEXT_GPT = `NO TEXT - this is important:
+Do not write any words, letters, Hebrew, numbers, watermark, logo or signature anywhere on the image. The top of the frame must stay clean and open with nothing in it - no lettering, no ornament, no branches crossing into it. Lettering is added separately afterwards, so anything you draw there would have to be covered over.
+
+Please avoid: distorted faces, extra fingers or limbs, duplicated people, a missing or duplicated pet, a cropped-off foreground, a tall narrow frame, and any text or decorative flourish in the upper part of the frame.`;
+
+        const NOTEXT_GEM = `TEXT - DO NOT ADD ANY:
+Leave the top 25% of the frame clean and open: empty sky, no objects, no branches, no lettering of any kind.
+The Hebrew greeting is composited afterwards in the browser, where it can be spelled correctly and personalised.
+Do not write any text, watermark or signature anywhere on the image.
+
+--no distorted faces, extra fingers, duplicated people, watermark, any text or lettering`;
+
+        const PROMPTS = {
+            cinematic: {
+                chatgpt: `Edit the photo I just uploaded into a cinematic Rosh Hashana greeting image.
+
+${FRAME_GPT}
+Compose top to bottom as: top ~22% open sky left completely empty, middle ~48% the people, bottom ~30% a pomegranate branch heavy with ripe fruit.
+
+SCENE:
+Remove the original background completely and place everyone in a pomegranate orchard at dusk. Ripe fruit catches the last light, scattered seeds and a shallow honey bowl sit softly out of focus in the foreground, and Israeli hills fade into a wine-coloured sky behind them.
+
+LIGHTING:
+A low warm key light from one side, deep shadows on the other, soft light rays through the branches, and a rim light along hair and shoulders. Match the lighting direction on the people to the scene and add realistic contact shadows.
+
+LOOK:
+A cinematic film still with an anamorphic feel. Crimson and molten gold, strong contrast, deep blacks, glowing highlights, fine film grain, shallow depth of field with soft bokeh behind. Blend everyone in seamlessly with no cut-out edges and matched colour temperature.
+
+${NOTEXT_GPT}`,
+
+                gemini: `Create a high-end, cinematic Rosh Hashana greeting image using the uploaded reference image.
 
 CRITICAL:
 - The uploaded image MUST be the ONLY source of the people
 - STRICT identity preservation - do NOT change faces, expressions, or facial structure
-- Do NOT generate new people, do NOT add or remove anyone
+- If the reference contains pets, keep them with their exact appearance
+- Do NOT generate new people or animals
 
 OUTPUT:
-- Vertical 4:5 aspect ratio
-- High resolution (minimum 2048x2560)
+- Vertical 4:5 aspect ratio, high resolution
 - Optimized for mobile screens and WhatsApp sharing
-
-TASK:
-Carefully extract the people from the reference image and remove the original background completely.
-Place them into a dramatic, cinematic Israeli Rosh Hashana scene.
 
 SCENE:
 - a pomegranate orchard at dusk, heavy ripe fruit catching the last light
-- deep crimson and gold colour palette, rich and saturated
+- deep crimson and gold palette, rich and saturated
 - a low warm key light from one side, deep shadows on the other
 - soft volumetric light rays through the branches
-- scattered pomegranate seeds and a shallow honey bowl in the foreground (subtle, out of focus)
+- scattered pomegranate seeds and a shallow honey bowl in the foreground, out of focus
 - distant Israeli hills fading into a wine-coloured sky
 
 STYLE:
 - cinematic film still, anamorphic feel
-- teal-and-orange grade pushed toward crimson and molten gold
-- strong contrast, deep blacks, glowing highlights
-- fine film grain
+- strong contrast, deep blacks, glowing highlights, fine film grain
 - shallow depth of field with soft background bokeh
-
-PEOPLE:
-- preserve exact identity and faces
-- keep natural expressions (do NOT exaggerate smiles)
-- maintain realistic proportions
-- add cinematic rim light along hair and shoulders
-- keep clothing natural, deepen tones slightly toward burgundy and cream
 
 INTEGRATION:
 - seamless blending, no cut-out edges
 - match lighting direction and colour temperature to the scene
 - realistic contact shadows under and behind the people
-- subtle ambient light wrap around edges
+- cinematic rim light along hair and shoulders
 
 COMPOSITION:
-- vertical portrait layout
-- people placed slightly below centre
-- leave clean, uncluttered space at the top for text
+- vertical portrait layout, people slightly below centre
+- leave clean, uncluttered space at the top
 
-TEXT — DO NOT ADD ANY:
-Leave the top 25% of the frame clean and open: empty sky, no objects, no branches, no lettering of any kind.
-The Hebrew greeting is composited afterwards in the browser, where it can be spelled correctly and personalised.
-Do not write any text, watermark or signature anywhere on the image.
+${NOTEXT_GEM}`
+            },
 
-GOAL:
-A dramatic, emotional Rosh Hashana family portrait that looks like a frame from a feature film - premium, warm and personal.
+            royal: {
+                chatgpt: `Edit the photo I just uploaded into a Rosh Hashana holiday-table greeting image.
 
---no distorted faces, extra fingers, duplicated people, watermark, any text or lettering`;
+${FRAME_GPT}
+Compose top to bottom as: top ~20% open sky left completely empty, middle ~45% the people seated together, bottom ~35% the holiday table with its full setting clearly visible.
 
-        const PROMPT_ROYAL = `Create a rich, opulent Rosh Hashana greeting image using the uploaded reference image.
+SCENE:
+Remove the original background completely and seat everyone at a lavish Rosh Hashana table on a stone terrace at dusk. Adults behind the table, children in front, all facing the camera with forearms resting on it.
+
+THE TABLE - keep it fully in frame:
+A deep burgundy cloth seen from slightly above eye level so the whole surface reads. Polished red apples, a honey bowl with a wooden dipper mid-drip, split pomegranates showing their seeds, a round braided challah, brass lanterns with lit candles, crystal glasses and gold-rimmed plates. The table fills the bottom third edge to edge.
+
+LIGHTING:
+Warm candlelight from the table upward onto the faces, cool dusk light filling the shadows, a rim light along hair and shoulders, consistent shadow direction, and realistic contact shadows where arms rest on the table.
+
+LOOK:
+Cinematic and opulent - saturated crimson, gold and deep plum against the blue of dusk. Strong contrast, glowing highlights, fine grain, shallow depth of field. Blend everyone in seamlessly with correct scale and perspective.
+
+${NOTEXT_GPT}`,
+
+                gemini: `Create a rich, opulent Rosh Hashana greeting image using the uploaded reference image.
 
 CRITICAL:
 - The uploaded image MUST be the ONLY source of the people
 - STRICT identity preservation - do NOT change faces, expressions, or facial structure
-- Do NOT generate new people
+- If the reference contains pets, keep them with their exact appearance
+- Do NOT generate new people or animals
 
 OUTPUT:
-- Vertical 4:5 aspect ratio
-- High resolution (minimum 2048x2560)
+- Vertical 4:5 aspect ratio, high resolution
 - Optimized for mobile screens and WhatsApp sharing
 
-TASK:
-Extract the people from the reference image, remove the original background completely,
-and place them at a lavish Rosh Hashana holiday table.
+SEATING:
+- adults seated behind the table, children in front, all facing the camera
+- upper bodies clearly above the table line, forearms resting on it
+- any pet at the near edge, head raised above the tabletop
 
-SCENE:
-- a festive evening table set for the holiday
+THE TABLE:
+- a long table dressed in deep burgundy, seen from slightly above eye level
 - polished apples, a honey jar with a dipper, split pomegranates showing seeds
-- round challah, brass candlesticks with lit candles
-- deep burgundy textile, gold accents, dark wood
-- warm candlelight as the main light source, glowing and intimate
+- round braided challah, brass lanterns with lit candles, crystal glasses
+- gold-rimmed plates, small olive branches
+- the table fills the bottom third of the frame edge to edge
+
+LIGHTING:
+- warm candlelight as the main source, coming up from the table onto the faces
+- cool ambient dusk light filling the shadows
+- realistic reflected light, catchlights in every eye
+- consistent shadow direction across all subjects
 
 STYLE:
 - opulent and painterly, close to a classical oil portrait but still photographic
 - saturated jewel tones: crimson, gold, deep plum, bronze
-- strong chiaroscuro - bright faces against a dark, rich background
-- luxurious texture on fabric and fruit
-
-PEOPLE:
-- preserve exact identity and faces
-- keep natural expressions
-- maintain realistic proportions
-- warm candlelight falling on faces from the table level
-- clothing shifted subtly toward festive burgundy, cream and gold
+- strong chiaroscuro, luxurious texture on fabric and fruit
 
 INTEGRATION:
 - seamless blending, no cut-out edges
 - match the candlelight direction and warm colour temperature
-- realistic reflected light and soft shadows
+- contact shadows where arms rest on the table
 - correct scale and perspective relative to the table
 
-COMPOSITION:
-- vertical portrait layout
-- people behind and around the table, slightly below centre
-- leave clean, uncluttered space at the top for text
+${NOTEXT_GEM}`
+            },
 
-TEXT — DO NOT ADD ANY:
-Leave the top 25% of the frame clean and open: empty sky, no objects, no branches, no lettering of any kind.
-The Hebrew greeting is composited afterwards in the browser, where it can be spelled correctly and personalised.
-Do not write any text, watermark or signature anywhere on the image.
+            honey: {
+                chatgpt: `Turn the photo I just uploaded into a hand-painted Rosh Hashana storybook illustration.
 
-GOAL:
-A warm, regal Rosh Hashana family portrait that feels like a treasured heirloom photograph.
+FRAME:
+Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
+Compose top to bottom as: top ~22% warm empty sky left completely clean, middle ~48% the family seated together, bottom ~30% a picnic spread of honey pots and apples in the grass.
 
---no distorted faces, extra fingers, duplicated people, watermark, any text or lettering`;
+STYLE - this is the whole point:
+A classic English children's storybook illustration in the 1920s tradition. Soft pen-and-ink outlines, thin and slightly uneven, as if drawn with a nib. Loose watercolour washes that do not quite stay inside the lines, with the cream of the paper showing through in places. Visible paper grain and a gently aged tone at the edges.
+Warm and simple: honey amber, soft gold, muted sage green, dusty rose, ink brown. Nothing saturated, nothing glossy.
+Hand-drawn and gentle - absolutely not 3D, not Pixar, not digital vector art, not anime, not a photograph with a filter.
+Leave generous quiet space; the composition should feel airy, not crowded.
 
-        const PROMPT_GOLDEN = `Create a photorealistic Rosh Hashana greeting image using the uploaded reference image.
-
-CRITICAL:
-- The uploaded image MUST be the ONLY source of the people
-- STRICT identity preservation - do NOT change faces, expressions, proportions, or facial structure
-- Do NOT generate new people
-- The result should look like a real photograph, not an AI image
-
-OUTPUT:
-- Vertical 4:5 aspect ratio
-- High resolution (minimum 2048x2560)
-- Optimized for mobile screens and WhatsApp sharing
-
-TASK:
-Extract the people precisely from the reference image, remove the original background completely,
-and place them outdoors in the Israeli landscape at golden hour.
+SUBJECTS:
+Use my uploaded photo as the reference for who is in the scene. Redraw everyone as storybook characters but keep each one clearly recognisable - same hair colour and shape, same rough ages, same warm expressions, the same closeness between them. Simple, softly drawn faces with a few confident lines; not caricatures. Keep any pets in the photo, drawn in the same style with the same colouring.
 
 SCENE:
-- an open Israeli hillside in early autumn, dry golden grass and green scrub
-- a pomegranate tree with ripe fruit at one side of the frame
-- low golden sunlight just before sunset, long warm light
-- soft haze and glowing dust in the air
-- natural horizon, wide open sky in warm amber tones
+The family sits together in the grass under a large old tree at the edge of a meadow on a mild honey-coloured afternoon.
+Around them: several round earthenware honey pots, one open with a wooden dipper resting across it and a slow drip of honey. Red apples in a wicker basket and a few scattered in the grass. A pomegranate or two split open. A small woven blanket.
+Behind them: soft rolling hills, a few round trees, tall grass, and a hollow trunk with a simple beehive and three or four little bees drawn as small loops in the air.
+No buildings, no crowds, nothing modern.
 
-LIGHTING:
-- strong warm backlight creating a rim of light on hair and shoulders
-- soft bounced fill on the faces so no detail is lost in shadow
-- consistent shadow direction across every person
-- realistic ground contact shadows (critical)
+LIGHT:
+Soft, warm, late-afternoon light. Gentle washes rather than hard shadows, and a faint golden glow around the group.
+
+NO TEXT - this is important:
+Do not write any words, letters, Hebrew, numbers, watermark, logo or signature anywhere on the image. The top 22% must stay clean open sky with nothing in it - no lettering, no ornament, no branches or leaves crossing into it. Lettering is added separately afterwards.
+
+Please avoid: photorealism, 3D rendering, glossy digital shading, heavy black outlines, distorted hands, extra limbs, duplicated people, a missing or duplicated pet, and any text or decorative flourish in the upper part of the frame.`,
+
+                gemini: `Create a hand-painted Rosh Hashana storybook illustration from the uploaded reference image.
+
+CRITICAL:
+- The uploaded image is the reference for who appears in the scene
+- Redraw everyone as storybook characters, each clearly recognisable: same hair colour and shape, same rough ages, same expressions, same closeness
+- Keep any pets, drawn in the same style with the same colouring
+- Do NOT add or remove anyone
+
+OUTPUT:
+- Vertical 4:5 aspect ratio, high resolution
 
 STYLE:
-- photorealistic, natural, editorial quality
-- warm golden grade with rich but believable saturation
-- gentle lens flare from the sun, no artificial glow
-- shallow depth of field, background softly blurred
+- classic English children's storybook illustration, 1920s tradition
+- soft pen-and-ink outlines, thin and slightly uneven, as if drawn with a nib
+- loose watercolour washes that do not quite stay inside the lines
+- the cream of the paper showing through, visible paper grain, gently aged edges
+- honey amber, soft gold, muted sage green, dusty rose, ink brown
+- nothing saturated, nothing glossy
+- NOT 3D, NOT Pixar, NOT digital vector art, NOT anime, NOT a filtered photograph
 
-PEOPLE:
-- keep exact identity and facial detail
-- natural relaxed posture, no exaggeration
-- keep original clothing, brightened very slightly toward warm festive tones
+SCENE:
+- the family seated in the grass under a large old tree at the edge of a meadow
+- round earthenware honey pots, one open with a wooden dipper and a slow drip
+- red apples in a wicker basket, a few scattered in the grass
+- one or two split pomegranates, a small woven blanket
+- soft rolling hills behind, a hollow trunk with a simple beehive, a few bees as small loops
+- no buildings, no crowds, nothing modern
 
-INTEGRATION:
-- seamless blending, no cut-out edges
-- colour grade the people to match the environment
-- add ambient light wrap around the edges
-- correct scale and perspective relative to the landscape
+LIGHT:
+- soft, warm, late-afternoon light
+- gentle washes rather than hard shadows
+- a faint golden glow around the group
 
 COMPOSITION:
-- vertical portrait layout
-- people placed slightly below centre
-- balanced and airy, leave clean space at the top for text
+- vertical portrait layout, airy not crowded
+- the family slightly below centre, the honey pots and apples along the bottom
 
-TEXT — DO NOT ADD ANY:
-Leave the top 25% of the frame clean and open: empty sky, no objects, no branches, no lettering of any kind.
-The Hebrew greeting is composited afterwards in the browser, where it can be spelled correctly and personalised.
-Do not write any text, watermark or signature anywhere on the image.
-
-GOAL:
-A natural, luminous family photograph taken in Israel at golden hour before Rosh Hashana - warm, authentic and emotionally true.
-
---no distorted faces, extra fingers, duplicated people, watermark, any text or lettering`;
-
-        const PROMPTS = {
-            cinematic: PROMPT_CINEMATIC,
-            royal: PROMPT_ROYAL,
-            golden: PROMPT_GOLDEN
+${NOTEXT_GEM}`
+            }
         };
 
         /* ══════════════ PERSONAL GREETING ══════════════ */
@@ -1744,9 +1776,10 @@ A natural, luminous family photograph taken in Israel at golden hour before Rosh
             if (!btn) return;
             const key = btn.dataset.promptKey;
             const target = btn.dataset.target;
-            const basePrompt = PROMPTS[key];
-            if (!basePrompt) return;
-            const prompt = basePrompt;
+            const variants = PROMPTS[key];
+            if (!variants) return;
+            // the copy button feeds ChatGPT far more often than Gemini
+            const prompt = target === 'gemini' ? variants.gemini : variants.chatgpt;
 
             // Start the clipboard write while the document still has focus, but do NOT
             // await before window.open — awaiting first breaks the user-gesture chain
