@@ -1447,6 +1447,15 @@
                                 <button type="button" data-pos="bottom" aria-pressed="false">למטה</button>
                             </div>
                         </div>
+
+                        <div class="field">
+                            <label>סגנון הכיתוב</label>
+                            <div class="seg" id="styleSeg">
+                                <button type="button" data-style="dark" aria-pressed="true">זהב על כהה</button>
+                                <button type="button" data-style="light" aria-pressed="false">דיו על בהיר</button>
+                            </div>
+                            <p class="family-hint">לתמונות בהירות, כמו הסגנון המאוייר, בחרו "דיו על בהיר"</p>
+                        </div>
                     </div>
 
                     <div class="studio-stage">
@@ -1919,9 +1928,26 @@ ${NOTEXT_GEM}`
             }
         ];
 
+        /* Two palettes, because one does not survive both looks: a dark scrim
+           with gold lettering reads on a dusk photograph and ruins the pale
+           sky of the watercolour, and the ink-on-cream pair does the reverse. */
+        const TEXT_STYLES = {
+            dark: {
+                scrim: [6, 2, 4], scrimAlpha: 0.78,
+                title: '#FFE9A8', body: '#FFF4E0', sign: '#F5C542',
+                rule: 'rgba(245,197,66,', shadow: 'rgba(0,0,0,0.55)'
+            },
+            light: {
+                scrim: [255, 248, 232], scrimAlpha: 0.7,
+                title: '#7A4410', body: '#4A3418', sign: '#8A5A18',
+                rule: 'rgba(184,134,11,', shadow: 'rgba(255,250,235,0.75)'
+            }
+        };
+
         const studio = {
             img: null,
             pos: 'top',
+            style: 'dark',
             el: {
                 dropzone: document.getElementById('dropzone'),
                 dzTitle: document.getElementById('dzTitle'),
@@ -1932,6 +1958,7 @@ ${NOTEXT_GEM}`
                 body: document.getElementById('gBody'),
                 family: document.getElementById('gFamily'),
                 posSeg: document.getElementById('posSeg'),
+                styleSeg: document.getElementById('styleSeg'),
                 canvas: document.getElementById('cardCanvas'),
                 empty: document.getElementById('stageEmpty'),
                 download: document.getElementById('btnDownload')
@@ -2022,6 +2049,15 @@ ${NOTEXT_GEM}`
             draw();
         });
 
+        studio.el.styleSeg.addEventListener('click', (e) => {
+            const b = e.target.closest('button[data-style]');
+            if (!b) return;
+            studio.style = b.dataset.style;
+            studio.el.styleSeg.querySelectorAll('button')
+                .forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+            draw();
+        });
+
         // the hero field seeds the signature
         familyInput.addEventListener('input', () => {
             const v = (familyInput.value || '').trim();
@@ -2095,7 +2131,7 @@ ${NOTEXT_GEM}`
             const bodyLines = body ? wrapLines(ctx, body, maxW) : [];
 
             const lhBody = fsBody * 1.5;
-            const blockH = (title ? fsTitle * 1.18 : 0)
+            const blockH = (title ? fsTitle * 1.30 : 0)
                 + (bodyLines.length ? fsBody * 0.5 + bodyLines.length * lhBody : 0)
                 + (family ? fsFam * 1.7 : 0);
 
@@ -2103,12 +2139,14 @@ ${NOTEXT_GEM}`
             // against a bright sky, a scrim never does
             const pad = H * 0.055;
             const scrimH = Math.min(H * 0.62, blockH + pad * 2.4);
+            const T = TEXT_STYLES[studio.style] || TEXT_STYLES.dark;
+            const sc = T.scrim.join(',');
             const g = top
                 ? ctx.createLinearGradient(0, 0, 0, scrimH)
                 : ctx.createLinearGradient(0, H, 0, H - scrimH);
-            g.addColorStop(0, 'rgba(6,2,4,0.78)');
-            g.addColorStop(0.55, 'rgba(6,2,4,0.38)');
-            g.addColorStop(1, 'rgba(6,2,4,0)');
+            g.addColorStop(0, `rgba(${sc},${T.scrimAlpha})`);
+            g.addColorStop(0.55, `rgba(${sc},${T.scrimAlpha * 0.49})`);
+            g.addColorStop(1, `rgba(${sc},0)`);
             ctx.fillStyle = g;
             ctx.fillRect(0, top ? 0 : H - scrimH, W, scrimH);
 
@@ -2117,28 +2155,28 @@ ${NOTEXT_GEM}`
 
             if (title) {
                 ctx.font = `800 ${fsTitle}px Heebo, Arial, sans-serif`;
-                ctx.fillStyle = '#FFE9A8';
-                ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                ctx.fillStyle = T.title;
+                ctx.shadowColor = T.shadow;
                 ctx.shadowBlur = fsTitle * 0.22;
                 ctx.fillText(title, cx, y);
                 ctx.shadowBlur = 0;
-                y += fsTitle * 1.18;
+                y += fsTitle * 1.30;
 
                 // gold rule under the title
                 const rw = Math.min(maxW * 0.5, ctx.measureText(title).width * 0.8);
                 const rg = ctx.createLinearGradient(cx - rw / 2, 0, cx + rw / 2, 0);
-                rg.addColorStop(0, 'rgba(245,197,66,0)');
-                rg.addColorStop(0.5, 'rgba(245,197,66,0.95)');
-                rg.addColorStop(1, 'rgba(245,197,66,0)');
+                rg.addColorStop(0, T.rule + '0)');
+                rg.addColorStop(0.5, T.rule + '0.95)');
+                rg.addColorStop(1, T.rule + '0)');
                 ctx.fillStyle = rg;
-                ctx.fillRect(cx - rw / 2, y - fsTitle * 0.28, rw, Math.max(1, W * 0.0016));
+                ctx.fillRect(cx - rw / 2, y - fsTitle * 0.14, rw, Math.max(1, W * 0.0016));
             }
 
             if (bodyLines.length) {
                 y += fsBody * 0.5;
                 ctx.font = `400 ${fsBody}px Heebo, Arial, sans-serif`;
-                ctx.fillStyle = '#FFF4E0';
-                ctx.shadowColor = 'rgba(0,0,0,0.55)';
+                ctx.fillStyle = T.body;
+                ctx.shadowColor = T.shadow;
                 ctx.shadowBlur = fsBody * 0.3;
                 bodyLines.forEach((ln) => { ctx.fillText(ln, cx, y); y += lhBody; });
                 ctx.shadowBlur = 0;
@@ -2147,8 +2185,8 @@ ${NOTEXT_GEM}`
             if (family) {
                 y += fsFam * 0.5;
                 ctx.font = `700 ${fsFam}px Heebo, Arial, sans-serif`;
-                ctx.fillStyle = '#F5C542';
-                ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                ctx.fillStyle = T.sign;
+                ctx.shadowColor = T.shadow;
                 ctx.shadowBlur = fsFam * 0.3;
                 ctx.fillText(family, cx, y);
                 ctx.shadowBlur = 0;

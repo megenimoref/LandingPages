@@ -45,18 +45,25 @@ page never shows a broken image if a webp is renamed or lost.
 `maganim-center.webp`, `oref-haifa.webp`, `shaagat-hari-logo.webp` are copies of
 the org logos in the repo root `/images`. Update both if a logo changes.
 
-## A note on the greeting
+## Why some files come in pairs
 
-The three prompts no longer ask the model to write Hebrew — they ask it to
-leave the top 25% of the frame clean. The greeting is composited in the page's
-studio section instead, so spelling is always correct and one generated image
-can produce a differently-worded card per family.
+`after2.webp` / `after2-clean.webp` (and the same for `after3`).
 
-`after2.webp` is the raw AI output: no lettering, clean sky across the top,
-exactly what the current prompt asks for. The comparison card therefore shows
-the pre-studio state, and the studio section below it demonstrates the greeting
-being added.
+The `-clean` file is the raw AI output: no lettering, clean sky across the top,
+exactly what the current prompt asks for. The file without the suffix is that
+same image with a greeting composited on, and it is the one the comparison
+slider shows — sliding to an unlettered picture gives away no payoff, so the
+demo reveals a finished card.
 
-`og-preview.webp` is the opposite — it carries a composited greeting, because a
-WhatsApp preview should show the finished card rather than an unlettered
-intermediate.
+Keep the `-clean` originals. They are what you re-bake from if the wording,
+palette or position changes.
+
+`og-preview.webp` is built from the finished `after2.webp` for the same reason:
+a WhatsApp preview should show the product, not an intermediate.
+
+## Two text palettes
+
+The studio renders in one of two: **gold on a dark scrim** for photographs, and
+**ink on a cream scrim** for the illustrated style. A dark scrim over the
+watercolour's pale sky ruins it, and cream lettering disappears into it — one
+palette cannot serve both. `after2` uses dark, `after3` uses light.
