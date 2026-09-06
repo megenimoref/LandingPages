@@ -370,44 +370,44 @@ Also avoid: food or drink of any kind, any object or prop, festive decoration, s
 
 FRAME:
 Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
-Compose top to bottom as: top ~22% the sukkah roof with open sky showing through, left clear; middle ~55% the people; bottom ~23% the sukkah floor with a woven mat and cushions.
+Compose top to bottom as: top ~22% the sukkah roof with open sky showing through, left clear; middle ~58% the people standing together; bottom ~20% the decorated sukkah wall behind them.
 Frame this as a medium shot, not a close-up.
 
 ${FRAME_GPT}
 
 SCENE:
-Remove the original background completely and place everyone sitting together inside a sukkah on a mild autumn evening. There is NO table in this image.
-They sit on a low woven mat with cushions, leaning against a sukkah wall, close together and relaxed.
-The sukkah: a simple wooden frame, walls of natural woven mats and light draped fabric, and a roof of green palm fronds and leafy branches laid loosely across beams, with clear gaps letting the deep blue evening sky and a few early stars show through.
+Remove the original background completely and place everyone standing together inside a sukkah on a mild autumn evening.
+They stand close together and relaxed, facing the camera, an arm around a shoulder. Nobody is seated and nobody is on the floor.
+The sukkah: a simple wooden frame, walls of natural woven bamboo mats and light draped fabric, and a roof of green palm fronds and leafy branches laid loosely across beams, with clear gaps letting the deep blue evening sky and a few early stars show through.
 Hanging from the roof: paper chains in warm colours, a string of small warm lights, a few dried pomegranates and painted gourds. Children's drawings pinned to one wall.
-No food, no table, no plates, no dishes. The sukkah itself is the subject.
+There is NO table in this image, and no food of any kind. The sukkah itself is the subject.
 
 LIGHT AND LOOK:
 Warm golden light from the hanging bulbs, cool blue evening sky above through the roof. Soft shadows, cosy and intimate, natural colour, gentle depth of field. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, correct scale and perspective.
 
 ${NOTEXT_GPT}
-Also avoid: a table, food, plates or dishes of any kind, and a solid opaque roof with no sky showing.`,
+Also avoid: a table, food, plates or dishes of any kind, floor cushions, mats or beanbags, anyone sitting on the ground, a picnic or tent look, and a solid opaque roof with no sky showing.`,
                 gemini: `Edit the photo into a warm Sukkot greeting image.
 
 FRAME:
 Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
-Compose top to bottom as: top ~22% the sukkah roof with open sky showing through, left clear; middle ~55% the people; bottom ~23% the sukkah floor with a woven mat and cushions.
+Compose top to bottom as: top ~22% the sukkah roof with open sky showing through, left clear; middle ~58% the people standing together; bottom ~20% the decorated sukkah wall behind them.
 Frame this as a medium shot, not a close-up.
 
 ${FRAME_GPT}
 
 SCENE:
-Remove the original background completely and place everyone sitting together inside a sukkah on a mild autumn evening. There is NO table in this image.
-They sit on a low woven mat with cushions, leaning against a sukkah wall, close together and relaxed.
-The sukkah: a simple wooden frame, walls of natural woven mats and light draped fabric, and a roof of green palm fronds and leafy branches laid loosely across beams, with clear gaps letting the deep blue evening sky and a few early stars show through.
+Remove the original background completely and place everyone standing together inside a sukkah on a mild autumn evening.
+They stand close together and relaxed, facing the camera, an arm around a shoulder. Nobody is seated and nobody is on the floor.
+The sukkah: a simple wooden frame, walls of natural woven bamboo mats and light draped fabric, and a roof of green palm fronds and leafy branches laid loosely across beams, with clear gaps letting the deep blue evening sky and a few early stars show through.
 Hanging from the roof: paper chains in warm colours, a string of small warm lights, a few dried pomegranates and painted gourds. Children's drawings pinned to one wall.
-No food, no table, no plates, no dishes. The sukkah itself is the subject.
+There is NO table in this image, and no food of any kind. The sukkah itself is the subject.
 
 LIGHT AND LOOK:
 Warm golden light from the hanging bulbs, cool blue evening sky above through the roof. Soft shadows, cosy and intimate, natural colour, gentle depth of field. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, correct scale and perspective.
 
 ${NOTEXT_GPT}
-Also avoid: a table, food, plates or dishes of any kind, and a solid opaque roof with no sky showing.`
+Also avoid: a table, food, plates or dishes of any kind, floor cushions, mats or beanbags, anyone sitting on the ground, a picnic or tent look, and a solid opaque roof with no sky showing.`
             },
             minim: {
                 chatgpt: `${LEAD_GPT}Edit the photo into a bright Sukkot greeting image.
