@@ -141,7 +141,7 @@ const TEXT_STYLES = {
         rule: 'rgba(245,197,66,', shadow: 'rgba(0,0,0,0.55)'
     },
     light: {
-        scrim: [255, 248, 232], scrimAlpha: 0.7,
+        scrim: [255, 248, 232], scrimAlpha: 0.84,
         title: '#7A4410', body: '#4A3418', sign: '#8A5A18',
         rule: 'rgba(184,134,11,', shadow: 'rgba(255,250,235,0.75)'
     }

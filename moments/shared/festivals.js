@@ -203,9 +203,8 @@ Please avoid: photorealism, 3D rendering, glossy digital shading, heavy black ou
         footer: 'גמר חתימה טובה וצום קל 🕊️',
         shareTitle: 'גמר חתימה טובה',
         styles: [
-            { key: 'before', label: 'לפני הצום 🕯️', after: 'images/after1.webp' },
-            { key: 'blessing', label: 'ברכת הילדים 🤲', after: 'images/after2.webp' },
-            { key: 'white', label: 'לבן וטהור ✨', after: 'images/after3.webp' },
+            { key: 'blessing', label: 'ברכת הילדים 🤲', after: 'images/after1.webp' },
+            { key: 'white', label: 'לבן וטהור ✨', after: 'images/after2.webp' },
         ],
         greetings: [
             { title: 'גמר חתימה טובה וצום קל', body: 'שנזכה להניח מאחור את הצער, לסלוח לאחרים ולעצמנו, ולהתחיל דף חדש ונקי.' },
@@ -213,52 +212,6 @@ Please avoid: photorealism, 3D rendering, glossy digital shading, heavy black ou
             { title: 'צום קל ומועיל', body: 'שתיכתבו ותיחתמו בספר החיים והברכה, ושנה מתוקה תבוא עלינו לטובה.' },
         ],
         prompts: {
-            before: {
-                chatgpt: `${LEAD_GPT}Edit the photo into a quiet greeting image for the eve of Yom Kippur.
-
-FRAME:
-Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
-Compose top to bottom as: top ~24% pale evening sky, left completely empty; middle ~50% the people; bottom ~26% a low stone ledge with a few memorial candles in glass.
-Frame this as a medium shot, not a close-up.
-
-${FRAME_GPT}
-
-CLOTHING - change this:
-Dress everyone in plain white: simple linen and cotton, long sleeves, no pattern, no branding, no jewellery. Change only the clothes - faces, hair, skin and expressions stay exactly as they are in the photo.
-
-SCENE:
-Remove the original background completely and place everyone standing close together on a quiet stone terrace at dusk, just before the fast begins. A pale limestone wall behind them, a single olive tree at one side, distant hills going blue.
-On a low ledge in the foreground: a few white memorial candles in plain glass, already lit.
-There is NO food and NO drink anywhere in this image. No table, no plates, no dishes, no fruit, no bread, no wine. This is a fast day.
-
-LIGHT AND LOOK:
-Soft cool dusk light with the last warmth low on the horizon, and a small warm glow from the candles. Low contrast, muted and calm. White on white on pale stone. Restrained and reverent - not festive, not dramatic, not celebratory. Natural colour, gentle depth of field. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, realistic shadows.
-
-${NOTEXT_GPT}
-Also avoid: food or drink of any kind, a table, festive decoration, bright saturated colour, and a celebratory mood.`,
-                gemini: `Edit the photo into a quiet greeting image for the eve of Yom Kippur.
-
-FRAME:
-Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
-Compose top to bottom as: top ~24% pale evening sky, left completely empty; middle ~50% the people; bottom ~26% a low stone ledge with a few memorial candles in glass.
-Frame this as a medium shot, not a close-up.
-
-${FRAME_GPT}
-
-CLOTHING - change this:
-Dress everyone in plain white: simple linen and cotton, long sleeves, no pattern, no branding, no jewellery. Change only the clothes - faces, hair, skin and expressions stay exactly as they are in the photo.
-
-SCENE:
-Remove the original background completely and place everyone standing close together on a quiet stone terrace at dusk, just before the fast begins. A pale limestone wall behind them, a single olive tree at one side, distant hills going blue.
-On a low ledge in the foreground: a few white memorial candles in plain glass, already lit.
-There is NO food and NO drink anywhere in this image. No table, no plates, no dishes, no fruit, no bread, no wine. This is a fast day.
-
-LIGHT AND LOOK:
-Soft cool dusk light with the last warmth low on the horizon, and a small warm glow from the candles. Low contrast, muted and calm. White on white on pale stone. Restrained and reverent - not festive, not dramatic, not celebratory. Natural colour, gentle depth of field. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, realistic shadows.
-
-${NOTEXT_GPT}
-Also avoid: food or drink of any kind, a table, festive decoration, bright saturated colour, and a celebratory mood.`
-            },
             blessing: {
                 chatgpt: `${LEAD_GPT}Edit the photo into a tender Yom Kippur greeting image of a father blessing his children.
 
