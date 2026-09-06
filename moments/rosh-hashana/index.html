@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl" data-festival="rosh-hashana">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ראש השנה · גלויה לראש השנה | מחוז חיפה 350</title>
+    <meta name="description" content="מעלים תמונה, מקבלים גלויה לראש השנה ומוסיפים ברכה בעברית תקינה.">
+    <meta name="theme-color" content="#0B0206">
+    <link rel="canonical" href="https://megenimoref.github.io/LandingPages/moments/rosh-hashana/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="he_IL">
+    <meta property="og:site_name" content="מגנים על העורף · מחוז חיפה 350">
+    <meta property="og:url" content="https://megenimoref.github.io/LandingPages/moments/rosh-hashana/">
+    <meta property="og:title" content="הופכים תמונה לגלויה לראש השנה 🍎">
+    <meta property="og:description" content="מעלים תמונה, מקבלים גלויה לראש השנה ומוסיפים ברכה בעברית תקינה.">
+    <meta property="og:image" content="https://megenimoref.github.io/LandingPages/moments/rosh-hashana/images/og-preview.webp">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="הופכים תמונה לגלויה לראש השנה 🍎">
+    <meta name="twitter:description" content="מעלים תמונה, מקבלים גלויה לראש השנה ומוסיפים ברכה בעברית תקינה.">
+    <meta name="twitter:image" content="https://megenimoref.github.io/LandingPages/moments/rosh-hashana/images/og-preview.webp">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XSH19K5LBZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-XSH19K5LBZ');
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../shared/app.css">
+    <link rel="preload" href="images/before.webp" as="image">
+</head>
+
+<body>
+
+    <!-- behind the content -->
+    <div class="bg-aurora" id="aurora" aria-hidden="true"></div>
+    <div class="bg-grain" aria-hidden="true"></div>
+    <div class="bg-vignette" aria-hidden="true"></div>
+    <div class="motes" id="motes" aria-hidden="true"></div>
+
+    <!-- projector stack, over the content -->
+    <div class="grain-top" aria-hidden="true"></div>
+    <div class="scratches" aria-hidden="true"></div>
+    <div class="projector" aria-hidden="true"></div>
+    <div class="light-leak" aria-hidden="true"></div>
+    <div class="film-bar top" aria-hidden="true"></div>
+    <div class="film-bar bottom" aria-hidden="true"></div>
+
+    <div class="page">
+
+        <header class="brand">
+            <div class="container">
+                <a class="brand-mark" href="../">← כל החגים</a>
+                <div class="header-logos" aria-hidden="true">
+                    <img src="images/maganim-center.webp" alt="" class="brand-logo">
+                    <img src="images/oref-haifa.webp" alt="" class="brand-logo">
+                </div>
+            </div>
+        </header>
+
+        <section class="hero">
+            <div class="flare" aria-hidden="true"></div>
+            <div class="container">
+                <span class="hero-tag" data-fest="tag"></span>
+                <h1><span data-fest="h1"></span> <span class="apple" aria-hidden="true" data-fest="emoji"></span></h1>
+            </div>
+        </section>
+
+        <div class="wiz" id="wiz">
+        <div class="wiz-nav" id="wizNav" role="tablist" aria-label="שלבי היצירה">
+            <button type="button" class="wiz-tab" data-go="1" aria-selected="true"><i>1</i><span>סגנון</span></button>
+            <button type="button" class="wiz-tab" data-go="2" aria-selected="false"><i>2</i><span>ברכה</span></button>
+            <button type="button" class="wiz-tab" data-go="3" aria-selected="false"><i>3</i><span>יצירה</span></button>
+            <button type="button" class="wiz-tab" data-go="4" aria-selected="false"><i>4</i><span>שליחה</span></button>
+        </div>
+        <section class="wiz-step" data-step="1">
+            <h2>איזה סגנון?</h2>
+            <p class="wiz-lede">הזיזו את המחוון כדי לראות לפני ואחרי, ובחרו.</p>
+            <div class="style-chips" id="styleChips" role="radiogroup" aria-label="בחירת סגנון"></div>
+
+            <div class="preview-wrap">
+                <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי"
+                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
+                    <div class="ba-layer ba-before">
+                        <img src="images/before.webp" alt="לפני - תמונה מקורית" loading="eager" decoding="async">
+                    </div>
+                    <div class="ba-layer ba-after">
+                        <img id="previewAfter" src="" alt="אחרי" loading="eager" decoding="async">
+                    </div>
+                    <div class="ba-slider-line"></div>
+                    <div class="ba-slider-handle">◀▶</div>
+                    <span class="ba-label before">לפני</span>
+                    <span class="ba-label after">אחרי</span>
+                </div>
+            </div>
+
+            <div class="wiz-actions one">
+                <button type="button" class="wiz-next" data-go="2" id="next1">לשלב 2 - בחירת ברכה ←</button>
+            </div>
+        </section>
+        <section class="wiz-step" data-step="2" hidden>
+            <h2>איזו ברכה?</h2>
+            <p class="wiz-lede">בוחרים עכשיו, כדי שבסוף יישאר רק להעלות ולשלוח.</p>
+            <div class="wiz-panel">
+<div class="field">
+                            <label>ברכה מוכנה</label>
+                            <div class="presets" id="presets"></div>
+                        </div>
+
+                        <details class="tweak">
+                        <summary>התאמה אישית</summary>
+                        <div class="field">
+                            <label for="gTitle">כותרת</label>
+                            <input type="text" id="gTitle" maxlength="40" value="שנה טובה ומתוקה">
+                        </div>
+
+                        <div class="field">
+                            <label for="gBody">נוסח הברכה</label>
+                            <textarea id="gBody" maxlength="320"></textarea>
+                        </div>
+
+                        <div class="field">
+                            <label for="gFamily">חתימה <span class="opt">(אופציונלי)</span></label>
+                            <input type="text" id="gFamily" maxlength="40" placeholder="ממשפחת לוי">
+                        </div>
+
+                        <div class="field">
+                            <label>מיקום הברכה</label>
+                            <div class="seg" id="posSeg">
+                                <button type="button" data-pos="top" aria-pressed="true">למעלה</button>
+                                <button type="button" data-pos="bottom" aria-pressed="false">למטה</button>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label>סגנון הכיתוב</label>
+                            <div class="seg" id="styleSeg">
+                                <button type="button" data-style="dark" aria-pressed="true">זהב על כהה</button>
+                                <button type="button" data-style="light" aria-pressed="false">דיו על בהיר</button>
+                            </div>
+                            <p class="family-hint">לתמונות בהירות, כמו הסגנון המאוייר, בחרו "דיו על בהיר"</p>
+                        </div>
+                        </details>
+            </div>
+            <div class="wiz-actions">
+                <button type="button" class="wiz-back" data-go="1">→ שלב 1</button>
+                <button type="button" class="wiz-next" data-go="3">לשלב 3 - יצירת התמונה ←</button>
+            </div>
+        </section>
+        <section class="wiz-step" data-step="3" hidden>
+            <h2>יוצרים את התמונה</h2>
+            <p class="wiz-lede">נפתח צ׳אט שהפרומפט כבר נשלח בו. כל מה שנשאר - לצרף את התמונה שלכם.</p>
+            <div class="wiz-panel launch">
+                <div class="order-note">
+                    <span class="on-icon" aria-hidden="true">➕</span>
+                    <p>הפרומפט כבר יהיה שם - רק צרפו את התמונה
+                        <em>ב-ChatGPT: כפתור ➕ ליד שדה ההודעה, והוא שולח לבד.
+                            ב-AI Studio: מצרפים תמונה ולוחצים Run. בשניהם צריך להיות מחוברים</em>
+                    </p>
+                </div>
+                <button class="btn btn-chatgpt launch-btn" data-target="chatgpt">🟢 פתחו את ChatGPT</button>
+                <button class="btn btn-gemini launch-btn" data-target="aistudio">🔵 פתחו ב-Google AI Studio</button>
+                <button class="btn btn-copy launch-btn" data-target="copy">📋 העתק פרומפט בלבד</button>
+            </div>
+            <div class="wiz-actions">
+                <button type="button" class="wiz-back" data-go="2">→ שלב 2</button>
+                <button type="button" class="wiz-next" data-go="4">לשלב 4 - העלאה ושליחה ←</button>
+            </div>
+        </section>
+        <section class="wiz-step" data-step="4" hidden>
+            <h2>מעלים ושולחים</h2>
+            <p class="wiz-lede">העלו את התמונה שקיבלתם - הברכה שבחרתם כבר מחכה עליה.</p>
+            <div class="studio-grid">
+                <div class="studio-panel">
+<div class="field">
+                            <label for="fileInput">התמונה שיצרתם</label>
+                            <div class="dropzone" id="dropzone" role="button" tabindex="0"
+                                aria-label="העלאת תמונה - גרירה, הדבקה או בחירת קובץ">
+                                <span class="dz-title" id="dzTitle">גררו לכאן, או הדביקו (Ctrl+V)</span>
+                                <span class="dz-sub" id="dzSub">אפשר גם ללחוץ ולבחור קובץ</span>
+                            </div>
+                            <input type="file" id="fileInput" accept="image/*" class="sr-only">
+                        </div>
+
+                                        </div>
+                <div class="studio-stage">
+                        <div class="canvas-wrap">
+                            <p class="stage-empty" id="stageEmpty">התצוגה המקדימה תופיע כאן<br>אחרי שתעלו תמונה</p>
+                            <canvas id="cardCanvas" hidden></canvas>
+                        </div>
+                        <button class="btn-share" id="btnShare" disabled hidden>📲 שליחת הגלויה</button>
+                        <button class="btn-download" id="btnDownload" disabled>⬇ הורדת הגלויה</button>
+                    </div>
+
+            </div>
+            <div class="wiz-actions">
+                <button type="button" class="wiz-back" data-go="2">→ שלב 2 - לשנות ברכה</button>
+            </div>
+        </section>
+        </div>
+
+        <footer class="foot">
+            <div class="container">
+                <div class="gold" data-fest="footer"></div>
+                <div class="sub">מרכז חוסן קהילתי · מחוז חיפה 350</div>
+            </div>
+        </footer>
+
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+
+
+    <script src="../shared/festivals.js"></script>
+    <script src="../shared/app.js"></script>
+</body>
+
+</html>

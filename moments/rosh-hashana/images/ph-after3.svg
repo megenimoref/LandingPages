@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000" role="img"
+    aria-label="מציין מיקום - סגנון זהוב">
+    <defs>
+        <linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#7A3A12" />
+            <stop offset="0.32" stop-color="#D8801E" />
+            <stop offset="0.58" stop-color="#F5B93A" />
+            <stop offset="0.76" stop-color="#FFD98A" />
+            <stop offset="1" stop-color="#8A5A18" />
+        </linearGradient>
+        <radialGradient id="sun3" cx="0.34" cy="0.66" r="0.4">
+            <stop offset="0" stop-color="#FFFBE8" stop-opacity="1" />
+            <stop offset="0.28" stop-color="#FFE08A" stop-opacity="0.7" />
+            <stop offset="1" stop-color="#FFB03A" stop-opacity="0" />
+        </radialGradient>
+        <linearGradient id="gold3" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#FFFBE8" />
+            <stop offset="1" stop-color="#FFCF6A" />
+        </linearGradient>
+        <linearGradient id="vig3" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#3A1A06" stop-opacity="0.68" />
+            <stop offset="0.26" stop-color="#3A1A06" stop-opacity="0" />
+            <stop offset="0.74" stop-color="#3A1A06" stop-opacity="0" />
+            <stop offset="1" stop-color="#2A1204" stop-opacity="0.9" />
+        </linearGradient>
+        <filter id="soft3" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="8" />
+        </filter>
+    </defs>
+
+    <rect width="800" height="1000" fill="url(#sky3)" />
+    <ellipse cx="272" cy="660" rx="360" ry="300" fill="url(#sun3)" />
+    <circle cx="272" cy="660" r="72" fill="#FFF6D0" opacity="0.9" />
+
+    <!-- haze bands -->
+    <g fill="#FFE9A8" opacity="0.16">
+        <rect x="0" y="560" width="800" height="26" />
+        <rect x="0" y="616" width="800" height="16" />
+        <rect x="0" y="500" width="800" height="12" />
+    </g>
+
+    <!-- rolling hills -->
+    <path d="M0 700 C160 656 280 700 420 678 C560 656 680 700 800 672 L800 1000 L0 1000Z" fill="#B07A22"
+        opacity="0.85" />
+    <path d="M0 774 C170 736 300 772 450 754 C600 736 700 766 800 748 L800 1000 L0 1000Z" fill="#7A5214" />
+    <path d="M0 856 C180 826 320 858 470 844 C620 830 720 852 800 840 L800 1000 L0 1000Z" fill="#4A3008" />
+
+    <!-- dry grass strokes -->
+    <g stroke="#FFD98A" stroke-width="3" opacity="0.5" fill="none">
+        <path d="M60 960 q6 -46 -6 -78" />
+        <path d="M104 968 q10 -52 0 -84" />
+        <path d="M700 956 q-8 -44 4 -74" />
+        <path d="M748 966 q-10 -50 2 -80" />
+        <path d="M636 972 q6 -42 -4 -70" />
+    </g>
+
+    <!-- pomegranate tree, right -->
+    <g stroke="#3A2206" stroke-width="12" fill="none">
+        <path d="M760 730 C742 640 762 560 736 486" />
+        <path d="M740 566 C700 536 676 546 650 512" />
+        <path d="M746 620 C712 604 692 620 664 600" />
+    </g>
+    <g fill="#C4152E">
+        <circle cx="648" cy="528" r="24" />
+        <circle cx="666" cy="614" r="20" />
+        <circle cx="730" cy="486" r="18" />
+    </g>
+
+    <!-- floating dust motes -->
+    <g filter="url(#soft3)" opacity="0.55" fill="#FFF6D0">
+        <circle cx="380" cy="520" r="9" />
+        <circle cx="452" cy="592" r="12" />
+        <circle cx="188" cy="546" r="10" />
+        <circle cx="520" cy="486" r="7" />
+        <circle cx="300" cy="470" r="8" />
+    </g>
+
+    <!-- backlit family silhouettes -->
+    <g fill="#2A1806" opacity="0.95">
+        <circle cx="290" cy="622" r="58" />
+        <path d="M206 780c0-48 38-86 84-86s84 38 84 86v186H206z" />
+        <circle cx="426" cy="656" r="42" />
+        <path d="M366 782c0-34 27-60 60-60s60 26 60 60v184H366z" />
+        <circle cx="548" cy="630" r="51" />
+        <path d="M474 778c0-41 33-74 74-74s74 33 74 74v188H474z" />
+    </g>
+    <g fill="none" stroke="#FFF6D0" stroke-width="6" opacity="0.9">
+        <path d="M338 596 a58 58 0 01 8 58" />
+        <path d="M460 636 a42 42 0 01 6 42" />
+        <path d="M592 608 a51 51 0 01 7 50" />
+    </g>
+
+    <rect width="800" height="1000" fill="url(#vig3)" />
+
+    <!-- greeting -->
+    <text x="400" y="150" text-anchor="middle" font-family="Heebo, Arial, sans-serif" font-size="58" font-weight="800"
+        fill="url(#gold3)">שנה טובה ומתוקה</text>
+    <text x="400" y="200" text-anchor="middle" font-family="Heebo, Arial, sans-serif" font-size="27" font-weight="500"
+        fill="#FFF6D0" opacity="0.9">· ממשפחת ישראלי ·</text>
+
+    <text x="400" y="946" text-anchor="middle" font-family="Heebo, Arial, sans-serif" font-size="22" font-weight="600"
+        fill="#FFF0C0" opacity="0.7">דוגמה · החליפו ב-after3.webp</text>
+</svg>
