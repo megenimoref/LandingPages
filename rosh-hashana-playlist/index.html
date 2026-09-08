@@ -17,7 +17,7 @@
 <meta name="theme-color" content="#05060c">
 
 <title>פסקול תשפ״ז · שנה טובה מהעורף לחזית - הקדשות ושירים לחיילי המילואים</title>
-<meta name="description" content="לקראת ראש השנה תשפ״ז - ממלאים טופס קצר, ואנחנו דואגים שהשיר וההקדשה יגיעו לחייל.ת המילואים שלכם. פסקול אחד גדול של אהבה, מהעורף לחזית.">
+<meta name="description" content="לקראת ראש השנה תשפ״ז - ממלאים טופס קצר, ואנחנו דואגים שהשיר וההקדשה יגיעו לחייל.ת המילואים שלכם. פסקול אחד גדול של שנה חדשה, מהעורף לחזית.">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="he_IL">
@@ -273,31 +273,29 @@ h2.title{
 @media (max-width:640px){ .topbar .org{ display:none; } .topbar .marks img{ height:30px; } }
 .topbar .actions{ display:flex; align-items:center; gap:12px; }
 
-/* The soundtrack toggle — an equaliser that actually moves while it plays. */
-.sound{
-  display:inline-flex; align-items:center; gap:10px;
-  padding:9px 16px; border-radius:999px; cursor:pointer;
-  border:1px solid var(--glass-line); background:var(--glass);
-  color:var(--cream); font-family:var(--font-body); font-size:.82rem; font-weight:600;
-  backdrop-filter:blur(8px);
-  transition:background .3s var(--ease), border-color .3s var(--ease);
+/* Battalion crests — every unit the playlist is being built for.
+   One shared size top and bottom; each crest keeps its own background,
+   so a white chip carries the light ones and 335 stays black. */
+.units{ --unit:44px; display:flex; align-items:center; gap:8px; }
+.units img{
+  flex:0 0 auto; width:var(--unit); height:var(--unit);
+  border-radius:10px; object-fit:contain; background:#fff;
+  border:1px solid rgba(247,241,230,.22);
+  box-shadow:0 2px 10px rgba(0,0,0,.45);
 }
-.sound:hover{ background:rgba(255,255,255,.09); border-color:rgba(242,177,52,.45); }
-.sound:focus-visible{ outline:2px solid var(--honey); outline-offset:3px; }
-.sound .bars{ display:flex; align-items:flex-end; gap:2.5px; height:15px; }
-.sound .bars i{
-  display:block; width:2.5px; height:4px; border-radius:2px; opacity:.5;
-  background:linear-gradient(180deg,var(--honey-lt),var(--honey));
+/* In the fixed bar the strip scrolls instead of pushing the actions off-screen. */
+.topbar .units{ flex:1 1 auto; min-width:0; overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none; }
+.topbar .units::-webkit-scrollbar{ display:none; }
+.foot .units{ flex:1 1 100%; flex-wrap:wrap; gap:10px; margin-block:4px 2px; }
+@media (max-width:900px){
+  .units{ --unit:34px; }
+  /* Fade the ends so the strip reads as swipeable where it no longer fits. */
+  .topbar .units{
+    -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%);
+            mask-image:linear-gradient(90deg,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%);
+  }
 }
-.sound[aria-pressed="true"] .bars i{ opacity:1; animation:eqbar .9s var(--ease) infinite alternate; }
-.sound[aria-pressed="true"] .bars i:nth-child(2){ animation-delay:.18s; }
-.sound[aria-pressed="true"] .bars i:nth-child(3){ animation-delay:.36s; }
-.sound[aria-pressed="true"] .bars i:nth-child(4){ animation-delay:.10s; }
-@keyframes eqbar{ from{ height:4px; } to{ height:15px; } }
-@media (prefers-reduced-motion:reduce){ .sound .bars i{ animation:none !important; } }
-html.no-anim .sound .bars i{ animation:none !important; }
-@media (max-width:640px){ .sound .lbl{ display:none; } .sound{ padding:9px 12px; } }
-.credit{ display:inline-block; margin-top:6px; font-size:.72rem; color:var(--muted); opacity:.8; }
+
 
 /* ============================================================
    7. HERO
@@ -552,16 +550,22 @@ footer{
     <img src="images/maganim-center.webp" alt="פיקוד העורף" width="120" height="38" loading="eager">
     <div class="org">מגנים על העורף<small>מחוז חיפה</small></div>
   </div>
+  <div class="units" role="list" aria-label="סמלי הגדודים">
+    <img role="listitem" src="images/units/335.webp" alt="גדוד 335 — לוחמים להצלת חיים" width="240" height="240" loading="eager" decoding="async">
+    <img role="listitem" src="images/units/837.webp" alt="גדוד חילוץ 837 — אריות העמק" width="240" height="240" loading="eager" decoding="async">
+    <img role="listitem" src="images/units/945.webp" alt="גדוד 945" width="240" height="240" loading="eager" decoding="async">
+    <img role="listitem" src="images/units/5703.webp" alt="גדוד 5703" width="240" height="240" loading="eager" decoding="async">
+    <img role="listitem" src="images/units/5722.webp" alt="גדוד חילוץ 5722" width="240" height="240" loading="eager" decoding="async">
+    <img role="listitem" src="images/units/7660.webp" alt="גדוד 7660 — ביחד ננצח" width="240" height="240" loading="eager" decoding="async">
+    <img role="listitem" src="images/units/7717-galmair.webp" alt="גדוד 7717 — גלמייר חיפה" width="240" height="240" loading="eager" decoding="async">
+    <img role="listitem" src="images/units/7764.webp" alt="גדוד 7764 — ראשונים לכל משימה" width="240" height="240" loading="eager" decoding="async">
+    <img role="listitem" src="images/units/refua.webp" alt="גדוד רפואה מחוז חיפה" width="240" height="240" loading="eager" decoding="async">
+    <img role="listitem" src="images/units/tikshuv.webp" alt="גדוד התקשוב מחוז חיפה" width="240" height="240" loading="eager" decoding="async">
+  </div>
   <div class="actions">
-    <button class="sound" id="sndBtn" type="button" aria-pressed="false" aria-label="הפעלת מוזיקת רקע">
-      <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-      <span class="lbl">מוזיקה</span>
-    </button>
     <a class="cta" href="#form" style="padding:11px 24px;font-size:.92rem" data-goto>שליחת הקדשה</a>
   </div>
 </header>
-
-<audio id="bgm" src="public/tapuchim-utmarim.mp3" loop preload="auto"></audio>
 
 <main id="main">
 
@@ -585,7 +589,7 @@ footer{
 
       <p class="stamp"><span class="dot"></span> מבצע פעיל · ראש השנה תשפ״ז</p>
 
-      <h1 data-split>פסקול אחד גדול <span class="gold">של אהבה</span></h1>
+      <h1 data-split>פסקול אחד גדול <span class="gold">של שנה חדשה</span></h1>
 
       <p class="sub">ממלאים טופס קצר — הקדשה ושיר — ואנחנו דואגים שהם יגיעו לחייל.ת המילואים שלכם — כדי שתתחיל להם שנה מתוקה כמו דבש.</p>
 
@@ -647,12 +651,12 @@ footer{
         <form id="dedForm" novalidate>
           <div class="grid2">
             <div class="field">
-              <label for="soldier">שם המשרת/ת <span class="req" aria-hidden="true">*</span></label>
+              <label for="soldier">שם הנמען <span class="req" aria-hidden="true">*</span></label>
               <input id="soldier" name="soldier" type="text" autocomplete="off" required placeholder="שם פרטי ומשפחה">
-              <p class="err">נא למלא את שם המשרת/ת</p>
+              <p class="err">נא למלא את שם הנמען</p>
             </div>
             <div class="field">
-              <label for="phone">נייד של המשרת/ת <span class="req" aria-hidden="true">*</span></label>
+              <label for="phone">נייד של הנמען <span class="req" aria-hidden="true">*</span></label>
               <input id="phone" name="phone" type="tel" inputmode="tel" required placeholder="05X-XXXXXXX">
               <p class="err">נא למלא מספר נייד תקין (10 ספרות)</p>
             </div>
@@ -660,9 +664,9 @@ footer{
 
           <div class="grid2" style="margin-top:20px">
             <div class="field">
-              <label for="unit">גדוד / יחידה / מחוז <span class="req" aria-hidden="true">*</span></label>
+              <label for="unit">גדוד / משפחות העורף <span class="req" aria-hidden="true">*</span></label>
               <input id="unit" name="unit" type="text" required placeholder="לדוגמה: גדוד 5722 / מחוז חיפה">
-              <p class="err">נא לציין גדוד או מחוז</p>
+              <p class="err">נא לציין גדוד או משפחות העורף</p>
             </div>
             <div class="field">
               <label for="song">שם השיר <span class="req" aria-hidden="true">*</span></label>
@@ -733,10 +737,21 @@ footer{
       <img src="images/oref-haifa.webp" alt="מגנים על העורף — מרכז חוסן קהילתי, מחוז חיפה" loading="lazy">
       <img src="images/maganim-center.webp" alt="פיקוד העורף" loading="lazy">
     </div>
+    <div class="units" role="list" aria-label="סמלי הגדודים">
+      <img role="listitem" src="images/units/335.webp" alt="גדוד 335 — לוחמים להצלת חיים" width="240" height="240" loading="lazy" decoding="async">
+      <img role="listitem" src="images/units/837.webp" alt="גדוד חילוץ 837 — אריות העמק" width="240" height="240" loading="lazy" decoding="async">
+      <img role="listitem" src="images/units/945.webp" alt="גדוד 945" width="240" height="240" loading="lazy" decoding="async">
+      <img role="listitem" src="images/units/5703.webp" alt="גדוד 5703" width="240" height="240" loading="lazy" decoding="async">
+      <img role="listitem" src="images/units/5722.webp" alt="גדוד חילוץ 5722" width="240" height="240" loading="lazy" decoding="async">
+      <img role="listitem" src="images/units/7660.webp" alt="גדוד 7660 — ביחד ננצח" width="240" height="240" loading="lazy" decoding="async">
+      <img role="listitem" src="images/units/7717-galmair.webp" alt="גדוד 7717 — גלמייר חיפה" width="240" height="240" loading="lazy" decoding="async">
+      <img role="listitem" src="images/units/7764.webp" alt="גדוד 7764 — ראשונים לכל משימה" width="240" height="240" loading="lazy" decoding="async">
+      <img role="listitem" src="images/units/refua.webp" alt="גדוד רפואה מחוז חיפה" width="240" height="240" loading="lazy" decoding="async">
+      <img role="listitem" src="images/units/tikshuv.webp" alt="גדוד התקשוב מחוז חיפה" width="240" height="240" loading="lazy" decoding="async">
+    </div>
     <small>
       מרכז "מגנים על העורף" · מחוז חיפה — פיקוד העורף<br>
-      פסקול תשפ״ז · מהעורף לחזית · <span id="yr">2026</span><br>
-      <span class="credit">מוזיקת רקע: רמי קלינשטיין — "תפוחים ותמרים" · מקור: YouTube · כל הזכויות שמורות ליוצרים</span>
+      פסקול תשפ״ז · מהעורף לחזית · <span id="yr">2026</span>
     </small>
   </div>
 </footer>
@@ -1071,82 +1086,6 @@ const CONFIG = {
   $('#aReset').addEventListener('click',() => { prefs.fs = 1; prefs.anim = false; prefs.hc = false; apply(); });
 })();
 
-/* ============================================================
-   BACKGROUND SOUNDTRACK
-   Browsers refuse to autoplay audio until the visitor interacts
-   with the page, so the track starts on the first gesture and the
-   toggle stays available either way. The choice is remembered.
-   ============================================================ */
-(function () {
-  'use strict';
-  const audio = document.getElementById('bgm');
-  const btn   = document.getElementById('sndBtn');
-  if (!audio || !btn) return;
-
-  const KEY    = 'paskol-bgm';
-  const LEVEL  = 0.32;            // background, never over the reading
-  const EVENTS = ['pointerdown', 'keydown', 'touchstart'];
-  let fade = null;
-
-  const setState = (on) => {
-    btn.setAttribute('aria-pressed', String(on));
-    btn.setAttribute('aria-label', on ? 'השתקת מוזיקת רקע' : 'הפעלת מוזיקת רקע');
-  };
-  const remember = (v) => { try { localStorage.setItem(KEY, v); } catch (e) { /* private mode */ } };
-
-  /* Ease the volume instead of cutting it — matches the rest of the page. */
-  function fadeTo(target, done) {
-    clearInterval(fade);
-    fade = setInterval(() => {
-      const gap = target - audio.volume;
-      if (Math.abs(gap) < 0.02) {
-        audio.volume = target; clearInterval(fade); if (done) done(); return;
-      }
-      audio.volume = Math.max(0, Math.min(1, audio.volume + gap * 0.15));
-    }, 40);
-  }
-
-  function play() {
-    audio.volume = 0;
-    return audio.play()
-      .then(() => { setState(true); fadeTo(LEVEL); remember('on'); })
-      .catch((err) => { setState(false); throw err; });   // blocked — caller decides
-  }
-  function stop() {
-    fadeTo(0, () => audio.pause());
-    setState(false);
-    remember('off');
-  }
-
-  btn.addEventListener('click', () => {
-    btn.getAttribute('aria-pressed') === 'true' ? stop() : play().catch(() => {});
-  });
-
-  /* Try to start straight away. Browsers block autoplay with sound for a
-     visitor who has not interacted with the site yet, so when that rejects
-     we fall back to starting on the first gesture instead. Someone who
-     switched the music off before is left alone. */
-  let optedOut = false;
-  try { optedOut = localStorage.getItem(KEY) === 'off'; } catch (e) { /* private mode */ }
-  if (!optedOut) {
-    play().catch(() => {
-      const kick = () => {
-        EVENTS.forEach((e) => window.removeEventListener(e, kick));
-        play().catch(() => {});
-      };
-      EVENTS.forEach((e) => window.addEventListener(e, kick, { passive: true }));
-    });
-  }
-
-  /* Don't keep playing into a tab nobody is looking at. */
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-      if (!audio.paused) audio.pause();
-    } else if (btn.getAttribute('aria-pressed') === 'true' && audio.paused) {
-      audio.play().catch(() => {});
-    }
-  });
-})();
 </script>
 
 </body>
