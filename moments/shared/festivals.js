@@ -204,15 +204,9 @@ Please avoid: photorealism, 3D rendering, glossy digital shading, heavy black ou
         footer: 'גמר חתימה טובה וצום קל 🕊️',
         shareTitle: 'גמר חתימה טובה',
         cards: [
-            { slug: 'yk-card1', label: 'נר', tone: 'dark' },
-            { slug: 'yk-card2', label: 'שחר', tone: 'light' },
-            { slug: 'yk-card3', label: 'שער פתוח', tone: 'light' },
-            { slug: 'yk-card4', label: 'רימון', tone: 'light' },
-            { slug: 'yk-card5', label: 'ענף זית', tone: 'light' },
-            { slug: 'yk-card6', label: 'לבן', tone: 'light' },
-            { slug: 'yk-card7', label: 'טלית וסידור', tone: 'light' },
-            { slug: 'yk-card8', label: 'תקיעת שופר', tone: 'dark' },
-            { slug: 'yk-card9', label: 'ספר תורה בירושלים', tone: 'dark' },
+            { slug: 'yk-card1', label: 'טלית וסידור', tone: 'light' },
+            { slug: 'yk-card2', label: 'תקיעת שופר', tone: 'dark' },
+            { slug: 'yk-card3', label: 'ספר תורה בירושלים', tone: 'dark' },
         ],
         greetings: [
             { title: 'גמר חתימה טובה וצום קל', body: 'שנזכה להניח מאחור את הצער, לסלוח לאחרים ולעצמנו, ולהתחיל דף חדש ונקי.' },
