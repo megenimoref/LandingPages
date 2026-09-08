@@ -215,10 +215,6 @@ function loadImageFile(file) {
     im.src = url;
 }
 
-studio.el.dropzone.addEventListener('click', () => studio.el.file.click());
-studio.el.dropzone.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); studio.el.file.click(); }
-});
 studio.el.file.addEventListener('change', (e) => loadImageFile(e.target.files[0]));
 
 ['dragenter', 'dragover'].forEach((ev) =>
@@ -541,14 +537,14 @@ document.querySelectorAll('.launch-btn').forEach((btn) => {
         const copyPromise = copyToClipboard(prompt);
 
         if (target !== 'copy') {
-            // ChatGPT's ?q= submits on open, which is why its wording
-            // announces the photo first. AI Studio's ?prompt= only
-            // prefills, so it gets the plain wording and the visitor
-            // attaches the photo before pressing Run — the right order,
-            // with no lead-in needed.
+            // AI Studio accepts ?prompt=, but running anything there needs a
+            // Cloud project with billing attached — on an ordinary account it
+            // answers "permission denied". The Gemini app is free and works;
+            // it just has no prompt parameter, so it opens blank and the
+            // visitor pastes what is already on the clipboard.
             const url = target === 'chatgpt'
                 ? 'https://chatgpt.com/?q=' + encodeURIComponent(prompt)
-                : 'https://aistudio.google.com/prompts/new_chat?prompt=' + encodeURIComponent(prompt);
+                : 'https://gemini.google.com/app';
             window.open(url, '_blank', 'noopener');
             markLeftForChat();
         }
@@ -563,8 +559,10 @@ document.querySelectorAll('.launch-btn').forEach((btn) => {
             showToast(ok ? 'הפרומפט הועתק 📋' : 'ההעתקה נכשלה - סמנו והעתיקו ידנית');
         } else if (target === 'chatgpt') {
             showToast('הפרומפט כבר בצ׳אט - צרפו את התמונה ושלחו 📸');
+        } else if (ok) {
+            showToast('הפרומפט הועתק! צרפו תמונה, הדביקו (Ctrl+V) ושלחו');
         } else {
-            showToast('הפרומפט כבר בפנים - צרפו תמונה ולחצו Run ▶');
+            showToast('פתחנו את Gemini - חזרו ולחצו "העתק פרומפט בלבד"');
         }
     });
 });

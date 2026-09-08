@@ -116,6 +116,11 @@
                             <div class="presets" id="presets"></div>
                         </div>
 
+                        <div class="field">
+                            <label for="gFamily">שם השולח</label>
+                            <input type="text" id="gFamily" maxlength="40" placeholder="ממשפחת לוי">
+                        </div>
+
                         <details class="tweak">
                         <summary>התאמה אישית</summary>
                         <div class="field">
@@ -128,10 +133,6 @@
                             <textarea id="gBody" maxlength="320"></textarea>
                         </div>
 
-                        <div class="field">
-                            <label for="gFamily">חתימה <span class="opt">(אופציונלי)</span></label>
-                            <input type="text" id="gFamily" maxlength="40" placeholder="ממשפחת לוי">
-                        </div>
 
                         <div class="field">
                             <label>מיקום הברכה</label>
@@ -163,12 +164,12 @@
                 <div class="order-note">
                     <span class="on-icon" aria-hidden="true">➕</span>
                     <p>הפרומפט כבר יהיה שם - רק צרפו את התמונה
-                        <em>ב-ChatGPT: כפתור ➕ ליד שדה ההודעה, והוא שולח לבד.
-                            ב-AI Studio: מצרפים תמונה ולוחצים Run. בשניהם צריך להיות מחוברים</em>
+                        <em>ב-ChatGPT הפרומפט נשלח לבד - רק צרפו תמונה בכפתור ➕.
+                            ב-Gemini צרפו תמונה, הדביקו את הפרומפט (Ctrl+V) ושלחו. בשניהם צריך להיות מחוברים</em>
                     </p>
                 </div>
                 <button class="btn btn-chatgpt launch-btn" data-target="chatgpt">🟢 פתחו את ChatGPT</button>
-                <button class="btn btn-gemini launch-btn" data-target="aistudio">🔵 פתחו ב-Google AI Studio</button>
+                <button class="btn btn-gemini launch-btn" data-target="gemini">🔵 העתק ופתח את Gemini</button>
                 <button class="btn btn-copy launch-btn" data-target="copy">📋 העתק פרומפט בלבד</button>
             </div>
             <div class="wiz-actions">
@@ -183,12 +184,11 @@
                 <div class="studio-panel">
 <div class="field">
                             <label for="fileInput">התמונה שיצרתם</label>
-                            <div class="dropzone" id="dropzone" role="button" tabindex="0"
-                                aria-label="העלאת תמונה - גרירה, הדבקה או בחירת קובץ">
+                            <label class="dropzone" id="dropzone" for="fileInput">
                                 <span class="dz-title" id="dzTitle">גררו לכאן, או הדביקו (Ctrl+V)</span>
                                 <span class="dz-sub" id="dzSub">אפשר גם ללחוץ ולבחור קובץ</span>
-                            </div>
-                            <input type="file" id="fileInput" accept="image/*" class="sr-only">
+                            </label>
+                            <input type="file" id="fileInput" accept="image/*" class="file-input">
                         </div>
 
                                         </div>

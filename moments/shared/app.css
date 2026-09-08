@@ -1217,6 +1217,16 @@ is off-screen and nothing has to be scrolled to be discovered. */
     outline: none;
 }
 
+/* A clipped input can refuse a programmatic click on some Android browsers.
+   This one is merely invisible, and the label activates it natively. */
+.file-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
 /* ── drop zone ── */
 .dropzone {
     display: grid;

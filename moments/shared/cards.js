@@ -318,25 +318,42 @@ if (!incoming) {
         }, 'image/jpeg', 0.92);
     });
 
-    (function wireShare() {
-        let ok = false;
-        try {
-            const probe = new File([new Blob(['x'])], 'p.jpg', { type: 'image/jpeg' });
-            ok = !!navigator.canShare && navigator.canShare({ files: [probe] });
-        } catch (_) { }
-        if (!ok) return;
+    let canShareFile = false;
+    try {
+        const probe = new File([new Blob(['x'])], 'p.jpg', { type: 'image/jpeg' });
+        canShareFile = !!navigator.canShare && navigator.canShare({ files: [probe] });
+    } catch (_) { }
+
+    function shareImage() {
+        $('cardCanvas').toBlob(async (blob) => {
+            const file = new File([blob], 'gmar-hatima-tova.jpg', { type: 'image/jpeg' });
+            try {
+                await navigator.share({ files: [file], title: FEST.shareTitle });
+                if (typeof gtag === 'function') gtag('event', 'share_card', { method: 'file' });
+            } catch (err) {
+                if (err && err.name !== 'AbortError') showToast('השיתוף נכשל - אפשר להוריד ולשלוח ידנית');
+            }
+        }, 'image/jpeg', 0.92);
+    }
+
+    if (canShareFile) {
         $('btnShare').hidden = false;
-        $('btnShare').addEventListener('click', () => {
-            $('cardCanvas').toBlob(async (blob) => {
-                const file = new File([blob], 'gmar-hatima-tova.jpg', { type: 'image/jpeg' });
-                try {
-                    await navigator.share({ files: [file], title: FEST.shareTitle });
-                } catch (err) {
-                    if (err && err.name !== 'AbortError') showToast('השיתוף נכשל - אפשר להוריד ולשלוח ידנית');
-                }
-            }, 'image/jpeg', 0.92);
-        });
-    })();
+        $('btnShare').addEventListener('click', shareImage);
+
+        // The green button sends the picture through the phone's share sheet,
+        // where WhatsApp is one of the destinations. A wa.me link would have
+        // sent the page instead, and WhatsApp would preview the site's own
+        // Open Graph image rather than this card.
+        const wa = $('sendWa');
+        wa.removeAttribute('href');
+        wa.removeAttribute('target');
+        wa.setAttribute('role', 'button');
+        wa.textContent = '🟢 שליחת הגלויה כתמונה';
+        wa.addEventListener('click', (e) => { e.preventDefault(); shareImage(); });
+        $('shareHint').textContent = 'הכפתור הירוק שולח את התמונה עצמה. ה-SMS שולח קישור, כי הודעת טקסט לא יכולה לשאת תמונה.';
+    } else {
+        $('shareHint').textContent = 'במחשב אפשר להוריד את הגלויה ולצרף אותה ידנית. מהטלפון היא נשלחת כתמונה.';
+    }
 
     goStep(1, { silent: true });
 }
