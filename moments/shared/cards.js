@@ -123,7 +123,7 @@ async function paint(canvas, { card, title, body, sign }) {
     ctx.drawImage(img, 0, 0, W, H);
 
     const T = TEXT_STYLES[card.tone] || TEXT_STYLES.light;
-    const fsTitle = W * 0.072, fsBody = W * 0.036, fsSign = W * 0.032;
+    const fsTitle = W * 0.078, fsBody = W * 0.045, fsSign = W * 0.038;
     const maxW = W * 0.84;
 
     ctx.direction = 'rtl';
