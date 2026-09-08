@@ -215,10 +215,6 @@ function loadImageFile(file) {
     im.src = url;
 }
 
-studio.el.dropzone.addEventListener('click', () => studio.el.file.click());
-studio.el.dropzone.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); studio.el.file.click(); }
-});
 studio.el.file.addEventListener('change', (e) => loadImageFile(e.target.files[0]));
 
 ['dragenter', 'dragover'].forEach((ev) =>
