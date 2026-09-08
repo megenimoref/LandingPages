@@ -286,7 +286,7 @@ h2.title{
 /* In the fixed bar the strip scrolls instead of pushing the actions off-screen. */
 .topbar .units{ flex:1 1 auto; min-width:0; overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none; }
 .topbar .units::-webkit-scrollbar{ display:none; }
-.foot .units{ flex:1 1 100%; flex-wrap:wrap; gap:10px; margin-block:4px 2px; }
+.foot .units{ flex-wrap:wrap; gap:10px; }   /* shares the row with the centre marks */
 @media (max-width:900px){
   .units{ --unit:34px; }
   /* Fade the ends so the strip reads as swipeable where it no longer fits. */
