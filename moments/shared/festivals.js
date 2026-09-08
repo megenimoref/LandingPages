@@ -210,8 +210,8 @@ Please avoid: photorealism, 3D rendering, glossy digital shading, heavy black ou
             { slug: 'yk-card4', label: 'רימון', tone: 'light' },
             { slug: 'yk-card5', label: 'ענף זית', tone: 'light' },
             { slug: 'yk-card6', label: 'לבן', tone: 'light' },
-            { slug: 'yk-card7', label: 'תקיעת שופר', tone: 'dark' },
-            { slug: 'yk-card8', label: 'טלית וסידור', tone: 'light' },
+            { slug: 'yk-card7', label: 'טלית וסידור', tone: 'light' },
+            { slug: 'yk-card8', label: 'תקיעת שופר', tone: 'dark' },
             { slug: 'yk-card9', label: 'ספר תורה בירושלים', tone: 'dark' },
         ],
         greetings: [
