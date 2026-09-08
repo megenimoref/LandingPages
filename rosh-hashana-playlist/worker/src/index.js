@@ -192,14 +192,21 @@ export default {
     const id = `ded:${rec.receivedAt}:${crypto.randomUUID().slice(0, 8)}`;
     await env.DEDICATIONS.put(id, JSON.stringify({ id, ...rec }));
 
+    /* The link is optional on the form and most senders skip it, which left
+       both messages with a blank line where the song should have been. Fall
+       back to a YouTube search for the song title so every message carries
+       something to tap. KV and the spreadsheet keep what was actually typed. */
+    const songLink = rec.link ||
+      `https://www.youtube.com/results?search_query=${encodeURIComponent(rec.song)}`;
+
     // The sender should not wait on any of these to see "נשלח".
     // One notification tells the team a dedication arrived; the other carries
     // it to the soldier it was written for.
     ctx.waitUntil(notifyHub(env, 'paskol-dedication', {
-      sender: rec.sender, song: rec.song, link: rec.link,
+      sender: rec.sender, song: rec.song, link: songLink,
     }));
     ctx.waitUntil(notifyHub(env, 'paskol-greeting', {
-      sender: rec.sender, song: rec.song, link: rec.link, phone: rec.phone,
+      sender: rec.sender, song: rec.song, link: songLink, phone: rec.phone,
     }));
     ctx.waitUntil(mirrorToForm(rec));
 

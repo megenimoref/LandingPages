@@ -286,7 +286,7 @@ h2.title{
 /* In the fixed bar the strip scrolls instead of pushing the actions off-screen. */
 .topbar .units{ flex:1 1 auto; min-width:0; overflow-x:auto; scrollbar-width:none; -ms-overflow-style:none; }
 .topbar .units::-webkit-scrollbar{ display:none; }
-.foot .units{ flex:1 1 100%; flex-wrap:wrap; gap:10px; margin-block:4px 2px; }
+.foot .units{ flex-wrap:wrap; gap:10px; }   /* shares the row with the centre marks */
 @media (max-width:900px){
   .units{ --unit:34px; }
   /* Fade the ends so the strip reads as swipeable where it no longer fits. */
@@ -545,11 +545,6 @@ footer{
 
 <!-- ── header ─────────────────────────────────────────────── -->
 <header class="topbar" id="topbar">
-  <div class="marks">
-    <img src="images/oref-haifa.webp" alt="מגנים על העורף — מרכז חוסן קהילתי, מחוז חיפה" width="120" height="38" loading="eager">
-    <img src="images/maganim-center.webp" alt="פיקוד העורף" width="120" height="38" loading="eager">
-    <div class="org">מגנים על העורף<small>מחוז חיפה</small></div>
-  </div>
   <div class="units" role="list" aria-label="סמלי הגדודים">
     <img role="listitem" src="images/units/335.webp" alt="גדוד 335 — לוחמים להצלת חיים" width="240" height="240" loading="eager" decoding="async">
     <img role="listitem" src="images/units/837.webp" alt="גדוד חילוץ 837 — אריות העמק" width="240" height="240" loading="eager" decoding="async">
@@ -561,6 +556,11 @@ footer{
     <img role="listitem" src="images/units/7764.webp" alt="גדוד 7764 — ראשונים לכל משימה" width="240" height="240" loading="eager" decoding="async">
     <img role="listitem" src="images/units/refua.webp" alt="גדוד רפואה מחוז חיפה" width="240" height="240" loading="eager" decoding="async">
     <img role="listitem" src="images/units/tikshuv.webp" alt="גדוד התקשוב מחוז חיפה" width="240" height="240" loading="eager" decoding="async">
+  </div>
+  <div class="marks">
+    <img src="images/oref-haifa.webp" alt="מגנים על העורף — מרכז חוסן קהילתי, מחוז חיפה" width="120" height="38" loading="eager">
+    <img src="images/maganim-center.webp" alt="פיקוד העורף" width="120" height="38" loading="eager">
+    <div class="org">מגנים על העורף<small>מחוז חיפה</small></div>
   </div>
   <div class="actions">
     <a class="cta" href="#form" style="padding:11px 24px;font-size:.92rem" data-goto>שליחת הקדשה</a>
@@ -665,7 +665,7 @@ footer{
           <div class="grid2" style="margin-top:20px">
             <div class="field">
               <label for="unit">גדוד / משפחות העורף <span class="req" aria-hidden="true">*</span></label>
-              <input id="unit" name="unit" type="text" required placeholder="לדוגמה: גדוד 5722 / מחוז חיפה">
+              <input id="unit" name="unit" type="text" required placeholder="לדוגמה: גדוד 5722 / משפחת כהן">
               <p class="err">נא לציין גדוד או משפחות העורף</p>
             </div>
             <div class="field">
@@ -733,10 +733,6 @@ footer{
 <!-- ── footer ───────────────────────────────────────────────── -->
 <footer>
   <div class="wrap foot">
-    <div class="marks">
-      <img src="images/oref-haifa.webp" alt="מגנים על העורף — מרכז חוסן קהילתי, מחוז חיפה" loading="lazy">
-      <img src="images/maganim-center.webp" alt="פיקוד העורף" loading="lazy">
-    </div>
     <div class="units" role="list" aria-label="סמלי הגדודים">
       <img role="listitem" src="images/units/335.webp" alt="גדוד 335 — לוחמים להצלת חיים" width="240" height="240" loading="lazy" decoding="async">
       <img role="listitem" src="images/units/837.webp" alt="גדוד חילוץ 837 — אריות העמק" width="240" height="240" loading="lazy" decoding="async">
@@ -748,6 +744,10 @@ footer{
       <img role="listitem" src="images/units/7764.webp" alt="גדוד 7764 — ראשונים לכל משימה" width="240" height="240" loading="lazy" decoding="async">
       <img role="listitem" src="images/units/refua.webp" alt="גדוד רפואה מחוז חיפה" width="240" height="240" loading="lazy" decoding="async">
       <img role="listitem" src="images/units/tikshuv.webp" alt="גדוד התקשוב מחוז חיפה" width="240" height="240" loading="lazy" decoding="async">
+    </div>
+    <div class="marks">
+      <img src="images/oref-haifa.webp" alt="מגנים על העורף — מרכז חוסן קהילתי, מחוז חיפה" loading="lazy">
+      <img src="images/maganim-center.webp" alt="פיקוד העורף" loading="lazy">
     </div>
     <small>
       מרכז "מגנים על העורף" · מחוז חיפה — פיקוד העורף<br>
