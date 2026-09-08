@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>יום כיפור · ברכה לפני הצום | מחוז חיפה 350</title>
-    <meta name="description" content="מעלים תמונה, מקבלים גלויה מאופקת ליום כיפור ומוסיפים ברכה בעברית תקינה.">
+    <title>יום כיפור · ברכה לשליחה | מחוז חיפה 350</title>
+    <meta name="description" content="בוחרים גלויה, כותבים ברכה, ושולחים ב-SMS או בוואטסאפ. בלי הרשמה ובלי אפליקציה.">
     <meta name="theme-color" content="#0B0206">
     <link rel="canonical" href="https://megenimoref.github.io/LandingPages/moments/yom-kippur/">
 
@@ -13,15 +13,16 @@
     <meta property="og:locale" content="he_IL">
     <meta property="og:site_name" content="מגנים על העורף · מחוז חיפה 350">
     <meta property="og:url" content="https://megenimoref.github.io/LandingPages/moments/yom-kippur/">
-    <meta property="og:title" content="ברכה לפני הצום 🕊️">
-    <meta property="og:description" content="מעלים תמונה, מקבלים גלויה מאופקת ליום כיפור ומוסיפים ברכה בעברית תקינה.">
-    <meta property="og:image" content="https://megenimoref.github.io/LandingPages/moments/yom-kippur/images/og-preview.webp">
+    <meta property="og:title" content="ברכה ליום כיפור 🕊️">
+    <meta property="og:description" content="בוחרים גלויה, כותבים ברכה, ושולחים ב-SMS או בוואטסאפ.">
+    <meta property="og:image"
+        content="https://megenimoref.github.io/LandingPages/moments/yom-kippur/images/og-preview.webp">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="ברכה לפני הצום 🕊️">
-    <meta name="twitter:description" content="מעלים תמונה, מקבלים גלויה מאופקת ליום כיפור ומוסיפים ברכה בעברית תקינה.">
-    <meta name="twitter:image" content="https://megenimoref.github.io/LandingPages/moments/yom-kippur/images/og-preview.webp">
+    <meta name="twitter:title" content="ברכה ליום כיפור 🕊️">
+    <meta name="twitter:image"
+        content="https://megenimoref.github.io/LandingPages/moments/yom-kippur/images/og-preview.webp">
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XSH19K5LBZ"></script>
     <script>
@@ -36,24 +37,178 @@
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="../shared/app.css">
-    <link rel="preload" href="images/before.webp" as="image">
+
+    <style>
+        /* Only what the card flow adds on top of the shared shell. */
+        .cardgrid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        .pickcard {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 7px 6px 9px;
+            border-radius: var(--radius);
+            border: 1px solid var(--line);
+            background: rgba(255, 244, 224, 0.04);
+            font-size: 0.74rem;
+            font-weight: 800;
+            color: var(--cream-dim);
+            transition: border-color 0.25s var(--ease), background 0.25s var(--ease),
+                        color 0.25s var(--ease), transform 0.25s var(--ease);
+        }
+
+        .pickcard img {
+            width: 100%;
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            border-radius: 9px;
+            opacity: 0.62;
+            transition: opacity 0.25s var(--ease);
+        }
+
+        .pickcard:hover { transform: translateY(-2px); border-color: rgba(245, 197, 66, 0.5); }
+        .pickcard:hover img { opacity: 0.9; }
+
+        .pickcard[aria-pressed="true"] {
+            color: var(--night);
+            border-color: var(--gold);
+            background: linear-gradient(140deg, var(--gold-hot), var(--honey));
+            box-shadow: 0 0 24px rgba(245, 197, 66, 0.3);
+        }
+
+        .pickcard[aria-pressed="true"] img { opacity: 1; }
+
+        .sendrow {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .sendbtn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 15px 10px;
+            border-radius: var(--radius);
+            font-size: 0.98rem;
+            font-weight: 800;
+            transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+        }
+
+        .sendbtn:hover { transform: translateY(-2px); }
+
+        .sendbtn.sms {
+            color: #04160E;
+            background: linear-gradient(140deg, #8FD3FF, #3B9CE0);
+            box-shadow: 0 8px 26px rgba(59, 156, 224, 0.32);
+        }
+
+        .sendbtn.wa {
+            color: #04160E;
+            background: linear-gradient(140deg, #6EE7A8, #25D366);
+            box-shadow: 0 8px 26px rgba(37, 211, 102, 0.32);
+        }
+
+        .linkrow {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .linkrow input {
+            flex: 1 1 auto;
+            min-width: 0;
+            padding: 11px 14px;
+            font: inherit;
+            font-size: 0.82rem;
+            color: var(--cream-dim);
+            background: rgba(255, 244, 224, 0.06);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            direction: ltr;
+            text-align: left;
+        }
+
+        .linkrow button {
+            flex: 0 0 auto;
+            padding: 11px 16px;
+            border-radius: var(--radius);
+            font-size: 0.84rem;
+            font-weight: 800;
+            color: var(--gold-hot);
+            border: 1px solid var(--line);
+        }
+
+        .linkrow button:hover { background: rgba(245, 197, 66, 0.1); }
+
+        .link-note {
+            margin-top: 8px;
+            font-size: 0.76rem;
+            font-weight: 300;
+            color: var(--cream-faint);
+            text-align: center;
+        }
+
+        /* the recipient's view */
+        .viewer { padding: 24px 0 40px; text-align: center; }
+
+        .viewer h1 {
+            font-size: clamp(1.4rem, 4.4vw, 2.1rem);
+            font-weight: 900;
+            margin-bottom: 6px;
+            background: linear-gradient(100deg, var(--gold-hot), var(--pom-hot));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .viewer p.sub {
+            font-weight: 300;
+            color: var(--cream-dim);
+            margin-bottom: 20px;
+        }
+
+        .viewer canvas {
+            max-width: min(100%, 420px);
+            max-height: 62vh;
+            width: auto;
+            height: auto;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-deep);
+        }
+
+        .viewer-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+
+        @media (max-width: 620px) {
+            .cardgrid { grid-template-columns: repeat(3, 1fr); gap: 9px; }
+            .pickcard { font-size: 0.66rem; }
+            .sendrow { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- behind the content -->
     <div class="bg-aurora" id="aurora" aria-hidden="true"></div>
     <div class="bg-grain" aria-hidden="true"></div>
     <div class="bg-vignette" aria-hidden="true"></div>
-    <div class="motes" id="motes" aria-hidden="true"></div>
-
-    <!-- projector stack, over the content -->
     <div class="grain-top" aria-hidden="true"></div>
     <div class="scratches" aria-hidden="true"></div>
     <div class="projector" aria-hidden="true"></div>
-    <div class="light-leak" aria-hidden="true"></div>
-    <div class="film-bar top" aria-hidden="true"></div>
-    <div class="film-bar bottom" aria-hidden="true"></div>
 
     <div class="page">
 
@@ -67,145 +222,104 @@
             </div>
         </header>
 
-        <section class="hero">
-            <div class="flare" aria-hidden="true"></div>
+        <!-- what someone who opened a sent link sees -->
+        <section class="viewer" id="viewer" hidden>
             <div class="container">
-                <span class="hero-tag" data-fest="tag"></span>
-                <h1><span data-fest="h1"></span> <span class="apple" aria-hidden="true" data-fest="emoji"></span></h1>
-            </div>
-        </section>
-
-        <div class="wiz" id="wiz">
-        <div class="wiz-nav" id="wizNav" role="tablist" aria-label="שלבי היצירה">
-            <button type="button" class="wiz-tab" data-go="1" aria-selected="true"><i>1</i><span>סגנון</span></button>
-            <button type="button" class="wiz-tab" data-go="2" aria-selected="false"><i>2</i><span>ברכה</span></button>
-            <button type="button" class="wiz-tab" data-go="3" aria-selected="false"><i>3</i><span>יצירה</span></button>
-            <button type="button" class="wiz-tab" data-go="4" aria-selected="false"><i>4</i><span>שליחה</span></button>
-        </div>
-        <section class="wiz-step" data-step="1">
-            <h2>איזה סגנון?</h2>
-            <p class="wiz-lede">הזיזו את המחוון כדי לראות לפני ואחרי, ובחרו.</p>
-            <div class="style-chips" id="styleChips" role="radiogroup" aria-label="בחירת סגנון"></div>
-
-            <div class="preview-wrap">
-                <div class="ba-compare" data-ba tabindex="0" role="slider" aria-label="השוואת לפני ואחרי"
-                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="50" aria-valuetext="50 אחוז">
-                    <div class="ba-layer ba-before">
-                        <img src="images/before.webp" alt="לפני - תמונה מקורית" loading="eager" decoding="async">
-                    </div>
-                    <div class="ba-layer ba-after">
-                        <img id="previewAfter" src="" alt="אחרי" loading="eager" decoding="async">
-                    </div>
-                    <div class="ba-slider-line"></div>
-                    <div class="ba-slider-handle">◀▶</div>
-                    <span class="ba-label before">לפני</span>
-                    <span class="ba-label after">אחרי</span>
+                <h1>קיבלתם ברכה 🕊️</h1>
+                <p class="sub">גמר חתימה טובה</p>
+                <canvas id="viewCanvas"></canvas>
+                <div class="viewer-actions">
+                    <button class="btn-download" id="viewDownload" style="width:auto;padding:13px 26px">⬇ שמירת
+                        הגלויה</button>
+                    <a class="wiz-back" href="./" style="display:inline-block">✍️ ליצירת ברכה משלכם</a>
                 </div>
             </div>
-
-            <div class="wiz-actions one">
-                <button type="button" class="wiz-next" data-go="2" id="next1">לשלב 2 - בחירת ברכה ←</button>
-            </div>
         </section>
-        <section class="wiz-step" data-step="2" hidden>
-            <h2>איזו ברכה?</h2>
-            <p class="wiz-lede">בוחרים עכשיו, כדי שבסוף יישאר רק להעלות ולשלוח.</p>
-            <div class="wiz-panel">
-<div class="field">
+
+        <div id="sender">
+            <section class="hero">
+                <div class="container">
+                    <span class="hero-tag" data-fest="tag"></span>
+                    <h1><span data-fest="h1"></span> <span class="apple" aria-hidden="true" data-fest="emoji"></span>
+                    </h1>
+                </div>
+            </section>
+
+            <div class="wiz" id="wiz">
+                <div class="wiz-nav" role="tablist" aria-label="שלבי היצירה">
+                    <button type="button" class="wiz-tab" data-go="1" aria-selected="true"><i>1</i><span>גלויה</span></button>
+                    <button type="button" class="wiz-tab" data-go="2" aria-selected="false"><i>2</i><span>ברכה</span></button>
+                    <button type="button" class="wiz-tab" data-go="3" aria-selected="false"><i>3</i><span>שליחה</span></button>
+                </div>
+
+                <section class="wiz-step" data-step="1">
+                    <h2>איזו גלויה?</h2>
+                    <p class="wiz-lede">כל הגלויות מוכנות - רק בוחרים.</p>
+                    <div class="cardgrid" id="cardGallery"></div>
+                    <div class="wiz-actions one">
+                        <button type="button" class="wiz-next" data-go="2">לשלב 2 - כתיבת ברכה ←</button>
+                    </div>
+                </section>
+
+                <section class="wiz-step" data-step="2" hidden>
+                    <h2>איזו ברכה?</h2>
+                    <p class="wiz-lede">בוחרים נוסח מוכן, או כותבים משלכם.</p>
+                    <div class="wiz-panel">
+                        <div class="field">
                             <label>ברכה מוכנה</label>
                             <div class="presets" id="presets"></div>
                         </div>
-
                         <details class="tweak">
-                        <summary>התאמה אישית</summary>
-                        <div class="field">
-                            <label for="gTitle">כותרת</label>
-                            <input type="text" id="gTitle" maxlength="40" value="שנה טובה ומתוקה">
-                        </div>
-
-                        <div class="field">
-                            <label for="gBody">נוסח הברכה</label>
-                            <textarea id="gBody" maxlength="320"></textarea>
-                        </div>
-
-                        <div class="field">
-                            <label for="gFamily">חתימה <span class="opt">(אופציונלי)</span></label>
-                            <input type="text" id="gFamily" maxlength="40" placeholder="ממשפחת לוי">
-                        </div>
-
-                        <div class="field">
-                            <label>מיקום הברכה</label>
-                            <div class="seg" id="posSeg">
-                                <button type="button" data-pos="top" aria-pressed="true">למעלה</button>
-                                <button type="button" data-pos="bottom" aria-pressed="false">למטה</button>
+                            <summary>התאמה אישית</summary>
+                            <div class="field">
+                                <label for="gTitle">כותרת</label>
+                                <input type="text" id="gTitle" maxlength="40">
                             </div>
-                        </div>
-
-                        <div class="field">
-                            <label>סגנון הכיתוב</label>
-                            <div class="seg" id="styleSeg">
-                                <button type="button" data-style="dark" aria-pressed="true">זהב על כהה</button>
-                                <button type="button" data-style="light" aria-pressed="false">דיו על בהיר</button>
+                            <div class="field">
+                                <label for="gBody">נוסח הברכה</label>
+                                <textarea id="gBody" maxlength="320"></textarea>
                             </div>
-                            <p class="family-hint">לתמונות בהירות, כמו הסגנון המאוייר, בחרו "דיו על בהיר"</p>
-                        </div>
+                            <div class="field">
+                                <label for="gSign">חתימה <span class="opt">(אופציונלי)</span></label>
+                                <input type="text" id="gSign" maxlength="40" placeholder="ממשפחת לוי">
+                            </div>
                         </details>
-            </div>
-            <div class="wiz-actions">
-                <button type="button" class="wiz-back" data-go="1">→ שלב 1</button>
-                <button type="button" class="wiz-next" data-go="3">לשלב 3 - יצירת התמונה ←</button>
-            </div>
-        </section>
-        <section class="wiz-step" data-step="3" hidden>
-            <h2>יוצרים את התמונה</h2>
-            <p class="wiz-lede">נפתח צ׳אט שהפרומפט כבר נשלח בו. כל מה שנשאר - לצרף את התמונה שלכם.</p>
-            <div class="wiz-panel launch">
-                <div class="order-note">
-                    <span class="on-icon" aria-hidden="true">➕</span>
-                    <p>הפרומפט כבר יהיה שם - רק צרפו את התמונה
-                        <em>ב-ChatGPT: כפתור ➕ ליד שדה ההודעה, והוא שולח לבד.
-                            ב-AI Studio: מצרפים תמונה ולוחצים Run. בשניהם צריך להיות מחוברים</em>
-                    </p>
-                </div>
-                <button class="btn btn-chatgpt launch-btn" data-target="chatgpt">🟢 פתחו את ChatGPT</button>
-                <button class="btn btn-gemini launch-btn" data-target="aistudio">🔵 פתחו ב-Google AI Studio</button>
-                <button class="btn btn-copy launch-btn" data-target="copy">📋 העתק פרומפט בלבד</button>
-            </div>
-            <div class="wiz-actions">
-                <button type="button" class="wiz-back" data-go="2">→ שלב 2</button>
-                <button type="button" class="wiz-next" data-go="4">לשלב 4 - העלאה ושליחה ←</button>
-            </div>
-        </section>
-        <section class="wiz-step" data-step="4" hidden>
-            <h2>מעלים ושולחים</h2>
-            <p class="wiz-lede">העלו את התמונה שקיבלתם - הברכה שבחרתם כבר מחכה עליה.</p>
-            <div class="studio-grid">
-                <div class="studio-panel">
-<div class="field">
-                            <label for="fileInput">התמונה שיצרתם</label>
-                            <div class="dropzone" id="dropzone" role="button" tabindex="0"
-                                aria-label="העלאת תמונה - גרירה, הדבקה או בחירת קובץ">
-                                <span class="dz-title" id="dzTitle">גררו לכאן, או הדביקו (Ctrl+V)</span>
-                                <span class="dz-sub" id="dzSub">אפשר גם ללחוץ ולבחור קובץ</span>
-                            </div>
-                            <input type="file" id="fileInput" accept="image/*" class="sr-only">
-                        </div>
-
-                                        </div>
-                <div class="studio-stage">
-                        <div class="canvas-wrap">
-                            <p class="stage-empty" id="stageEmpty">התצוגה המקדימה תופיע כאן<br>אחרי שתעלו תמונה</p>
-                            <canvas id="cardCanvas" hidden></canvas>
-                        </div>
-                        <button class="btn-share" id="btnShare" disabled hidden>📲 שליחת הגלויה</button>
-                        <button class="btn-download" id="btnDownload" disabled>⬇ הורדת הגלויה</button>
                     </div>
+                    <div class="wiz-actions">
+                        <button type="button" class="wiz-back" data-go="1">→ שלב 1</button>
+                        <button type="button" class="wiz-next" data-go="3">לשלב 3 - שליחה ←</button>
+                    </div>
+                </section>
 
+                <section class="wiz-step" data-step="3" hidden>
+                    <h2>שולחים</h2>
+                    <p class="wiz-lede">ההודעה נושאת קישור לגלויה - כך היא נפתחת אצל הנמען בכל טלפון.</p>
+                    <div class="studio-grid">
+                        <div class="studio-panel">
+                            <div class="sendrow">
+                                <a class="sendbtn sms" id="sendSms" href="#">💬 שליחה ב-SMS</a>
+                                <a class="sendbtn wa" id="sendWa" href="#" target="_blank" rel="noopener">🟢
+                                    וואטסאפ</a>
+                            </div>
+                            <div class="linkrow">
+                                <input type="text" id="shareLink" readonly aria-label="קישור לגלויה">
+                                <button type="button" id="copyLink">העתק</button>
+                            </div>
+                            <p class="link-note">אורך הקישור: <span id="linkLen"></span></p>
+                        </div>
+                        <div class="studio-stage">
+                            <div class="canvas-wrap">
+                                <canvas id="cardCanvas"></canvas>
+                            </div>
+                            <button class="btn-share" id="btnShare" hidden>📲 שיתוף הגלויה כתמונה</button>
+                            <button class="btn-download" id="btnDownload">⬇ הורדת הגלויה</button>
+                        </div>
+                    </div>
+                    <div class="wiz-actions">
+                        <button type="button" class="wiz-back" data-go="2">→ שלב 2 - לשנות ברכה</button>
+                    </div>
+                </section>
             </div>
-            <div class="wiz-actions">
-                <button type="button" class="wiz-back" data-go="2">→ שלב 2 - לשנות ברכה</button>
-            </div>
-        </section>
         </div>
 
         <footer class="foot">
@@ -219,10 +333,8 @@
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-
-
     <script src="../shared/festivals.js"></script>
-    <script src="../shared/app.js"></script>
+    <script src="../shared/cards.js"></script>
 </body>
 
 </html>

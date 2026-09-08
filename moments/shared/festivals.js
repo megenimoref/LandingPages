@@ -197,144 +197,29 @@ Please avoid: photorealism, 3D rendering, glossy digital shading, heavy black ou
     },
 
     'yom-kippur': {
+        mode: 'cards',
         tag: 'יום כיפור · תשפ״ז',
-        h1: 'ברכה לפני הצום',
+        h1: 'ברכה ליום כיפור',
         emoji: '🕊️',
         footer: 'גמר חתימה טובה וצום קל 🕊️',
         shareTitle: 'גמר חתימה טובה',
-        styles: [
-            { key: 'blessing', label: 'ברכת הילדים 🤲', after: 'images/after1.webp' },
-            { key: 'white', label: 'לבן וטהור ✨', after: 'images/after2.webp' },
+        cards: [
+            { slug: 'yk-card1', label: 'נר', tone: 'dark' },
+            { slug: 'yk-card2', label: 'שחר', tone: 'light' },
+            { slug: 'yk-card3', label: 'שער פתוח', tone: 'light' },
+            { slug: 'yk-card4', label: 'רימון', tone: 'light' },
+            { slug: 'yk-card5', label: 'ענף זית', tone: 'light' },
+            { slug: 'yk-card6', label: 'לבן', tone: 'light' },
+            { slug: 'yk-card7', label: 'טלית וסידור', tone: 'light' },
+            { slug: 'yk-card8', label: 'תקיעת שופר', tone: 'dark' },
+            { slug: 'yk-card9', label: 'ספר תורה בירושלים', tone: 'dark' },
         ],
         greetings: [
             { title: 'גמר חתימה טובה וצום קל', body: 'שנזכה להניח מאחור את הצער, לסלוח לאחרים ולעצמנו, ולהתחיל דף חדש ונקי.' },
             { title: 'גמר חתימה טובה', body: 'ביום הקדוש הזה, שבו הלבבות נפתחים והנפש מבקשת טוהר וסליחה - שנה של בריאות איתנה, שלווה ואהבה.' },
             { title: 'צום קל ומועיל', body: 'שתיכתבו ותיחתמו בספר החיים והברכה, ושנה מתוקה תבוא עלינו לטובה.' },
+            { title: 'שתתקבל תפילתכם', body: 'שנה של שקט, של בריאות, ושל בשורות טובות - לכם ולכל מי שיקר לכם.' },
         ],
-        prompts: {
-            blessing: {
-                chatgpt: `${LEAD_GPT}Edit the photo into a tender Yom Kippur greeting image of a father blessing his children.
-
-FRAME:
-Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
-Compose top to bottom as: top ~22% a plain wall and soft light, left clear of anything busy; middle ~56% the family; bottom ~22% quiet floor or a low table edge.
-Frame this as a medium shot from the waist up, close enough that the hands and the faces both read clearly.
-
-${FRAME_GPT}
-
-THE MOMENT - this is the whole picture:
-It is the hour before the fast begins, as the family is about to leave for synagogue.
-The father stands and rests both hands gently on his son's head, fingers relaxed, in the traditional blessing over the children. His own head is slightly bowed, his eyes lowered or closed, his expression calm and full of feeling.
-The boy stands in front of him, a little shorter, eyes closed, face turned slightly up, still and quiet.
-The mother and the daughter stand close beside them, watching, the mother's hand resting on the daughter's shoulder. Nobody is looking at the camera.
-
-CLOTHING - change all of this, and only this:
-Everyone is dressed entirely in white. Faces, hair, skin and expressions stay exactly as they are in the photo.
-- The father: a white shirt and a white prayer shawl with fine blue stripes and knotted fringes at the corners, over both shoulders.
-- The boy: a white shirt and a plain white knitted kippah on the back of his head.
-- The mother and the girl: simple white dresses, long sleeves, plain fabric, no pattern and no jewellery.
-Everything is unbranded and unmarked - no logos, no insignia, no writing on anything.
-
-SCENE:
-Remove the original background completely and place them in a quiet, simple room at home just before dusk. A plain pale wall, a doorway with warm light beyond it, and a few white candles already lit on a low surface at the edge of the frame.
-The room is bare and calm - no clutter, no furniture crowding the frame, no decoration.
-There is NO food and NO drink anywhere in this image. This is a fast.
-
-LIGHT AND LOOK:
-Soft warm light from one side, as if from a window at the end of the day, with a small glow from the candles. Low contrast, quiet and intimate. White on white on pale wall. Natural colour, gentle depth of field. Reverent and moving - not staged, not festive, not dramatic. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, realistic soft shadows.
-
-${NOTEXT_GPT}
-Also avoid: food or drink of any kind, a table set for a meal, festive decoration, anyone looking at the camera, a posed group-portrait smile, saturated colour, and a celebratory mood.`,
-                gemini: `Edit the photo into a tender Yom Kippur greeting image of a father blessing his children.
-
-FRAME:
-Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
-Compose top to bottom as: top ~22% a plain wall and soft light, left clear of anything busy; middle ~56% the family; bottom ~22% quiet floor or a low table edge.
-Frame this as a medium shot from the waist up, close enough that the hands and the faces both read clearly.
-
-${FRAME_GPT}
-
-THE MOMENT - this is the whole picture:
-It is the hour before the fast begins, as the family is about to leave for synagogue.
-The father stands and rests both hands gently on his son's head, fingers relaxed, in the traditional blessing over the children. His own head is slightly bowed, his eyes lowered or closed, his expression calm and full of feeling.
-The boy stands in front of him, a little shorter, eyes closed, face turned slightly up, still and quiet.
-The mother and the daughter stand close beside them, watching, the mother's hand resting on the daughter's shoulder. Nobody is looking at the camera.
-
-CLOTHING - change all of this, and only this:
-Everyone is dressed entirely in white. Faces, hair, skin and expressions stay exactly as they are in the photo.
-- The father: a white shirt and a white prayer shawl with fine blue stripes and knotted fringes at the corners, over both shoulders.
-- The boy: a white shirt and a plain white knitted kippah on the back of his head.
-- The mother and the girl: simple white dresses, long sleeves, plain fabric, no pattern and no jewellery.
-Everything is unbranded and unmarked - no logos, no insignia, no writing on anything.
-
-SCENE:
-Remove the original background completely and place them in a quiet, simple room at home just before dusk. A plain pale wall, a doorway with warm light beyond it, and a few white candles already lit on a low surface at the edge of the frame.
-The room is bare and calm - no clutter, no furniture crowding the frame, no decoration.
-There is NO food and NO drink anywhere in this image. This is a fast.
-
-LIGHT AND LOOK:
-Soft warm light from one side, as if from a window at the end of the day, with a small glow from the candles. Low contrast, quiet and intimate. White on white on pale wall. Natural colour, gentle depth of field. Reverent and moving - not staged, not festive, not dramatic. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, realistic soft shadows.
-
-${NOTEXT_GPT}
-Also avoid: food or drink of any kind, a table set for a meal, festive decoration, anyone looking at the camera, a posed group-portrait smile, saturated colour, and a celebratory mood.`
-            },
-            white: {
-                chatgpt: `${LEAD_GPT}Edit the photo into a white and reverent Yom Kippur greeting image.
-
-FRAME:
-Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
-Compose top to bottom as: top ~22% the upper courses of the stone wall and open sky, left clear of anything busy; middle ~56% the family standing together; bottom ~22% the pale stone of the plaza floor.
-Frame this as a medium shot, from the knees or waist up, with quiet space around the group.
-
-${FRAME_GPT}
-
-CLOTHING - change all of this, and only this:
-Everyone is dressed entirely in white. Faces, hair, skin and expressions stay exactly as they are in the photo.
-- The father: a white shirt and a white prayer shawl with fine blue stripes and knotted fringes at the corners, draped over both shoulders. He holds a small plain prayer book in one hand, closed, held low and naturally at his side.
-- The boy: a white shirt and a plain white knitted kippah on the back of his head.
-- The mother and the girl: simple white dresses, long sleeves, plain fabric, no pattern and no jewellery.
-Everything is unbranded and unmarked - a plain prayer book with no title or lettering on its cover, a plain prayer shawl, no logos, no insignia, no writing on anything.
-
-SCENE:
-Remove the original background completely and place them standing together in the open plaza in front of an ancient limestone wall, facing the camera, close and calm.
-The wall behind them: enormous weathered ashlar blocks of warm golden Jerusalem limestone, laid in long horizontal courses, with narrow joints and a few small tufts of green growing from the cracks. It fills the background softly out of focus.
-The plaza is quiet and empty - no crowds, no chairs, no barriers, no signage, no modern buildings, no flags.
-There is NO food and NO drink anywhere in this image.
-
-LIGHT AND LOOK:
-Warm late-afternoon light falling across the stone, soft and low. White on white on golden stone. Low contrast, calm and luminous, natural colour, gentle depth of field. Reverent and still - not festive, not dramatic. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, realistic contact shadows on the plaza floor.
-
-${NOTEXT_GPT}
-Also avoid: food or drink of any kind, crowds or other people, signage, flags, modern buildings, any lettering on the prayer book or the prayer shawl, saturated colour, and a celebratory mood.`,
-                gemini: `Edit the photo into a white and reverent Yom Kippur greeting image.
-
-FRAME:
-Portrait orientation, 4:5 aspect ratio (for example 1080 x 1350). Do not produce a tall narrow image.
-Compose top to bottom as: top ~22% the upper courses of the stone wall and open sky, left clear of anything busy; middle ~56% the family standing together; bottom ~22% the pale stone of the plaza floor.
-Frame this as a medium shot, from the knees or waist up, with quiet space around the group.
-
-${FRAME_GPT}
-
-CLOTHING - change all of this, and only this:
-Everyone is dressed entirely in white. Faces, hair, skin and expressions stay exactly as they are in the photo.
-- The father: a white shirt and a white prayer shawl with fine blue stripes and knotted fringes at the corners, draped over both shoulders. He holds a small plain prayer book in one hand, closed, held low and naturally at his side.
-- The boy: a white shirt and a plain white knitted kippah on the back of his head.
-- The mother and the girl: simple white dresses, long sleeves, plain fabric, no pattern and no jewellery.
-Everything is unbranded and unmarked - a plain prayer book with no title or lettering on its cover, a plain prayer shawl, no logos, no insignia, no writing on anything.
-
-SCENE:
-Remove the original background completely and place them standing together in the open plaza in front of an ancient limestone wall, facing the camera, close and calm.
-The wall behind them: enormous weathered ashlar blocks of warm golden Jerusalem limestone, laid in long horizontal courses, with narrow joints and a few small tufts of green growing from the cracks. It fills the background softly out of focus.
-The plaza is quiet and empty - no crowds, no chairs, no barriers, no signage, no modern buildings, no flags.
-There is NO food and NO drink anywhere in this image.
-
-LIGHT AND LOOK:
-Warm late-afternoon light falling across the stone, soft and low. White on white on golden stone. Low contrast, calm and luminous, natural colour, gentle depth of field. Reverent and still - not festive, not dramatic. Blend everyone in seamlessly - no cut-out edges, matched colour temperature, realistic contact shadows on the plaza floor.
-
-${NOTEXT_GPT}
-Also avoid: food or drink of any kind, crowds or other people, signage, flags, modern buildings, any lettering on the prayer book or the prayer shawl, saturated colour, and a celebratory mood.`
-            },
-        }
     },
 
     'sukkot': {
@@ -508,5 +393,5 @@ Also avoid: a crowded table, salads, side dishes, fruit bowls or extra tableware
 
 /* app.js wants a flat key -> preview-image map */
 Object.values(FESTIVALS).forEach((f) => {
-    f.stylePreview = Object.fromEntries(f.styles.map((s) => [s.key, s.after]));
+    if (f.styles) f.stylePreview = Object.fromEntries(f.styles.map((s) => [s.key, s.after]));
 });
