@@ -1022,7 +1022,9 @@ three tall cards down the page.                                     */
 
 /* step 4: preview and controls share the screen instead of stacking */
 .wiz-step[data-step="4"] .studio-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 380px);
+    /* the drop zone is a small control and the preview is the thing being
+       looked at, so the wide column goes to the preview */
+    grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
     gap: 20px;
 }
 
@@ -1037,7 +1039,7 @@ three tall cards down the page.                                     */
 
 @media (max-width: 900px) {
     .wiz-step[data-step="4"] .studio-grid { grid-template-columns: minmax(0, 1fr); }
-    .wiz-step[data-step="4"] .studio-stage { order: -1; position: static; padding: 14px; }
+    .wiz-step[data-step="4"] .studio-stage { order: 0; position: static; padding: 14px; }
 }
 
 @media (max-width: 620px) {
