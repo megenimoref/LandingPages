@@ -119,6 +119,106 @@ async function mirrorToForm(rec) {
   }
 }
 
+/* ============================================================
+   Song link.
+
+   The link is optional on the form and most senders skip it, so a blank one
+   falls back to a YouTube search for the song title. A link that *is* typed
+   cannot be trusted either: the browser offers an old URL from autofill, the
+   sender accepts it without looking, and a soldier gets a song nobody chose
+   for them (2026-09-09: "אתה תותח / שרית חדד" went out pointing at an
+   unrelated clip). So a typed link is resolved through the provider's oEmbed
+   endpoint and kept only when its title plausibly matches the song that was
+   written. Anything else falls back to the search link, which always matches.
+
+   KV, the export and the spreadsheet keep what was actually typed — this
+   only decides what the two SMS messages carry.
+   ============================================================ */
+
+const searchLink = (song) =>
+  `https://www.youtube.com/results?search_query=${encodeURIComponent(song)}`;
+
+/** Drop share/tracking params — they add nothing and cost SMS characters. */
+const TRACKING = /^(si|feature|pp|utm_[a-z]+|fbclid|gclid|context|nd|ref|ref_src|app|source)$/i;
+
+function tidyLink(raw) {
+  try {
+    const u = new URL(raw);
+    for (const key of [...u.searchParams.keys()]) {
+      if (TRACKING.test(key)) u.searchParams.delete(key);
+    }
+    return u.toString().replace(/\?$/, '');
+  } catch {
+    return raw;                          // not a URL we can parse — leave it be
+  }
+}
+
+/** The oEmbed endpoint for a link, or null when we have no way to check it. */
+function oembedFor(link) {
+  let host;
+  try { host = new URL(link).hostname.replace(/^www\./, ''); } catch { return null; }
+  const enc = encodeURIComponent(link);
+  if (/^(m\.|music\.)?youtube\.com$/.test(host) || host === 'youtu.be') {
+    return `https://www.youtube.com/oembed?url=${enc}&format=json`;
+  }
+  if (host === 'open.spotify.com') {
+    return `https://open.spotify.com/oembed?url=${enc}`;
+  }
+  return null;
+}
+
+/** Strip niqqud, punctuation and case so two spellings of a title can be compared. */
+function normalizeTitle(value) {
+  return String(value ?? '')
+    .replace(/[\u0591-\u05c7]/g, '')
+    .replace(/["'\u05f3\u05f4`\-\u2013\u2014_,.:;!?()\[\]{}\/|]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+const TITLE_NOISE = /\b(official|video|audio|lyrics|hd|4k|prod|remix|cover|live|topic)\b/g;
+
+/**
+ * True when the song the sender typed is recognisable in the clip's title.
+ * Half the words is deliberately loose: "אתה תותח שרית חדד" must survive a
+ * clip titled "שרית חדד - אתה תותח (קליפ רשמי)", while an unrelated song
+ * shares nothing at all.
+ */
+function songMatchesTitle(song, title, author) {
+  const hay = normalizeTitle(`${title} ${author || ''}`).replace(TITLE_NOISE, ' ');
+  const words = normalizeTitle(song).split(' ').filter((w) => w.length >= 2);
+  if (!words.length) return true;
+  const hits = words.filter((w) => hay.includes(w)).length;
+  return hits / words.length >= 0.5;
+}
+
+async function songLinkFor(rec) {
+  if (!rec.link) return searchLink(rec.song);
+
+  const link = tidyLink(rec.link);
+  const endpoint = oembedFor(link);
+  if (!endpoint) return link;            // a provider we cannot check — trust it
+
+  try {
+    const res = await fetch(endpoint, { signal: AbortSignal.timeout(5000) });
+    if (res.status >= 400 && res.status < 500) {
+      // Dead, private or malformed — a search beats a link that opens nothing.
+      console.log('[link] unresolvable, searching instead:', res.status, link);
+      return searchLink(rec.song);
+    }
+    if (!res.ok) return link;            // provider having a bad minute
+    const { title, author_name: author } = await res.json();
+    if (songMatchesTitle(rec.song, title, author)) return link;
+    console.log('[link] mismatch — song:', rec.song, '| clip:', title, '| dropped:', link);
+    return searchLink(rec.song);
+  } catch (err) {
+    // Never let a check failure cost the sender their link.
+    console.log('[link] check failed:', err && err.message);
+    return link;
+  }
+}
+
 export default {
   async fetch(request, env, ctx) {
     const origin = request.headers.get('Origin') || '';
@@ -192,22 +292,21 @@ export default {
     const id = `ded:${rec.receivedAt}:${crypto.randomUUID().slice(0, 8)}`;
     await env.DEDICATIONS.put(id, JSON.stringify({ id, ...rec }));
 
-    /* The link is optional on the form and most senders skip it, which left
-       both messages with a blank line where the song should have been. Fall
-       back to a YouTube search for the song title so every message carries
-       something to tap. KV and the spreadsheet keep what was actually typed. */
-    const songLink = rec.link ||
-      `https://www.youtube.com/results?search_query=${encodeURIComponent(rec.song)}`;
-
     // The sender should not wait on any of these to see "נשלח".
     // One notification tells the team a dedication arrived; the other carries
-    // it to the soldier it was written for.
-    ctx.waitUntil(notifyHub(env, 'paskol-dedication', {
-      sender: rec.sender, song: rec.song, link: songLink,
-    }));
-    ctx.waitUntil(notifyHub(env, 'paskol-greeting', {
-      sender: rec.sender, song: rec.song, link: songLink, phone: rec.phone,
-    }));
+    // it to the soldier it was written for. Both quote the same link, resolved
+    // by songLinkFor() above.
+    ctx.waitUntil((async () => {
+      const songLink = await songLinkFor(rec);
+      await Promise.all([
+        notifyHub(env, 'paskol-dedication', {
+          sender: rec.sender, song: rec.song, link: songLink,
+        }),
+        notifyHub(env, 'paskol-greeting', {
+          sender: rec.sender, song: rec.song, link: songLink, phone: rec.phone,
+        }),
+      ]);
+    })());
     ctx.waitUntil(mirrorToForm(rec));
 
     return json({ ok: true, id }, 200, origin);
