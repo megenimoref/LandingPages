@@ -447,6 +447,11 @@ h2.title{
 .field.invalid input, .field.invalid textarea, .field.invalid select{ border-color:var(--pom-lt); box-shadow:0 0 0 4px rgba(224,50,95,.16); }
 .field .err{ display:none; margin-top:6px; font-size:.78rem; color:#ff8ca8; }
 .field.invalid .err{ display:block; }
+.field .link-check{ display:none; margin-top:8px; font-size:.8rem; line-height:1.55; }
+.field .link-check.on{ display:block; }
+.field .link-check.busy{ color:var(--muted); }
+.field .link-check.ok{ color:#7fdca6; }
+.field .link-check.warn{ color:#ffce7a; }
 
 .counter{ position:absolute; inset-block-end:12px; inset-inline-start:14px; font-size:.72rem; color:var(--muted); font-variant-numeric:tabular-nums; pointer-events:none; }
 
@@ -677,8 +682,9 @@ footer{
 
           <div class="field" style="margin-top:20px">
             <label for="link">קישור לשיר <span style="color:var(--muted);font-weight:400">(YouTube / Spotify — לא חובה)</span></label>
-            <input id="link" name="link" type="url" inputmode="url" placeholder="https://">
-            <p class="hint">אם אין קישור — לא נורא, נמצא אותו בעצמנו.</p>
+            <input id="link" name="link" type="url" inputmode="url" autocomplete="off" placeholder="https://" aria-describedby="linkHint linkCheck">
+            <p class="hint" id="linkHint">אם אין קישור — לא נורא, נמצא אותו בעצמנו.</p>
+            <p class="link-check" id="linkCheck" role="status" aria-live="polite"></p>
           </div>
 
           <div class="field" style="margin-top:20px">
@@ -959,6 +965,86 @@ const CONFIG = {
   msg.addEventListener('input', () => { cnt.textContent = msg.value.length; });
 
   const phoneOk = v => /^0\d{1,2}-?\d{7}$/.test(v.replace(/\s/g, ''));
+
+  /* ---------- the pasted link ----------
+     The link is the one field nobody re-reads: the browser offers a URL it
+     remembers from an earlier visit, the sender accepts it without looking,
+     and a soldier gets a song that was never chosen for them. So as soon as a
+     link is typed we ask the provider what it actually is and show the answer
+     under the field — a wrong link is then impossible to miss. Nothing here
+     blocks sending: the Worker checks again on the way out and falls back to a
+     search for the song title, and being offline simply shows nothing. */
+  const linkEl = $('#link'), linkNote = $('#linkCheck'), songEl = $('#song');
+  let resolved = null, checkSeq = 0, checkTimer;
+
+  function oembedFor(link) {
+    let host;
+    try { host = new URL(link).hostname.replace(/^www\./, ''); } catch (e) { return null; }
+    const enc = encodeURIComponent(link);
+    if (/^(m\.|music\.)?youtube\.com$/.test(host) || host === 'youtu.be') {
+      return 'https://www.youtube.com/oembed?url=' + enc + '&format=json';
+    }
+    if (host === 'open.spotify.com') return 'https://open.spotify.com/oembed?url=' + enc;
+    return null;                                   // a provider we cannot ask
+  }
+
+  const normalizeTitle = v => String(v == null ? '' : v)
+    .replace(/[\u0591-\u05c7]/g, '')
+    .replace(/["'\u05f3\u05f4`\-\u2013\u2014_,.:;!?()\[\]{}\/|]/g, ' ')
+    .replace(/\s+/g, ' ').trim().toLowerCase();
+
+  // Half the words is deliberately loose — "אתה תותח שרית חדד" has to survive a
+  // clip titled "שרית חדד - אתה תותח (קליפ רשמי)", while another song shares nothing.
+  function songMatchesTitle(song, title, author) {
+    const hay = normalizeTitle(title + ' ' + (author || ''))
+      .replace(/\b(official|video|audio|lyrics|hd|4k|prod|remix|cover|live|topic)\b/g, ' ');
+    const words = normalizeTitle(song).split(' ').filter(w => w.length >= 2);
+    if (!words.length) return true;
+    return words.filter(w => hay.indexOf(w) !== -1).length / words.length >= 0.5;
+  }
+
+  function setLinkNote(text, tone) {
+    linkNote.textContent = text || '';
+    linkNote.className = 'link-check' + (text ? ' on ' + tone : '');
+  }
+
+  function renderVerdict() {
+    if (!resolved) return;
+    if (songMatchesTitle(songEl.value, resolved.title, resolved.author)) {
+      setLinkNote('♫ ' + resolved.title, 'ok');
+    } else {
+      setLinkNote('הקישור מוביל ל־“' + resolved.title + '” — לא נראה שזה השיר שכתבתם. ' +
+                  'בדקו שהעתקתם את הקישור הנכון — או פשוט השאירו את השדה ריק ונמצא אותו בעצמנו.', 'warn');
+    }
+  }
+
+  async function checkLink() {
+    const link = linkEl.value.trim();
+    const seq = ++checkSeq;
+    resolved = null;
+    const endpoint = link ? oembedFor(link) : null;
+    if (!endpoint) return setLinkNote('', '');
+    setLinkNote('בודקים את הקישור…', 'busy');
+    try {
+      const res = await fetch(endpoint);
+      if (seq !== checkSeq) return;                // a newer check already ran
+      if (!res.ok) {
+        setLinkNote(res.status >= 400 && res.status < 500
+          ? 'לא הצלחנו לפתוח את הקישור הזה. ודאו שהעתקתם אותו במלואו — או השאירו ריק ונמצא את השיר בעצמנו.'
+          : '', 'warn');
+        return;
+      }
+      const data = await res.json();
+      resolved = { title: data.title || '', author: data.author_name || '' };
+      if (resolved.title) renderVerdict(); else setLinkNote('', '');
+    } catch (e) {
+      if (seq === checkSeq) setLinkNote('', '');   // offline or blocked — stay quiet
+    }
+  }
+
+  linkEl.addEventListener('input', () => { clearTimeout(checkTimer); checkTimer = setTimeout(checkLink, 600); });
+  linkEl.addEventListener('blur', checkLink);
+  songEl.addEventListener('input', () => { if (resolved) renderVerdict(); });
 
   function fieldOf(el) { return el.closest('.field'); }
   function mark(el, ok) { fieldOf(el).classList.toggle('invalid', !ok); return ok; }
