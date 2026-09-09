@@ -452,6 +452,7 @@ h2.title{
 .field .link-check.busy{ color:var(--muted); }
 .field .link-check.ok{ color:#7fdca6; }
 .field .link-check.warn{ color:#ffce7a; }
+.field .link-check.soft{ color:#e9d8a6; }
 
 .counter{ position:absolute; inset-block-end:12px; inset-inline-start:14px; font-size:.72rem; color:var(--muted); font-variant-numeric:tabular-nums; pointer-events:none; }
 
@@ -683,7 +684,7 @@ footer{
           <div class="field" style="margin-top:20px">
             <label for="link">קישור לשיר <span style="color:var(--muted);font-weight:400">(YouTube / Spotify — לא חובה)</span></label>
             <input id="link" name="link" type="url" inputmode="url" autocomplete="off" placeholder="https://" aria-describedby="linkHint linkCheck">
-            <p class="hint" id="linkHint">אם אין קישור — לא נורא, נמצא אותו בעצמנו.</p>
+            <p class="hint" id="linkHint">אם אין קישור — לא נורא, נמצא אותו בעצמנו. ואם יש — הדביקו את הכתובת המדויקת של השיר עצמו. ביוטיוב יש לאותו שיר גם הופעות וגרסאות שהן לא השיר — ומה שתדביקו הוא מה שיגיע אליו.</p>
             <p class="link-check" id="linkCheck" role="status" aria-live="polite"></p>
           </div>
 
@@ -1003,6 +1004,25 @@ const CONFIG = {
     return words.filter(w => hay.indexOf(w) !== -1).length / words.length >= 0.5;
   }
 
+  /* A clip can carry the song's whole name and still not be the song: a
+     performance dedicated to someone, an appearance on a show, a particular
+     evening. What gives that away is the words in the title that the sender
+     never wrote. Only words in the same script as the song count, so the
+     transliteration on an artist's own upload ("Sarit Hadad - Ata totach")
+     never reads as foreign material. */
+  const NOISE_WORDS = new Set(['official', 'video', 'audio', 'lyrics', 'hd', '4k', 'prod',
+    'remix', 'cover', 'live', 'topic', 'קליפ', 'רשמי', 'רשמית', 'אודיו', 'וידאו',
+    'מילים', 'כתוביות']);
+
+  function extraWords(song, title) {
+    const hebrew = /[\u0590-\u05ff]/;
+    const inSong = new Set(normalizeTitle(song).split(' '));
+    const sameScript = hebrew.test(song) ? (w => hebrew.test(w)) : (w => !hebrew.test(w));
+    return normalizeTitle(title).split(' ').filter(w =>
+      w.length >= 2 && sameScript(w) && !inSong.has(w) &&
+      !NOISE_WORDS.has(w) && !/^\d+$/.test(w));
+  }
+
   function setLinkNote(text, tone) {
     linkNote.textContent = text || '';
     linkNote.className = 'link-check' + (text ? ' on ' + tone : '');
@@ -1011,7 +1031,11 @@ const CONFIG = {
   function renderVerdict() {
     if (!resolved) return;
     if (songMatchesTitle(songEl.value, resolved.title, resolved.author)) {
-      setLinkNote('♫ ' + resolved.title, 'ok');
+      const extras = extraWords(songEl.value, resolved.title);
+      setLinkNote(extras.length >= 2
+        ? '♫ ' + resolved.title + ' — שימו לב שזו לא הקלטת השיר בלבד. ' +
+          'אם לגרסה הזו התכוונתם — מצוין. אחרת הדביקו את הכתובת של השיר עצמו.'
+        : '♫ ' + resolved.title, extras.length >= 2 ? 'soft' : 'ok');
     } else {
       setLinkNote('הקישור מוביל ל־“' + resolved.title + '” — לא נראה שזה השיר שכתבתם. ' +
                   'בדקו שהעתקתם את הקישור הנכון — או פשוט השאירו את השדה ריק ונמצא אותו בעצמנו.', 'warn');
